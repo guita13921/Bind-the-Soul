@@ -15,7 +15,6 @@ public class PlayerAnimation : MonoBehaviour
     private float keyPressStartTime;
     bool ConflictInputDetect;
 
-    bool isAttack;
     HashSet<KeyCode> keysPressed = new HashSet<KeyCode>();
 
     void Start()
@@ -28,8 +27,7 @@ public class PlayerAnimation : MonoBehaviour
     void Update()
     {
         ConflictInputDetecter();
-        Attack();
-        if (!ConflictInputDetect && !isAttack)
+        if (!ConflictInputDetect )
         {
             WalkAndRun();
             animator.SetFloat(VelocityHash, velocity);
@@ -108,27 +106,5 @@ public class PlayerAnimation : MonoBehaviour
             keysPressed.Add(KeyCode.D);
     }
 
-    void Attack()
-    {
-
-        if (Input.GetKey(KeyCode.J))
-        {
-            animator.SetBool("isAttack", true);
-            isAttack =true;
-        }
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1f && animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-        {
-            animator.SetBool("isAttack", false);
-            isAttack =false;
-        }
-
-        if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.7f && animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")&&Input.GetKey(KeyCode.J)){
-            animator.SetBool("ContinueAttack", true);
-        }else{
-            animator.SetBool("ContinueAttack", false);
-        }
-
-
-
-    }
+    
 }
