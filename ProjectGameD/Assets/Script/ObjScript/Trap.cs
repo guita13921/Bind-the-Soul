@@ -9,11 +9,9 @@ public class Trap : MonoBehaviour
     [SerializeField] public State state;
     [SerializeField]public float timeRemaining = 1;
     [SerializeField]public double delaytimeRemaining = 0.2;
-    [SerializeField] ParticleSystem dust;
 
     private void Start(){
         this.state = State.Idle;
-        dust.Play();
     }
 
     private void Reset(){
