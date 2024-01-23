@@ -31,16 +31,13 @@ public class PlayerCombat : MonoBehaviour
     }
 
     void Attack(){
-        if(Time.time - lastComboEnd >0.2f && comboCounter <= combo.Count){
+        if(Time.time - lastComboEnd >0.2f && comboCounter < combo.Count){
             
             CancelInvoke("EndCombo");
 
-            if(Time.time-lastClickedTime >= 0.8f ){
+            if(Time.time-lastClickedTime >= 0.4f ){
 
-                comboCounter ++;
-                if(comboCounter > combo.Count){
-                    comboCounter = 0;
-                }
+            
                 
                 animator.Play("Attack",0,0);
 
@@ -48,6 +45,7 @@ public class PlayerCombat : MonoBehaviour
 
 
                 //weapon.damage = combo[comboCounter].damage;
+                comboCounter ++;
 
                 lastClickedTime = Time.time;
 
