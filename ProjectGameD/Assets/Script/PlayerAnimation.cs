@@ -66,12 +66,10 @@ public class PlayerAnimation : MonoBehaviour
             (
                 keysPressed.Contains(KeyCode.W)
                 && keysPressed.Contains(KeyCode.S)
-                && keysPressed.Count == 2
             )
             || (
                 keysPressed.Contains(KeyCode.A)
                 && keysPressed.Contains(KeyCode.D)
-                && keysPressed.Count == 2
             );
 
         if (conflictInput)
