@@ -32,11 +32,11 @@ public class SmoothCameraFollow : MonoBehaviour
                     return;
                 if(hit.collider.gameObject == player){
                     if(_fader != null){
-                        _fader.DoFade = false;
                     }
                 }else{
                     _fader = hit.collider.gameObject.GetComponent<ObjFadeing>();
                     if(_fader != null){
+                        Debug.Log("HIT");
                         _fader.timeRemaining = 0.1;
                         _fader.DoFade = true;
                     }

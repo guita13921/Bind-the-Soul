@@ -15,6 +15,7 @@ public class ObjFadeing : MonoBehaviour
 
     void Start()
     {
+        timeRemaining = 3;
         fadeSpeed = 10;
         FadeAmount = 0.1f;
         numberOfChild = transform.childCount;
@@ -27,8 +28,7 @@ public class ObjFadeing : MonoBehaviour
 
 
     void Update(){        
-    if (timeRemaining > 0)
-        {
+    if (timeRemaining > 0){
             timeRemaining -= Time.deltaTime;
         }else{
             DoFade = false;
