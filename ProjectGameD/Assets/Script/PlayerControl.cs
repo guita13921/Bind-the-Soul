@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,7 +18,12 @@ public class PlayerController : MonoBehaviour
 
     bool isSprint = false;
     bool isAttack = false;
+    bool isDashing = false;
 
+       [SerializeField]
+ float dashTime = 0.5f;
+       [SerializeField] float  dashDistance =2f;
+ 
     Animator animator;
 
     void Start()
@@ -28,18 +34,49 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         GatherInput();
-        if(!isAttack){
-        Look();}
+        if(!isAttack && !isDashing){
+        Look();
+       }
         Reload();
         Attack();
+
+        
     }
 
     private void FixedUpdate()
     {
 
-        if(!isAttack){
+        if(!isAttack && !isDashing){
         Move();}
+        if(Input.GetKey(KeyCode.L)){
+            StartCoroutine(Dash());
+        }
+        
     }
+
+  IEnumerator Dash()
+{
+    isDashing = true;
+    float startTime = Time.time;
+
+    while (Time.time < startTime + dashTime)
+    {
+        Vector3 dashMovement = transform.forward * dashDistance * Time.deltaTime;
+        
+        transform.position += dashMovement;
+
+        yield return null;
+        
+        isDashing = true;
+
+    }
+    
+
+
+    isDashing = false;
+}
+    
+
 
     private void GatherInput()
     {

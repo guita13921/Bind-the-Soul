@@ -10,7 +10,7 @@ public class PlayerAnimation : MonoBehaviour
     float velocity;
     int VelocityHash;
     public float acceleration = 2f;
-        public float deacceleration = 2f;
+    public float deacceleration = 2f;
 
     private float keyPressStartTime;
     bool ConflictInputDetect;
