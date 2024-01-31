@@ -10,5 +10,15 @@ public class Health : MonoBehaviour
     void Start(){
         currentHealth = maxHealth;
     }
+
+
+     void Update() {
+        if(currentHealth<=0){
+            Destroy(gameObject);
+        }
+        
+        
+    }
+
     
 }
