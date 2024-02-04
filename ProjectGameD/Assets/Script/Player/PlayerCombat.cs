@@ -14,7 +14,11 @@ public class PlayerCombat : MonoBehaviour
 
     Animator animator;
     [SerializeField] Weapon weapon;
-    // Start is called before the first frame update
+
+
+
+    public Transform rightHandIKTarget; // Set this in the Inspector
+
     void Start()
     {
         animator = GetComponent<Animator>();
