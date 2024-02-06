@@ -342,6 +342,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &440255920 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5708768182427544135, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
+  m_PrefabInstance: {fileID: 1667791670}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &440255924
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440255920}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 1.1709224, y: 0.2658722, z: 5}
+  m_Center: {x: -0.00017717152, y: -0.003239433, z: 1.6473343}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1015,6 +1041,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 7929940988880000148, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7995314332681913034, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -1079,7 +1109,8 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8861962880128945078, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1387,7 +1418,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7658298304765221146, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
       propertyPath: attackRange
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7658298304765221146, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
       propertyPath: groundLayer.m_Bits
@@ -1404,6 +1435,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5708440254463499609, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 10709885}
+    - targetCorrespondingSourceObject: {fileID: 5708768182427544135, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 440255924}
   m_SourcePrefab: {fileID: 100100000, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
 --- !u!1 &1716906582
 GameObject:
