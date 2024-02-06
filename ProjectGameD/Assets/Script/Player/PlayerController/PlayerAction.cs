@@ -10,15 +10,15 @@ public partial class PlayerControl
 
     private void Attack()
     {
-        if (Input.GetKey(KeyCode.J))
-        {
+        
+        if (Input.GetKey(KeyCode.J)){
             isAttack = true;
         }
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f &&
-            animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-        {
-            isAttack = false;
+        if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")){
+            isAttack =false;
         }
+
+
     }
 
     IEnumerator Dash()

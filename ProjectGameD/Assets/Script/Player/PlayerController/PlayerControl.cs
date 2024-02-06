@@ -22,6 +22,9 @@ public partial class PlayerControl : MonoBehaviour
         }
         Reload();
         Attack();
+        if(isAttack){
+            Debug.Log("attacking");
+        }
     }
 
     private void FixedUpdate()
