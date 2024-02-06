@@ -38,7 +38,7 @@ public class PlayerCombat : MonoBehaviour
             
             CancelInvoke("EndCombo");
 
-            if(Time.time-lastClickedTime >= 0.7f ){
+            if(Time.time-lastClickedTime >= 0.5f ){
                 animator.runtimeAnimatorController = combo[comboCounter].animatorOV;
                 animator.Play("Attack",0,0);
                 weapon.damage = combo[comboCounter].damage;

@@ -17,9 +17,7 @@ public partial class PlayerControl : MonoBehaviour
     {
         GatherInput();
         Attack();
-        if(isAttack){
-            Debug.Log("t");
-        }
+ 
         if (!isAttack && !isDashing)
         {
             Look();
