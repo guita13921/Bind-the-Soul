@@ -16,15 +16,16 @@ public partial class PlayerControl : MonoBehaviour
     private void Update()
     {
         GatherInput();
+        Attack();
+        if(isAttack){
+            Debug.Log("t");
+        }
         if (!isAttack && !isDashing)
         {
             Look();
         }
         Reload();
-        Attack();
-        if(isAttack){
-            Debug.Log("attacking");
-        }
+        
     }
 
     private void FixedUpdate()

@@ -7,10 +7,7 @@ using UnityEngine;
 public class PlayerAnimation : MonoBehaviour
 {
     Animator animator;
-    float velocity;
-    int VelocityHash;
-    public float acceleration = 2f;
-    public float deacceleration = 2f;
+
 
     private float keyPressStartTime;
     bool ConflictInputDetect;
@@ -20,7 +17,6 @@ public class PlayerAnimation : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>(); 
-        VelocityHash = Animator.StringToHash("Velocity");
     }
 
     // Update is called once per frame
@@ -29,9 +25,10 @@ public class PlayerAnimation : MonoBehaviour
         ConflictInputDetecter();
         if (!ConflictInputDetect )
         {
+            
             WalkAndRun();
-            animator.SetFloat(VelocityHash, velocity);
         }
+        
     }
 
     void WalkAndRun()
@@ -42,20 +39,23 @@ public class PlayerAnimation : MonoBehaviour
             || Input.GetKey(KeyCode.S)
             || Input.GetKey(KeyCode.D);
 
-        if (Walking && Input.GetKey(KeyCode.LeftShift)||Input.GetKey(KeyCode.M))
+
+
+       
+        if (Walking)
         {
-            velocity += Time.deltaTime * acceleration;
-            velocity = Mathf.Clamp(velocity, 0f, 1f);
+            animator.SetBool("isRunning", true);
+
+        }else{
+            animator.SetBool("isRunning", false);
+         
         }
-        else
-        {
-            velocity -= Time.deltaTime * deacceleration;
-            velocity = Mathf.Max(velocity, 0.01f);
-        }
-        if (!Walking)
-        {
-            velocity = 0f;
-        }
+
+        
+
+        
+
+
     }
 
     void ConflictInputDetecter()
@@ -70,16 +70,17 @@ public class PlayerAnimation : MonoBehaviour
             || (
                 keysPressed.Contains(KeyCode.A)
                 && keysPressed.Contains(KeyCode.D)
+
             );
 
-        if (conflictInput)
+        if (conflictInput && keysPressed.Count ==2)
         {
             keyPressStartTime += Time.deltaTime;
             //Debug.Log(keyPressStartTime);
             if (keyPressStartTime > 0.1f)
             {
-                animator.SetBool("ConflictInput", true);
                 ConflictInputDetect = true;
+                animator.SetBool("ConflictInput", true);      
             }
         }
         else

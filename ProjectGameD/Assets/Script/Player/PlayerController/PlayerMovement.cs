@@ -2,20 +2,13 @@ using UnityEngine;
 
 public partial class PlayerControl
 {
-    private bool isSprint = false;
     [SerializeField] private float _speed = 3.5f;
     [SerializeField] private float _turnSpeed = 500;
     private void Move()
     {
-        float currentSpeed = _speed;
-
-        if (isSprint)
-        {
-            currentSpeed = _speed * 1.5f;
-        }
-
+   
         _rb.MovePosition(
-            transform.position + transform.forward * _input.normalized.magnitude * currentSpeed * Time.deltaTime
+            transform.position + transform.forward * _input.normalized.magnitude * _speed * Time.deltaTime
         );
     }
 

@@ -8,8 +8,8 @@ public class PlayerCombat : MonoBehaviour
 {
 
     public List<AttackSO> combo;
-    float lastClickedTime;
-    float lastComboEnd;
+    float lastClickedTime; //time betweeen attack in combo 
+    float lastComboEnd; //amount of time before player can do the next combo
     int comboCounter;
 
     Animator animator;
@@ -17,7 +17,6 @@ public class PlayerCombat : MonoBehaviour
 
 
 
-    public Transform rightHandIKTarget; // Set this in the Inspector
 
     void Start()
     {
@@ -28,7 +27,7 @@ public class PlayerCombat : MonoBehaviour
     void Update()
     {
 
-        if(Input.GetKey(KeyCode.J)){
+        if(Input.GetKeyDown(KeyCode.J)){
             Attack();
         }
         ExitAttack();
@@ -39,11 +38,11 @@ public class PlayerCombat : MonoBehaviour
             
             CancelInvoke("EndCombo");
 
-            if(Time.time-lastClickedTime >= 0.4f ){
+            if(Time.time-lastClickedTime >= 0.7f ){
                 animator.runtimeAnimatorController = combo[comboCounter].animatorOV;
                 animator.Play("Attack",0,0);
                 weapon.damage = combo[comboCounter].damage;
-                 comboCounter ++;
+                comboCounter ++;
 
 
                 lastClickedTime = Time.time;
