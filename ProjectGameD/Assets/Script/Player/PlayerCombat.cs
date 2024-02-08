@@ -12,6 +12,8 @@ public class PlayerCombat : MonoBehaviour
     float lastComboEnd; //amount of time before player can do the next combo
     int comboCounter;
 
+    float specialAttactCd;
+
     Animator animator;
     [SerializeField] Weapon weapon;
 
@@ -29,6 +31,9 @@ public class PlayerCombat : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.J)){
             Attack();
+        }
+        if(Input.GetKeyDown(KeyCode.K)){
+            SpecialAttack();
         }
         ExitAttack();
     }
@@ -53,6 +58,19 @@ public class PlayerCombat : MonoBehaviour
 
             }
         }
+    }
+
+    void SpecialAttack(){
+        if(Time.time - specialAttactCd >2f){
+
+        if(Time.time-lastClickedTime >= 0.5f ){
+            animator.Play("SPattack",0,0);
+            }
+            lastClickedTime = Time.time;
+
+
+        }
+
     }
 
     void ExitAttack(){
