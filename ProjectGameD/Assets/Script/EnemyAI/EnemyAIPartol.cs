@@ -16,7 +16,7 @@ public class EnemyAIPartol : MonoBehaviour
     [SerializeField]float sightRange , attackRange;
     bool playerInsight, PlayerInAttackrange;
     Animator animator;
-    BoxCollider boxCollider;
+    [SerializeField]BoxCollider boxCollider;
     // Start is called before the first frame update
     void Start()
     {
@@ -74,8 +74,8 @@ public class EnemyAIPartol : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other){
-        var player = other.GetComponent<CapsuleCollider>(); //WTF
-        if(player != null){
+        if(other.gameObject.tag == "Player"){
+            print("HIT");
             Debug.Log("HIT");
         }
     }
