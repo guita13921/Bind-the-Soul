@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
@@ -12,13 +13,13 @@ public class PlayerCombat : MonoBehaviour
     float lastComboEnd; //amount of time before player can do the next combo
     int comboCounter;
 
-    float specialAttactCd;
-
+    float specialAttackCooldown = 5f;
+    float timeSinceLastSpecialAttack = 0f;
+    bool isSpecialAttackReady = true;
     Animator animator;
     [SerializeField] Weapon weapon;
 
-
-
+    public PlayerCD playerCD;
 
     void Start()
     {
@@ -27,14 +28,14 @@ public class PlayerCombat : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+
     {
 
+        SpecialAttack();
         if(Input.GetKeyDown(KeyCode.J)){
             Attack();
         }
-        if(Input.GetKeyDown(KeyCode.K)){
-            SpecialAttack();
-        }
+       
         ExitAttack();
     }
 
@@ -60,18 +61,32 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    void SpecialAttack(){
-        if(Time.time - specialAttactCd >2f){
+    void SpecialAttack()
 
-        if(Time.time-lastClickedTime >= 0.5f ){
-            animator.Play("SPattack",0,0);
-            }
-            lastClickedTime = Time.time;
+{
 
+
+
+
+    if (!isSpecialAttackReady)
+    {
+        timeSinceLastSpecialAttack += Time.deltaTime;
+        playerCD.CooldownText(specialAttackCooldown-timeSinceLastSpecialAttack);
+        if (timeSinceLastSpecialAttack >= specialAttackCooldown)
+        {
+            isSpecialAttackReady = true;
+            timeSinceLastSpecialAttack = 0f;
+            playerCD.cooldownReady();
 
         }
-
     }
+
+    if (isSpecialAttackReady && Input.GetKeyDown(KeyCode.K))
+    {
+        animator.Play("SPAttack", 0, 0);
+        isSpecialAttackReady = false;
+    }
+}
 
     void ExitAttack(){
         if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime>0.9f && animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")){
