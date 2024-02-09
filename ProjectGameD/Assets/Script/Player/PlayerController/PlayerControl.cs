@@ -23,6 +23,7 @@ public partial class PlayerControl : MonoBehaviour
             Look();
         }
         Reload();
+
         
     }
 
@@ -32,6 +33,8 @@ public partial class PlayerControl : MonoBehaviour
         {
             Move();
         }
+                        MoveWhenAttack();
+
         if (Input.GetKey(KeyCode.L))
         {
             StartCoroutine(Dash());

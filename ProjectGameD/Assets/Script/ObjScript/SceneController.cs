@@ -12,7 +12,7 @@ public class SceneController : MonoBehaviour
     [SerializeField] String currentScene;
     [SerializeField] String NextSceneName;
     void Start(){
-        detonationTime = 5;
+        detonationTime = 2;
         currentScene = SceneManager.GetActiveScene().name;
     }
     public void loadscene(String NextSceneName){

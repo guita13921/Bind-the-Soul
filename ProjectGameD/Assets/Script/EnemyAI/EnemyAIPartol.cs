@@ -14,7 +14,7 @@ public class EnemyAIPartol : MonoBehaviour
     [SerializeField]bool walkpointSet;
     [SerializeField]float range;
     [SerializeField]float sightRange , attackRange;
-    bool playerInsight, PlayerInAttackrange;
+    bool playerInsight, PlayerInAttackrange; //FIX to see 2 player
     Animator animator;
     [SerializeField]BoxCollider boxCollider;
     // Start is called before the first frame update

@@ -109,6 +109,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1349150361055734, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
       insertIndex: -1
       addedObject: {fileID: 483281345016765879}
+    - targetCorrespondingSourceObject: {fileID: 1349150361055734, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -7097476380095482508}
     - targetCorrespondingSourceObject: {fileID: 1443982407616232, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2819587765222620877}
@@ -139,7 +142,7 @@ MonoBehaviour:
     m_Bits: 128
   walkpointSet: 0
   range: 30
-  sightRange: 5
+  sightRange: 20
   attackRange: 1
   boxCollider: {fileID: 0}
 --- !u!195 &193843140581659281
@@ -189,8 +192,31 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!136 &-7097476380095482508
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5708440254463499609}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 7.072035
+  m_Direction: 1
+  m_Center: {x: 0, y: 3.0360174, z: 0}
 --- !u!1 &5708768182427544135 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1443982407616232, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
