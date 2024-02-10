@@ -4,24 +4,19 @@ public partial class PlayerControl
 {
     [SerializeField] private float _speed = 3.5f;
     [SerializeField] private float _turnSpeed = 500;
-        [SerializeField] private float movewhenATK = 1.5f;
 
     private void Move()
     {
         _rb.MovePosition(
             transform.position + transform.forward * _input.normalized.magnitude * _speed * Time.deltaTime
         );
-        
+
+               
             
     }
+    
 
-    private void MoveWhenAttack(){
-        if(Input.GetKey(KeyCode.J)){
-            _rb.MovePosition(
-            transform.position + transform.forward * movewhenATK
-            );
-        }
-    }
+
 
     private void Look()
     {

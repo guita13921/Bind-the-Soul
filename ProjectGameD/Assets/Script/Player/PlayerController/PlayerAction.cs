@@ -7,13 +7,21 @@ public partial class PlayerControl
     [SerializeField] private float dashDistance = 2f;
     private bool isAttack = false;
     private bool isDashing = false;
+    [SerializeField] private float movewhenATK = 0.185f;
 
     private void Attack()
     {
         
         if (Input.GetKey(KeyCode.J)){
             isAttack = true;
+
+            _rb.MovePosition(
+            transform.position + transform.forward * movewhenATK
+        );
+
+
         }
+
         if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")){
             isAttack =false;
         }

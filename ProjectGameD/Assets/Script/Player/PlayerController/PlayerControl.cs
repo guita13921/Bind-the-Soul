@@ -23,22 +23,27 @@ public partial class PlayerControl : MonoBehaviour
             Look();
         }
         Reload();
+        if(Input.GetKeyDown(KeyCode.J)){
 
+        }
+        
         
     }
 
     private void FixedUpdate()
     {
+
         if (!isAttack && !isDashing)
         {
             Move();
         }
-                        MoveWhenAttack();
 
         if (Input.GetKey(KeyCode.L))
         {
             StartCoroutine(Dash());
         }
+
+    
     }
 
 }
