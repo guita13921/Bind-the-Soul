@@ -40,11 +40,11 @@ public class PlayerCombat : MonoBehaviour
     }
 
     void Attack(){
-        if(Time.time - lastComboEnd >0.2f && comboCounter < combo.Count){
+        //if(Time.time - lastComboEnd >0.2f && comboCounter < combo.Count){
             
             CancelInvoke("EndCombo");
 
-            if(Time.time-lastClickedTime >= 0.5f  && !animator.GetCurrentAnimatorStateInfo(0).IsName("SPAttack")){
+            if(Time.time-lastClickedTime >= 0.3f  && !animator.GetCurrentAnimatorStateInfo(0).IsName("SPAttack")){
                 animator.runtimeAnimatorController = combo[comboCounter].animatorOV;
                 animator.Play("Attack",0,0);
                 weapon.damage = combo[comboCounter].damage;
@@ -58,7 +58,7 @@ public class PlayerCombat : MonoBehaviour
                 }
 
             }
-        }
+        //}
     }
 
     void SpecialAttack()

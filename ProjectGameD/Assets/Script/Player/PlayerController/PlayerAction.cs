@@ -13,16 +13,24 @@ public partial class PlayerControl
     private void Attack()
     {
         
-        if (Input.GetKey(KeyCode.J)){
+        if (Input.GetKeyDown(KeyCode.J)){
             isAttack = true;
         }
 
+       if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") && 
+    animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.7) {
+    isAttack = false;
+} else if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") && 
+           animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.7) {
+    isAttack = true;
+}
         MoveWhenATK();
 
       
 
 
-        if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")){
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") && 
+        animator.GetCurrentAnimatorStateInfo(0).normalizedTime >0.7){
             isAttack =false;
         }
 

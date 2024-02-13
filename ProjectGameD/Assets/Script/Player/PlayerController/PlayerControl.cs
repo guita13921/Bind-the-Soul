@@ -20,11 +20,15 @@ public partial class PlayerControl : MonoBehaviour
 
 
         Attack();
- 
-        if (!isAttack && !isDashing)
-        {
-            Look();
-        }
+
+ if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") ||
+    (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") &&
+        animator.GetCurrentAnimatorStateInfo(0).normalizedTime >0.8)){
+            Look();}
+
+
+
+
         Reload();
 
         
