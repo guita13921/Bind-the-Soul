@@ -18,6 +18,7 @@ public class EnemyAIPartol : MonoBehaviour
     Animator animator;
     [SerializeField]BoxCollider boxCollider;
     // Start is called before the first frame update
+    float damage;
     void Start()
     {
         boxCollider = GetComponentInChildren<BoxCollider>();
@@ -77,8 +78,16 @@ public class EnemyAIPartol : MonoBehaviour
 
     private void OnTriggerEnter(Collider other){
         if(other.gameObject.tag == "Player"){
-            print("HIT");
-            Debug.Log("HIT");
+         var enemy = other.gameObject.GetComponent<enemy>();
+        if(enemy != null)
+        {
+            enemy.health.currentHealth -= damage;
+
+            if(enemy.health.currentHealth <= 0)
+            {
+                Destroy(enemy.gameObject);
+            }
+        }
         }
     }
 
