@@ -4,6 +4,8 @@ using UnityEngine;
 public partial class PlayerControl
 {
     [SerializeField] private float dashTime = 0.5f;
+    [SerializeField] private float movewhenATKTime = 0.5f;
+
     [SerializeField] private float dashDistance = 2f;
     private bool isAttack = false;
     private bool isDashing = false;
@@ -11,16 +13,15 @@ public partial class PlayerControl
 
     private void Attack()
     {
+        float startTime = Time.time;
         
         if (Input.GetKey(KeyCode.J)){
             isAttack = true;
-
-            _rb.MovePosition(
-            transform.position + transform.forward * movewhenATK
-        );
-
-
         }
+
+       
+      
+
 
         if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")){
             isAttack =false;

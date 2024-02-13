@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -26,9 +27,14 @@ public partial class PlayerControl : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.J)){
 
         }
+                MoveWhenATK();
+
         
         
     }
+
+
+    
 
     private void FixedUpdate()
     {
