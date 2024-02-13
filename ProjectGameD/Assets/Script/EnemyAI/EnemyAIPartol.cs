@@ -33,9 +33,26 @@ public class EnemyAIPartol : MonoBehaviour
         playerInsight = Physics.CheckSphere(transform.position, sightRange, playerLayer);
         PlayerInAttackrange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
 
+        if(!beenAttacked){
         if(!playerInsight && !PlayerInAttackrange) Patrol();
         if(playerInsight && !PlayerInAttackrange) Chase();
         if(playerInsight && PlayerInAttackrange)Attack();
+        }
+
+     
+        if(timestcuk){
+            stucktime =Time.time;
+        }
+
+        if(beenAttacked && stucktime>5){
+            beenAttacked =false;
+            stucktime=0;
+            timestcuk =false;
+                    print("adsadasdsad");
+
+        }
+
+        
     }
 
     void Chase(){
@@ -75,6 +92,18 @@ public class EnemyAIPartol : MonoBehaviour
         boxCollider.enabled = false;
     }
 
+    bool beenAttacked =false;
+    float stucktime=0;
+    bool timestcuk =false;
+
+    private void OnTriggerEnter(Collider other){
+        if(other.gameObject.tag == "PlayerSword"){
+            beenAttacked = true;
+            timestcuk    = true;
+            
+        }
+
     
     
+}
 }

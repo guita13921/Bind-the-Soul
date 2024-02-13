@@ -17,7 +17,7 @@ public class PlayerCombat : MonoBehaviour
     float timeSinceLastSpecialAttack = 0f;
     bool isSpecialAttackReady = true;
     Animator animator;
-    [SerializeField] Weapon weapon;
+    [SerializeField] PlayerWeapon weapon;
 
     public PlayerCD playerCD;
 
