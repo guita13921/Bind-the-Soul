@@ -10,30 +10,28 @@ public class HealthBar : MonoBehaviour
     public float maxHealth = 100f;
     public float health;
     private float lerpSpeed = 5f;
+    Health PaHP;
 
     // Start is called before the first frame update
     void Start()
     {
-        health = maxHealth;
+         PaHP = GetComponentInParent<Health>();
+        maxHealth = PaHP.maxHealth;
+        health = PaHP.currentHealth;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(health != PaHP.currentHealth){
+            health = PaHP.currentHealth;
+        }
         if(healthslider.value != health){
             healthslider.value = health;
         }
 
-        if(Input.GetKeyDown(KeyCode.Space)){
-            takeDamage(20);
-        }
-        
         if(healthslider.value != easeHealthSlider.value){
             easeHealthSlider.value = Mathf.Lerp(easeHealthSlider.value, health, lerpSpeed*Time.deltaTime);
         }
-    }
-
-    void takeDamage(float damage){
-        health -= damage;
     }
 }
