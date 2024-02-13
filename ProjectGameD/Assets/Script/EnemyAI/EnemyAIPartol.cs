@@ -65,6 +65,8 @@ public class EnemyAIPartol : MonoBehaviour
 
     }
 
+    
+
     void EnableAttack(){
         boxCollider.enabled = true;
     }
