@@ -17,6 +17,8 @@ public partial class PlayerControl : MonoBehaviour
     private void Update()
     {
         GatherInput();
+
+
         Attack();
  
         if (!isAttack && !isDashing)
@@ -24,10 +26,6 @@ public partial class PlayerControl : MonoBehaviour
             Look();
         }
         Reload();
-        if(Input.GetKeyDown(KeyCode.J)){
-
-        }
-                MoveWhenATK();
 
         
         

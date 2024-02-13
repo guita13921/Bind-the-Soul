@@ -44,7 +44,7 @@ public class PlayerCombat : MonoBehaviour
             
             CancelInvoke("EndCombo");
 
-            if(Time.time-lastClickedTime >= 0.5f ){
+            if(Time.time-lastClickedTime >= 0.5f  && !animator.GetCurrentAnimatorStateInfo(0).IsName("SPAttack")){
                 animator.runtimeAnimatorController = combo[comboCounter].animatorOV;
                 animator.Play("Attack",0,0);
                 weapon.damage = combo[comboCounter].damage;
@@ -85,6 +85,7 @@ public class PlayerCombat : MonoBehaviour
     {
         animator.Play("SPAttack", 0, 0);
         isSpecialAttackReady = false;
+    
     }
 }
 

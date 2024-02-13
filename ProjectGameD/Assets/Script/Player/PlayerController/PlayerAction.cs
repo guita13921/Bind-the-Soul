@@ -4,7 +4,6 @@ using UnityEngine;
 public partial class PlayerControl
 {
     [SerializeField] private float dashTime = 0.5f;
-    [SerializeField] private float movewhenATKTime = 0.5f;
 
     [SerializeField] private float dashDistance = 2f;
     private bool isAttack = false;
@@ -13,13 +12,13 @@ public partial class PlayerControl
 
     private void Attack()
     {
-        float startTime = Time.time;
         
         if (Input.GetKey(KeyCode.J)){
             isAttack = true;
         }
 
-       
+        MoveWhenATK();
+
       
 
 
