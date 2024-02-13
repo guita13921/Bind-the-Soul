@@ -7,6 +7,8 @@ using UnityEngine.AI;
 
 public class EnemyAIPartol : MonoBehaviour
 {
+    public float damage;
+
     [SerializeField] GameObject player;
     NavMeshAgent agent;
     [SerializeField] LayerMask groundLayer, playerLayer;
@@ -18,7 +20,6 @@ public class EnemyAIPartol : MonoBehaviour
     Animator animator;
     [SerializeField]BoxCollider boxCollider;
     // Start is called before the first frame update
-    float damage;
     void Start()
     {
         boxCollider = GetComponentInChildren<BoxCollider>();
@@ -66,8 +67,6 @@ public class EnemyAIPartol : MonoBehaviour
 
     }
 
-    
-
     void EnableAttack(){
         boxCollider.enabled = true;
     }
@@ -76,19 +75,6 @@ public class EnemyAIPartol : MonoBehaviour
         boxCollider.enabled = false;
     }
 
-    private void OnTriggerEnter(Collider other){
-        if(other.gameObject.tag == "Player"){
-         var enemy = other.gameObject.GetComponent<enemy>();
-        if(enemy != null)
-        {
-            enemy.health.currentHealth -= damage;
-
-            if(enemy.health.currentHealth <= 0)
-            {
-                Destroy(enemy.gameObject);
-            }
-        }
-        }
-    }
-
+    
+    
 }
