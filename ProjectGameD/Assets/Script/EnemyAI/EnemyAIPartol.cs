@@ -7,62 +7,80 @@ using UnityEngine.AI;
 
 public class EnemyAIPartol : MonoBehaviour
 {
-    public float damage;
-
     [SerializeField] GameObject player;
     NavMeshAgent agent;
     [SerializeField] LayerMask groundLayer, playerLayer;
     Vector3 destPoint;
-    [SerializeField]bool walkpointSet;
+    bool walkpointSet;
     [SerializeField]float range;
     [SerializeField]float sightRange , attackRange;
     bool playerInsight, PlayerInAttackrange; //FIX to see 2 player
-    Animator animator;
-    [SerializeField]BoxCollider boxCollider;
+    public double current_delaytimeAttack;
+    [SerializeField]public double delaytimeAttack;
+    public double current_delaytimeGetHit;
+    [SerializeField]public double delaytimeGetHit;
+     Animator animator;
+    BoxCollider boxCollider;
+    public bool isDead;
+    public bool isHit;
+    public double delaytimeDead;
+    float damage;
+    Health hp;
+    
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start(){
         boxCollider = GetComponentInChildren<BoxCollider>();
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindWithTag("Player");
         animator = GetComponent<Animator>();
+        delaytimeAttack = 0.5;
+        delaytimeDead = 0.5;
+        delaytimeGetHit = 0.75;
+        damage = 10; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        hp = GetComponent<Health>();
     }
 
     // Update is called once per frame
     void Update(){
+        if(isHit == true && current_delaytimeGetHit > 0){
+            current_delaytimeGetHit -= Time.deltaTime;
+        }else{
+            current_delaytimeGetHit = delaytimeGetHit;
+            isHit = false;
+        }
+
         playerInsight = Physics.CheckSphere(transform.position, sightRange, playerLayer);
         PlayerInAttackrange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
-
-        if(!beenAttacked){
-        if(!playerInsight && !PlayerInAttackrange) Patrol();
-        if(playerInsight && !PlayerInAttackrange) Chase();
-        if(playerInsight && PlayerInAttackrange)Attack();
-        }
-
-     
-        if(timestcuk){
-            stucktime =Time.time;
-        }
-
-        if(beenAttacked && stucktime>5){
-            beenAttacked =false;
-            stucktime=0;
-            timestcuk =false;
-                    print("adsadasdsad");
-
-        }
-
-        
+        if(isDead == true) Dead();
+        if(!playerInsight && !PlayerInAttackrange && !isDead && !isHit) Patrol();
+        if(playerInsight && !PlayerInAttackrange && !isDead && !isHit) Chase();
+        if(playerInsight && PlayerInAttackrange && !isDead && !isHit)Attack();
     }
 
     void Chase(){
+        animator.SetTrigger("Chase");
+        agent.speed = 4;
         agent.SetDestination(player.transform.position);
     }
 
     void Attack(){
-        if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack1h1")){
-            animator.SetTrigger("Attack");
+        if(current_delaytimeAttack > 0){
+            current_delaytimeAttack -= Time.deltaTime;
+        }else{
             agent.SetDestination(transform.position);
+            animator.SetInteger("AttackIndex", UnityEngine.Random.Range(0,3));
+            animator.SetTrigger("Attack");
+            agent.transform.LookAt(player.transform);
+            current_delaytimeAttack = delaytimeAttack;
+        }
+    }
+    void Dead(){
+        animator.SetTrigger("Dead");
+
+        if(delaytimeDead > 0){
+            delaytimeDead -= Time.deltaTime;
+        }else{
+            Destroy(gameObject);
         }
     }
 
@@ -83,7 +101,6 @@ public class EnemyAIPartol : MonoBehaviour
         }
 
     }
-
     void EnableAttack(){
         boxCollider.enabled = true;
     }
@@ -92,18 +109,9 @@ public class EnemyAIPartol : MonoBehaviour
         boxCollider.enabled = false;
     }
 
-    bool beenAttacked =false;
-    float stucktime=0;
-    bool timestcuk =false;
-
-    private void OnTriggerEnter(Collider other){
-        if(other.gameObject.tag == "PlayerSword"){
-            beenAttacked = true;
-            timestcuk    = true;
-            
-        }
-
-    
-    
-}
+    void OnTriggerEnter(){
+        hp.currentHealth -= damage;
+        animator.SetTrigger("HIT!");
+        isHit = true;
+    }
 }
