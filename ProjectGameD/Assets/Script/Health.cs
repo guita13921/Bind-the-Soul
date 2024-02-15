@@ -9,19 +9,20 @@ public class Health : MonoBehaviour
     public float currentHealth;
     float damage; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     EnemyAIPartol enemy;
-    
 
-    void Start(){
+    void Start()
+    {
         currentHealth = maxHealth;
         enemy = GetComponent<EnemyAIPartol>();
         damage = 10; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
-    void Update() {
-        if(currentHealth<=0){
+    void Update()
+    {
+        if (currentHealth <= 0)
+        {
             enemy.isDead = true;
-        }else{
-
         }
+        else { }
     }
 }

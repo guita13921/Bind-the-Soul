@@ -7,9 +7,8 @@ using UnityEngine.PlayerLoop;
 
 public class PlayerCombat : MonoBehaviour
 {
-
     public List<AttackSO> combo;
-    float lastClickedTime; //time betweeen attack in combo 
+    float lastClickedTime; //time betweeen attack in combo
     float lastComboEnd; //amount of time before player can do the next combo
     int comboCounter;
 
@@ -17,7 +16,9 @@ public class PlayerCombat : MonoBehaviour
     float timeSinceLastSpecialAttack = 0f;
     bool isSpecialAttackReady = true;
     Animator animator;
-    [SerializeField] PlayerWeapon weapon;
+
+    [SerializeField]
+    PlayerWeapon weapon;
 
     public PlayerCD playerCD;
 
@@ -28,76 +29,76 @@ public class PlayerCombat : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-
     {
-
         SpecialAttack();
-        if(Input.GetKeyDown(KeyCode.J)){
+        if (Input.GetKeyDown(KeyCode.J))
+        {
             Attack();
         }
-       
+
         ExitAttack();
     }
 
-    void Attack(){
+    void Attack()
+    {
         //if(Time.time - lastComboEnd >0.2f && comboCounter < combo.Count){
-            
-            CancelInvoke("EndCombo");
 
-            if(Time.time-lastClickedTime >= 0.3f  && !animator.GetCurrentAnimatorStateInfo(0).IsName("SPAttack")){
-                animator.runtimeAnimatorController = combo[comboCounter].animatorOV;
-                animator.Play("Attack",0,0);
-                weapon.damage = combo[comboCounter].damage;
-                comboCounter ++;
+        CancelInvoke("EndCombo");
 
+        if (
+            Time.time - lastClickedTime >= 0.3f
+            && !animator.GetCurrentAnimatorStateInfo(0).IsName("SPAttack")
+        )
+        {
+            animator.runtimeAnimatorController = combo[comboCounter].animatorOV;
+            animator.Play("Attack", 0, 0);
+            weapon.damage = combo[comboCounter].damage;
+            comboCounter++;
 
-                lastClickedTime = Time.time;
+            lastClickedTime = Time.time;
 
-                if(comboCounter +1 > combo.Count){
-                    comboCounter = 0;
-                }
-
+            if (comboCounter + 1 > combo.Count)
+            {
+                comboCounter = 0;
             }
+        }
         //}
     }
 
     void SpecialAttack()
-
-{
-
-
-
-
-    if (!isSpecialAttackReady)
     {
-        timeSinceLastSpecialAttack += Time.deltaTime;
-        playerCD.CooldownText(specialAttackCooldown-timeSinceLastSpecialAttack);
-        if (timeSinceLastSpecialAttack >= specialAttackCooldown)
+        if (!isSpecialAttackReady)
         {
-            isSpecialAttackReady = true;
-            timeSinceLastSpecialAttack = 0f;
-            playerCD.cooldownReady();
+            timeSinceLastSpecialAttack += Time.deltaTime;
+            playerCD.CooldownText(specialAttackCooldown - timeSinceLastSpecialAttack);
+            if (timeSinceLastSpecialAttack >= specialAttackCooldown)
+            {
+                isSpecialAttackReady = true;
+                timeSinceLastSpecialAttack = 0f;
+                playerCD.cooldownReady();
+            }
+        }
 
+        if (isSpecialAttackReady && Input.GetKeyDown(KeyCode.K))
+        {
+            animator.Play("SPAttack", 0, 0);
+            isSpecialAttackReady = false;
         }
     }
 
-    if (isSpecialAttackReady && Input.GetKeyDown(KeyCode.K))
+    void ExitAttack()
     {
-        animator.Play("SPAttack", 0, 0);
-        isSpecialAttackReady = false;
-    
-    }
-}
-
-    void ExitAttack(){
-        if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime>0.9f && animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")){
-            Invoke("EndCombo",0.5f);
+        if (
+            animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f
+            && animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")
+        )
+        {
+            Invoke("EndCombo", 0.5f);
         }
     }
 
-    
-
-    void EndCombo(){
+    void EndCombo()
+    {
         comboCounter = 0;
         lastComboEnd = Time.time;
     }

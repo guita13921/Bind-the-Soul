@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class enemy : MonoBehaviour
 {
-  public Health health;
+    public Health health;
 
-  void Start(){
-    health=GetComponent<Health>();
-  }
+    void Start()
+    {
+        health = GetComponent<Health>();
+    }
 }

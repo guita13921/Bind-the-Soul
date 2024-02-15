@@ -5,7 +5,9 @@ using UnityEngine;
 public class billBoard : MonoBehaviour
 {
     public Transform cam;
-    void LateUpdate(){
+
+    void LateUpdate()
+    {
         transform.LookAt(transform.position + cam.forward);
     }
 }

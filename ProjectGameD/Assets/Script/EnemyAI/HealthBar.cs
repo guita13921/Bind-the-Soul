@@ -15,7 +15,7 @@ public class HealthBar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-         PaHP = GetComponentInParent<Health>();
+        PaHP = GetComponentInParent<Health>();
         maxHealth = PaHP.maxHealth;
         health = PaHP.currentHealth;
     }
@@ -23,15 +23,22 @@ public class HealthBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(health != PaHP.currentHealth){
+        if (health != PaHP.currentHealth)
+        {
             health = PaHP.currentHealth;
         }
-        if(healthslider.value != health){
+        if (healthslider.value != health)
+        {
             healthslider.value = health;
         }
 
-        if(healthslider.value != easeHealthSlider.value){
-            easeHealthSlider.value = Mathf.Lerp(easeHealthSlider.value, health, lerpSpeed*Time.deltaTime);
+        if (healthslider.value != easeHealthSlider.value)
+        {
+            easeHealthSlider.value = Mathf.Lerp(
+                easeHealthSlider.value,
+                health,
+                lerpSpeed * Time.deltaTime
+            );
         }
     }
 }

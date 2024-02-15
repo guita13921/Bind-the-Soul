@@ -9,14 +9,13 @@ public class GenerateEnme : MonoBehaviour
     public bool isRandomize;
 
     // Update is called once per frame
-    void Update()
+    void Update() { }
+
+    public void SpawnObject()
     {
-
-    }
-
-    public void SpawnObject(){
         int index = isRandomize ? Random.Range(0, objectToSpawn.Count) : 0;
-        if(objectToSpawn.Count > 0){
+        if (objectToSpawn.Count > 0)
+        {
             Instantiate(objectToSpawn[index], transform.position, transform.rotation);
         }
     }

@@ -2,30 +2,33 @@ using UnityEngine;
 
 public partial class PlayerControl
 {
-    [SerializeField] private float _speed = 3.5f;
-    [SerializeField] private float _turnSpeed = 500;
-    [SerializeField] private float movewhenATKduration_0to1 = 0.2f;
+    [SerializeField]
+    private float _speed = 3.5f;
 
+    [SerializeField]
+    private float _turnSpeed = 500;
+
+    [SerializeField]
+    private float movewhenATKduration_0to1 = 0.2f;
 
     private void Move()
     {
         _rb.MovePosition(
-            transform.position + transform.forward * _input.normalized.magnitude * _speed * Time.deltaTime
+            transform.position
+                + transform.forward * _input.normalized.magnitude * _speed * Time.deltaTime
         );
-
-               
-            
     }
-    private void MoveWhenATK(){
-        if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime <movewhenATKduration_0to1
-        && animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")){
-            _rb.MovePosition(
-            transform.position + transform.forward * movewhenATK
-        );        }
+
+    private void MoveWhenATK()
+    {
+        if (
+            animator.GetCurrentAnimatorStateInfo(0).normalizedTime < movewhenATKduration_0to1
+            && animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")
+        )
+        {
+            _rb.MovePosition(transform.position + transform.forward * movewhenATK);
+        }
     }
-    
-
-
 
     private void Look()
     {

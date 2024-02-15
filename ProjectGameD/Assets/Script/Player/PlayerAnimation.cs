@@ -8,7 +8,6 @@ public class PlayerAnimation : MonoBehaviour
 {
     Animator animator;
 
-
     private float keyPressStartTime;
     bool ConflictInputDetect;
 
@@ -16,19 +15,17 @@ public class PlayerAnimation : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>(); 
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
         ConflictInputDetecter();
-        if (!ConflictInputDetect )
+        if (!ConflictInputDetect)
         {
-            
             WalkAndRun();
         }
-        
     }
 
     void WalkAndRun()
@@ -39,23 +36,14 @@ public class PlayerAnimation : MonoBehaviour
             || Input.GetKey(KeyCode.S)
             || Input.GetKey(KeyCode.D);
 
-
-
-       
         if (Walking)
         {
             animator.SetBool("isRunning", true);
-
-        }else{
-            animator.SetBool("isRunning", false);
-         
         }
-
-        
-
-        
-
-
+        else
+        {
+            animator.SetBool("isRunning", false);
+        }
     }
 
     void ConflictInputDetecter()
@@ -63,24 +51,17 @@ public class PlayerAnimation : MonoBehaviour
         UpdateKeysPressed();
 
         bool conflictInput =
-            (
-                keysPressed.Contains(KeyCode.W)
-                && keysPressed.Contains(KeyCode.S)
-            )
-            || (
-                keysPressed.Contains(KeyCode.A)
-                && keysPressed.Contains(KeyCode.D)
+            (keysPressed.Contains(KeyCode.W) && keysPressed.Contains(KeyCode.S))
+            || (keysPressed.Contains(KeyCode.A) && keysPressed.Contains(KeyCode.D));
 
-            );
-
-        if (conflictInput && keysPressed.Count ==2)
+        if (conflictInput && keysPressed.Count == 2)
         {
             keyPressStartTime += Time.deltaTime;
             //Debug.Log(keyPressStartTime);
             if (keyPressStartTime > 0.1f)
             {
                 ConflictInputDetect = true;
-                animator.SetBool("ConflictInput", true);      
+                animator.SetBool("ConflictInput", true);
             }
         }
         else
@@ -104,6 +85,4 @@ public class PlayerAnimation : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
             keysPressed.Add(KeyCode.D);
     }
-
-    
 }

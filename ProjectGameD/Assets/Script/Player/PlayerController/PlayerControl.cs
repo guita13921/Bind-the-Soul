@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public partial class PlayerControl : MonoBehaviour
 {
-    [SerializeField] private Rigidbody _rb;
+    [SerializeField]
+    private Rigidbody _rb;
 
     private Animator animator;
 
@@ -17,31 +18,28 @@ public partial class PlayerControl : MonoBehaviour
     private void Update()
     {
         GatherInput();
-
-
+        
+        if(!GotHit){
         Attack();
-
- if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") ||
-(animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") &&
-        animator.GetCurrentAnimatorStateInfo(0).normalizedTime >0.8)){
-            Look();}
-
-
-
-
-        Reload();
-
-        
-        
+        if (
+            !animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")
+            || (
+                animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")
+                && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.8
+            )
+        )
+        {
+            Look();
+        }
+    }else if(animator.GetCurrentAnimatorStateInfo(0).IsName("GotHit")&& animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.8){
+        GotHit = false;
     }
-
-
-    
+        Reload();
+    }
 
     private void FixedUpdate()
     {
-
-        if (!isAttack && !isDashing)
+        if (!isAttack && !isDashing && !GotHit)
         {
             Move();
         }
@@ -50,8 +48,5 @@ public partial class PlayerControl : MonoBehaviour
         {
             StartCoroutine(Dash());
         }
-
-    
     }
-
 }

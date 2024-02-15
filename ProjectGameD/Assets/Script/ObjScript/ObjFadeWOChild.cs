@@ -8,9 +8,14 @@ public class ObjFadeWOChild : MonoBehaviour
     public float fadeSpeed;
     public float fadeAmount;
     float originalOpacity;
-    [SerializeField] Material Mat;
+
+    [SerializeField]
+    Material Mat;
     public bool DoFade;
-    [SerializeField] public double timeRemaining;
+
+    [SerializeField]
+    public double timeRemaining;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,31 +27,48 @@ public class ObjFadeWOChild : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update(){
-    if (timeRemaining > 0){
+    void Update()
+    {
+        if (timeRemaining > 0)
+        {
             timeRemaining -= Time.deltaTime;
-        }else{
+        }
+        else
+        {
             DoFade = false;
         }
 
-        if(DoFade){
+        if (DoFade)
+        {
             FadeNow();
-        }else{
+        }
+        else
+        {
             ResetFade();
         }
     }
 
-    void FadeNow(){
+    void FadeNow()
+    {
         Color currentColor = Mat.color;
-        Color smoothColor = new Color(currentColor.r, currentColor.g, currentColor.b,
-            Mathf.Lerp(currentColor.a, fadeAmount, fadeSpeed * Time.deltaTime));
+        Color smoothColor = new Color(
+            currentColor.r,
+            currentColor.g,
+            currentColor.b,
+            Mathf.Lerp(currentColor.a, fadeAmount, fadeSpeed * Time.deltaTime)
+        );
         Mat.color = smoothColor;
     }
 
-    void ResetFade(){
+    void ResetFade()
+    {
         Color currentColor = Mat.color;
-        Color smoothColor = new Color(currentColor.r, currentColor.g, currentColor.b,
-            Mathf.Lerp(currentColor.a, originalOpacity,fadeSpeed * Time.deltaTime));
+        Color smoothColor = new Color(
+            currentColor.r,
+            currentColor.g,
+            currentColor.b,
+            Mathf.Lerp(currentColor.a, originalOpacity, fadeSpeed * Time.deltaTime)
+        );
         Mat.color = smoothColor;
     }
 }
