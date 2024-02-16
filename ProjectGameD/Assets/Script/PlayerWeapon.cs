@@ -53,7 +53,7 @@ public class PlayerWeapon : MonoBehaviour
     void HandleInput()
     {
         // Check if the "J" key is pressed.
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.J) ||Input.GetKeyDown(KeyCode.K))
         {
             // Enable the trigger and set the timer.
             triggerBox.isTrigger = true;

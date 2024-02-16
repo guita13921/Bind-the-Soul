@@ -34,7 +34,7 @@ public class EnemyAIPartol : MonoBehaviour
     [SerializeField]
     public double delaytimeGetHit;
     Animator animator;
-    BoxCollider boxCollider;
+    [SerializeField] BoxCollider boxCollider;
     public bool isDead;
     public bool isHit;
     public double delaytimeDead;
@@ -44,7 +44,6 @@ public class EnemyAIPartol : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        boxCollider = GetComponentInChildren<BoxCollider>();
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindWithTag("Player");
         animator = GetComponent<Animator>();
