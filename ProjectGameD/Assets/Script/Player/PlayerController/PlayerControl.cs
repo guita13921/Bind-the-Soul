@@ -49,12 +49,20 @@ public partial class PlayerControl : MonoBehaviour
         Reload();
     }
 
+    [SerializeField]float speedwhengethit = 1.5f;
     private void FixedUpdate()
     {   
 
-        if (!isAttack && !isDashing && !GotHit)
+        if (!isAttack && !isDashing )
         {
-            Move();
+            Move(_speed);
+        }
+
+        if(GotHit){
+                        Look();
+
+            Move(speedwhengethit);
+
         }
 
         if (Input.GetKey(KeyCode.L))

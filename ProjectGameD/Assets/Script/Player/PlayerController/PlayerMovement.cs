@@ -11,11 +11,11 @@ public partial class PlayerControl
     [SerializeField]
     private float movewhenATKduration_0to1 = 0.2f;
 
-    private void Move()
+    private void Move(float speed)
     {
         _rb.MovePosition(
             transform.position
-                + transform.forward * _input.normalized.magnitude * _speed * Time.deltaTime
+                + transform.forward * _input.normalized.magnitude * speed * Time.deltaTime
         );
     }
 
