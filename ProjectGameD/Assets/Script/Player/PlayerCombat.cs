@@ -31,7 +31,7 @@ public class PlayerCombat : MonoBehaviour
     void Update()
     {
         SpecialAttack();
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.J) && !animator.GetCurrentAnimatorStateInfo(0).IsName("GotHit"))
         {
             Attack();
         }

@@ -154,10 +154,12 @@ public class EnemyAIPartol : MonoBehaviour
         boxCollider.enabled = false;
     }
 
-    void OnTriggerEnter()
+    void OnTriggerEnter(Collider other)
     {
+        if(other.isTrigger && other.gameObject.CompareTag("PlayerSword")){
+            print(other);
         hp.currentHealth -= damage;
         animator.SetTrigger("HIT!");
-        isHit = true;
+        isHit = true;}
     }
 }

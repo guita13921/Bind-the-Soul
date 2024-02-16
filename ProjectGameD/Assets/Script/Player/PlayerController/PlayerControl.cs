@@ -31,14 +31,27 @@ public partial class PlayerControl : MonoBehaviour
         {
             Look();
         }
-    }else if(animator.GetCurrentAnimatorStateInfo(0).IsName("GotHit")&& animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.8){
-        GotHit = false;
-    }
+        } 
+
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName("GotHit")){
+            GotHit = true;
+        }else{
+            GotHit = false;
+
+        }
+    
+
+
+
+
+
+    
         Reload();
     }
 
     private void FixedUpdate()
-    {
+    {   
+
         if (!isAttack && !isDashing && !GotHit)
         {
             Move();
