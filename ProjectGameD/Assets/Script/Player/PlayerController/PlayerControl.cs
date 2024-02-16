@@ -59,8 +59,7 @@ public partial class PlayerControl : MonoBehaviour
         }
 
         if(GotHit){
-                        Look();
-
+            Look();
             Move(speedwhengethit);
 
         }

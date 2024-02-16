@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class playerflashtest : MonoBehaviour
+public class Enemyflash : MonoBehaviour
 {
     public SkinnedMeshRenderer skinnedMeshRenderer;
     public Material newMaterial;
@@ -29,8 +29,8 @@ public class playerflashtest : MonoBehaviour
     void Update()
     {
         // Check if the spacebar is pressed
-        
-        if(animator.GetCurrentAnimatorStateInfo(0).IsName("GotHit"))
+      
+         if(animator.GetCurrentAnimatorStateInfo(0).IsName("Hit1"))
         {
             // Toggle between original material and new material
                 ChangeMaterial(newMaterial);
@@ -42,12 +42,10 @@ public class playerflashtest : MonoBehaviour
         }
 
 
-        
 
 
     }
 
- 
 
     void ChangeMaterial(Material material)
     {

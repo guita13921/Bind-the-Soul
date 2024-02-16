@@ -37,7 +37,6 @@ public class PlayerWeapon : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other);
         var enemy = other.gameObject.GetComponent<enemy>();
         if (enemy != null)
         {
