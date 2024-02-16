@@ -7,14 +7,12 @@ public class Health : MonoBehaviour
 {
     public float maxHealth;
     public float currentHealth;
-    float damage; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     EnemyAIPartol enemy;
 
     void Start()
     {
         currentHealth = maxHealth;
         enemy = GetComponent<EnemyAIPartol>();
-        damage = 10; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
     void Update()

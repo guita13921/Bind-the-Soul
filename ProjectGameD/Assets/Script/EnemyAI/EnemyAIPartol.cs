@@ -44,6 +44,7 @@ public class EnemyAIPartol : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        boxCollider.enabled = false;
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindWithTag("Player");
         animator = GetComponent<Animator>();
@@ -104,16 +105,11 @@ public class EnemyAIPartol : MonoBehaviour
 
     void Dead()
     {
-        animator.SetTrigger("Dead");
-
-        if (delaytimeDead > 0)
-        {
-            delaytimeDead -= Time.deltaTime;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        animator.enabled = false;
+        this.enabled = false;
+        agent.enabled = false;
+        hp.enabled = false;
+        boxCollider.enabled = false;
     }
 
     void Patrol()
