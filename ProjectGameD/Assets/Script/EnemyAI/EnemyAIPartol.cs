@@ -50,7 +50,7 @@ public class EnemyAIPartol : MonoBehaviour
         animator = GetComponent<Animator>();
         delaytimeAttack = 0.5;
         delaytimeDead = 0.5;
-        delaytimeGetHit = 0.75;
+        delaytimeGetHit = 2.5;
         damage = 10; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         hp = GetComponent<Health>();
     }
@@ -153,6 +153,15 @@ public class EnemyAIPartol : MonoBehaviour
         hp.currentHealth -= damage;
         animator.SetTrigger("HIT!");
         agent.transform.LookAt(player.transform);
-        isHit = true;}
+        isHit = true;
+
+        
+          Vector3 knockbackDirection = transform.position - other.transform.position;
+        knockbackDirection.y = 0f; // Optional: ignore vertical component
+        knockbackDirection.Normalize();
+
+        // Apply knockback by adding force to the position
+        transform.position += knockbackDirection * 10f;
+        }
     }
 }
