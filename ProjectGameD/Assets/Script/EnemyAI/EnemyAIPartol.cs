@@ -58,12 +58,9 @@ public class EnemyAIPartol : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isHit == true && current_delaytimeGetHit > 0)
-        {
+        if (isHit == true && current_delaytimeGetHit > 0){
             current_delaytimeGetHit -= Time.deltaTime;
-        }
-        else
-        {
+        }else{
             current_delaytimeGetHit = delaytimeGetHit;
             isHit = false;
         }
@@ -155,6 +152,7 @@ public class EnemyAIPartol : MonoBehaviour
             print(other);
         hp.currentHealth -= damage;
         animator.SetTrigger("HIT!");
+        agent.transform.LookAt(player.transform);
         isHit = true;}
     }
 }
