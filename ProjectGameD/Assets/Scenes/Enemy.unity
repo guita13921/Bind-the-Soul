@@ -540,10 +540,10 @@ MonoBehaviour:
     m_Bits: 128
   range: 30
   sightRange: 20
-  attackRange: 1
+  attackRange: 0.5
   playerInsight: 0
   PlayerInAttackrange: 0
-  boxCollider: {fileID: 0}
+  boxCollider: {fileID: 2029453762}
   state: 0
   timerCoolDownAttack: 0
   timerCoolKnockBack: 0
@@ -2924,6 +2924,10 @@ PrefabInstance:
       propertyPath: maxHealth
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 5557086500190871415, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5704995241827642597, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.76
@@ -3081,6 +3085,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!65 &2029453762 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 5557086500190871415, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
+  m_PrefabInstance: {fileID: 1958643352}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2089028924 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3008505894116145133, guid: d5b04920b9c2b324bbd2e9851b587e61, type: 3}

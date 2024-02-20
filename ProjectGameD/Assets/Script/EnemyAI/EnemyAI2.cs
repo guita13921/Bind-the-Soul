@@ -29,14 +29,11 @@ public class EnemyAI2 : MonoBehaviour{
 
     void Start(){
         state = State.Ready;
+        //boxCollider = GetComponent<BoxCollider>();
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindWithTag("Player");
         animator = GetComponent<Animator>();
         hp = GetComponent<Health>();
-    }
-
-    IEnumerator waiter(float x){
-        yield return new WaitForSecondsRealtime(x);
     }
 
     void Update(){
@@ -46,8 +43,9 @@ public class EnemyAI2 : MonoBehaviour{
         if (playerInsight && !PlayerInAttackrange && (state != State.KnockBack || state != State.Cooldown))Chase();
         if (playerInsight && PlayerInAttackrange && state == State.Ready)Attack();
         
+
         //Stop when player in attack range 
-        if(PlayerInAttackrange || state == State.Cooldown){
+        if(PlayerInAttackrange){
             animator.SetBool("InRange", true);
             agent.speed = 0f;
         }else{
@@ -57,6 +55,7 @@ public class EnemyAI2 : MonoBehaviour{
         //KnockBack
         if(state == State.KnockBack){
             KnockBack();
+            agent.speed = 0;
         }
 
         //KnockBack Time
@@ -70,12 +69,14 @@ public class EnemyAI2 : MonoBehaviour{
 
         //Attack CoolDown
         if (!timerReachedCoolDownAttack && state == State.Cooldown)timerCoolDownAttack += Time.deltaTime;
-        if (!timerReachedCoolDownAttack && timerCoolDownAttack > 2 && state == State.Cooldown){
+        if (!timerReachedCoolDownAttack && timerCoolDownAttack > 3 && state == State.Cooldown){
             Debug.Log("Done AttackCoolDown");
+            agent.speed = 4;
             state = State.Ready;
             animator.SetTrigger("Ready");
             timerCoolDownAttack = 0;
         }
+
     }
 
     void Chase(){
@@ -138,15 +139,15 @@ public class EnemyAI2 : MonoBehaviour{
     void OnTriggerEnter(Collider other){
         if(other.isTrigger && other.gameObject.CompareTag("PlayerSword")){
             state = State.KnockBack;
+            animator.SetTrigger("HIT!");
             print(other);
             hp.currentHealth -= damage;
         }
     }
 
     void KnockBack(){
-        agent.isStopped = true;
+        boxCollider.enabled = false;
         agent.transform.LookAt(player.transform);
-        animator.SetTrigger("HIT!");
     }
     
 }
