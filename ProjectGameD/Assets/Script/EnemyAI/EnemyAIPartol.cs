@@ -161,7 +161,7 @@ public class EnemyAIPartol : MonoBehaviour
         knockbackDirection.Normalize();
 
         // Apply knockback by adding force to the position
-        transform.position += knockbackDirection * 10f;
+        transform.position += knockbackDirection * 3f;
         }
     }
 }

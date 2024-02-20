@@ -19,9 +19,11 @@ public partial class PlayerControl
         if (Input.GetKeyDown(KeyCode.J))
         {
             isAttack = true;
+
         }
 
         if (
+
             animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")
             && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.7 ||        
                  animator.GetCurrentAnimatorStateInfo(0).IsName("SPAttack") ||
