@@ -8,22 +8,21 @@ public class PlayerWeapon : MonoBehaviour
     BoxCollider triggerBox;
 
     // Time to enable the trigger after the "J" key is pressed.
-    float triggerEnableTime = 0.5f;
+    float triggerEnableTime = 0.2f;
     float currentTriggerEnableTime = 0f;
 
     void Start()
     {
         triggerBox = GetComponent<BoxCollider>();
-        triggerBox.isTrigger = false; // Initially disable the trigger.
     }
 
     void Update()
     {
         // Check for input and enable the trigger accordingly.
-        HandleInput();
+        //HandleInput();
 
         // Update the timer if the trigger is enabled.
-        if (triggerBox.isTrigger)
+        /*if (triggerBox.isTrigger)
         {
             currentTriggerEnableTime -= Time.deltaTime;
 
@@ -32,7 +31,7 @@ public class PlayerWeapon : MonoBehaviour
             {
                 triggerBox.isTrigger = false;
             }
-        }
+        }*/
     }
 
     private void OnTriggerEnter(Collider other)
@@ -48,7 +47,7 @@ public class PlayerWeapon : MonoBehaviour
             }
         }
     }
-
+/*
     void HandleInput()
     {
         // Check if the "J" key is pressed.
@@ -58,5 +57,5 @@ public class PlayerWeapon : MonoBehaviour
             triggerBox.isTrigger = true;
             currentTriggerEnableTime = triggerEnableTime;
         }
-    }
+    }*/
 }

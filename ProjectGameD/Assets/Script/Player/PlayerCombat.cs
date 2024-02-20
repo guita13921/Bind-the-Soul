@@ -20,6 +20,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField]
     PlayerWeapon weapon;
     public SFX sfx;
+    [SerializeField] BoxCollider boxCollider;
 
 
     public PlayerCD playerCD;
@@ -105,4 +106,12 @@ public class PlayerCombat : MonoBehaviour
         comboCounter = 0;
         lastComboEnd = Time.time;
     }
+    void EnableAttack(){
+        boxCollider.enabled = true;
+    }
+
+    void DisableAttack(){
+        boxCollider.enabled = false;
+    }
+
 }

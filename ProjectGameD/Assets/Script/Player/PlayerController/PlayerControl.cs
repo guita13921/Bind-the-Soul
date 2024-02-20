@@ -75,4 +75,5 @@ public partial class PlayerControl : MonoBehaviour
             StartCoroutine(Dash());
         }
     }
+    
 }
