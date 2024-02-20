@@ -143,6 +143,7 @@ GameObject:
   - component: {fileID: 6065301410070953268}
   - component: {fileID: 327061196136792290}
   - component: {fileID: 5624728127324478884}
+  - component: {fileID: 5674700439624193831}
   m_Layer: 7
   m_Name: MC 1
   m_TagString: Player
@@ -208,7 +209,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dashTime: 0.5
   dashDistance: 2
-  movewhenATK: 0.085
+  movewhenATK: 0.002
   _rb: {fileID: 1874784457479824134}
   speedwhengethit: 3
   _speed: 5
@@ -293,6 +294,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 441fb0c152675f3439a82cdcb09cf5c7, type: 2}
   - {fileID: 11400000, guid: 112908a23d4524d4bab9d028a673b6ad, type: 2}
   weapon: {fileID: 2696507050185271829}
+  sfx: {fileID: 5674700439624193831}
   playerCD: {fileID: 5302614920654731987}
 --- !u!114 &327061196136792290
 MonoBehaviour:
@@ -321,6 +323,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: {fileID: 327061196136792290}
+--- !u!114 &5674700439624193831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 402067311283320090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3add3f78ea5edd048a04b57ddd72ace3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sword_SFX: {fileID: 4590729095715111799, guid: 885e07c4a5d6a584bbab018f65182ffa, type: 3}
 --- !u!1 &416914498964242594
 GameObject:
   m_ObjectHideFlags: 0
@@ -3114,8 +3129,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.2634215, y: 0.149584, z: 1.1610354}
-  m_Center: {x: -0.000004664647, y: 0.018801384, z: 0.74034077}
+  m_Size: {x: 0.5535927, y: 0.31726062, z: 1.3049726}
+  m_Center: {x: 0.025123, y: -0.002253, z: 0.81229377}
 --- !u!114 &2696507050185271829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3216,15 +3231,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8025063724416961254, guid: c4364f8d14dd61f4594c0c88e5005dfd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: 0.206
       objectReference: {fileID: 0}
     - target: {fileID: 8025063724416961254, guid: c4364f8d14dd61f4594c0c88e5005dfd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -0.709
       objectReference: {fileID: 0}
     - target: {fileID: 8025063724416961254, guid: c4364f8d14dd61f4594c0c88e5005dfd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 0.308
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
