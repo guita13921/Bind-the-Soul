@@ -1064,8 +1064,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4655139138601034}
+  - component: {fileID: 3382937182081225830}
   - component: {fileID: 95690985424869934}
-  - component: {fileID: 279086713581242357}
   - component: {fileID: 8187859467852289987}
   - component: {fileID: 8329633181545355670}
   - component: {fileID: 8574679816384964943}
@@ -1095,6 +1095,34 @@ Transform:
   - {fileID: 8932503994830402350}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3382937182081225830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349150361055734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e783849fe19e854bb11be3bd3bab4d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  range: 30
+  sightRange: 20
+  attackRange: 0.5
+  playerInsight: 0
+  PlayerInAttackrange: 0
+  boxCollider: {fileID: 153689304041550808}
+  state: 0
+  timerCoolDownAttack: 0
+  timerCoolKnockBack: 0
 --- !u!95 &95690985424869934
 Animator:
   serializedVersion: 5
@@ -1116,36 +1144,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &279086713581242357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1349150361055734}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b01dce91485c66243a8bc7961a3ae22e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  range: 30
-  sightRange: 10
-  attackRange: 1
-  current_delaytimeAttack: 0
-  delaytimeAttack: 0
-  current_delaytimeGetHit: 0
-  delaytimeGetHit: 0
-  boxCollider: {fileID: 153689304041550808}
-  isDead: 0
-  isHit: 0
-  delaytimeDead: 0
 --- !u!195 &8187859467852289987
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1203,7 +1201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adcf43b4f3b4d1f4d85699d886a6f815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 10
   currentHealth: 0
 --- !u!54 &4824409463187419449
 Rigidbody:
@@ -1737,7 +1735,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1.1709237, y: 0.2658719, z: 4.5810337}
   m_Center: {x: -0.0001792566, y: -0.0032390968, z: 1.6473356}
@@ -3007,7 +3005,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb2e5a17488f0064880b27660a93327c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 0}
+  cam: {fileID: 8230859199882736853}
 --- !u!1001 &4504105812222037462
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3136,5 +3134,10 @@ PrefabInstance:
 --- !u!224 &4106223003963827267 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 467794161220282773, guid: 5b71bf1515c724344bab4d5408014f27, type: 3}
+  m_PrefabInstance: {fileID: 4504105812222037462}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8230859199882736853 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5528219713055783171, guid: 5b71bf1515c724344bab4d5408014f27, type: 3}
   m_PrefabInstance: {fileID: 4504105812222037462}
   m_PrefabAsset: {fileID: 0}

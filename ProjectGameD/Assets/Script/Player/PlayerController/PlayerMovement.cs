@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public partial class PlayerControl
@@ -10,13 +11,15 @@ public partial class PlayerControl
 
     [SerializeField]
     private float movewhenATKduration_0to1 = 0.2f;
-
+ 
     private void Move(float speed)
     {
         _rb.MovePosition(
             transform.position
                 + transform.forward * _input.normalized.magnitude * speed * Time.deltaTime
         );
+    
+
     }
 
     private void MoveWhenATK()
@@ -51,4 +54,22 @@ public partial class PlayerControl
             }
         }
     }
+
+    private void WalkingSFX(){
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName("Run")){
+            if (!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+        
+        }else{
+            audioSource.Pause();
+
+        }
+    }
+
+
+
+
+
 }
