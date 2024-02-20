@@ -19,6 +19,8 @@ public class PlayerCombat : MonoBehaviour
 
     [SerializeField]
     PlayerWeapon weapon;
+    public SFX sfx;
+
 
     public PlayerCD playerCD;
 
@@ -52,6 +54,7 @@ public class PlayerCombat : MonoBehaviour
         {
             animator.runtimeAnimatorController = combo[comboCounter].animatorOV;
             animator.Play("Attack", 0, 0);
+            sfx.Slash();
             weapon.damage = combo[comboCounter].damage;
             comboCounter++;
 
