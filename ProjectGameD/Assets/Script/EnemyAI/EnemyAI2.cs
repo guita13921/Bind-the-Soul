@@ -43,6 +43,9 @@ public class EnemyAI2 : MonoBehaviour{
         if (playerInsight && !PlayerInAttackrange && (state != State.KnockBack || state != State.Cooldown))Chase();
         if (playerInsight && PlayerInAttackrange && state == State.Ready)Attack();
         
+        if(state == State.Ready){
+            agent.speed = 4; 
+        }
 
         //Stop when player in attack range 
         if(PlayerInAttackrange){
