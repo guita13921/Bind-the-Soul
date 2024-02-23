@@ -9,7 +9,7 @@ public partial class PlayerControl : MonoBehaviour
     private Rigidbody _rb;
 
     private Animator animator;
-        private AudioSource audioSource;
+    private AudioSource audioSource;
     private bool isDead;
     private Health health;
     private void Start()

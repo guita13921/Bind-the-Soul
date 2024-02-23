@@ -11,7 +11,7 @@ public class EnemyAI2 : MonoBehaviour{
     [SerializeField]LayerMask groundLayer,playerLayer;
     Vector3 destPoint;
     bool walkpointSet;
-    bool isDead;
+    [SerializeField]public bool isDead;
     [SerializeField] float range;
     [SerializeField]float sightRange,attackRange;
     [SerializeField] bool playerInsight,PlayerInAttackrange; //FIX to see 2 player
@@ -25,9 +25,13 @@ public class EnemyAI2 : MonoBehaviour{
     bool timerReachedCoolDownAttack = false;
     [SerializeField] float timerCoolKnockBack = 0;
     bool timerReachedCoolKnockBack = false;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField]Canvas bar;
 
 
     void Start(){
+        bar = GetComponentInChildren<Canvas>();
+        audioSource = GetComponent<AudioSource>();
         state = State.Ready;
         //boxCollider = GetComponent<BoxCollider>();
         agent = GetComponent<NavMeshAgent>();
@@ -47,6 +51,11 @@ public class EnemyAI2 : MonoBehaviour{
             agent.speed = 4; 
         }
 
+        if(isDead == true){
+            this.tag = "Untagged";
+            Dead();
+        }
+
         //Stop when player in attack range 
         if(PlayerInAttackrange){
             animator.SetBool("InRange", true);
@@ -63,7 +72,7 @@ public class EnemyAI2 : MonoBehaviour{
 
         //KnockBack Time
         if (!timerReachedCoolKnockBack && state == State.KnockBack)timerCoolKnockBack += Time.deltaTime;
-        if (!timerReachedCoolKnockBack && timerCoolKnockBack > 3 && state == State.KnockBack){
+        if (!timerReachedCoolKnockBack && timerCoolKnockBack > 1.5 && state == State.KnockBack){
             Debug.Log("Done KnockBack");
             state = State.Ready;
             animator.SetTrigger("Ready");
@@ -84,6 +93,7 @@ public class EnemyAI2 : MonoBehaviour{
 
     void Chase(){
         animator.SetTrigger("Chase");
+        WalkingSFX();
         agent.speed = 4;
         agent.SetDestination(player.transform.position);
     }
@@ -98,6 +108,7 @@ public class EnemyAI2 : MonoBehaviour{
     }
 
     void Dead(){
+        Destroy(bar.gameObject);
         state = State.Dead;
         animator.enabled = false;
         this.enabled = false;
@@ -153,4 +164,18 @@ public class EnemyAI2 : MonoBehaviour{
         agent.transform.LookAt(player.transform);
     }
     
+    private void WalkingSFX(){
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName("Run")){
+            if (!audioSource.isPlaying){
+                if(agent.speed >= 4){
+                    audioSource.pitch = 2.5f;
+                }
+                audioSource.Play();
+            }
+        }else{
+            audioSource.Pause();
+        }
+    }
+
+
 }

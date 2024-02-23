@@ -7,13 +7,13 @@ public class Health : MonoBehaviour
 {
     public float maxHealth;
     public float currentHealth;
-    EnemyAIPartol enemy;
+    [SerializeField] EnemyAI2 enemy;
 
     void Start()
     {
         currentHealth =1;
         currentHealth = maxHealth;
-        enemy = GetComponent<EnemyAIPartol>();
+        enemy = GetComponent<EnemyAI2>();
     }
 
     void Update()

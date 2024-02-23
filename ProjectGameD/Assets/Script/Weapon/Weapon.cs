@@ -12,13 +12,14 @@ public class Weapon : MonoBehaviour
         if (enemy != null)
         {
             enemy.health.currentHealth -= damage;
+            print("Enemy hit");
 
             if (enemy.health.currentHealth <= 0)
             {
                 if(enemy.gameObject.CompareTag("Player")){
 
                 }else{
-                Destroy(enemy.gameObject);
+                //Destroy(enemy.gameObject);
 
                 }
             }

@@ -145,6 +145,7 @@ GameObject:
   - component: {fileID: 5624728127324478884}
   - component: {fileID: 5674700439624193831}
   - component: {fileID: 4266446776978734904}
+  - component: {fileID: 7235355743056232594}
   m_Layer: 7
   m_Name: MC 1
   m_TagString: Player
@@ -294,7 +295,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c7203462f4f3b0e4f9a822d15927be32, type: 2}
   - {fileID: 11400000, guid: 441fb0c152675f3439a82cdcb09cf5c7, type: 2}
   - {fileID: 11400000, guid: 112908a23d4524d4bab9d028a673b6ad, type: 2}
-  weapon: {fileID: 0}
+  weapon: {fileID: 7133627107385242358}
   sfx: {fileID: 5674700439624193831}
   boxCollider: {fileID: 8850338505788250158}
   playerCD: {fileID: 5302614920654731987}
@@ -310,8 +311,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adcf43b4f3b4d1f4d85699d886a6f815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 200
   currentHealth: 0
+  enemy: {fileID: 0}
 --- !u!114 &5624728127324478884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,7 +353,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a6069d99d973e6d428da74d201ff718b, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.459
   m_Pitch: 1.5
   Loop: 1
   Mute: 0
@@ -435,6 +437,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7235355743056232594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 402067311283320090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ff178c3bdba5eb42bc13e5a1724579c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &416914498964242594
 GameObject:
   m_ObjectHideFlags: 0
@@ -3200,6 +3214,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1514878613845966, guid: ffab4f212461ca84f9f43c995ffc7a90, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8850338505788250158}
+    - targetCorrespondingSourceObject: {fileID: 1514878613845966, guid: ffab4f212461ca84f9f43c995ffc7a90, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7133627107385242358}
   m_SourcePrefab: {fileID: 100100000, guid: ffab4f212461ca84f9f43c995ffc7a90, type: 3}
 --- !u!1 &5612694115339149652 stripped
 GameObject:
@@ -3227,6 +3244,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5535927, y: 0.31726062, z: 1.3049726}
   m_Center: {x: 0.025123, y: -0.002253, z: 0.81229377}
+--- !u!114 &7133627107385242358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5612694115339149652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51a863d5d235d5b4fb9134a083e7e093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
 --- !u!4 &5616403697788146928 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4595058033197674, guid: ffab4f212461ca84f9f43c995ffc7a90, type: 3}
