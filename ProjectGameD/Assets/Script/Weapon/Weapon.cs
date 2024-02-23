@@ -15,7 +15,12 @@ public class Weapon : MonoBehaviour
 
             if (enemy.health.currentHealth <= 0)
             {
+                if(enemy.gameObject.CompareTag("Player")){
+
+                }else{
                 Destroy(enemy.gameObject);
+
+                }
             }
         }
     }

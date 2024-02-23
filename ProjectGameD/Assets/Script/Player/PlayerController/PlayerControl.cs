@@ -10,20 +10,20 @@ public partial class PlayerControl : MonoBehaviour
 
     private Animator animator;
         private AudioSource audioSource;
-
+    private bool isDead;
+    private Health health;
     private void Start()
     {
-
+        health = GetComponent<Health>();
         audioSource = GetComponent<AudioSource>();
-
         animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
+        if(health.currentHealth >0){
         GatherInput();
         WalkingSFX();
-
         if(!GotHit){
         Attack();
         if (
@@ -45,18 +45,14 @@ public partial class PlayerControl : MonoBehaviour
 
         }
     
-
-
-
-
-    
-        Reload();
+        Reload();}else{}
     }
 
     [SerializeField]float speedwhengethit = 1.5f;
 
     private void FixedUpdate()
     {   
+        if(health.currentHealth >0){
 
         if (!isAttack && !isDashing )
         {
@@ -74,6 +70,6 @@ public partial class PlayerControl : MonoBehaviour
         {
             StartCoroutine(Dash());
         }
+    }else{}
     }
-    
 }

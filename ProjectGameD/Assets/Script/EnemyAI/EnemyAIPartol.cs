@@ -44,6 +44,7 @@ public class EnemyAIPartol : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        isDead=false;
         boxCollider.enabled = false;
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindWithTag("Player");

@@ -11,6 +11,7 @@ public class Health : MonoBehaviour
 
     void Start()
     {
+        currentHealth =1;
         currentHealth = maxHealth;
         enemy = GetComponent<EnemyAIPartol>();
     }
@@ -21,6 +22,7 @@ public class Health : MonoBehaviour
         {
             enemy.isDead = true;
         }
-        else { }
+
+
     }
 }

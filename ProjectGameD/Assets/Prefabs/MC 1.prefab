@@ -294,8 +294,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c7203462f4f3b0e4f9a822d15927be32, type: 2}
   - {fileID: 11400000, guid: 441fb0c152675f3439a82cdcb09cf5c7, type: 2}
   - {fileID: 11400000, guid: 112908a23d4524d4bab9d028a673b6ad, type: 2}
-  weapon: {fileID: 2696507050185271829}
+  weapon: {fileID: 0}
   sfx: {fileID: 5674700439624193831}
+  boxCollider: {fileID: 8850338505788250158}
   playerCD: {fileID: 5302614920654731987}
 --- !u!114 &327061196136792290
 MonoBehaviour:
@@ -3199,9 +3200,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1514878613845966, guid: ffab4f212461ca84f9f43c995ffc7a90, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8850338505788250158}
-    - targetCorrespondingSourceObject: {fileID: 1514878613845966, guid: ffab4f212461ca84f9f43c995ffc7a90, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2696507050185271829}
   m_SourcePrefab: {fileID: 100100000, guid: ffab4f212461ca84f9f43c995ffc7a90, type: 3}
 --- !u!1 &5612694115339149652 stripped
 GameObject:
@@ -3223,25 +3221,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.5535927, y: 0.31726062, z: 1.3049726}
   m_Center: {x: 0.025123, y: -0.002253, z: 0.81229377}
---- !u!114 &2696507050185271829
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5612694115339149652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d82814dbe5f9504da5bdebd39888ce6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 0
 --- !u!4 &5616403697788146928 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4595058033197674, guid: ffab4f212461ca84f9f43c995ffc7a90, type: 3}
@@ -3258,6 +3243,10 @@ PrefabInstance:
     - target: {fileID: 7886761085579986923, guid: c4364f8d14dd61f4594c0c88e5005dfd, type: 3}
       propertyPath: m_Name
       value: PlayerCD
+      objectReference: {fileID: 0}
+    - target: {fileID: 7886761085579986923, guid: c4364f8d14dd61f4594c0c88e5005dfd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8025063724416961254, guid: c4364f8d14dd61f4594c0c88e5005dfd, type: 3}
       propertyPath: m_Pivot.x
