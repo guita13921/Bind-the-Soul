@@ -9,6 +9,7 @@ public class PlayerCombat : MonoBehaviour
 {
     public List<AttackSO> combo;
     public GameObject[] vfxPrefabs; // Array to hold references to VFX prefabs
+    public GameObject[] vfxSPs; // Array to hold references to VFX prefabs
 
     float lastClickedTime; //time betweeen attack in combo
     float lastComboEnd; //amount of time before player can do the next combo
@@ -65,7 +66,7 @@ public class PlayerCombat : MonoBehaviour
             GameObject vfxPrefab = vfxPrefabs[comboCounter]; // Use the same index as comboCounter
             Instantiate(vfxPrefab,parentObject);
 
-           }
+        }
             weapon.damage = combo[comboCounter].damage;
             comboCounter++;
 
@@ -76,10 +77,8 @@ public class PlayerCombat : MonoBehaviour
                 comboCounter = 0;
             }
             
-            // Spawn VFX
            
         }
-        //}
     }
 
     void SpecialAttack()
@@ -98,6 +97,8 @@ public class PlayerCombat : MonoBehaviour
 
         if (isSpecialAttackReady && Input.GetKeyDown(KeyCode.K))
         {
+            GameObject vfxSP = vfxSPs[0]; // Use the same index as comboCounter
+            Instantiate(vfxSP,parentObject);
             animator.Play("SPAttack", 0, 0);
             isSpecialAttackReady = false;
         }
