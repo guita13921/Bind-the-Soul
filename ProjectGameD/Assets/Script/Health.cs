@@ -9,6 +9,7 @@ public class Health : MonoBehaviour
     public float maxHealth;
     public float currentHealth;
     [SerializeField] EnemyAI2 enemy;
+
     void Start()
     {
         currentHealth =1;
@@ -20,7 +21,10 @@ public class Health : MonoBehaviour
     {
         if (currentHealth <= 0)
         {
-            enemy.isDead = true;
+            if(gameObject.name=="MC 1"){
+
+            }else{            enemy.isDead = true;
+}
         }
 
 

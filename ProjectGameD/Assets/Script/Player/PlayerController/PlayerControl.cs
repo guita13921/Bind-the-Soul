@@ -48,8 +48,9 @@ public partial class PlayerControl : MonoBehaviour
 
         }
     
-        Reload();
         }
+                Reload();
+
     }
 
     [SerializeField]float speedwhengethit = 1.5f;
