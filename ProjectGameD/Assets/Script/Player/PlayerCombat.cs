@@ -8,6 +8,8 @@ using UnityEngine.PlayerLoop;
 public class PlayerCombat : MonoBehaviour
 {
     public List<AttackSO> combo;
+    public GameObject[] vfxPrefabs; // Array to hold references to VFX prefabs
+
     float lastClickedTime; //time betweeen attack in combo
     float lastComboEnd; //amount of time before player can do the next combo
     int comboCounter;
@@ -21,6 +23,7 @@ public class PlayerCombat : MonoBehaviour
     PlayerWeapon weapon;
     public SFX sfx;
     [SerializeField] BoxCollider boxCollider;
+    public Transform parentObject; // The object inside which you want to spawn the new object
 
 
     public PlayerCD playerCD;
@@ -28,6 +31,7 @@ public class PlayerCombat : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+
     }
 
     // Update is called once per frame
@@ -56,6 +60,12 @@ public class PlayerCombat : MonoBehaviour
             animator.runtimeAnimatorController = combo[comboCounter].animatorOV;
             animator.Play("Attack", 0, 0);
             sfx.Slash();
+             if (vfxPrefabs != null && vfxPrefabs.Length > 0 )
+        {
+            GameObject vfxPrefab = vfxPrefabs[comboCounter]; // Use the same index as comboCounter
+            Instantiate(vfxPrefab,parentObject);
+
+           }
             weapon.damage = combo[comboCounter].damage;
             comboCounter++;
 
@@ -65,6 +75,9 @@ public class PlayerCombat : MonoBehaviour
             {
                 comboCounter = 0;
             }
+            
+            // Spawn VFX
+           
         }
         //}
     }
@@ -113,5 +126,7 @@ public class PlayerCombat : MonoBehaviour
     void DisableAttack(){
         boxCollider.enabled = false;
     }
+    
+
 
 }
