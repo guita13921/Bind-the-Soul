@@ -18,7 +18,7 @@ public class PlayerCombat : MonoBehaviour
     Animator animator;
 
     [SerializeField]
-    Weapon weapon;
+    PlayerWeapon weapon;
     public SFX sfx;
     [SerializeField] BoxCollider boxCollider;
 

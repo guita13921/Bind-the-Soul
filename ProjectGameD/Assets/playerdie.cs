@@ -19,7 +19,14 @@ public class playerdie : MonoBehaviour
         if (health.currentHealth <=0 && !hasDied)
         {
             animator.Play("die", 0, 0);
+            gameObject.tag="Untagged";
+            gameObject.layer=default;
             hasDied =true;
+        }
+         else if (hasDied && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+        {
+            // Lock the animation at the end
+            animator.enabled = false;
         }
     }
 

@@ -10,6 +10,7 @@ public partial class PlayerControl : MonoBehaviour
 
     private Animator animator;
     private AudioSource audioSource;
+    private CapsuleCollider capsuleCollider;
     private bool isDead;
     private Health health;
     private void Start()
@@ -17,11 +18,13 @@ public partial class PlayerControl : MonoBehaviour
         health = GetComponent<Health>();
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
+        capsuleCollider = GetComponent<CapsuleCollider>();
     }
 
     private void Update()
     {
         if(health.currentHealth >0){
+            Imframe();
         GatherInput();
         WalkingSFX();
         if(!GotHit){
@@ -45,7 +48,8 @@ public partial class PlayerControl : MonoBehaviour
 
         }
     
-        Reload();}else{}
+        Reload();
+        }
     }
 
     [SerializeField]float speedwhengethit = 1.5f;

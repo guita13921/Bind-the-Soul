@@ -5,57 +5,16 @@ using UnityEngine;
 public class PlayerWeapon : MonoBehaviour
 {
     public float damage;
-    BoxCollider triggerBox;
-
-    // Time to enable the trigger after the "J" key is pressed.
-    float triggerEnableTime = 0.2f;
-    float currentTriggerEnableTime = 0f;
-
-    void Start()
-    {
-        triggerBox = GetComponent<BoxCollider>();
-    }
-
-    void Update()
-    {
-        // Check for input and enable the trigger accordingly.
-        //HandleInput();
-
-        // Update the timer if the trigger is enabled.
-        /*if (triggerBox.isTrigger)
-        {
-            currentTriggerEnableTime -= Time.deltaTime;
-
-            // Disable the trigger after the specified time.
-            if (currentTriggerEnableTime <= 0.3)
-            {
-                triggerBox.isTrigger = false;
-            }
-        }*/
-    }
 
     private void OnTriggerEnter(Collider other)
     {
         var enemy = other.gameObject.GetComponent<enemy>();
-        if (enemy != null)
+        if (enemy != null )
         {
+            if(enemy.CompareTag("Enemy"))
             enemy.health.currentHealth -= damage;
 
-            if (enemy.health.currentHealth <= 0)
-            {
-                Destroy(enemy.gameObject);
-            }
         }
     }
-/*
-    void HandleInput()
-    {
-        // Check if the "J" key is pressed.
-        if (Input.GetKeyDown(KeyCode.J) ||Input.GetKeyDown(KeyCode.K))
-        {
-            // Enable the trigger and set the timer.
-            triggerBox.isTrigger = true;
-            currentTriggerEnableTime = triggerEnableTime;
-        }
-    }*/
+
 }

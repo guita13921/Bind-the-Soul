@@ -12,6 +12,13 @@ public partial class PlayerControl : MonoBehaviour
             GotHit = true;
         }
     }
+    private void Imframe(){
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName("GotHit")){
+             Physics.IgnoreCollision(GetComponent<Collider>(), FindObjectOfType<Weapon_Enemy>().GetComponent<Collider>(), true);
+        }else{
+            Physics.IgnoreCollision(GetComponent<Collider>(), FindObjectOfType<Weapon_Enemy>().GetComponent<Collider>(), false);
+        }
+    }
 
 
 }

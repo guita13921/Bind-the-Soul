@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class Weapon_Enemy : MonoBehaviour
 {
-    public float damage;
+     public float damage;
 
     private void OnTriggerEnter(Collider other)
     {
-        var player = other.gameObject.GetComponent<PlayerControl>();
-        if (player != null)
+        var enemy = other.gameObject.GetComponent<enemy>();
+        if (enemy != null)
         {
-            Debug.Log(damage);
+                if(enemy.gameObject.CompareTag("Player"))
+            enemy.health.currentHealth -= damage;
+        
+            
         }
     }
 }
