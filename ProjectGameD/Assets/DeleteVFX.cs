@@ -10,7 +10,7 @@ public class DeleteVFX : MonoBehaviour
     {
         particleSystem = GetComponent<ParticleSystem>();
         ParticleSystem.MainModule mainModule = particleSystem.main;
-        float duration = mainModule.duration ; // Calculate total duration
+        float duration = mainModule.duration  + mainModule.startDelay.constant; // Calculate total duration
         Invoke("DestroyGameObject", duration); // Destroy the GameObject after the duration
     }
 

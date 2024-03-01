@@ -15,7 +15,7 @@ public class PlayerCombat : MonoBehaviour
     float lastComboEnd; //amount of time before player can do the next combo
     int comboCounter;
 
-    float specialAttackCooldown = 5f;
+    [SerializeField] float specialAttackCooldown = 5f;
     float timeSinceLastSpecialAttack = 0f;
     bool isSpecialAttackReady = true;
     Animator animator;
@@ -37,7 +37,12 @@ public class PlayerCombat : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+
+    
     {
+        if(Input.GetKeyDown(KeyCode.Q) && Input.GetKeyDown(KeyCode.W)){
+            specialAttackCooldown = 1f;
+        }
         SpecialAttack();
         if (Input.GetKeyDown(KeyCode.J) && !animator.GetCurrentAnimatorStateInfo(0).IsName("GotHit"))
         {
