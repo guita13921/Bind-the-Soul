@@ -41,27 +41,19 @@ public class EnemyAI2 : MonoBehaviour{
     }
 
     void Update(){
+
+
         playerInsight = Physics.CheckSphere(transform.position, sightRange, playerLayer);
         PlayerInAttackrange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
-        if (!playerInsight && !PlayerInAttackrange && (state != State.KnockBack || state != State.Cooldown))Patrol();
-        if (playerInsight && !PlayerInAttackrange && (state != State.KnockBack || state != State.Cooldown))Chase();
+        if (!playerInsight && !PlayerInAttackrange && state != State.KnockBack && state != State.Cooldown)Patrol();
+        if (playerInsight && !PlayerInAttackrange && state != State.KnockBack && state != State.Cooldown)Chase();
         if (playerInsight && PlayerInAttackrange && state == State.Ready)Attack();
-        
-        if(state == State.Ready){
-            agent.speed = 4; 
-        }
 
-        if(isDead == true){
-            this.tag = "Untagged";
-            Dead();
-        }
-
-        //Stop when player in attack range 
         if(PlayerInAttackrange){
-            animator.SetBool("InRange", true);
-            agent.speed = 0f;
+            animator.SetBool("InAttackRange", true);
         }else{
-            animator.SetBool("InRange", false);
+            animator.SetBool("InAttackRange",false);
+            agent.speed = 4;
         }
 
         //KnockBack
@@ -79,21 +71,10 @@ public class EnemyAI2 : MonoBehaviour{
             timerCoolKnockBack = 0;
         }
 
-        //Attack CoolDown
-        if (!timerReachedCoolDownAttack && state == State.Cooldown)timerCoolDownAttack += Time.deltaTime;
-        if (!timerReachedCoolDownAttack && timerCoolDownAttack > 3 && state == State.Cooldown){
-            Debug.Log("Done AttackCoolDown");
-            agent.speed = 4;
-            state = State.Ready;
-            animator.SetTrigger("Ready");
-            timerCoolDownAttack = 0;
-        }
-
     }
 
     void Chase(){
         animator.SetTrigger("Chase");
-        WalkingSFX();
         agent.speed = 4;
         agent.SetDestination(player.transform.position);
     }
@@ -104,7 +85,7 @@ public class EnemyAI2 : MonoBehaviour{
         animator.SetInteger("AttackIndex", UnityEngine.Random.Range(0, 3));
         animator.SetTrigger("Attack");
         agent.transform.LookAt(player.transform);
-        state = State.Cooldown;
+        agent.speed = 0;
     }
 
     void Dead(){
@@ -153,7 +134,7 @@ public class EnemyAI2 : MonoBehaviour{
     void OnTriggerEnter(Collider other){
         if(other.isTrigger && other.gameObject.CompareTag("PlayerSword")){
             state = State.KnockBack;
-            animator.SetTrigger("HIT!");
+            animator.SetTrigger("gothit");
             print(other);
             hp.currentHealth -= damage;
         }
