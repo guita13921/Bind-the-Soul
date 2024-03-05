@@ -654,9 +654,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 789676235227867894, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
+      propertyPath: sfx
+      value: 
+      objectReference: {fileID: 845302056}
+    - target: {fileID: 789676235227867894, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
       propertyPath: damage
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 789676235227867894, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
+      propertyPath: parentObject
+      value: 
+      objectReference: {fileID: 549652215}
     - target: {fileID: 2539190708446043289, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
       propertyPath: cam
       value: 
@@ -724,7 +732,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5708768182427544135, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 845302056}
   m_SourcePrefab: {fileID: 100100000, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
 --- !u!114 &781040864 stripped
 MonoBehaviour:
@@ -737,6 +748,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e783849fe19e854bb11be3bd3bab4d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &845302050 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5708768182427544135, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
+  m_PrefabInstance: {fileID: 705697767}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &845302056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845302050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3add3f78ea5edd048a04b57ddd72ace3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sword_SFX: {fileID: 0}
+  SSword_SFX: {fileID: 0}
+  Hit_SFX: {fileID: 4590729095715111799, guid: 0eb6f80517d774e47880fbe03590921b, type: 3}
 --- !u!4 &1097983513 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3008505894116145133, guid: d5b04920b9c2b324bbd2e9851b587e61, type: 3}
