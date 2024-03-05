@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerWeapon : MonoBehaviour
 {
     public float damage;
+    public SFX sfx;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -12,6 +13,7 @@ public class PlayerWeapon : MonoBehaviour
         if (enemy != null )
         {
             if(enemy.CompareTag("Enemy"))
+            sfx.Hit();
             enemy.health.currentHealth -= damage;
 
         }

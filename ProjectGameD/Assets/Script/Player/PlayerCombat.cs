@@ -127,6 +127,8 @@ public class PlayerCombat : MonoBehaviour
             GameObject vfxPrefab = specialSKillVFX[0]; 
             Instantiate(vfxPrefab,parentObject);
             }
+                        sfx.SkillSlash();
+
             animator.Play("SPAttack", 0, 0);
             isSpecialAttackReady = false;
         }
