@@ -9,13 +9,13 @@ public class PlayerCombat : MonoBehaviour
 {
     public List<AttackSO> combo;
     public GameObject[] vfxPrefabs; // Array to hold references to VFX prefabs
-    public GameObject[] vfxSPs; // Array to hold references to VFX prefabs
+    public GameObject[] specialVfxPrefabs;
 
     float lastClickedTime; //time betweeen attack in combo
     float lastComboEnd; //amount of time before player can do the next combo
     int comboCounter;
 
-    [SerializeField] float specialAttackCooldown = 5f;
+    float specialAttackCooldown = 5f;
     float timeSinceLastSpecialAttack = 0f;
     bool isSpecialAttackReady = true;
     Animator animator;
@@ -25,8 +25,8 @@ public class PlayerCombat : MonoBehaviour
     public SFX sfx;
     [SerializeField] BoxCollider boxCollider;
     public Transform parentObject; // The object inside which you want to spawn the new object
-
-
+ 
+    bool normalmode =true;
     public PlayerCD playerCD;
 
     void Start()
@@ -38,11 +38,17 @@ public class PlayerCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
 
-    
+
     {
-        if(Input.GetKeyDown(KeyCode.Q) && Input.GetKeyDown(KeyCode.W)){
-            specialAttackCooldown = 1f;
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            if(normalmode){
+            normalmode =false;}else{
+                normalmode = true;
+            }
         }
+
+
         SpecialAttack();
         if (Input.GetKeyDown(KeyCode.J) && !animator.GetCurrentAnimatorStateInfo(0).IsName("GotHit"))
         {
@@ -68,10 +74,15 @@ public class PlayerCombat : MonoBehaviour
             sfx.Slash();
              if (vfxPrefabs != null && vfxPrefabs.Length > 0 )
         {
-            GameObject vfxPrefab = vfxPrefabs[comboCounter]; // Use the same index as comboCounter
+            if(normalmode){
+            GameObject vfxPrefab = vfxPrefabs[comboCounter]; 
             Instantiate(vfxPrefab,parentObject);
+            }else{
+            GameObject vfxPrefab = specialVfxPrefabs[comboCounter]; 
+            Instantiate(vfxPrefab,parentObject);
+            }
 
-        }
+           }
             weapon.damage = combo[comboCounter].damage;
             comboCounter++;
 
@@ -82,8 +93,10 @@ public class PlayerCombat : MonoBehaviour
                 comboCounter = 0;
             }
             
+            // Spawn VFX
            
         }
+        //}
     }
 
     void SpecialAttack()
@@ -102,8 +115,6 @@ public class PlayerCombat : MonoBehaviour
 
         if (isSpecialAttackReady && Input.GetKeyDown(KeyCode.K))
         {
-            GameObject vfxSP = vfxSPs[0]; // Use the same index as comboCounter
-            Instantiate(vfxSP,parentObject);
             animator.Play("SPAttack", 0, 0);
             isSpecialAttackReady = false;
         }
@@ -132,7 +143,7 @@ public class PlayerCombat : MonoBehaviour
     void DisableAttack(){
         boxCollider.enabled = false;
     }
-    
+   
 
 
 }

@@ -49,7 +49,7 @@ public partial class PlayerControl : MonoBehaviour
         }
     
         }
-                Reload();
+                //Reload();
 
     }
 
