@@ -11,6 +11,11 @@ public class PlayerCombat : MonoBehaviour
     public GameObject[] vfxPrefabs; // Array to hold references to VFX prefabs
     public GameObject[] specialVfxPrefabs;
 
+    public GameObject[] sKillVFX;
+        public GameObject[] specialSKillVFX;
+
+
+
     float lastClickedTime; //time betweeen attack in combo
     float lastComboEnd; //amount of time before player can do the next combo
     int comboCounter;
@@ -115,6 +120,13 @@ public class PlayerCombat : MonoBehaviour
 
         if (isSpecialAttackReady && Input.GetKeyDown(KeyCode.K))
         {
+            if(normalmode){
+            GameObject vfxPrefab = sKillVFX[0]; 
+            Instantiate(vfxPrefab,parentObject);
+            }else{
+            GameObject vfxPrefab = specialSKillVFX[0]; 
+            Instantiate(vfxPrefab,parentObject);
+            }
             animator.Play("SPAttack", 0, 0);
             isSpecialAttackReady = false;
         }
