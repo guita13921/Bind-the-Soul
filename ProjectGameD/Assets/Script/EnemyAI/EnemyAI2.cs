@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using Unity.VisualScripting;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -11,16 +12,16 @@ public class EnemyAI2 : MonoBehaviour{
     [SerializeField]LayerMask groundLayer,playerLayer;
     Vector3 destPoint;
     bool walkpointSet;
-    [SerializeField]public bool isDead;
     [SerializeField] float range;
     [SerializeField]float sightRange,attackRange;
     [SerializeField] bool playerInsight,PlayerInAttackrange; //FIX to see 2 player
     Animator animator;
     [SerializeField] BoxCollider boxCollider;
-    public enum State{Ready,Cooldown,KnockBack,Dead};
+    public enum State{Ready,Cooldown,KnockBack};
     [SerializeField] public State state;
     Health hp;
     float damage;
+    int speed = 2;
     [SerializeField] float timerCoolDownAttack = 0;
     bool timerReachedCoolDownAttack = false;
     [SerializeField] float timerCoolKnockBack = 0;
@@ -33,7 +34,6 @@ public class EnemyAI2 : MonoBehaviour{
         bar = GetComponentInChildren<Canvas>();
         audioSource = GetComponent<AudioSource>();
         state = State.Ready;
-        //boxCollider = GetComponent<BoxCollider>();
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindWithTag("Player");
         animator = GetComponent<Animator>();
@@ -41,45 +41,70 @@ public class EnemyAI2 : MonoBehaviour{
     }
 
     void Update(){
-
-
+        CheckState();
+        KnockBackTime();
+        CoolDownTime();
         playerInsight = Physics.CheckSphere(transform.position, sightRange, playerLayer);
         PlayerInAttackrange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
+        CheckPlayerInAttackrange();
         if (!playerInsight && !PlayerInAttackrange && state != State.KnockBack && state != State.Cooldown)Patrol();
         if (playerInsight && !PlayerInAttackrange && state != State.KnockBack && state != State.Cooldown)Chase();
         if (playerInsight && PlayerInAttackrange && state == State.Ready)Attack();
+    }
 
+    void CheckPlayerInAttackrange(){
         if(PlayerInAttackrange){
             animator.SetBool("InAttackRange", true);
         }else{
             animator.SetBool("InAttackRange",false);
-            agent.speed = 4;
+            agent.speed = speed;
         }
+    }
 
-        //KnockBack
+    void CheckState(){
         if(state == State.KnockBack){
             KnockBack();
             agent.speed = 0;
         }
+        
+        if(hp.currentHealth <= 0){
+            Dead();
+        }
+    }
 
-        //KnockBack Time
+    void CoolDownTime(){
+        if (!timerReachedCoolDownAttack && state == State.Cooldown) timerCoolDownAttack += Time.deltaTime;
+        if (!timerReachedCoolDownAttack && timerCoolDownAttack > 3 && state == State.Cooldown){
+            animator.SetBool("IsCoolDown",false);
+            //Debug.Log("Done CoolDown");
+            state = State.Ready;
+            animator.SetTrigger("Ready");
+            timerCoolDownAttack = 0;
+        }  
+
+    }
+
+    void KnockBackTime(){
         if (!timerReachedCoolKnockBack && state == State.KnockBack)timerCoolKnockBack += Time.deltaTime;
-        if (!timerReachedCoolKnockBack && timerCoolKnockBack > 1.5 && state == State.KnockBack){
-            Debug.Log("Done KnockBack");
+        if (!timerReachedCoolKnockBack && timerCoolKnockBack > 3 && state == State.KnockBack){
+            //Debug.Log("Done KnockBack");
             state = State.Ready;
             animator.SetTrigger("Ready");
             timerCoolKnockBack = 0;
-        }
+        }     
+    }
 
+    void KnockBack(){
+        boxCollider.enabled = false;
+        agent.transform.LookAt(player.transform);
     }
 
     void Chase(){
         animator.SetTrigger("Chase");
-        agent.speed = 4;
+        agent.speed = speed;
         agent.SetDestination(player.transform.position);
     }
 
-    
     void Attack(){
         agent.SetDestination(transform.position);
         animator.SetInteger("AttackIndex", UnityEngine.Random.Range(0, 3));
@@ -90,7 +115,6 @@ public class EnemyAI2 : MonoBehaviour{
 
     void Dead(){
         Destroy(bar.gameObject);
-        state = State.Dead;
         animator.enabled = false;
         this.enabled = false;
         agent.enabled = false;
@@ -129,6 +153,8 @@ public class EnemyAI2 : MonoBehaviour{
 
     void DisableAttack(){
         boxCollider.enabled = false;
+        state = State.Cooldown;
+        animator.SetBool("IsCoolDown",true);
     }
 
     void OnTriggerEnter(Collider other){
@@ -139,24 +165,5 @@ public class EnemyAI2 : MonoBehaviour{
             hp.currentHealth -= damage;
         }
     }
-
-    void KnockBack(){
-        boxCollider.enabled = false;
-        agent.transform.LookAt(player.transform);
-    }
-    
-    private void WalkingSFX(){
-        if(animator.GetCurrentAnimatorStateInfo(0).IsName("Run")){
-            if (!audioSource.isPlaying){
-                if(agent.speed >= 4){
-                    audioSource.pitch = 2.5f;
-                }
-                audioSource.Play();
-            }
-        }else{
-            audioSource.Pause();
-        }
-    }
-
 
 }
