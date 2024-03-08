@@ -21,7 +21,7 @@ public class EnemyAI2 : MonoBehaviour{
     [SerializeField] public State state;
     Health hp;
     float damage;
-    int speed = 2;
+    int speed = 4;
     [SerializeField] float timerCoolDownAttack = 0;
     bool timerReachedCoolDownAttack = false;
     [SerializeField] float timerCoolKnockBack = 0;
