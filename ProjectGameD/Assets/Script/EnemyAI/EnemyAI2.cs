@@ -28,6 +28,7 @@ public class EnemyAI2 : MonoBehaviour{
     bool timerReachedCoolKnockBack = false;
     [SerializeField] private AudioSource audioSource;
     [SerializeField]Canvas bar;
+    
 
 
     void Start(){
@@ -99,11 +100,13 @@ public class EnemyAI2 : MonoBehaviour{
         agent.transform.LookAt(player.transform);
     }
 
-    void Chase(){
+    void Chase()
+    {
         animator.SetTrigger("Chase");
         agent.speed = speed;
         agent.SetDestination(player.transform.position);
     }
+
 
     void Attack(){
         agent.SetDestination(transform.position);
