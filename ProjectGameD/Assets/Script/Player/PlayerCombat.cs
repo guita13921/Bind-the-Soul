@@ -15,6 +15,7 @@ public class PlayerCombat : MonoBehaviour
         public GameObject[] specialSKillVFX;
 
 
+        public GameObject[] qSkill;
 
     float lastClickedTime; //time betweeen attack in combo
     float lastComboEnd; //amount of time before player can do the next combo
@@ -59,6 +60,11 @@ public class PlayerCombat : MonoBehaviour
         {
             Attack();
         }
+        if (Input.GetKeyDown(KeyCode.Q) && !animator.GetCurrentAnimatorStateInfo(0).IsName("GotHit"))
+        {
+            Cast();
+        }
+
 
         ExitAttack();
     }
@@ -104,6 +110,12 @@ public class PlayerCombat : MonoBehaviour
         //}
     }
 
+    void Cast(){
+            animator.Play("CAST", 0, 0);
+            GameObject vfxPrefab = qSkill[0]; 
+            Instantiate(vfxPrefab,parentObject);
+
+    }
     void SpecialAttack()
     {
         if (!isSpecialAttackReady)

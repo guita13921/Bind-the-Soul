@@ -13,7 +13,7 @@ public class PlayerWeapon : MonoBehaviour
         if (enemy != null )
         {
             if(enemy.CompareTag("Enemy"))
-            sfx.Hit();
+            //sfx.Hit();
             enemy.health.currentHealth -= damage;
 
         }

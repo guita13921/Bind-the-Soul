@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 82534170}
   - component: {fileID: 82534169}
   - component: {fileID: 82534171}
+  - component: {fileID: 82534172}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -230,6 +231,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53ba9d3fbfcdbd6469b9fb66f258c8e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &82534172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82534168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1001 &204286376
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -559,6 +583,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6065301410070953268, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
+      propertyPath: qSkill.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065301410070953268, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
+      propertyPath: qSkill.Array.data[0]
+      value: 
+      objectReference: {fileID: 5213626545946447047, guid: c172e24b27f84af4f8d0313e4459534d, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -665,6 +697,10 @@ PrefabInstance:
       propertyPath: parentObject
       value: 
       objectReference: {fileID: 549652215}
+    - target: {fileID: 995016214457818518, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2539190708446043289, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
       propertyPath: cam
       value: 
@@ -676,6 +712,10 @@ PrefabInstance:
     - target: {fileID: 3321987804515431244, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4162415663098676704, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
+      propertyPath: maxHealth
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 4369743012562203961, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
       propertyPath: m_Radius
