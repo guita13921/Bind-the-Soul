@@ -976,6 +976,7 @@ GameObject:
   - component: {fileID: 3097007316549746177}
   - component: {fileID: 3645383605143169335}
   - component: {fileID: 7109355174082946064}
+  - component: {fileID: 5520024959781464246}
   m_Layer: 0
   m_Name: skulla
   m_TagString: Enemy
@@ -1034,6 +1035,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boxCollider: {fileID: 6226358919985901405}
+--- !u!114 &5520024959781464246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2427747042136417467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c6734b7f02a43f4eb5215471b05ac9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2688641568775720832
 GameObject:
   m_ObjectHideFlags: 0
@@ -1149,7 +1162,7 @@ MonoBehaviour:
     m_Bits: 128
   range: 50
   sightRange: 30
-  attackRange: 1
+  attackRange: 3
   playerInsight: 0
   PlayerInAttackrange: 0
   animator: {fileID: 0}
@@ -1194,7 +1207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adcf43b4f3b4d1f4d85699d886a6f815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 100
   currentHealth: 0
 --- !u!114 &4187129573765013448
 MonoBehaviour:
@@ -1851,8 +1864,8 @@ Transform:
   m_GameObject: {fileID: 3952553113470874861}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.85, z: 1.71}
-  m_LocalScale: {x: 0.28273, y: 2.0328, z: 4.610162}
+  m_LocalPosition: {x: 0, y: 0.85, z: 2.798}
+  m_LocalScale: {x: 0.28273, y: 2.0328, z: 6}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6608837985856686908}
@@ -1899,6 +1912,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
+  sfx: {fileID: 0}
+  vfxPrefabs: {fileID: 0}
+  parentObject: {fileID: 0}
+  blood: {fileID: 0}
 --- !u!1 &4544232996004602708
 GameObject:
   m_ObjectHideFlags: 0

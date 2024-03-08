@@ -559,11 +559,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 420876848046415824, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 420876848046415824, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2539190708446043289, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
       propertyPath: cam
@@ -571,11 +571,11 @@ PrefabInstance:
       objectReference: {fileID: 2089028924}
     - target: {fileID: 3321987804515431244, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3321987804515431244, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5704995241827642597, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -623,7 +623,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5708440254463499609, guid: 7e5e28da599054c4ebf30e9f3e640bc0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1405,6 +1405,14 @@ PrefabInstance:
       propertyPath: weapon
       value: 
       objectReference: {fileID: 511849213}
+    - target: {fileID: 6065301410070953268, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
+      propertyPath: qSkill.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065301410070953268, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
+      propertyPath: qSkill.Array.data[0]
+      value: 
+      objectReference: {fileID: 5213626545946447047, guid: c172e24b27f84af4f8d0313e4459534d, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1416,23 +1424,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1307488939}
   m_SourcePrefab: {fileID: 100100000, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
---- !u!1 &2037046407 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2427747042136417467, guid: 425e49b2f01c03c44a87f54c030b3688, type: 3}
-  m_PrefabInstance: {fileID: 6035116426183558750}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2037046411
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2037046407}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c6734b7f02a43f4eb5215471b05ac9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &2089028924 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3008505894116145133, guid: d5b04920b9c2b324bbd2e9851b587e61, type: 3}
@@ -1458,14 +1449,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlyEnemy
       objectReference: {fileID: 0}
-    - target: {fileID: 2743053519421347597, guid: 425e49b2f01c03c44a87f54c030b3688, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3818366779553856658, guid: 425e49b2f01c03c44a87f54c030b3688, type: 3}
-      propertyPath: attackRange
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 4609210145432182494, guid: 425e49b2f01c03c44a87f54c030b3688, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1473,14 +1456,6 @@ PrefabInstance:
     - target: {fileID: 4609210145432182494, guid: 425e49b2f01c03c44a87f54c030b3688, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5929689098932858540, guid: 425e49b2f01c03c44a87f54c030b3688, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5929689098932858540, guid: 425e49b2f01c03c44a87f54c030b3688, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 2.798
       objectReference: {fileID: 0}
     - target: {fileID: 6608837985856686908, guid: 425e49b2f01c03c44a87f54c030b3688, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1525,10 +1500,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2427747042136417467, guid: 425e49b2f01c03c44a87f54c030b3688, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2037046411}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 425e49b2f01c03c44a87f54c030b3688, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
