@@ -32,7 +32,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] BoxCollider boxCollider;
     public Transform parentObject; // The object inside which you want to spawn the new object
  
-    bool normalmode =true;
+    [SerializeField] public bool normalmode =true;
     public PlayerCD playerCD;
 
     void Start()

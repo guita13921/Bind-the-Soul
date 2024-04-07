@@ -10,20 +10,25 @@ public class TriggerSpawn : MonoBehaviour
     public int BaseNumberOfPointToSpawn;
     public int NumberOfWaveToSpawn;
     public int numberOfMonster;
+    public List<GameObject> nextstage;
 
     void Start()
     {
+        nextstage[0].SetActive(false);
+        nextstage[1].SetActive(false);
         SelectSpawn();
     }
 
     void Update()
     {
         numberOfMonster = GameObject.FindGameObjectsWithTag("Enemy").Length;
-        if (NumberOfWaveToSpawn != 0 && numberOfMonster == 0)
-        {
+        if (NumberOfWaveToSpawn != 0 && numberOfMonster == 0){
             alreadyRandom.Clear();
             SelectSpawn();
             NumberOfWaveToSpawn -= 1;
+        }else if(NumberOfWaveToSpawn == 0 && numberOfMonster == 0){
+            nextstage[0].SetActive(true);
+            nextstage[1].SetActive(true);
         }
     }
 

@@ -7,7 +7,6 @@ public class Enemyflash : MonoBehaviour
     public SkinnedMeshRenderer skinnedMeshRenderer;
     public Material newMaterial;
     private Material[] originalMaterials;
-    private bool isOriginalMaterial = true;
     public Animator animator; // Reference to the Animator component on another object
 
     void Start()
