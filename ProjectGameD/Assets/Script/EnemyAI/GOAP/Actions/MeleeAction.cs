@@ -19,21 +19,25 @@ namespace EnemyAI.GOAP.Actions
             data.Timer = AttackConfig.AttackDelay;
         }
 
-        public override ActionRunState Perform(IMonoAgent agent, AttackData data, ActionContext context)
-        {
+        public override ActionRunState Perform(IMonoAgent agent, AttackData data, ActionContext context){
+            if (data.DelayTimer > 0){
+                data.DelayTimer -= context.DeltaTime;
+                return ActionRunState.Continue;
+            }
+        
             data.Timer -= context.DeltaTime;
-
+        
             bool shouldAttack = data.Target != null &&
                                 Vector3.Distance(data.Target.Position, agent.transform.position) <=
                                 AttackConfig.MeleeAttackRadius;
+        
             data.Animator.SetBool(AttackData.ATTACK, shouldAttack);
-
-            if (shouldAttack)
-            {
+        
+            if (shouldAttack){
                 agent.transform.LookAt(data.Target.Position);
             }
-
-            return data.Timer > 0 ? ActionRunState.Continue : ActionRunState.Stop;
+            
+            return (data.Timer > 0 || data.DelayTimer > 0) ? ActionRunState.Continue : ActionRunState.Stop;
         }
 
         public override void End(IMonoAgent agent, AttackData data)
@@ -44,6 +48,15 @@ namespace EnemyAI.GOAP.Actions
         public void Inject(DependencyInjector injector)
         {
             AttackConfig = injector.AttackConfig;
+        }
+
+        
+        void EnableAttack(AttackData data){
+            data.boxCollider.enabled = true;
+        }
+
+        void DisableAttack(AttackData data){
+            data.boxCollider.enabled = false;
         }
     }
 }

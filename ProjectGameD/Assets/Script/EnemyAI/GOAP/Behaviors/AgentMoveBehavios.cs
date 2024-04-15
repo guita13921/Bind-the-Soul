@@ -13,13 +13,17 @@ namespace EnemyAI.GOAP.Behaviors
         private Animator Animator;
         private AgentBehaviour AgentBehavior;
         private ITarget CurrentTarget;
+        [SerializeField]private CapsuleCollider capsuleCollider;
+        [SerializeField]private BoxCollider boxCollider;
         [SerializeField] private float MinMoveDistance = 0.25f;
 
         private Vector3 LastPosition;
         private static readonly int WALK = Animator.StringToHash("Walk");
+        private static readonly int STUNT = Animator.StringToHash("Stunt");
 
         private void Awake()
         {
+            capsuleCollider = GetComponent<CapsuleCollider>();
             NavMeshAgent = GetComponent<NavMeshAgent>();
             Animator = GetComponent<Animator>();
             AgentBehavior = GetComponent<AgentBehaviour>();
@@ -64,6 +68,22 @@ namespace EnemyAI.GOAP.Behaviors
             }
             
             Animator.SetBool(WALK, NavMeshAgent.velocity.magnitude > 0.1f);
+        }
+
+        void EnableAttack(){
+            boxCollider.enabled = true;
+        }
+
+        void DisableAttack(){
+            boxCollider.enabled = false;
+        }
+
+        void OnTriggerEnter(Collider other){
+            if(other.isTrigger && other.gameObject.CompareTag("PlayerSword")){
+                Animator.SetBool(STUNT, true);
+                boxCollider.enabled = false;
+                print(other);
+            }
         }
     }
 }
