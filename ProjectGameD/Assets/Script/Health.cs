@@ -16,13 +16,6 @@ public class Health : MonoBehaviour
 
     void Update()
     {
-        if (currentHealth <= 0){
-            if(gameObject.name=="MC 1"){
-
-            }else{            
-
-            }
-        }
-
+        
     }
 }

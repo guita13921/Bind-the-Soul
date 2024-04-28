@@ -13,41 +13,55 @@ public class EnemyAI3 : MonoBehaviour{
     NavMeshAgent agent;
     [SerializeField] CapsuleCollider caps;
     [SerializeField]LayerMask groundLayer,playerLayer;
+
     //Walk Var
     Vector3 destPoint;
     bool walkpointSet;
     [SerializeField] float range;
     [SerializeField]float sightRange,attackRange;
     [SerializeField] bool playerInsight,PlayerInAttackrange;
+
     //Animatotion var
     Animator animator;
     [SerializeField] BoxCollider boxCollider;
+
     //State Var
-    public enum State{Ready,Cooldown,KnockBack};
+    public enum State{Ready,Cooldown,KnockBack,Dead};
     [SerializeField] public State state;
-    int speed = 4;
+    int speed = 3;
+
     //CoolDown var
     [SerializeField] float timerCoolDownAttack = 0;
     bool timerReachedCoolDownAttack = false;
     [SerializeField] float timerCoolKnockBack = 0;
     bool timerReachedCoolKnockBack = false;
 
+    //Heath and Canvas
+    [SerializeField]Canvas bar;
+    [SerializeField] EnemyHealth health;
+    [SerializeField] PlayerWeapon playerWeapon;
+
     void Start(){
+        playerWeapon = GameObject.Find("PlayerSwordHitbox").GetComponent<PlayerWeapon>();
         state = State.Ready;
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindWithTag("Player");
         animator = GetComponent<Animator>();
+        health = GetComponent<EnemyHealth>();
     }
 
     void Update(){
-        AnimationCheckState();
-        CooldownKnockBackTime();
-        CoolDownAttaickTime();
-        playerInsight = Physics.CheckSphere(transform.position, sightRange, playerLayer);
-        PlayerInAttackrange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
-        if (!playerInsight && !PlayerInAttackrange && state != State.KnockBack && state != State.Cooldown)Patrol();
-        if (playerInsight && !PlayerInAttackrange && state != State.KnockBack && state != State.Cooldown)Chase();
-        if (playerInsight && PlayerInAttackrange && state == State.Ready)Attack();
+        CheckHealth();
+        if(state != State.Dead){
+            AnimationCheckState();
+            CooldownKnockBackTime();
+            CoolDownAttaickTime();
+            playerInsight = Physics.CheckSphere(transform.position, sightRange, playerLayer);
+            PlayerInAttackrange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
+            if (!playerInsight && !PlayerInAttackrange && state != State.KnockBack && state != State.Cooldown)Patrol();
+            if (playerInsight && !PlayerInAttackrange && state != State.KnockBack && state != State.Cooldown)Chase();
+            if (playerInsight && PlayerInAttackrange && state == State.Ready)Attack();
+        }
     }
 
     void AnimationCheckState(){
@@ -68,10 +82,16 @@ public class EnemyAI3 : MonoBehaviour{
         }
     }
 
+    void CheckHealth(){
+        if(health.GetCurrentHealth() <= 0 && state != State.Dead){
+            Dead();
+        }
+    }
+
 
     void CoolDownAttaickTime(){
         if (!timerReachedCoolDownAttack && state == State.Cooldown) timerCoolDownAttack += Time.deltaTime;
-        if (!timerReachedCoolDownAttack && timerCoolDownAttack > 2 && state == State.Cooldown){
+        if (!timerReachedCoolDownAttack && timerCoolDownAttack > 4 && state == State.Cooldown){
             agent.speed = speed;
             state = State.Ready;
             timerCoolDownAttack = 0;
@@ -107,11 +127,10 @@ public class EnemyAI3 : MonoBehaviour{
     }
 
     void Dead(){
-        animator.enabled = false;
-        this.enabled = false;
+        state = State.Dead;
+        Destroy(bar.gameObject);
         agent.enabled = false;
-        boxCollider.enabled = false;
-        this.tag = "Untagged";
+        animator.enabled = false;
     }
 
     void Patrol(){
@@ -161,6 +180,7 @@ public class EnemyAI3 : MonoBehaviour{
 
     void OnTriggerEnter(Collider other){
         if(other.isTrigger && other.gameObject.CompareTag("PlayerSword")){
+            health.CalculateDamage(playerWeapon.damage);
             KnockBack();
         }
     }
