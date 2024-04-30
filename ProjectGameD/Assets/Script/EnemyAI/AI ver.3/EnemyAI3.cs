@@ -127,10 +127,14 @@ public class EnemyAI3 : MonoBehaviour{
     }
 
     void Dead(){
-        state = State.Dead;
+        if(state == State.Dead){
+            return;
+        }else{
+            state = State.Dead;
+        }
         Destroy(bar.gameObject);
         agent.enabled = false;
-        animator.enabled = false;
+        animator.SetBool("Death",true);
     }
 
     void Patrol(){
