@@ -19,57 +19,63 @@ public partial class PlayerControl
         if (Input.GetKeyDown(KeyCode.J))
         {
             isAttack = true;
-
         }
 
+        bool animtorAttack = animator.GetCurrentAnimatorStateInfo(0).IsName("Attack");
+        float currentAnimtortime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+
         if (
-
-            animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")
-            && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.7 ||        
-                 animator.GetCurrentAnimatorStateInfo(0).IsName("SPAttack") ||
-                 animator.GetCurrentAnimatorStateInfo(0).IsName("GotHit")
-                 
-
+            animtorAttack && currentAnimtortime >= 0.7
+            || animator.GetCurrentAnimatorStateInfo(0).IsName("SPAttack")
+            || animator.GetCurrentAnimatorStateInfo(0).IsName("GotHit")
         )
         {
             isAttack = false;
         }
-        else if (
-            animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")
-            && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.7
-        )
+        else if (animtorAttack && currentAnimtortime < 0.7)
         {
             isAttack = true;
         }
         MoveWhenATK();
 
-        if (
-            animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")
-            && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7
-        )
+        if (animtorAttack && currentAnimtortime > 0.7)
         {
             isAttack = false;
         }
     }
 
-        
-
     IEnumerator Dash()
     {
         isDashing = true;
-        float startTime = Time.time;
+        animator.Play("Dash", 0, 0);
+        bool isCollide = false;
+        // Calculate the direction to dash in once, so we avoid issues if the character rotates
+        Vector3 dashDirection = transform.forward.normalized;
 
-        while (Time.time < startTime + dashTime)
+        while (animator.GetCurrentAnimatorStateInfo(0).IsName("Dash"))
         {
-            Vector3 dashMovement = transform.forward * dashDistance * Time.deltaTime;
+            // Move the character along the dash direction with collision detection
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, dashDirection, out hit, 1f))
+            {
+                // If hit an object with the "FF" tag, stop dashing immediately
+                if (hit.collider.gameObject.tag == "DD")
+                {
+                    isCollide = true;
+                    Debug.Log("gg");
+                }
+            }
+            if (!isCollide)
+            {
+                // Otherwise, move by the remaining distance or time
+                Vector3 dashMovement = dashDirection * (dashDistance / dashTime) * Time.deltaTime;
 
-            transform.position += dashMovement;
+                transform.position += dashMovement;
+            }
 
             yield return null;
-
-            isDashing = true;
         }
 
-        isDashing = false;
+        isDashing = false; // Reset dashing state when done
     }
 }

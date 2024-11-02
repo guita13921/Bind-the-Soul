@@ -13,6 +13,7 @@ public partial class PlayerControl : MonoBehaviour
     private CapsuleCollider capsuleCollider;
     private bool isDead;
     private Health health;
+
     private void Start()
     {
         health = GetComponent<Health>();
@@ -23,58 +24,62 @@ public partial class PlayerControl : MonoBehaviour
 
     private void Update()
     {
-        if(health.currentHealth >0){
-            Imframe();
-        GatherInput();
-        WalkingSFX();
-        if(!GotHit){
-        Attack();
-        if (
-            !animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")
-            || (
-                animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")
-                && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.8
-            )
-        )
+        if (health.currentHealth > 0)
         {
-            Look();
-        }
-        } 
+            Imframe();
+            GatherInput();
+            WalkingSFX();
 
-        if(animator.GetCurrentAnimatorStateInfo(0).IsName("GotHit")){
-            GotHit = true;
-        }else{
-            GotHit = false;
+            if (!GotHit && !isDashing)
+            {
+                Attack();
+                if (
+                    !animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")
+                    || (
+                        animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")
+                        && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.8
+                    )
+                )
+                {
+                    Look();
+                }
+            }
 
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("GotHit"))
+            {
+                GotHit = true;
+            }
+            else
+            {
+                GotHit = false;
+            }
         }
-    
-        }
-                //Reload();
-
+        //Reload();
     }
 
-    [SerializeField]float speedwhengethit = 1.5f;
+    [SerializeField]
+    float speedwhengethit = 1.5f;
 
     private void FixedUpdate()
-    {   
-        if(health.currentHealth >0){
-
-        if (!isAttack && !isDashing )
+    {
+        if (health.currentHealth > 0)
         {
-            Move(_speed);
-             
-        }
+            if (!isAttack && !isDashing)
+            {
+                Move(_speed);
+            }
 
-        if(GotHit){
-            Look();
-            Move(speedwhengethit);
+            if (GotHit)
+            {
+                Look();
+                Move(speedwhengethit);
+            }
 
+            if (Input.GetKey(KeyCode.L) && !isDashing)
+            {
+                StartCoroutine(Dash());
+            }
         }
-
-        if (Input.GetKey(KeyCode.L))
-        {
-            StartCoroutine(Dash());
-        }
-    }else{}
+        else { }
     }
 }

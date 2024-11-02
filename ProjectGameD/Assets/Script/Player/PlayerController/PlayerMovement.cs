@@ -1,7 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public partial class PlayerControl
+public partial class PlayerControl : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 3.5f;
@@ -11,15 +11,18 @@ public partial class PlayerControl
 
     [SerializeField]
     private float movewhenATKduration_0to1 = 0.2f;
- 
+
+    private void Awake()
+    {
+        _rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
+    }
+
     private void Move(float speed)
     {
-        _rb.MovePosition(
-            transform.position
-                + transform.forward * _input.normalized.magnitude * speed * Time.deltaTime
-        );
-    
-
+        Vector3 movement = transform.forward * _input.normalized.magnitude * speed * Time.deltaTime;
+        _rb.MovePosition(_rb.position + movement);
     }
 
     private void MoveWhenATK()
@@ -29,7 +32,8 @@ public partial class PlayerControl
             && animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")
         )
         {
-            _rb.MovePosition(transform.position + transform.forward * movewhenATK);
+            Vector3 attackMovement = transform.forward * _speed * Time.deltaTime; // Use _speed or another attack-specific speed
+            _rb.MovePosition(_rb.position + attackMovement);
         }
     }
 
@@ -55,21 +59,18 @@ public partial class PlayerControl
         }
     }
 
-    private void WalkingSFX(){
-        if(animator.GetCurrentAnimatorStateInfo(0).IsName("Run")){
+    private void WalkingSFX()
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))
+        {
             if (!audioSource.isPlaying)
             {
                 audioSource.Play();
             }
-        
-        }else{
+        }
+        else
+        {
             audioSource.Pause();
-
         }
     }
-
-
-
-
-
 }
