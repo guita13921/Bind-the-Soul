@@ -3,15 +3,9 @@ using UnityEngine;
 
 public partial class PlayerControl
 {
-    [SerializeField]
-    private float dashTime = 0.5f;
-
-    [SerializeField]
-    private float dashDistance = 2f;
     private bool isAttack = false;
     private bool isDashing = false;
 
-    [SerializeField]
     private float movewhenATK = 0.185f;
 
     private void Attack()
@@ -44,38 +38,79 @@ public partial class PlayerControl
         }
     }
 
+    [SerializeField]
+    private float dashDistance = 2f; // Total distance to dash
+
+    [SerializeField]
+    private float dashTime = 0.5f;
+
+    public GameObject prefabToInstantiate; // Assign your prefab in the inspector
+    private Vector3 spawnPosition; // Set this to the desired spawn position
+
+    public DashCheck dashCheck; // Assign in inspector
+
     IEnumerator Dash()
     {
         isDashing = true;
-        animator.Play("Dash", 0, 0);
-        bool isCollide = false;
-        // Calculate the direction to dash in once, so we avoid issues if the character rotates
         Vector3 dashDirection = transform.forward.normalized;
+        float distanceTraveled = 0f;
+        animator.Play("Dash");
+        spawnPosition = transform.position + dashDirection * dashDistance;
+        bool CheckForCollision = false;
+        dashCheck.SetCollisionState(false);
+        Debug.Log(dashCheck.willCollide);
 
-        while (animator.GetCurrentAnimatorStateInfo(0).IsName("Dash"))
+        GameObject instantiatedObject = Instantiate(
+            prefabToInstantiate,
+            spawnPosition,
+            Quaternion.identity
+        );
+
+        yield return null; // Allows one frame to pass
+        Debug.Log(dashCheck.willCollide);
+
+        if (!dashCheck.willCollide)
         {
-            // Move the character along the dash direction with collision detection
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, dashDirection, out hit, 1f))
-            {
-                // If hit an object with the "FF" tag, stop dashing immediately
-                if (hit.collider.gameObject.tag == "DD")
-                {
-                    isCollide = true;
-                    Debug.Log("gg");
-                }
-            }
-            if (!isCollide)
-            {
-                // Otherwise, move by the remaining distance or time
-                Vector3 dashMovement = dashDirection * (dashDistance / dashTime) * Time.deltaTime;
+            Debug.Log("not hit");
+            Physics.IgnoreLayerCollision(7, 9, true);
+        }
 
+        while (distanceTraveled < dashDistance)
+        {
+            CheckForCollision = CheckForCollisions();
+            float dashStep = (dashDistance / dashTime) * Time.deltaTime;
+            Vector3 dashMovement = dashDirection * dashStep;
+
+            if (!CheckForCollision || !dashCheck.willCollide)
+            {
                 transform.position += dashMovement;
             }
 
+            distanceTraveled += dashStep;
+
             yield return null;
         }
+        Physics.IgnoreLayerCollision(7, 9, false);
 
-        isDashing = false; // Reset dashing state when done
+        // Ensure the dash animation ends
+        animator.Play("Idle");
+        isDashing = false;
+    }
+
+    private bool CheckForCollisions()
+    {
+        // Example: Use a sphere overlap check or a raycast to check for collisions
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 1f);
+
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.CompareTag("DD"))
+            {
+                Debug.Log("Collided during dash");
+                return true; // Collision detected
+            }
+        }
+
+        return false; // No collision detected
     }
 }
