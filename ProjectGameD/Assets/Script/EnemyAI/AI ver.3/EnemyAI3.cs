@@ -28,13 +28,16 @@ public class EnemyAI3 : MonoBehaviour{
     //State Var
     public enum State{Ready,Cooldown,KnockBack,Dead};
     [SerializeField] public State state;
-    int speed = 3;
+    int speed = 1; 
 
     //CoolDown var
     [SerializeField] float timerCoolDownAttack = 0;
     bool timerReachedCoolDownAttack = false;
     [SerializeField] float timerCoolKnockBack = 0;
     bool timerReachedCoolKnockBack = false;
+    
+    private float KnockBackTime;
+    private float CoolDownAttack;
 
     //Heath and Canvas
     [SerializeField]Canvas bar;
@@ -48,6 +51,12 @@ public class EnemyAI3 : MonoBehaviour{
         player = GameObject.FindWithTag("Player");
         animator = GetComponent<Animator>();
         health = GetComponent<EnemyHealth>();
+    }
+
+    public void SetStat(float IN_KnockBackTime, float IN_CoolDownAttack)
+    {
+        KnockBackTime = IN_KnockBackTime;
+        CoolDownAttack = IN_CoolDownAttack;
     }
 
     void Update(){
@@ -88,20 +97,42 @@ public class EnemyAI3 : MonoBehaviour{
         }
     }
 
-
+    /*
     void CoolDownAttaickTime(){
         if (!timerReachedCoolDownAttack && state == State.Cooldown) timerCoolDownAttack += Time.deltaTime;
-        if (!timerReachedCoolDownAttack && timerCoolDownAttack > 4 && state == State.Cooldown){
+        if (!timerReachedCoolDownAttack && timerCoolDownAttack > 4 && state == State.Cooldown){ //#############
             agent.speed = speed;
             state = State.Ready;
             timerCoolDownAttack = 0;
         }  
 
     }
+    
 
     private void CooldownKnockBackTime(){
         if (!timerReachedCoolKnockBack && state == State.KnockBack)timerCoolKnockBack += Time.deltaTime;
-        if (!timerReachedCoolKnockBack && timerCoolKnockBack > 2 && state == State.KnockBack){
+        if (!timerReachedCoolKnockBack && timerCoolKnockBack > 2 && state == State.KnockBack){ //#############
+            agent.speed = speed;
+            state = State.Ready;
+            timerCoolKnockBack = 0;
+        }     
+    }
+    */
+
+    void CoolDownAttaickTime(){
+        if (!timerReachedCoolDownAttack && state == State.Cooldown) timerCoolDownAttack += Time.deltaTime;
+        if (!timerReachedCoolDownAttack && timerCoolDownAttack > CoolDownAttack && state == State.Cooldown){ //#############
+            agent.speed = speed;
+            state = State.Ready;
+            timerCoolDownAttack = 0;
+        }  
+
+    }
+    
+
+    private void CooldownKnockBackTime(){
+        if (!timerReachedCoolKnockBack && state == State.KnockBack)timerCoolKnockBack += Time.deltaTime;
+        if (!timerReachedCoolKnockBack && timerCoolKnockBack > KnockBackTime && state == State.KnockBack){ //#############
             agent.speed = speed;
             state = State.Ready;
             timerCoolKnockBack = 0;
