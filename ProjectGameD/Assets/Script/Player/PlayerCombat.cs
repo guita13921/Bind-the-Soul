@@ -37,6 +37,8 @@ public class PlayerCombat : MonoBehaviour
     public bool normalmode = true;
     public PlayerCD playerCD;
 
+    bool forthAttack = false;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -64,7 +66,7 @@ public class PlayerCombat : MonoBehaviour
             && !animator.GetCurrentAnimatorStateInfo(0).IsName("Dash")
         )
         {
-            if (Input.GetKeyDown(KeyCode.J))
+            if (Input.GetKeyDown(KeyCode.J) && forthAttack == false)
             {
                 Attack();
             }
@@ -79,8 +81,6 @@ public class PlayerCombat : MonoBehaviour
 
     void Attack()
     {
-        //if(Time.time - lastComboEnd >0.2f && comboCounter < combo.Count){
-
         CancelInvoke("EndCombo");
 
         if (
@@ -91,32 +91,45 @@ public class PlayerCombat : MonoBehaviour
             animator.runtimeAnimatorController = combo[comboCounter].animatorOV;
             animator.Play("Attack", 0, 0);
             sfx.Slash();
+
             if (vfxPrefabs != null && vfxPrefabs.Length > 0)
             {
-                if (normalmode)
-                {
-                    GameObject vfxPrefab = vfxPrefabs[comboCounter];
-                    Instantiate(vfxPrefab, parentObject);
-                }
-                else
-                {
-                    GameObject vfxPrefab = specialVfxPrefabs[comboCounter];
-                    Instantiate(vfxPrefab, parentObject);
-                }
+                GameObject vfxPrefab = normalmode
+                    ? vfxPrefabs[comboCounter]
+                    : specialVfxPrefabs[comboCounter];
+                Instantiate(vfxPrefab, parentObject);
             }
+
             weapon.damage = combo[comboCounter].damage;
             comboCounter++;
-
+            if (comboCounter == 4)
+            {
+                Debug.Log("d");
+                forthAttack = true;
+                StartCoroutine(WaitForAnimationToFinish());
+            }
             lastClickedTime = Time.time;
 
-            if (comboCounter + 1 > combo.Count)
+            if (comboCounter >= combo.Count)
             {
                 comboCounter = 0;
             }
-
-            // Spawn VFX
         }
-        //}
+    }
+
+    IEnumerator WaitForAnimationToFinish()
+    {
+        while (
+            animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f
+            && animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")
+        )
+        {
+            yield return null; // Wait for the next frame
+        }
+        forthAttack = false;
+
+        comboCounter = 0;
+        lastComboEnd = Time.time;
     }
 
     void Cast()
