@@ -6,10 +6,11 @@ using UnityEngine;
 public class particletest : MonoBehaviour
 {
     public GameObject parentObject;
+    public string childToSpawn;
 
     void Start()
     {
-        Transform childTransform = parentObject.transform.Find("GroundCrack"); // Replace with the actual child name
+        Transform childTransform = parentObject.transform.Find(childToSpawn); // Replace with the actual child name
 
         if (childTransform != null)
         {
