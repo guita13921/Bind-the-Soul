@@ -12,13 +12,13 @@ public class EnemyAI3 : MonoBehaviour{
     [SerializeField]GameObject player;
     NavMeshAgent agent;
     [SerializeField] CapsuleCollider caps;
-    [SerializeField]LayerMask groundLayer,playerLayer;
+    [SerializeField] LayerMask groundLayer,playerLayer;
 
     //Walk Var
     Vector3 destPoint;
     bool walkpointSet;
     [SerializeField] float range;
-    [SerializeField]float sightRange,attackRange;
+    [SerializeField] float sightRange,attackRange;
     [SerializeField] bool playerInsight,PlayerInAttackrange;
 
     //Animatotion var
@@ -35,9 +35,12 @@ public class EnemyAI3 : MonoBehaviour{
     bool timerReachedCoolDownAttack = false;
     [SerializeField] float timerCoolKnockBack = 0;
     bool timerReachedCoolKnockBack = false;
-    
     private float KnockBackTime;
     private float CoolDownAttack;
+
+    //Attack Aniamtion
+    [SerializeField] private int numberOfRandomVariations;
+    private int currentBehaviorType = -1; // Default to -1 indicating no behavior set yet
 
     //Heath and Canvas
     [SerializeField]Canvas bar;
@@ -53,10 +56,11 @@ public class EnemyAI3 : MonoBehaviour{
         health = GetComponent<EnemyHealth>();
     }
 
-    public void SetStat(float IN_KnockBackTime, float IN_CoolDownAttack)
+    public void SetStat(float IN_KnockBackTime, float IN_CoolDownAttack, int IN_numberOfRandomVariations)
     {
         KnockBackTime = IN_KnockBackTime;
         CoolDownAttack = IN_CoolDownAttack;
+        numberOfRandomVariations = IN_numberOfRandomVariations;
     }
 
     void Update(){
@@ -152,9 +156,16 @@ public class EnemyAI3 : MonoBehaviour{
     }
 
     void Attack(){
+        if (currentBehaviorType == -1) {
+            currentBehaviorType = UnityEngine.Random.Range(0, numberOfRandomVariations);
+            animator.SetInteger("AttackType", currentBehaviorType);
+            Debug.Log("Selected Behavior Type: " + currentBehaviorType);
+        }
+
         animator.SetBool("Chase",false);
         animator.SetBool("Attack",true);
-        agent.transform.LookAt(player.transform);
+
+        //agent.transform.LookAt(player.transform);
     }
 
     void Dead(){
@@ -207,6 +218,7 @@ public class EnemyAI3 : MonoBehaviour{
     void StopAttack(){
         animator.SetBool("Attack",false);
         state = State.Cooldown;
+        ResetAttackBehavior();
     }
 
     void StartKnockBack(){
@@ -218,5 +230,9 @@ public class EnemyAI3 : MonoBehaviour{
             health.CalculateDamage(playerWeapon.damage);
             KnockBack();
         }
+    }
+
+    void ResetAttackBehavior() {
+        currentBehaviorType = -1; // Reset to allow for a new random behavior in the next attack
     }
 }
