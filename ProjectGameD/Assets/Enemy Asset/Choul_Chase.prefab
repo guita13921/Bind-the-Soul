@@ -68,7 +68,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5330092675318952109
@@ -405,9 +405,12 @@ MonoBehaviour:
   PlayerInAttackrange: 0
   PlayerInRetreatRange: 0
   state: 0
-  gameObject: {fileID: 190506769192675135, guid: 9f3bec846b418e7429d0582fe13b43e2, type: 3}
-  StartTimeBTWShots: 0
-  timerCoolKnockBack: 0
+  BulletSpeed: 5
+  enemyBullet: {fileID: 6925965951652219412, guid: 066a8fa4229a9cd49bcd84f1f822efed, type: 3}
+  bulletTimeEr: 10
+  SpawnPoint: {fileID: 5255589017537395935}
+  timerCoolDownAttack: 2
+  timerCoolKnockBack: 2
   health: {fileID: 0}
   playerWeapon: {fileID: 0}
 --- !u!4 &5255589017537395935 stripped

@@ -1,0 +1,270 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.Design;
+using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.VFX;
+
+public class EnemyAI3 : MonoBehaviour{
+    [SerializeField] protected GameObject player;
+    [SerializeField] protected NavMeshAgent agent;
+    [SerializeField] CapsuleCollider caps;
+    [SerializeField] LayerMask groundLayer,playerLayer;
+    [SerializeField] Rigidbody rb;
+
+    //Walk Var
+    Vector3 destPoint;
+    bool walkpointSet;
+    [SerializeField] float range;
+    [SerializeField] float sightRange,attackRange;
+    [SerializeField] bool playerInsight,PlayerInAttackrange;
+
+    //Animatotion var
+    protected Animator animator;
+    [SerializeField] BoxCollider boxCollider;
+    [SerializeField] protected Weapon_Enemy weapon;
+
+    //Attack Forward
+    [SerializeField] private float dashDistance;
+    [SerializeField] private float dashSpeed;
+    private bool isDashing = false; 
+
+    //State Var
+    public enum State{Ready,Cooldown,KnockBack,Dead};
+    [SerializeField] public State state;
+    [SerializeField] protected float speed;
+
+    //CoolDown var
+    [SerializeField] protected float timerCoolDownAttack = 0;
+    bool timerReachedCoolDownAttack = false;
+    [SerializeField] protected float timerCoolKnockBack = 0;
+    bool timerReachedCoolKnockBack = false;
+    private protected float KnockBackTime;
+    private protected float CoolDownAttack;
+
+    //Attack Aniamtion
+    [SerializeField] private int numberOfRandomVariations;
+    private int currentBehaviorType = -1; // Default to -1 indicating no behavior set yet
+
+    //Heath and Canvas
+    [SerializeField] Canvas bar;
+    [SerializeField] protected EnemyHealth health;
+    [SerializeField] PlayerWeapon playerWeapon;
+
+
+    protected virtual void Start(){
+        playerWeapon = GameObject.Find("PlayerSwordHitbox").GetComponent<PlayerWeapon>();
+        state = State.Ready;
+        agent = GetComponent<NavMeshAgent>();
+        player = GameObject.FindWithTag("Player");
+        animator = GetComponent<Animator>();
+        health = GetComponent<EnemyHealth>();
+        weapon = GetComponentInChildren<Weapon_Enemy>();
+        rb = GetComponent<Rigidbody>();
+    }
+
+    public virtual void SetStat(float knockBackTime, float coolDownAttack,
+        int randomVariations, int IN_Speed, int IN_Damage,int IN_range,
+        int IN_sightRange,int IN_attackRange,float IN_dashDistance,float IN_dashSpeed,
+        int IN_stoprange, NavMeshAgent IN_agent)
+    {
+        KnockBackTime = knockBackTime;
+        CoolDownAttack = coolDownAttack;
+        numberOfRandomVariations = randomVariations;
+        speed = IN_Speed;
+        IN_agent.speed = speed;
+        //weapon.damage = IN_Damage;
+        range = IN_range;
+        sightRange = IN_sightRange;
+        attackRange = IN_attackRange;
+        dashDistance = IN_dashDistance;
+        dashSpeed = IN_dashSpeed;
+        IN_agent.stoppingDistance = IN_stoprange;
+    }
+
+    protected virtual void Update(){
+        CheckHealth();
+        if(state != State.Dead){
+            AnimationCheckState();
+            CooldownKnockBackTime();
+            CoolDownAttaickTime();
+            playerInsight = Physics.CheckSphere(transform.position, sightRange, playerLayer);
+            PlayerInAttackrange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
+            if (!playerInsight && !PlayerInAttackrange && state != State.KnockBack && state != State.Cooldown)Patrol();
+            if (playerInsight && !PlayerInAttackrange && state != State.KnockBack && state != State.Cooldown)Chase();
+            if (playerInsight && PlayerInAttackrange && state == State.Ready)Attack();
+        }
+    }
+
+    void AnimationCheckState(){
+        if(state == State.Cooldown){
+            animator.SetBool("IsCooldown",true);
+            DisableAttack();
+        }else{
+            animator.SetBool("IsCooldown",false);
+        }
+
+        if(state == State.KnockBack){
+            DisableAttack();
+            animator.SetBool("isKnockBack",true);
+            animator.SetBool("Chase",false);
+            animator.SetBool("Attack",false);
+        }else{
+            animator.SetBool("isKnockBack",false);
+        }
+    }
+
+    void CheckHealth(){
+        if(health.GetCurrentHealth() <= 0 && state != State.Dead){
+            Dead();
+        }
+    }
+
+    void CoolDownAttaickTime(){
+        if (!timerReachedCoolDownAttack && state == State.Cooldown) timerCoolDownAttack += Time.deltaTime;
+        if (!timerReachedCoolDownAttack && timerCoolDownAttack > CoolDownAttack && state == State.Cooldown){ //#############
+            agent.speed = speed;
+            state = State.Ready;
+            timerCoolDownAttack = 0;
+        }  
+
+    }
+    
+
+    private void CooldownKnockBackTime(){
+        if (!timerReachedCoolKnockBack && state == State.KnockBack)timerCoolKnockBack += Time.deltaTime;
+        if (!timerReachedCoolKnockBack && timerCoolKnockBack > KnockBackTime && state == State.KnockBack){ //#############
+            agent.speed = speed;
+            state = State.Ready;
+            timerCoolKnockBack = 0;
+        }     
+    }
+
+    void KnockBack(Vector3 hitDirection, float knockBackForce){
+        state = State.KnockBack;
+        animator.SetTrigger("Knockback");
+        rb.AddForce(hitDirection.normalized * knockBackForce, ForceMode.Impulse);
+    }
+
+    void Chase(){
+        DisableAttack();
+        animator.SetBool("Chase",true);
+        agent.SetDestination(player.transform.position);
+    }
+
+    void Attack(){
+        if (currentBehaviorType == -1) {
+            currentBehaviorType = UnityEngine.Random.Range(0, numberOfRandomVariations);
+            animator.SetInteger("AttackType", currentBehaviorType);
+            Debug.Log("Selected Behavior Type: " + currentBehaviorType);
+        }
+
+        animator.SetBool("Chase", false);
+        animator.SetBool("Attack", true);
+    }
+
+    private IEnumerator DashForward(){
+        isDashing = true;
+
+        Vector3 dashDirection = transform.forward;
+        float reducedDashDistance = dashDistance; //* 0.5f;  // Reduce to 50% of the original range
+        Vector3 targetPosition = transform.position + dashDirection * reducedDashDistance;
+        float dashTime = reducedDashDistance / dashSpeed;  // Total dash distance divided by speed
+        float startTime = Time.time;
+
+        // While the enemy has not reached the target position
+        while (Vector3.Distance(transform.position, targetPosition) > 0.1f) {
+            float journeyProgress = (Time.time - startTime) / dashTime;
+            transform.position = Vector3.Lerp(transform.position, targetPosition, journeyProgress);
+            yield return null;
+        }
+
+        //transform.position = targetPosition;
+
+        isDashing = false;
+        //StopAttack();
+    }
+
+    void Dead(){
+        if(state == State.Dead){
+            return;
+        }else{
+            state = State.Dead;
+        }
+        Destroy(bar.gameObject);
+        agent.enabled = false;
+        animator.SetBool("Death",true);
+    }
+
+    void Patrol(){
+        if (!walkpointSet)
+            SearchForDest();
+        if (walkpointSet)
+            agent.SetDestination(destPoint);
+        if (Vector3.Distance(transform.position, destPoint) < 10)
+            walkpointSet = false;
+    }
+
+    void SearchForDest(){
+        float z = UnityEngine.Random.Range(-range, range);
+        float x = UnityEngine.Random.Range(-range, range);
+
+        destPoint = new Vector3(
+            transform.position.x + x,
+            transform.position.y,
+            transform.position.z + z
+        );
+
+        if (Physics.Raycast(destPoint, Vector3.down, groundLayer)){
+            walkpointSet = true;
+        }
+    }
+
+    void EnableAttack(){
+        if (!isDashing)
+        {
+            StartCoroutine(DashForward());
+        }
+        boxCollider.enabled = true;
+    }
+
+    void DisableAttack(){
+        boxCollider.enabled = false;
+    }
+
+    void StartAttack(){
+         agent.transform.LookAt(player.transform);
+        agent.speed = speed;
+    }
+
+    void StopAnimation(){
+        agent.speed = speed;
+    }
+
+    void StopAttack(){
+        animator.SetBool("Attack", false);
+        state = State.Cooldown;
+        ResetAttackBehavior();
+    }
+
+    void StartKnockBack(){
+        agent.speed = 0;
+    }
+
+    void OnTriggerEnter(Collider other){
+        if(other.isTrigger && other.gameObject.CompareTag("PlayerSword")){
+            health.CalculateDamage(playerWeapon.damage);
+            agent.transform.LookAt(player.transform);
+            Vector3 knockBackDirection = transform.position - player.transform.position;
+            KnockBack(knockBackDirection, 100f);
+        }
+    }
+
+    void ResetAttackBehavior() {
+        currentBehaviorType = -1; // Reset to allow for a new random behavior in the next attack
+    }
+
+}

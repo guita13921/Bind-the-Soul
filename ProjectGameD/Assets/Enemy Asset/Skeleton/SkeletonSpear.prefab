@@ -457,7 +457,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4655139138601034, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 41.8
+      value: 41.79
       objectReference: {fileID: 0}
     - target: {fileID: 4655139138601034, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
       propertyPath: m_LocalPosition.y
@@ -465,7 +465,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4655139138601034, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.84
+      value: -3.61
       objectReference: {fileID: 0}
     - target: {fileID: 4655139138601034, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1517,9 +1517,12 @@ MonoBehaviour:
   playerInsight: 0
   PlayerInAttackrange: 0
   boxCollider: {fileID: 7902295942389667374}
+  weapon: {fileID: 0}
   state: 0
+  speed: 0
   timerCoolDownAttack: 0
   timerCoolKnockBack: 0
+  numberOfRandomVariations: 0
   bar: {fileID: 526721520972075164}
   health: {fileID: 0}
   playerWeapon: {fileID: 0}
@@ -1536,8 +1539,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scriptToAccess: {fileID: 3043389129230454809}
+  Health_Bar_Erase: {fileID: 0}
+  Health_Bar: {fileID: 0}
   IN_KnockBackTime: 3
   IN_CoolDownAttack: 3
+  IN_numberOfRandomVariations: 0
+  IN_Health: 0
+  IN_Speed: 0
+  IN_Damage: 0
 --- !u!1 &8038012762286839390 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1224667731866536, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
