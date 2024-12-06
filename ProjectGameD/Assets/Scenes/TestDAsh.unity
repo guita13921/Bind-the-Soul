@@ -757,8 +757,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6065301410070953268, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
+      propertyPath: controlPower
+      value: 
+      objectReference: {fileID: 1127744762}
+    - target: {fileID: 6065301410070953268, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
+      propertyPath: characterData
+      value: 
+      objectReference: {fileID: 11400000, guid: e628f4ad3830604478a34deaa6dbc29e, type: 2}
+    - target: {fileID: 6065301410070953268, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
       propertyPath: combo.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6065301410070953268, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
       propertyPath: qSkill.Array.size
@@ -767,7 +775,7 @@ PrefabInstance:
     - target: {fileID: 6065301410070953268, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
       propertyPath: combo.Array.data[3]
       value: 
-      objectReference: {fileID: 11400000, guid: 6f591ff4aba7a384baffc8d3d1341d30, type: 2}
+      objectReference: {fileID: 11400000, guid: 112908a23d4524d4bab9d028a673b6ad, type: 2}
     - target: {fileID: 6065301410070953268, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
       propertyPath: qSkill.Array.data[0]
       value: 
@@ -811,8 +819,12 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 5851404013985572630, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
+    - {fileID: -7412318928465772431, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 402067311283320090, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1127744762}
   m_SourcePrefab: {fileID: 100100000, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
 --- !u!4 &549652215 stripped
 Transform:
@@ -1356,6 +1368,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1105002443}
   m_CullTransparentMesh: 1
+--- !u!1 &1127744750 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 402067311283320090, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
+  m_PrefabInstance: {fileID: 503529387}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1127744757 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6065301410070953268, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
+  m_PrefabInstance: {fileID: 503529387}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127744750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0c21ad9f2c48814ca932c3d0eac7cb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1127744762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127744750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ba872b6b71d5df4da6e4a63e928731b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCombat: {fileID: 1127744757}
+  characterData: {fileID: 11400000, guid: e628f4ad3830604478a34deaa6dbc29e, type: 2}
+  parentObject: {fileID: 549652215}
+  skills:
+  - {fileID: 4903722512813443615, guid: d05e85286a376374cb10aedf53f8531c, type: 3}
+  attackSOs:
+  - {fileID: 11400000, guid: 6f591ff4aba7a384baffc8d3d1341d30, type: 2}
 --- !u!1 &1271002713
 GameObject:
   m_ObjectHideFlags: 0

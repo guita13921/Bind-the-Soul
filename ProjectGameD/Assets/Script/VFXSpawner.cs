@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class particletest : MonoBehaviour
+public class VFXSpawner : MonoBehaviour
 {
     public GameObject parentObject;
     public string childToSpawn;

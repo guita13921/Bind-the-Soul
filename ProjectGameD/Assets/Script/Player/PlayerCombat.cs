@@ -15,10 +15,11 @@ public class PlayerCombat : MonoBehaviour
     public GameObject[] specialSKillVFX;
 
     public GameObject[] qSkill;
+    public CharacterData characterData;
 
     float lastClickedTime; //time betweeen attack in combo
     float lastComboEnd; //amount of time before player can do the next combo
-    int comboCounter;
+    public int comboCounter;
 
     float specialAttackCooldown = 5f;
     float timeSinceLastSpecialAttack = 0f;
@@ -33,15 +34,17 @@ public class PlayerCombat : MonoBehaviour
     BoxCollider boxCollider;
     public Transform parentObject; // The object inside which you want to spawn the new object
 
-    [SerializeField]
     public bool normalmode = true;
     public PlayerCD playerCD;
 
     bool forthAttack = false;
+    bool check4thattack = false;
+    public ControlPower controlPower;
 
     void Start()
     {
         animator = GetComponent<Animator>();
+        forthAttack = characterData.forthNormalAttack;
     }
 
     void Update()
@@ -66,7 +69,7 @@ public class PlayerCombat : MonoBehaviour
             && !animator.GetCurrentAnimatorStateInfo(0).IsName("Dash")
         )
         {
-            if (Input.GetKeyDown(KeyCode.J) && forthAttack == false)
+            if (Input.GetKeyDown(KeyCode.J) && !check4thattack)
             {
                 Attack();
             }
@@ -88,8 +91,13 @@ public class PlayerCombat : MonoBehaviour
             && !animator.GetCurrentAnimatorStateInfo(0).IsName("SPAttack")
         )
         {
+            if (!forthAttack && comboCounter == 3)
+            {
+                comboCounter = 1;
+            }
             animator.runtimeAnimatorController = combo[comboCounter].animatorOV;
             animator.Play("Attack", 0, 0);
+
             sfx.Slash();
 
             if (vfxPrefabs != null && vfxPrefabs.Length > 0)
@@ -100,12 +108,15 @@ public class PlayerCombat : MonoBehaviour
                 Instantiate(vfxPrefab, parentObject);
             }
 
+            controlPower.StartVFX();
+
             weapon.damage = combo[comboCounter].damage;
             comboCounter++;
+
             if (comboCounter == 4)
             {
+                check4thattack = true;
                 Debug.Log("d");
-                forthAttack = true;
                 StartCoroutine(WaitForAnimationToFinish());
             }
             lastClickedTime = Time.time;
@@ -126,7 +137,7 @@ public class PlayerCombat : MonoBehaviour
         {
             yield return null; // Wait for the next frame
         }
-        forthAttack = false;
+        check4thattack = false;
 
         comboCounter = 0;
         lastComboEnd = Time.time;
