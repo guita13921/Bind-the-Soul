@@ -16,7 +16,6 @@ public class PlayerCombat : MonoBehaviour
 
     public GameObject[] qSkill;
     public CharacterData characterData;
-
     float lastClickedTime; //time betweeen attack in combo
     float lastComboEnd; //amount of time before player can do the next combo
     public int comboCounter;

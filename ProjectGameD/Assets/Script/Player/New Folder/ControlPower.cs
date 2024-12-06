@@ -11,6 +11,7 @@ public class ControlPower : MonoBehaviour
     bool normalAttackSlash = false;
 
     public GameObject[] skills;
+    public GameObject[] dashVFX;
 
     public List<AttackSO> attackSOs;
 
@@ -22,6 +23,11 @@ public class ControlPower : MonoBehaviour
         {
             playerCombat.combo.Add(attackSOs[0]);
         }
+    }
+
+    public void DashVFX()
+    {
+        Instantiate(dashVFX[0], parentObject);
     }
 
     public void StartVFX()

@@ -13,6 +13,7 @@ public partial class PlayerControl : MonoBehaviour
     private CapsuleCollider capsuleCollider;
     private bool isDead;
     private Health health;
+    public ControlPower controlPower;
 
     private void Start()
     {
@@ -83,9 +84,10 @@ public partial class PlayerControl : MonoBehaviour
                 Move(speedwhengethit);
             }
 
-            if (Input.GetKey(KeyCode.L) && !isDashing)
+            if (Input.GetKeyDown(KeyCode.L) && !isDashing)
             {
                 StartCoroutine(Dash());
+                controlPower.DashVFX();
             }
         }
         else { }

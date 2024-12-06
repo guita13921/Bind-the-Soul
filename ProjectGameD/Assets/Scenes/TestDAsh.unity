@@ -785,6 +785,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6065301410070953268, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
+      propertyPath: sKillVFX.Array.data[0]
+      value: 
+      objectReference: {fileID: 1485466043327710, guid: 04f047d477ba74f47bcb6b61efca452b, type: 3}
+    - target: {fileID: 6065301410070953268, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
       propertyPath: vfxPrefabs.Array.data[0]
       value: 
       objectReference: {fileID: 1130446560849736, guid: 399f6a2a5fa033e42a48a2f9542d3651, type: 3}
@@ -794,12 +798,16 @@ PrefabInstance:
       objectReference: {fileID: 4690713339754426470, guid: 4a6134b2716d1c44d9b29add43e11d29, type: 3}
     - target: {fileID: 6429721956300239901, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
       propertyPath: dashTime
-      value: 2
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 6429721956300239901, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
       propertyPath: dashCheck
       value: 
       objectReference: {fileID: 11400000, guid: 562f9330c0e519c458900d7ca7b85030, type: 2}
+    - target: {fileID: 6429721956300239901, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
+      propertyPath: controlPower
+      value: 
+      objectReference: {fileID: 1127744762}
     - target: {fileID: 6429721956300239901, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
       propertyPath: dashDistance
       value: 5
@@ -1401,6 +1409,8 @@ MonoBehaviour:
   parentObject: {fileID: 549652215}
   skills:
   - {fileID: 4903722512813443615, guid: d05e85286a376374cb10aedf53f8531c, type: 3}
+  dashVFX:
+  - {fileID: 8791272981272407746, guid: f4207334c1636f74ab43a37407542a6c, type: 3}
   attackSOs:
   - {fileID: 11400000, guid: 6f591ff4aba7a384baffc8d3d1341d30, type: 2}
 --- !u!1 &1271002713
