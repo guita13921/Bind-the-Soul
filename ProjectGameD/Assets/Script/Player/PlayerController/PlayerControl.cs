@@ -84,7 +84,7 @@ public partial class PlayerControl : MonoBehaviour
                 Move(speedwhengethit);
             }
 
-            if (Input.GetKeyDown(KeyCode.L) && !isDashing)
+            if (Input.GetKey(KeyCode.L) && !isDashing)
             {
                 StartCoroutine(Dash());
                 controlPower.DashVFX();
