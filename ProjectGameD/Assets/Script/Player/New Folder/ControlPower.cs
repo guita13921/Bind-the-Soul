@@ -7,13 +7,19 @@ public class ControlPower : MonoBehaviour
     public PlayerCombat playerCombat;
     public CharacterData characterData;
     public Transform parentObject;
+
     bool forthAttack = false;
     bool normalAttackSlash = false;
 
     public GameObject[] skills;
     public GameObject[] dashVFX;
+    public GameObject[] SpecialVfx; //k button
+
+    public GameObject[] qSkill;
 
     public List<AttackSO> attackSOs;
+
+    string qSkillsname;
 
     void Start()
     {
@@ -23,6 +29,8 @@ public class ControlPower : MonoBehaviour
         {
             playerCombat.combo.Add(attackSOs[0]);
         }
+        CheckSpcial();
+        CheckQskill();
     }
 
     public void DashVFX()
@@ -35,6 +43,28 @@ public class ControlPower : MonoBehaviour
         if (normalAttackSlash && playerCombat.comboCounter == 2)
         {
             Instantiate(skills[0], parentObject);
+        }
+    }
+
+    public void CheckSpcial()
+    {
+        if (characterData.specialAdd1)
+        {
+            playerCombat.skillVFX[0] = SpecialVfx[0];
+        }
+    }
+
+    public void CheckQskill()
+    {
+        qSkillsname = characterData.qskillName;
+        switch (qSkillsname)
+        {
+            case "normal":
+                break;
+
+            case "lightning":
+                playerCombat.qSkill[0] = qSkill[0];
+                break;
         }
     }
 }

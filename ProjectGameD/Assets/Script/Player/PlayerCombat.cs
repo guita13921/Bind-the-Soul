@@ -9,10 +9,8 @@ public class PlayerCombat : MonoBehaviour
 {
     public List<AttackSO> combo;
     public GameObject[] vfxPrefabs; // Array to hold references to VFX prefabs
-    public GameObject[] specialVfxPrefabs;
 
-    public GameObject[] sKillVFX;
-    public GameObject[] specialSKillVFX;
+    public GameObject[] skillVFX;
 
     public GameObject[] qSkill;
     public CharacterData characterData;
@@ -101,9 +99,7 @@ public class PlayerCombat : MonoBehaviour
 
             if (vfxPrefabs != null && vfxPrefabs.Length > 0)
             {
-                GameObject vfxPrefab = normalmode
-                    ? vfxPrefabs[comboCounter]
-                    : specialVfxPrefabs[comboCounter];
+                GameObject vfxPrefab =  vfxPrefabs[comboCounter];
                 Instantiate(vfxPrefab, parentObject);
             }
 
@@ -165,16 +161,10 @@ public class PlayerCombat : MonoBehaviour
 
         if (isSpecialAttackReady && Input.GetKeyDown(KeyCode.K))
         {
-            if (normalmode)
-            {
-                GameObject vfxPrefab = sKillVFX[0];
+
+                GameObject vfxPrefab = skillVFX[0];
                 Instantiate(vfxPrefab, parentObject);
-            }
-            else
-            {
-                GameObject vfxPrefab = specialSKillVFX[0];
-                Instantiate(vfxPrefab, parentObject);
-            }
+
             sfx.SkillSlash();
 
             animator.Play("SPAttack", 0, 0);
