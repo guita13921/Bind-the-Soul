@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Weapon_Enemy : MonoBehaviour
 {
-     public float damage;
+    public float damage;
     public SFX sfx;
     public GameObject vfxPrefabs; // Array to hold references to VFX prefabs
     public Transform parentObject; // The object inside which you want to spawn the new object
@@ -17,12 +17,12 @@ public class Weapon_Enemy : MonoBehaviour
         if (enemy != null)
         {
                 if(enemy.gameObject.CompareTag("Player")){
-                sfx.Hit();
+                //sfx.Hit();
                 Instantiate(vfxPrefabs,parentObject);
                 //Instantiate(blood);
 
 
-
+            Debug.Log(damage);
             enemy.health.currentHealth -= damage;}
         
             
