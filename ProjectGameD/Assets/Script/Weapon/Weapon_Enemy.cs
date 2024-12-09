@@ -17,7 +17,7 @@ public class Weapon_Enemy : MonoBehaviour
         if (enemy != null)
         {
                 if(enemy.gameObject.CompareTag("Player")){
-                sfx.Hit();
+                //sfx.Hit();
                 Instantiate(vfxPrefabs,parentObject);
                 //Instantiate(blood);
 

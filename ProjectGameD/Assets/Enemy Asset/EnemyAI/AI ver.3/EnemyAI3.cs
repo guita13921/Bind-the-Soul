@@ -53,6 +53,9 @@ public class EnemyAI3 : MonoBehaviour{
     [SerializeField] Canvas bar;
     [SerializeField] protected EnemyHealth health;
     [SerializeField] PlayerWeapon playerWeapon;
+    [SerializeField] Canvas attackIndicatorCanvas;
+    [SerializeField] AttackIndicatorController attackIndicatorController;
+    
 
 
     protected virtual void Start(){
@@ -64,16 +67,17 @@ public class EnemyAI3 : MonoBehaviour{
         health = GetComponent<EnemyHealth>();
         weapon = GetComponentInChildren<Weapon_Enemy>();
         rb = GetComponent<Rigidbody>();
+        //attackIndicatorController = GetComponentInChildren<AttackIndicatorController>();
     }
 
-    public virtual void SetStat(float knockBackTime, float coolDownAttack,
-        int randomVariations, int IN_Speed, int IN_Damage,int IN_range,
+    public virtual void SetStat(float IN_knockBackTime, float IN_coolDownAttack,
+        int IN_randomVariations, int IN_Speed, int IN_Damage,int IN_range,
         int IN_sightRange,int IN_attackRange,float IN_dashDistance,float IN_dashSpeed,
         int IN_stoprange, NavMeshAgent IN_agent)
     {
-        KnockBackTime = knockBackTime;
-        CoolDownAttack = coolDownAttack;
-        numberOfRandomVariations = randomVariations;
+        KnockBackTime = IN_knockBackTime;
+        CoolDownAttack = IN_coolDownAttack;
+        numberOfRandomVariations = IN_randomVariations;
         speed = IN_Speed;
         IN_agent.speed = speed;
         //weapon.damage = IN_Damage;
@@ -86,6 +90,8 @@ public class EnemyAI3 : MonoBehaviour{
     }
 
     protected virtual void Update(){
+        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+
         CheckHealth();
         if(state != State.Dead){
             AnimationCheckState();
@@ -102,13 +108,13 @@ public class EnemyAI3 : MonoBehaviour{
     void AnimationCheckState(){
         if(state == State.Cooldown){
             animator.SetBool("IsCooldown",true);
-            DisableAttack();
+            DisableAttack(0);
         }else{
             animator.SetBool("IsCooldown",false);
         }
 
         if(state == State.KnockBack){
-            DisableAttack();
+            DisableAttack(0);
             animator.SetBool("isKnockBack",true);
             animator.SetBool("Chase",false);
             animator.SetBool("Attack",false);
@@ -150,7 +156,7 @@ public class EnemyAI3 : MonoBehaviour{
     }
 
     void Chase(){
-        DisableAttack();
+        DisableAttack(0);
         animator.SetBool("Chase",true);
         agent.SetDestination(player.transform.position);
     }
@@ -163,6 +169,7 @@ public class EnemyAI3 : MonoBehaviour{
         }
 
         animator.SetBool("Chase", false);
+        //agent.transform.LookAt(player.transform);
         animator.SetBool("Attack", true);
     }
 
@@ -224,24 +231,47 @@ public class EnemyAI3 : MonoBehaviour{
     }
 
     void EnableAttack(){
-        if (!isDashing)
-        {
+        if (!isDashing){
             StartCoroutine(DashForward());
         }
+        HideIndicator();
         boxCollider.enabled = true;
     }
 
-    void DisableAttack(){
+    void DisableAttack(int AttackTimeFrame){
+        HideIndicator();
         boxCollider.enabled = false;
+        agent.transform.LookAt(player.transform);
+        if(AttackTimeFrame != 0 ){
+            ShowIndicator(AttackTimeFrame);
+        }
     }
 
-    void StartAttack(){
-         agent.transform.LookAt(player.transform);
-        agent.speed = speed;
+    void ShowIndicator(int AttackTimeFrame){
+        if(attackIndicatorController != null){
+            //attackIndicatorCanvas.enabled = true;
+            attackIndicatorController.ShowIndicator(AttackTimeFrame);
+        }
+    }
+
+    void HideIndicator(){
+        if(attackIndicatorController != null){
+            attackIndicatorController.HideIndicator();
+        }
+    }
+
+    void StartAttack(int AttackTimeFrame){
+        this.ShowIndicator(AttackTimeFrame);
+        agent.transform.LookAt(player.transform);
+        agent.speed = 0;
     }
 
     void StopAnimation(){
         agent.speed = speed;
+    }
+
+    void StartAnimation(){
+        agent.speed = 0;
     }
 
     void StopAttack(){

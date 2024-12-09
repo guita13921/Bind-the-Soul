@@ -16,7 +16,7 @@ public class Chaos_warriors : EnemyAI3
     //Stat Config
     [SerializeField] private float berserkSpeedMultiplier = 1f;
     [SerializeField] private int berserkDamageBoost = 10;
-    [SerializeField] private float berserkAttackCooldownMultiplier = 0.1f; 
+    [SerializeField] private float berserkAttackCooldownMultiplier = 3f; 
 
     [SerializeField] BoxCollider jumphitbox;
 
@@ -40,9 +40,7 @@ public class Chaos_warriors : EnemyAI3
 
     private void CheckHealthForBerserk()
     {
-        //Debug.Log("CheckHealthForBerserk");
-        if (!isBerserk && health.GetCurrentHealth() <= health.GetMaxHealth() * 0.5f)
-        {
+        if (!isBerserk && health.GetCurrentHealth() <= health.GetMaxHealth() * 0.5f){
             EnterBerserkMode();
         }
     }
@@ -51,8 +49,7 @@ public class Chaos_warriors : EnemyAI3
     {
         if (animator != null)
         {
-            animator.speed = speedMultiplier; // Scale the speed of all animations
-            //Debug.Log($"Animation speed set to {animator.speed}");
+            animator.speed = speedMultiplier;
         }
     }
 
@@ -62,26 +59,31 @@ public class Chaos_warriors : EnemyAI3
         //Debug.Log("Berserk Mode Activated!");
 
         //Stat Config
-        speed *= berserkSpeedMultiplier; // Increase movement speed
+        speed = 3; // Increase movement speed
+        Debug.Log("speed : " + CoolDownAttack);
         weapon.damage += berserkDamageBoost; // Boost damage
-        CoolDownAttack *= berserkAttackCooldownMultiplier; // Reduce attack cooldown
+        CoolDownAttack = 3f; // Reduce attack cooldown
+        Debug.Log("CoolDownAttack : " + CoolDownAttack);
         animator.SetTrigger("Berserk"); // Play Berserk animation
         animator.SetBool("IsBerserk",true); // Play Berserk animation
-
-
-        //Speed of Animation
         SetAnimationSpeed(animationSpeedMultiplier * 1.25f); // Make animations faster in Berserk mode
     }
 
     void OnTriggerEnter(Collider other){
         if(jumphitbox.isTrigger && other.gameObject.CompareTag("Player") && isBerserk){
             agent.transform.LookAt(player.transform);
-            //Debug.Log("JumpAttack");
             animator.SetTrigger("JumpAttack");
-            
             state = State.Cooldown;
         }else{
             return;
         }
+    }
+
+    void StartJumpAttack(){
+
+    }
+
+    void StopJumpAttack(){
+
     }
 }

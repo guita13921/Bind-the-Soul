@@ -54,6 +54,7 @@ public class Ghost_EnemyAI : MonoBehaviour{
         health = GetComponent<EnemyHealth>();
     }
 
+    /*
     void Update(){
         CheckHealth();
         if(state != State.Dead){
@@ -68,6 +69,49 @@ public class Ghost_EnemyAI : MonoBehaviour{
             if (playerInsight && PlayerInAttackrange && PlayerInRetreatRange && state == State.Cooldown)Retreat();
         }
     }
+    */
+
+    void Update(){
+        CheckHealth();
+
+        if (state != State.Dead)
+        {
+            // Update cooldowns
+            CoolDownAttaickTime();
+            CooldownKnockBackTime();
+
+            // Check player distances
+            playerInsight = Physics.CheckSphere(transform.position, sightRange, playerLayer);
+            PlayerInAttackrange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
+            PlayerInRetreatRange = Physics.CheckSphere(transform.position, RetreatRange, playerLayer);
+
+            // Determine behavior based on state and player distance
+            switch (state){
+                case State.Ready:
+                    if (playerInsight)
+                    {
+                        if (PlayerInAttackrange){
+                            Shoot();
+                        }
+                        else{
+                            Chase();
+                        }
+                    }
+                    break;
+
+                case State.Cooldown:
+                    if(PlayerInRetreatRange){
+                        Retreat();
+                    }else{
+                        agent.SetDestination(transform.position);
+                    }
+                    break;
+                case State.Dead:
+                    break;
+            }
+        }
+    }
+
 
     void CheckHealth(){
         if(health.GetCurrentHealth() <= 0 && state != State.Dead){
@@ -101,8 +145,6 @@ public class Ghost_EnemyAI : MonoBehaviour{
     }
 
     void Retreat(){
-        state = State.Cooldown;
-        timerCoolDownAttack = 0;;
         agent.SetDestination(-player.transform.position);
     }
 
@@ -110,44 +152,54 @@ public class Ghost_EnemyAI : MonoBehaviour{
         agent.SetDestination(player.transform.position);
     }
 
-void Shoot()
-{
-    state = State.Cooldown;
-    agent.transform.LookAt(player.transform);
+    void Shoot(){
+        // Stop the NavMeshAgent movement
+        agent.isStopped = true; // Prevents the agent from moving during shooting
+        agent.velocity = Vector3.zero;
 
-    int numberOfBullets = 3; // Number of bullets fired in one attack
-    float spreadAngle = 15f; // Angle in degrees for the scatter
-    float bulletDelay = 0.2f; // Delay between bullets
+        // Look at the player to aim
+        agent.transform.LookAt(player.transform);
 
-    StartCoroutine(ShootWithDelay(numberOfBullets, spreadAngle, bulletDelay));
-}
+        // Transition to cooldown state after shooting
+        state = State.Cooldown;
 
-private IEnumerator ShootWithDelay(int numberOfBullets, float spreadAngle, float bulletDelay)
-{
-    for (int i = 0; i < numberOfBullets; i++)
-    {
-        // Instantiate the bullet
-        GameObject bullet = Instantiate(enemyBullet, SpawnPoint.transform.position, SpawnPoint.transform.rotation);
+        // Fire bullets
+        int numberOfBullets = 3; // Number of bullets fired in one attack
+        float spreadAngle = 15f; // Angle in degrees for the scatter
+        float bulletDelay = 0.2f; // Delay between bullets
 
-        // Calculate scatter direction
-        Vector3 scatterDirection = SpawnPoint.forward;
-        scatterDirection = Quaternion.Euler(
-            UnityEngine.Random.Range(-spreadAngle, spreadAngle), // Yaw (left-right)
-            UnityEngine.Random.Range(-spreadAngle, spreadAngle), // Pitch (up-down)
-            0 // No roll
-        ) * scatterDirection;
-
-        // Add force to the bullet in the scatter direction
-        Rigidbody bulletRig = bullet.GetComponent<Rigidbody>();
-        bulletRig.AddForce(scatterDirection.normalized * BulletSpeed, ForceMode.Impulse);
-
-        // Destroy bullet after 5 seconds
-        Destroy(bullet, 5f);
-
-        // Wait for the specified delay before firing the next bullet
-        yield return new WaitForSeconds(bulletDelay);
+        StartCoroutine(ShootWithDelay(numberOfBullets, spreadAngle, bulletDelay));
     }
-}
+
+    private IEnumerator ShootWithDelay(int numberOfBullets, float spreadAngle, float bulletDelay)
+    {
+        for (int i = 0; i < numberOfBullets; i++)
+        {
+            // Instantiate the bullet
+            GameObject bullet = Instantiate(enemyBullet, SpawnPoint.transform.position, SpawnPoint.transform.rotation);
+
+            // Calculate scatter direction
+            Vector3 scatterDirection = SpawnPoint.forward;
+            scatterDirection = Quaternion.Euler(
+                UnityEngine.Random.Range(-spreadAngle, spreadAngle), // Yaw (left-right)
+                UnityEngine.Random.Range(-spreadAngle, spreadAngle), // Pitch (up-down)
+                0 // No roll
+            ) * scatterDirection;
+
+            // Add force to the bullet in the scatter direction
+            Rigidbody bulletRig = bullet.GetComponent<Rigidbody>();
+            bulletRig.AddForce(scatterDirection.normalized * BulletSpeed, ForceMode.Impulse);
+
+            // Destroy bullet after 5 seconds
+            Destroy(bullet, 5f);
+
+            // Wait for the specified delay before firing the next bullet
+            yield return new WaitForSeconds(bulletDelay);
+        }
+
+        // After shooting is done, re-enable movement
+        agent.isStopped = false; // Allow the agent to move again
+    }
 
     void Dead(){
         agent.enabled = false;
@@ -186,6 +238,7 @@ private IEnumerator ShootWithDelay(int numberOfBullets, float spreadAngle, float
         if(other.isTrigger && other.gameObject.CompareTag("PlayerSword")){
             health.CalculateDamage(playerWeapon.damage);
             KnockBack();
+            StartKnockBack();
         }
     }
 }
