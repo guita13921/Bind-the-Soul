@@ -25,14 +25,6 @@ public partial class PlayerControl : MonoBehaviour
 
     private void Update()
     {
-        Vector3 dashDirection = transform.forward.normalized;
-
-        Debug.DrawLine(
-            transform.position,
-            transform.position + dashDirection * dashDistance,
-            Color.red
-        );
-
         if (health.currentHealth > 0)
         {
             Imframe();
