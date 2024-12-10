@@ -241,7 +241,7 @@ public class EnemyAI3 : MonoBehaviour{
     void DisableAttack(int AttackTimeFrame){
         HideIndicator();
         boxCollider.enabled = false;
-        agent.transform.LookAt(player.transform);
+        //agent.transform.LookAt(player.transform);
         if(AttackTimeFrame != 0 ){
             ShowIndicator(AttackTimeFrame);
         }
