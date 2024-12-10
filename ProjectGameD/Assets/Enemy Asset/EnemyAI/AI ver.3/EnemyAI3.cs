@@ -12,15 +12,15 @@ public class EnemyAI3 : MonoBehaviour{
     [SerializeField] protected GameObject player;
     [SerializeField] protected NavMeshAgent agent;
     [SerializeField] CapsuleCollider caps;
-    [SerializeField] LayerMask groundLayer,playerLayer;
+    [SerializeField] protected LayerMask groundLayer,playerLayer;
     [SerializeField] Rigidbody rb;
 
     //Walk Var
     Vector3 destPoint;
     bool walkpointSet;
-    [SerializeField] float range;
-    [SerializeField] float sightRange,attackRange;
-    [SerializeField] bool playerInsight,PlayerInAttackrange;
+    [SerializeField] private protected float range;
+    [SerializeField] private protected float sightRange,attackRange;
+    [SerializeField] private protected bool playerInsight,PlayerInAttackrange;
 
     //Animatotion var
     protected Animator animator;
@@ -56,8 +56,6 @@ public class EnemyAI3 : MonoBehaviour{
     [SerializeField] Canvas attackIndicatorCanvas;
     [SerializeField] AttackIndicatorController attackIndicatorController;
     
-
-
     protected virtual void Start(){
         playerWeapon = GameObject.Find("PlayerSwordHitbox").GetComponent<PlayerWeapon>();
         state = State.Ready;
@@ -66,6 +64,7 @@ public class EnemyAI3 : MonoBehaviour{
         animator = GetComponent<Animator>();
         health = GetComponent<EnemyHealth>();
         weapon = GetComponentInChildren<Weapon_Enemy>();
+        boxCollider = GetComponentInChildren<BoxCollider>();
         rb = GetComponent<Rigidbody>();
         //attackIndicatorController = GetComponentInChildren<AttackIndicatorController>();
     }
@@ -105,7 +104,7 @@ public class EnemyAI3 : MonoBehaviour{
         }
     }
 
-    void AnimationCheckState(){
+    protected virtual void AnimationCheckState(){
         if(state == State.Cooldown){
             animator.SetBool("IsCooldown",true);
             DisableAttack(0);
@@ -123,13 +122,13 @@ public class EnemyAI3 : MonoBehaviour{
         }
     }
 
-    void CheckHealth(){
+    protected virtual void CheckHealth(){
         if(health.GetCurrentHealth() <= 0 && state != State.Dead){
             Dead();
         }
     }
 
-    void CoolDownAttaickTime(){
+    protected virtual void CoolDownAttaickTime(){
         if (!timerReachedCoolDownAttack && state == State.Cooldown) timerCoolDownAttack += Time.deltaTime;
         if (!timerReachedCoolDownAttack && timerCoolDownAttack > CoolDownAttack && state == State.Cooldown){ //#############
             agent.speed = speed;
@@ -140,7 +139,7 @@ public class EnemyAI3 : MonoBehaviour{
     }
     
 
-    private void CooldownKnockBackTime(){
+    protected virtual private void CooldownKnockBackTime(){
         if (!timerReachedCoolKnockBack && state == State.KnockBack)timerCoolKnockBack += Time.deltaTime;
         if (!timerReachedCoolKnockBack && timerCoolKnockBack > KnockBackTime && state == State.KnockBack){ //#############
             agent.speed = speed;
@@ -155,9 +154,9 @@ public class EnemyAI3 : MonoBehaviour{
         rb.AddForce(hitDirection.normalized * knockBackForce, ForceMode.Impulse);
     }
 
-    void Chase(){
+    public void Chase() {
         DisableAttack(0);
-        animator.SetBool("Chase",true);
+        animator.SetBool("Chase", true);
         agent.SetDestination(player.transform.position);
     }
 
@@ -206,7 +205,7 @@ public class EnemyAI3 : MonoBehaviour{
         animator.SetBool("Death",true);
     }
 
-    void Patrol(){
+    protected virtual void Patrol(){
         if (!walkpointSet)
             SearchForDest();
         if (walkpointSet)
