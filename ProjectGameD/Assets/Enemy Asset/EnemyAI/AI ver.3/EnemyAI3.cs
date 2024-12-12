@@ -11,7 +11,6 @@ using UnityEngine.VFX;
 public class EnemyAI3 : MonoBehaviour{
     [SerializeField] protected GameObject player;
     [SerializeField] protected NavMeshAgent agent;
-    [SerializeField] CapsuleCollider caps;
     [SerializeField] protected LayerMask groundLayer,playerLayer;
     [SerializeField] Rigidbody rb;
 
@@ -240,7 +239,6 @@ public class EnemyAI3 : MonoBehaviour{
     void DisableAttack(int AttackTimeFrame){
         HideIndicator();
         boxCollider.enabled = false;
-        //agent.transform.LookAt(player.transform);
         if(AttackTimeFrame != 0 ){
             ShowIndicator(AttackTimeFrame);
         }

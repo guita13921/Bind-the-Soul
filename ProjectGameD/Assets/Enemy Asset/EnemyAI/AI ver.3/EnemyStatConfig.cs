@@ -7,7 +7,9 @@ using UnityEngine.UI;
 public class EnemyStatConfig : MonoBehaviour
 {
     [SerializeField] protected NavMeshAgent agent;
-    [SerializeField] private EnemyAI3 scriptToAccess; // Can assign Chaos_Warriro directly in the Inspector
+    [SerializeField] private EnemyAI3 scriptToAccessEnemyAI3; // Can assign Chaos_Warriro directly in the Inspector
+    [SerializeField] private kamikazeEnemy scriptToAccesskamikazeEnemy; // Can assign Chaos_Warriro directly in the Inspector
+    [SerializeField] private EnemyHealth Health;
     [SerializeField] private Slider Health_Bar_Erase;
     [SerializeField] private Slider Health_Bar;
     [SerializeField] private float IN_KnockBackTime;
@@ -25,12 +27,13 @@ public class EnemyStatConfig : MonoBehaviour
 
     private void Start()
     {
-        if (scriptToAccess != null){
-            scriptToAccess.SetStat(IN_KnockBackTime, IN_CoolDownAttack, IN_numberOfRandomVariations,
+        if (scriptToAccessEnemyAI3 != null){
+            scriptToAccessEnemyAI3.SetStat(IN_KnockBackTime, IN_CoolDownAttack, IN_numberOfRandomVariations,
              IN_Speed, IN_Damage, IN_range, IN_sightRange, IN_attackRange, IN_dashDistance, IN_dashSpeed,
              IN_stoprange, agent);
+        }else if(scriptToAccesskamikazeEnemy != null){
+            scriptToAccesskamikazeEnemy.SetStat(IN_Speed,IN_range, IN_sightRange);
         }
-        Health_Bar_Erase.maxValue = IN_Health;
-        Health_Bar.maxValue = IN_Health;
+        Health.SetState(IN_Health) ;
     }
 }
