@@ -20,6 +20,7 @@ public class ControlPower : MonoBehaviour
     public List<AttackSO> attackSOs;
 
     string qSkillsname;
+    int speicalSkills;
 
     void Start()
     {
@@ -29,8 +30,8 @@ public class ControlPower : MonoBehaviour
         {
             playerCombat.combo.Add(attackSOs[0]);
         }
-        CheckSpcial();
         CheckQskill();
+        CheckSpecialskill();
     }
 
     public void DashVFX()
@@ -46,14 +47,6 @@ public class ControlPower : MonoBehaviour
         }
     }
 
-    public void CheckSpcial()
-    {
-        if (characterData.specialAdd1)
-        {
-            playerCombat.skillVFX[0] = SpecialVfx[0];
-        }
-    }
-
     public void CheckQskill()
     {
         qSkillsname = characterData.qskillName;
@@ -64,6 +57,20 @@ public class ControlPower : MonoBehaviour
 
             case "lightning":
                 playerCombat.qSkill[0] = qSkill[0];
+                break;
+        }
+    }
+
+    public void CheckSpecialskill()
+    {
+        speicalSkills = characterData.specialAttack;
+        switch (speicalSkills)
+        {
+            case 1:
+                break;
+
+            case 2:
+                playerCombat.skillVFX[0] = SpecialVfx[1];
                 break;
         }
     }

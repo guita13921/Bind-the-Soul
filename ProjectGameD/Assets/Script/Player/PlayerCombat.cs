@@ -99,7 +99,7 @@ public class PlayerCombat : MonoBehaviour
 
             if (vfxPrefabs != null && vfxPrefabs.Length > 0)
             {
-                GameObject vfxPrefab =  vfxPrefabs[comboCounter];
+                GameObject vfxPrefab = vfxPrefabs[comboCounter];
                 Instantiate(vfxPrefab, parentObject);
             }
 
@@ -161,13 +161,18 @@ public class PlayerCombat : MonoBehaviour
 
         if (isSpecialAttackReady && Input.GetKeyDown(KeyCode.K))
         {
-
-                GameObject vfxPrefab = skillVFX[0];
-                Instantiate(vfxPrefab, parentObject);
+            GameObject vfxPrefab = skillVFX[0];
+            Instantiate(vfxPrefab, parentObject);
 
             sfx.SkillSlash();
-
-            animator.Play("SPAttack", 0, 0);
+            if (characterData.specialAttack == 2)
+            {
+                animator.Play("CAST", 0, 0);
+            }
+            else
+            {
+                animator.Play("SPAttack", 0, 0);
+            }
             isSpecialAttackReady = false;
         }
     }

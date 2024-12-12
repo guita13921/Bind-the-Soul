@@ -10,5 +10,8 @@ public class CharacterData : ScriptableObject
     //Speacial Attack buff
     public bool specialAdd1 = false; // make special bigger
 
+    public int specialAttack = 1;
+
+    //1 for spin ,2 for big sword
     public string qskillName = "normal"; // lightning
 }
