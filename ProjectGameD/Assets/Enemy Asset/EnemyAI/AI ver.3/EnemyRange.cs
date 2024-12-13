@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyRange : EnemyAI3{
-    public float BulletSpeed;
     public GameObject enemyBullet;
-    private float bulletTime;
-    [SerializeField]private float bulletTimeEr;
     [SerializeField]public Transform SpawnPoint;
+    public Vector2 uiOffset;
+    [SerializeField] private int numberOfBullets = 3; // Number of bullets to fire
+    [SerializeField] private float bulletDelay = 0.5f; // Time between bullets
 
 
 
@@ -39,44 +39,26 @@ public class EnemyRange : EnemyAI3{
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
         agent.transform.LookAt(player.transform);
-        //state = State.Cooldown;
-
-        /*
-        int numberOfBullets = 3; // Number of bullets fired in one attack
-        float spreadAngle = 15f; // Angle in degrees for the scatter
-        float bulletDelay = 0.2f; // Delay between bullets
-        StartCoroutine(ShootWithDelay(numberOfBullets, spreadAngle, bulletDelay));
-        */
     }
 
-    private IEnumerator ShootWithDelay(int numberOfBullets, float spreadAngle, float bulletDelay)
+    IEnumerator ShootWithDelay(int numberOfBullets, float bulletDelay)
     {
+        // Prevent starting multiple shooting coroutines
+        state = State.Cooldown;
         for (int i = 0; i < numberOfBullets; i++)
         {
-            // Instantiate the bullet
-            GameObject bullet = Instantiate(enemyBullet, SpawnPoint.transform.position, SpawnPoint.transform.rotation);
-
-            // Calculate scatter direction
-            Vector3 scatterDirection = SpawnPoint.forward;
-            scatterDirection = Quaternion.Euler(
-                UnityEngine.Random.Range(-spreadAngle, spreadAngle), // Yaw (left-right)
-                UnityEngine.Random.Range(-spreadAngle, spreadAngle), // Pitch (up-down)
-                0 // No roll
-            ) * scatterDirection;
-
-            // Add force to the bullet in the scatter direction
-            Rigidbody bulletRig = bullet.GetComponent<Rigidbody>();
-            bulletRig.AddForce(scatterDirection.normalized * BulletSpeed, ForceMode.Impulse);
-
-            // Destroy bullet after 5 seconds
-            Destroy(bullet, 5f);
-
-            // Wait for the specified delay before firing the next bullet
-            yield return new WaitForSeconds(bulletDelay);
+            ShootBullet(); // Fire a bullet
+            yield return new WaitForSeconds(bulletDelay); // Wait before firing the next
         }
+        EndShoot();
+    }
 
-        // After shooting is done, re-enable movement
-        agent.isStopped = false; // Allow the agent to move again
+    private void ShootBullet()
+    {
+        animator.SetBool("Attack", true);
+
+        GameObject projectile = Instantiate(enemyBullet, SpawnPoint.position, SpawnPoint.rotation);
+        projectile.GetComponent<BulletScript>().UpdateTarget(player.transform, (Vector3)uiOffset);
     }
 
     public void Hide() {
@@ -85,13 +67,8 @@ public class EnemyRange : EnemyAI3{
         agent.SetDestination(-player.transform.position);
     }
 
-
     void StartShoot(){
-        int numberOfBullets = 3; // Number of bullets fired in one attack
-        float spreadAngle = 15f; // Angle in degrees for the scatter
-        float bulletDelay = 0.2f; // Delay between bullets
-
-        StartCoroutine(ShootWithDelay(numberOfBullets, spreadAngle, bulletDelay));
+        StartCoroutine(ShootWithDelay(numberOfBullets, bulletDelay));
     }
 
     void EndShoot(){

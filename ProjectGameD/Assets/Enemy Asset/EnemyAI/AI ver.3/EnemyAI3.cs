@@ -88,7 +88,7 @@ public class EnemyAI3 : MonoBehaviour{
     }
 
     protected virtual void Update(){
-        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        //transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 
         CheckHealth();
         if(state != State.Dead){
