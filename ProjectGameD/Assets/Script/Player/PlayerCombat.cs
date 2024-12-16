@@ -165,7 +165,7 @@ public class PlayerCombat : MonoBehaviour
             Instantiate(vfxPrefab, parentObject);
 
             sfx.SkillSlash();
-            if (characterData.specialAttack == 2)
+            if (characterData.specialAttack == 1)
             {
                 animator.Play("CAST", 0, 0);
             }

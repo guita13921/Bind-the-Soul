@@ -8,10 +8,12 @@ public class CharacterData : ScriptableObject
     public bool normalAttackSlash = false; //MC third attack has a slash forward
 
     //Speacial Attack buff
+    public int specialAttack = 1; //1 for spin ,2 for big sword
+
     public bool specialAdd1 = false; // make special bigger
 
-    public int specialAttack = 1;
+    public bool specialAdd2 = false; // make special bigger
+    public bool specialAdd3 = false; // make special bigger
 
-    //1 for spin ,2 for big sword
     public string qskillName = "normal"; // lightning
 }
