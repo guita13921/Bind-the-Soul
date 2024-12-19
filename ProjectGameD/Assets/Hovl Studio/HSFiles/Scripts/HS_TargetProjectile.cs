@@ -22,8 +22,38 @@ public class HS_TargetProjectile : MonoBehaviour
 
     void Start()
     {
+        Targetset closestTargetSet = FindClosestTargetSet();
+        if (closestTargetSet != null)
+        {
+            closestTargetSet.callprojectile(this); // Pass this projectile instance
+        }
+        else
+        {
+            Debug.LogWarning("No TargetSet script found in the scene!");
+        }
+        // targetset.callprojectile(this);
         FlashEffect();
         newRandom();
+    }
+
+    Targetset FindClosestTargetSet()
+    {
+        Targetset[] targetSets = FindObjectsOfType<Targetset>();
+        Targetset closestTargetSet = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (Targetset targetSet in targetSets)
+        {
+            float distance = Vector3.Distance(transform.position, targetSet.transform.position);
+
+            if (distance < closestDistance)
+            {
+                closestTargetSet = targetSet;
+                closestDistance = distance;
+            }
+        }
+
+        return closestTargetSet;
     }
 
     void newRandom()
@@ -34,11 +64,14 @@ public class HS_TargetProjectile : MonoBehaviour
 
     //Link from another script
     //TARGET POSITION + TARGET OFFSET
-    public void UpdateTarget(Transform targetPosition , Vector3 Offset)
+    public void UpdateTarget(Transform targetPosition, Vector3 Offset)
     {
         target = targetPosition;
         targetOffset = Offset;
-        startDistanceToTarget = Vector3.Distance((target.position + targetOffset), transform.position);
+        startDistanceToTarget = Vector3.Distance(
+            (target.position + targetOffset),
+            transform.position
+        );
     }
 
     void Update()
@@ -56,9 +89,13 @@ public class HS_TargetProjectile : MonoBehaviour
             return;
         }
 
-        float distanceToTarget = Vector3.Distance((target.position + targetOffset), transform.position);
+        float distanceToTarget = Vector3.Distance(
+            (target.position + targetOffset),
+            transform.position
+        );
         float angleRange = (distanceToTarget - 10) / 60;
-        if (angleRange < 0) angleRange = 0;
+        if (angleRange < 0)
+            angleRange = 0;
 
         float saturatedDistanceToTarget = (distanceToTarget / startDistanceToTarget);
         if (saturatedDistanceToTarget < 0.5)
@@ -69,7 +106,9 @@ public class HS_TargetProjectile : MonoBehaviour
 
         Vector3 forward = ((target.position + targetOffset) - transform.position);
         Vector3 crossDirection = Vector3.Cross(forward, Vector3.up);
-        Quaternion randomDeltaRotation = Quaternion.Euler(0, randomSideAngle*saturatedDistanceToTarget, 0) * Quaternion.AngleAxis(randomUpAngle * saturatedDistanceToTarget, crossDirection);
+        Quaternion randomDeltaRotation =
+            Quaternion.Euler(0, randomSideAngle * saturatedDistanceToTarget, 0)
+            * Quaternion.AngleAxis(randomUpAngle * saturatedDistanceToTarget, crossDirection);
         Vector3 direction = randomDeltaRotation * forward;
 
         float distanceThisFrame = Time.deltaTime * speed;
@@ -97,7 +136,9 @@ public class HS_TargetProjectile : MonoBehaviour
             }
             else
             {
-                var flashPsParts = flashInstance.transform.GetChild(0).GetComponent<ParticleSystem>();
+                var flashPsParts = flashInstance
+                    .transform.GetChild(0)
+                    .GetComponent<ParticleSystem>();
                 Destroy(flashInstance, flashPsParts.main.duration);
             }
         }
@@ -129,7 +170,7 @@ public class HS_TargetProjectile : MonoBehaviour
             if (detachedPrefab != null)
             {
                 detachedPrefab.transform.parent = null;
-                Destroy(detachedPrefab, 1);
+                // Destroy(detachedPrefab, 1);
             }
         }
         Destroy(gameObject);

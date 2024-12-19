@@ -29,5 +29,6 @@ public class VFXSpawner : MonoBehaviour
             copiedObject.transform.SetParent(null); // This removes the new object from any hierarchy parent
             copiedObject.SetActive(true); // Make sure the object is active
         }
+        Destroy(gameObject);
     }
 }

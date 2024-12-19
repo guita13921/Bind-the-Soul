@@ -35,12 +35,24 @@ public class ControlPower : MonoBehaviour
         {
             playerCombat.combo.Add(attackSOs[0]);
         }
+        StartCoroutine(InstantiateSkillCoroutine());
     }
 
     void Update()
     {
         CheckQskill();
         CheckSpecialskill();
+    }
+
+    IEnumerator InstantiateSkillCoroutine()
+    {
+        while (true)
+        {
+            Instantiate(skills[1], parentObject);
+            float randomWaitTime = Random.Range(0.1f, 1.0f);
+
+            yield return new WaitForSeconds(randomWaitTime);
+        }
     }
 
     public void DashVFX()
