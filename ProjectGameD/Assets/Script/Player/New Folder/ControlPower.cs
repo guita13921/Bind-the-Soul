@@ -16,9 +16,9 @@ public class ControlPower : MonoBehaviour
     public GameObject[] SpecialVfx; //k button
 
     public GameObject[] SpecialVfxBig; //k button
+    public GameObject[] SpecialVfxAdd1; //k button
     public GameObject[] SpecialVfxAdd2; //k button
-    public GameObject[] SpecialVfxAdd3; //k button
-    public GameObject[] SpecialVfxAdd2and3; //k button
+    public GameObject[] SpecialVfxAdd1and2; //k button
 
     public GameObject[] qSkill;
 
@@ -35,7 +35,7 @@ public class ControlPower : MonoBehaviour
         {
             playerCombat.combo.Add(attackSOs[0]);
         }
-        StartCoroutine(InstantiateSkillCoroutine());
+        // StartCoroutine(InstantiateSkillCoroutine());
     }
 
     void Update()
@@ -44,16 +44,16 @@ public class ControlPower : MonoBehaviour
         CheckSpecialskill();
     }
 
-    IEnumerator InstantiateSkillCoroutine()
-    {
-        while (true)
-        {
-            Instantiate(skills[1], parentObject);
-            float randomWaitTime = Random.Range(0.1f, 1.0f);
+    // IEnumerator InstantiateSkillCoroutine()
+    // {
+    //     while (true)
+    //     {
+    //         Instantiate(skills[1], parentObject);
+    //         float randomWaitTime = Random.Range(0.1f, 1.0f);
 
-            yield return new WaitForSeconds(randomWaitTime);
-        }
-    }
+    //         yield return new WaitForSeconds(randomWaitTime);
+    //     }
+    // }
 
     public void DashVFX()
     {
@@ -82,6 +82,30 @@ public class ControlPower : MonoBehaviour
         }
     }
 
+    public void SetPlayerSkillVFX(
+        CharacterData characterData,
+        PlayerCombat playerCombat,
+        int skillnum
+    )
+    {
+        if (characterData.specialAdd1 && characterData.specialAdd2)
+        {
+            playerCombat.skillVFX[0] = SpecialVfxAdd1and2[skillnum];
+        }
+        else if (characterData.specialAdd1)
+        {
+            playerCombat.skillVFX[0] = SpecialVfxAdd1[skillnum];
+        }
+        else if (characterData.specialAdd2)
+        {
+            playerCombat.skillVFX[0] = SpecialVfxAdd2[skillnum];
+        }
+        else
+        {
+            playerCombat.skillVFX[0] = SpecialVfx[skillnum];
+        }
+    }
+
     public void CheckSpecialskill()
     {
         speicalSkills = characterData.specialAttack;
@@ -91,23 +115,10 @@ public class ControlPower : MonoBehaviour
                 playerCombat.skillVFX[0] = SpecialVfx[0];
                 break;
             case 1:
-                if (characterData.specialAdd2 && characterData.specialAdd3)
-                {
-                    playerCombat.skillVFX[0] = SpecialVfxAdd2and3[0];
-                    break;
-                }
-                else if (characterData.specialAdd2)
-                {
-                    playerCombat.skillVFX[0] = SpecialVfxAdd2[0];
-                }
-                else if (characterData.specialAdd3)
-                {
-                    playerCombat.skillVFX[0] = SpecialVfxAdd3[0];
-                }
-                else
-                {
-                    playerCombat.skillVFX[0] = SpecialVfx[1];
-                }
+                SetPlayerSkillVFX(characterData, playerCombat, 1);
+                break;
+            case 2:
+                SetPlayerSkillVFX(characterData, playerCombat, 2);
                 break;
         }
     }
