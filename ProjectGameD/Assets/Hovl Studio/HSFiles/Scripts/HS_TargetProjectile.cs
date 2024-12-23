@@ -1,17 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class HS_TargetProjectile : MonoBehaviour
 {
     public float speed = 15f;
-    public GameObject hit;
+    public GameObject[] hit;
     public GameObject flash;
     public GameObject[] Detached;
     public bool LocalRotation = false;
     private Transform target;
     private Vector3 targetOffset;
     private float startDistanceToTarget;
+    public CharacterData characterData;
 
     [Space]
     [Header("PROJECTILE PATH")]
@@ -22,7 +24,7 @@ public class HS_TargetProjectile : MonoBehaviour
 
     void Start()
     {
-        Targetset closestTargetSet = FindClosestTargetSet();
+        Targetset closestTargetSet = FindRandomClosestTargetSet();
         if (closestTargetSet != null)
         {
             closestTargetSet.callprojectile(this); // Pass this projectile instance
@@ -36,24 +38,29 @@ public class HS_TargetProjectile : MonoBehaviour
         newRandom();
     }
 
-    Targetset FindClosestTargetSet()
+    Targetset FindRandomClosestTargetSet()
     {
+        // Find all Targetset objects in the scene
         Targetset[] targetSets = FindObjectsOfType<Targetset>();
-        Targetset closestTargetSet = null;
-        float closestDistance = Mathf.Infinity;
 
-        foreach (Targetset targetSet in targetSets)
+        // Sort the targetSets array by distance to this object's position
+        var sortedTargetSets = targetSets
+            .OrderBy(targetSet =>
+                Vector3.Distance(transform.position, targetSet.transform.position)
+            )
+            .ToArray();
+
+        // Take the top 3 closest Targetset objects (or fewer if less than 3 exist)
+        var closestThree = sortedTargetSets.Take(3).ToArray();
+
+        // Return a random Targetset from the closest three (or null if none exist)
+        if (closestThree.Length > 0)
         {
-            float distance = Vector3.Distance(transform.position, targetSet.transform.position);
-
-            if (distance < closestDistance)
-            {
-                closestTargetSet = targetSet;
-                closestDistance = distance;
-            }
+            int randomIndex = Random.Range(0, closestThree.Length);
+            return closestThree[randomIndex];
         }
 
-        return closestTargetSet;
+        return null; // No Targetset found
     }
 
     void newRandom()
@@ -153,7 +160,9 @@ public class HS_TargetProjectile : MonoBehaviour
             {
                 hitRotation = Quaternion.Euler(0, 0, 0);
             }
-            var hitInstance = Instantiate(hit, target.position + targetOffset, hitRotation);
+
+            var randomHit = Random.value <= 0.2f && characterData.specialAdd1 ? hit[1] : hit[0];
+            var hitInstance = Instantiate(randomHit, target.position + targetOffset, hitRotation);
             var hitPs = hitInstance.GetComponent<ParticleSystem>();
             if (hitPs != null)
             {
