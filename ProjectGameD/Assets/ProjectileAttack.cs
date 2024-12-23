@@ -11,6 +11,8 @@ public class ProjectileAttack : MonoBehaviour
 
     void Start()
     {
+        gameObject.SetActive(characterData.specialAttack == 3);
+
         StartCoroutine(InstantiateSkillCoroutine());
     }
 
