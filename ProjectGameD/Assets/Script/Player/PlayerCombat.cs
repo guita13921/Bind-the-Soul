@@ -19,7 +19,7 @@ public class PlayerCombat : MonoBehaviour
     float lastComboEnd; //amount of time before player can do the next combo
     public int comboCounter;
 
-    float specialAttackCooldown = 5f;
+    float specialAttackCooldown = 10f;
     float timeSinceLastSpecialAttack = 0f;
     bool isSpecialAttackReady = true;
     Animator animator;
@@ -154,7 +154,7 @@ public class PlayerCombat : MonoBehaviour
         if (!isSpecialAttackReady)
         {
             timeSinceLastSpecialAttack += Time.deltaTime;
-            if (timeSinceLastSpecialAttack > 2.5f)
+            if (timeSinceLastSpecialAttack > (0.6 * specialAttackCooldown))
             {
                 projectileAttack.faster = false;
                 heaven[1].SetActive(false);

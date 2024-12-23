@@ -28,7 +28,7 @@ public class ProjectileAttack : MonoBehaviour
             {
                 if (characterData.specialAdd2 && characterData.specialAdd1)
                 {
-                    var randomt = Random.value <= 0.3f ? skills[2] : skills[1];
+                    var randomt = Random.value <= 0.35f ? skills[2] : skills[1];
                     Instantiate(randomt, parentObject);
                 }
                 else if (characterData.specialAdd2)
