@@ -10,7 +10,6 @@ public class LightRay : MonoBehaviour
     {
         Targetset closestTargetSet = FindRandomClosestTargetSet();
 
-        // Move the LightRay object to the closest Targetset's position
         if (closestTargetSet != null)
         {
             transform.position = closestTargetSet.transform.position;

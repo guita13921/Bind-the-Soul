@@ -8,6 +8,7 @@ public class ProjectileAttack : MonoBehaviour
     public GameObject[] skills;
     public Transform parentObject;
     public CharacterData characterData;
+    public bool faster = false;
 
     void Start()
     {
@@ -27,7 +28,7 @@ public class ProjectileAttack : MonoBehaviour
             {
                 if (characterData.specialAdd2 && characterData.specialAdd1)
                 {
-                    var randomt = Random.value <= 0.2f ? skills[2] : skills[1];
+                    var randomt = Random.value <= 0.3f ? skills[2] : skills[1];
                     Instantiate(randomt, parentObject);
                 }
                 else if (characterData.specialAdd2)
@@ -40,8 +41,9 @@ public class ProjectileAttack : MonoBehaviour
                 }
             }
 
-            float randomWaitTime = Random.Range(0.7f, 1.0f);
-            yield return new WaitForSeconds(randomWaitTime);
+            float randomWaitTime = Random.Range(0.8f, 1.0f);
+            float randomWaitTimeFast = Random.Range(0.3f, 0.5f);
+            yield return new WaitForSeconds(faster ? randomWaitTimeFast : randomWaitTime);
         }
     }
 
@@ -63,6 +65,6 @@ public class ProjectileAttack : MonoBehaviour
             return closestThree[randomIndex];
         }
 
-        return null; // No Targetset found
+        return null;
     }
 }

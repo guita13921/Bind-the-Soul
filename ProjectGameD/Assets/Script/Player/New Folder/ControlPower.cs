@@ -120,6 +120,9 @@ public class ControlPower : MonoBehaviour
             case 2:
                 SetPlayerSkillVFX(characterData, playerCombat, 2);
                 break;
+            case 3:
+                SetPlayerSkillVFX(characterData, playerCombat, 3);
+                break;
         }
     }
 }

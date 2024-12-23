@@ -161,7 +161,7 @@ public class HS_TargetProjectile : MonoBehaviour
                 hitRotation = Quaternion.Euler(0, 0, 0);
             }
 
-            var randomHit = Random.value <= 0.2f && characterData.specialAdd1 ? hit[1] : hit[0];
+            var randomHit = Random.value <= 0.3f && characterData.specialAdd1 ? hit[1] : hit[0];
             var hitInstance = Instantiate(randomHit, target.position + targetOffset, hitRotation);
             var hitPs = hitInstance.GetComponent<ParticleSystem>();
             if (hitPs != null)

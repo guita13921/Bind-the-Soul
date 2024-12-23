@@ -7,6 +7,7 @@ using UnityEngine.PlayerLoop;
 
 public class PlayerCombat : MonoBehaviour
 {
+    public ProjectileAttack projectileAttack;
     public List<AttackSO> combo;
     public GameObject[] vfxPrefabs; // Array to hold references to VFX prefabs
 
@@ -37,11 +38,14 @@ public class PlayerCombat : MonoBehaviour
     bool forthAttack = false;
     bool check4thattack = false;
     public ControlPower controlPower;
+    public GameObject[] heaven;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         forthAttack = characterData.forthNormalAttack;
+
+        heaven[0].SetActive(characterData.specialAttack == 3);
     }
 
     void Update()
@@ -150,6 +154,12 @@ public class PlayerCombat : MonoBehaviour
         if (!isSpecialAttackReady)
         {
             timeSinceLastSpecialAttack += Time.deltaTime;
+            if (timeSinceLastSpecialAttack > 2.5f)
+            {
+                projectileAttack.faster = false;
+                heaven[1].SetActive(false);
+            }
+
             playerCD.CooldownText(specialAttackCooldown - timeSinceLastSpecialAttack);
             if (timeSinceLastSpecialAttack >= specialAttackCooldown)
             {
@@ -165,9 +175,12 @@ public class PlayerCombat : MonoBehaviour
             Instantiate(vfxPrefab, parentObject);
 
             sfx.SkillSlash();
-            if (characterData.specialAttack == 1)
+            if (characterData.specialAttack == 1 || characterData.specialAttack == 3)
             {
                 animator.Play("CAST", 0, 0);
+                heaven[1].SetActive(characterData.specialAttack == 3);
+
+                projectileAttack.faster = true;
             }
             else
             {
