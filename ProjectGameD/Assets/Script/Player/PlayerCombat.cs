@@ -19,7 +19,7 @@ public class PlayerCombat : MonoBehaviour
     float lastComboEnd; //amount of time before player can do the next combo
     public int comboCounter;
 
-    float specialAttackCooldown = 10f;
+    float specialAttackCooldown = 2f;
     float timeSinceLastSpecialAttack = 0f;
     bool isSpecialAttackReady = true;
     Animator animator;
@@ -172,6 +172,7 @@ public class PlayerCombat : MonoBehaviour
         if (isSpecialAttackReady && Input.GetKeyDown(KeyCode.K))
         {
             GameObject vfxPrefab = skillVFX[0];
+
             Instantiate(vfxPrefab, parentObject);
 
             sfx.SkillSlash();
