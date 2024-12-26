@@ -59,7 +59,7 @@ public class Chaos_warriors : EnemyAI3
         //Debug.Log("Berserk Mode Activated!");
 
         //Stat Config
-        speed = 3; // Increase movement speed
+        agent.speed = 3; // Increase movement speed
         Debug.Log("speed : " + CoolDownAttack);
         weapon.damage += berserkDamageBoost; // Boost damage
         CoolDownAttack = 3f; // Reduce attack cooldown

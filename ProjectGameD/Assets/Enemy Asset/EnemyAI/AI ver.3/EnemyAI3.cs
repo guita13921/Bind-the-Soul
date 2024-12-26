@@ -54,7 +54,7 @@ public class EnemyAI3 : MonoBehaviour{
     [SerializeField] PlayerWeapon playerWeapon;
     [SerializeField] Canvas attackIndicatorCanvas;
     [SerializeField] AttackIndicatorController attackIndicatorController;
-    
+
     protected virtual void Start(){
         playerWeapon = GameObject.Find("PlayerSwordHitbox").GetComponent<PlayerWeapon>();
         state = State.Ready;
@@ -65,7 +65,7 @@ public class EnemyAI3 : MonoBehaviour{
         weapon = GetComponentInChildren<Weapon_Enemy>();
         boxCollider = GetComponentInChildren<BoxCollider>();
         rb = GetComponent<Rigidbody>();
-        //attackIndicatorController = GetComponentInChildren<AttackIndicatorController>();
+
     }
 
     public virtual void SetStat(float IN_knockBackTime, float IN_coolDownAttack,
@@ -198,10 +198,12 @@ public class EnemyAI3 : MonoBehaviour{
             return;
         }else{
             state = State.Dead;
+            Destroy(bar.gameObject);
+            agent.enabled = false;
+            animator.SetBool("Death",true);
+            //Destroy(attackIndicatorCanvas);
+            attackIndicatorCanvas.gameObject.SetActive(false);
         }
-        Destroy(bar.gameObject);
-        agent.enabled = false;
-        animator.SetBool("Death",true);
     }
 
     protected virtual void Patrol(){
@@ -283,10 +285,11 @@ public class EnemyAI3 : MonoBehaviour{
 
     void OnTriggerEnter(Collider other){
         if(other.isTrigger && other.gameObject.CompareTag("PlayerSword")){
+            Debug.Log("Damage");
             health.CalculateDamage(playerWeapon.damage);
             agent.transform.LookAt(player.transform);
             Vector3 knockBackDirection = transform.position - player.transform.position;
-            KnockBack(knockBackDirection, 100f);
+            KnockBack(knockBackDirection, 10f);
         }
     }
 
