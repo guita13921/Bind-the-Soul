@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyRange : EnemyAI3{
+    //Bullet
     public GameObject enemyBullet;
     [SerializeField]public Transform SpawnPoint;
     public Vector2 uiOffset;

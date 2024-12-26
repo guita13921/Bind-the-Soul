@@ -240,9 +240,11 @@ public class EnemyAI3 : MonoBehaviour{
 
     void DisableAttack(int AttackTimeFrame){
         HideIndicator();
-        boxCollider.enabled = false;
-        if(AttackTimeFrame != 0 ){
-            ShowIndicator(AttackTimeFrame);
+        if(boxCollider != null){
+            boxCollider.enabled = false;
+            if(AttackTimeFrame != 0 ){
+                ShowIndicator(AttackTimeFrame);
+            }
         }
     }
 
