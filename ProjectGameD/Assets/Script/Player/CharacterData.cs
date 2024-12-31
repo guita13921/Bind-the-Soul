@@ -10,13 +10,13 @@ public class CharacterData : ScriptableObject
     [Space]
     [Header("Normal Attack")]
     public bool forthNormalAttack = false; // add the forth attack to MC
-    public bool normalAttackSlash = false; //MC third attack has a slash forward
     public int normalAttackDamageUpLV = 0;
+    public bool normalAttackSlash = false;
 
     [Space]
     //Speacial Attack buff
     [Header("Special Attack")]
-    public int specialAttack = 1; //0 for spin ,1 for big sword , 2 for red spin,for heaven
+    public int specialAttack = 0; //0 for spin ,1 for big sword , 2 for red spin,for heaven
 
     [Space]
     public bool specialAdd1 = false; // make special bigger
