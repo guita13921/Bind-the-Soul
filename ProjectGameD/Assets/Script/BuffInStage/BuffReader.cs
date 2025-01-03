@@ -23,90 +23,142 @@ public class BuffReader : MonoBehaviour
     {
         buffs = new List<Buff>
         {
-            new Buff(data => "Vampirism", data => !data.vampirism, data => data.vampirism = true),
             new Buff(
-                data => "Barrier Level +1",
+                data => "Vampirism",
+                data => !data.vampirism,
+                data => data.vampirism = true,
+                data => "Restores player health for every attack",
+                data => "Normal Attack"
+            ),
+            new Buff(
+                data => "Barrier",
                 data => data.barrierLV < 3,
-                data => data.barrierLV++
+                data => data.barrierLV++,
+                data =>
+                    data.barrierLV == 0
+                        ? "Receive a barrier that can absorb one attack"
+                        : "The barrier can absorb one additional attack",
+                data => "Passive"
             ),
             new Buff(
-                data => "Normal Attack Damage Up",
+                data => "Increase damage",
                 data => data.normalAttackDamageUpLV < 3,
-                data => data.normalAttackDamageUpLV++
+                data => data.normalAttackDamageUpLV++,
+                data => "Increases the damage of normal attacks",
+                data => "Normal Attack"
             ),
             new Buff(
-                data => "Normal Attack can perform a forth attack",
+                data => "Forth attack",
                 data => !data.forthNormalAttack,
-                data => data.forthNormalAttack = true
+                data => data.forthNormalAttack = true,
+                data => "Adds a new attack to the normal attack combo",
+                data => "Normal Attack"
             ),
             new Buff(
-                data => "Change special attack to Big sword",
+                data => "Greatsword Slash",
                 data => data.specialAttack == 0,
-                data => data.specialAttack = 1
+                data => data.specialAttack = 1,
+                data =>
+                    "Transforms the special attack into a powerful forward strike with a large sword",
+                data => "Speical attack"
             ),
             new Buff(
-                data => "Change special attack to Red Spin",
+                data => "Crimson Spin",
                 data => data.specialAttack == 0,
-                data => data.specialAttack = 2
+                data => data.specialAttack = 2,
+                data => "Transforms the special attack into a powerful spin attack",
+                data => "Speical attack"
             ),
             new Buff(
-                data => "Change special attack to Light bullet",
+                data => "Light bullet",
                 data => data.specialAttack == 0,
-                data => data.specialAttack = 3
+                data => data.specialAttack = 3,
+                data =>
+                    "Transforms the special attack into a light bullet that automatically attacks",
+                data => "Speical attack"
             ),
             new Buff(
-                data => $"Change special attack to {getAddSpecialName((data.specialAttack), 1)}",
+                data => getAddSpecialName(data.specialAttack, 1).name,
                 data => !data.specialAdd1 && data.specialAttack != 0,
-                data => data.specialAdd1 = true
+                data => data.specialAdd1 = true,
+                data => getAddSpecialName(data.specialAttack, 1).description,
+                data => "Speical attack"
             ),
             new Buff(
-                data => $"Change special attack to {getAddSpecialName((data.specialAttack), 2)}",
+                data => getAddSpecialName(data.specialAttack, 2).name,
                 data => !data.specialAdd2 && data.specialAttack != 0,
-                data => data.specialAdd2 = true
+                data => data.specialAdd2 = true,
+                data => getAddSpecialName(data.specialAttack, 2).description,
+                data => "Speical attack"
             ),
             new Buff(
-                data => "SpecialDamageUpLV",
+                data => "Increase damage",
                 data => data.SpecialDamageUpLV < 3,
-                data => data.SpecialDamageUpLV++
+                data => data.SpecialDamageUpLV++,
+                data => "Increases the damage of special attacks",
+                data => "Speical attack"
             ),
             new Buff(
-                data => "specialBiggerLV",
+                data => "Bigger",
                 data => data.specialBiggerLV < 3,
-                data => data.specialBiggerLV++
+                data => data.specialBiggerLV++,
+                data => "Increases the size of special attacks",
+                data => "Speical attack"
             ),
             new Buff(
-                data => "skillDamageUpLV",
+                data => "Increase Damage",
                 data => data.skillDamageUpLV < 3,
-                data => data.skillDamageUpLV++
+                data => data.skillDamageUpLV++,
+                data => "Increases the damage of skill ",
+                data => "Skill"
             ),
             new Buff(
-                data => "skillSlowEnemyLV",
+                data => "Slow",
                 data => data.skillSlowEnemyLV < 3,
-                data => data.skillSlowEnemyLV++
+                data => data.skillSlowEnemyLV++,
+                data => "skill now slow enemy",
+                data => "Skill"
             ),
             new Buff(
-                data => "skillPoisionEnemyLV",
+                data => "Poision",
                 data => data.skillPoisionEnemyLV < 3,
-                data => data.skillPoisionEnemyLV++
+                data => data.skillPoisionEnemyLV++,
+                data => "skill now poison enemy",
+                data => "Skill"
             ),
         };
     }
 
-    private string getAddSpecialName(int specailattack, int type)
+    private (string name, string description) getAddSpecialName(int specailattack, int type)
     {
         switch (specailattack)
         {
             case 1:
-
-                return type == 1 ? "Big sword now is explode" : "triple the sword";
+                if (type == 1)
+                    return (
+                        "Crack explosion",
+                        "The Greatsword Slash now creates a crack that explodes on impact"
+                    );
+                else
+                    return (
+                        "Triple the sword",
+                        "The Greatsword Slash now releases three swords at the same time"
+                    );
             case 2:
-                return type == 1 ? "aura to damage an enemy" : "aura to slow enemy";
+                if (type == 1)
+                    return ("Red aura", "Creates an aura around you that damages enemies in range");
+                else
+                    return ("Blue aura", "Creates an aura around you that slow enemies in range");
             case 3:
-                return type == 1
-                    ? "light bullet now has a 20% percent chance if it hit eneymy it will explde"
-                    : "change light bullet to light strik";
+                if (type == 1)
+                    return (
+                        "Light explode",
+                        "The light bullet now has a 20% chance to explode on impact with enemies."
+                    );
+                else
+                    return ("Light strike", "The light bullet is transformed into a light strike");
             default:
-                return "Unknown Attack";
+                return ("Unknown Attack", "Description not available");
         }
     }
 
@@ -123,12 +175,10 @@ public class BuffReader : MonoBehaviour
 
         RectTransform panelRect = buffUIPanel.GetComponent<RectTransform>();
         float panelHeight = panelRect.rect.height; // Get the height of the panel
-        float buttonHeight = panelHeight / 4; // Divide space for consistent spacing (3 buttons + some padding)
+        float buttonHeight = panelHeight / 4; // Divide space for consistent spacing
 
-        // Adjust the starting position to be closer to the top
-        float startY = panelHeight / 2 - buttonHeight / 2; // Start from the top, adjusted for button height
+        float[] yOffsets = { 0, buttonHeight, -buttonHeight };
 
-        // Shuffle and pick 3 random buffs
         for (int i = 0; i < 3 && availableBuffs.Count > 0; i++)
         {
             int index = UnityEngine.Random.Range(0, availableBuffs.Count);
@@ -140,20 +190,24 @@ public class BuffReader : MonoBehaviour
 
             // Adjust position relative to the panel
             RectTransform buttonRect = buttonObj.GetComponent<RectTransform>();
-            buttonRect.anchorMin = new Vector2(0.5f, 0.5f); // Top-center anchor
-            buttonRect.anchorMax = new Vector2(0.5f, 0.5f); // Top-center anchor
-            buttonRect.pivot = new Vector2(0.5f, 0.5f); // Top-center pivot
 
-            // Position each button starting from the top, spaced evenly
-            buttonRect.anchoredPosition = new Vector2(0, startY - buttonHeight * i); // Space buttons evenly
+            // Set position: middle first, then above, then below
+            buttonRect.anchoredPosition = new Vector2(0, yOffsets[i]);
 
             Button button = buttonObj.GetComponent<Button>();
-            TMPro.TextMeshProUGUI buttonText =
-                buttonObj.GetComponentInChildren<TMPro.TextMeshProUGUI>();
 
-            if (buttonText != null)
+            Transform child1 = buttonObj.transform.GetChild(0);
+            TMPro.TextMeshProUGUI MainText = child1.GetComponent<TMPro.TextMeshProUGUI>();
+            Transform child2 = buttonObj.transform.GetChild(1);
+            TMPro.TextMeshProUGUI DescriptionText = child2.GetComponent<TMPro.TextMeshProUGUI>();
+            Transform child3 = buttonObj.transform.GetChild(2);
+            TMPro.TextMeshProUGUI TypeText = child3.GetComponent<TMPro.TextMeshProUGUI>();
+
+            if (MainText != null)
             {
-                buttonText.text = selectedBuff.name(characterData);
+                MainText.text = selectedBuff.name(characterData);
+                DescriptionText.text = selectedBuff.description(characterData);
+                TypeText.text = selectedBuff.type(characterData);
             }
             else
             {
@@ -175,6 +229,10 @@ public class BuffReader : MonoBehaviour
         // Check if the "R" key is pressed
         if (Input.GetKeyDown(KeyCode.R))
         {
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                characterData.ResetToDefault();
+            }
             // Reload the current active scene
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }

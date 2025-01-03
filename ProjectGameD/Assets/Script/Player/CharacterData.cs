@@ -31,4 +31,25 @@ public class CharacterData : ScriptableObject
     public int skillDamageUpLV = 0;
     public int skillSlowEnemyLV = 0;
     public int skillPoisionEnemyLV = 0;
+
+    public void ResetToDefault()
+    {
+        vampirism = false;
+        barrierLV = 0;
+
+        forthNormalAttack = false;
+        normalAttackDamageUpLV = 0;
+        normalAttackSlash = false;
+
+        specialAttack = 0; // Default to "spin"
+        specialAdd1 = false;
+        specialAdd2 = false;
+        specialBiggerLV = 0;
+        SpecialDamageUpLV = 0;
+
+        qskillName = "normal"; // Default skill
+        skillDamageUpLV = 0;
+        skillSlowEnemyLV = 0;
+        skillPoisionEnemyLV = 0;
+    }
 }
