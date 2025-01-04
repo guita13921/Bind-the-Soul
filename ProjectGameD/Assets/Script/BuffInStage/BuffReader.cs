@@ -19,6 +19,12 @@ public class BuffReader : MonoBehaviour
         ShowRandomAvailableBuffs();
     }
 
+    public void ResetBuff()
+    {
+        InitializeBuffs();
+        ShowRandomAvailableBuffs();
+    }
+
     void InitializeBuffs()
     {
         buffs = new List<Buff>
@@ -167,7 +173,8 @@ public class BuffReader : MonoBehaviour
         // Clear existing buttons
         foreach (Transform child in buffUIPanel)
         {
-            Destroy(child.gameObject);
+            if (child.transform.name != "Reset")
+                Destroy(child.gameObject);
         }
 
         // Filter available buffs
