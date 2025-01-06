@@ -17,7 +17,8 @@ public class BombScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             Explode(); // Explode instantly if it hits the player
-        }else
+        }
+        else
         {
             Debug.Log("HIT GROUND");
             StartCoroutine(CountdownToExplosion()); // Start countdown if it hits the ground or other objects
@@ -39,8 +40,10 @@ public class BombScript : MonoBehaviour
         hasExploded = true;
 
         // Instantiate explosion effect
-        if (explosionEffect){
-            Instantiate(explosionEffect, transform.position, Quaternion.identity);
+        if (explosionEffect)
+        {
+            GameObject explosion = Instantiate(explosionEffect, transform.position, Quaternion.identity);
+            Destroy(explosion, 2f); 
         }
 
         // Apply explosion force to nearby objects
@@ -60,6 +63,7 @@ public class BombScript : MonoBehaviour
             }
         }
 
-        Destroy(gameObject); // Destroy the bomb after the explosion
+        // Destroy the bomb object itself after explosion
+        Destroy(gameObject); 
     }
 }

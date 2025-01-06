@@ -29,6 +29,9 @@ public class kamikazeEnemy : MonoBehaviour
     [SerializeField] EnemyHealth health;
     [SerializeField] PlayerWeapon playerWeapon;
 
+    //Effect
+    [SerializeField] private GameObject explosionEffect; // Explosion VFX prefab
+
     protected void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform; // Find the player in the scene
@@ -95,11 +98,15 @@ public class kamikazeEnemy : MonoBehaviour
     {
         health.CalculateDamage(damage);
         Vector3 knockBackDirection = transform.position - player.transform.position;
-        KnockBack(knockBackDirection, 100f);
+        KnockBack(knockBackDirection, 10f);
 
         if (health.GetCurrentHealth() <= 0f){
             Die();
         }
+    }
+
+    public void KnockBack(Vector3 hitDirection, float knockBackForce){
+        rb.AddForce(hitDirection.normalized * knockBackForce, ForceMode.Impulse);
     }
 
     void Explode()
@@ -107,16 +114,14 @@ public class kamikazeEnemy : MonoBehaviour
         if (hasCollided) return;
             hasCollided = true;
         Debug.Log("Boom! Enemy exploded!");
-        Invoke(nameof(DestroySelf), 2f); // Delay of 2 seconds
+        Invoke(nameof(DestroySelf), 0.5f);
     }
 
     void DestroySelf()
     {
         Destroy(gameObject);
-    }
-
-    void KnockBack(Vector3 hitDirection, float knockBackForce){
-        rb.AddForce(hitDirection.normalized * knockBackForce, ForceMode.Impulse);
+        GameObject explosion = Instantiate(explosionEffect, transform.position, Quaternion.identity);
+        Destroy(explosion, 2f); 
     }
 
 
@@ -128,4 +133,5 @@ public class kamikazeEnemy : MonoBehaviour
         // You can add death animations or particle effects here
         Destroy(gameObject);  // Destroy the enemy object
     }
+
 }

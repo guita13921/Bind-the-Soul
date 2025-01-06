@@ -147,7 +147,7 @@ public class EnemyAI3 : MonoBehaviour{
         }     
     }
 
-    void KnockBack(Vector3 hitDirection, float knockBackForce){
+    protected virtual private void KnockBack(Vector3 hitDirection, float knockBackForce){
         state = State.KnockBack;
         animator.SetTrigger("Knockback");
         rb.AddForce(hitDirection.normalized * knockBackForce, ForceMode.Impulse);
