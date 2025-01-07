@@ -11,16 +11,15 @@ using UnityEngine.VFX;
 public class EnemyAI3 : MonoBehaviour{
     [SerializeField] protected GameObject player;
     [SerializeField] protected NavMeshAgent agent;
-    [SerializeField] CapsuleCollider caps;
-    [SerializeField] LayerMask groundLayer,playerLayer;
+    [SerializeField] protected LayerMask groundLayer,playerLayer;
     [SerializeField] Rigidbody rb;
 
     //Walk Var
     Vector3 destPoint;
     bool walkpointSet;
-    [SerializeField] float range;
-    [SerializeField] float sightRange,attackRange;
-    [SerializeField] bool playerInsight,PlayerInAttackrange;
+    [SerializeField] private protected float range;
+    [SerializeField] private protected float sightRange,attackRange;
+    [SerializeField] private protected bool playerInsight,PlayerInAttackrange;
 
     //Animatotion var
     protected Animator animator;
@@ -55,7 +54,6 @@ public class EnemyAI3 : MonoBehaviour{
     [SerializeField] PlayerWeapon playerWeapon;
     [SerializeField] Canvas attackIndicatorCanvas;
     [SerializeField] AttackIndicatorController attackIndicatorController;
-    
 
 
     protected virtual void Start(){
@@ -66,8 +64,9 @@ public class EnemyAI3 : MonoBehaviour{
         animator = GetComponent<Animator>();
         health = GetComponent<EnemyHealth>();
         weapon = GetComponentInChildren<Weapon_Enemy>();
+        boxCollider = GetComponentInChildren<BoxCollider>();
         rb = GetComponent<Rigidbody>();
-        //attackIndicatorController = GetComponentInChildren<AttackIndicatorController>();
+
     }
 
     public virtual void SetStat(float IN_knockBackTime, float IN_coolDownAttack,
@@ -90,7 +89,7 @@ public class EnemyAI3 : MonoBehaviour{
     }
 
     protected virtual void Update(){
-        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        //transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 
         CheckHealth();
         if(state != State.Dead){
@@ -105,7 +104,7 @@ public class EnemyAI3 : MonoBehaviour{
         }
     }
 
-    void AnimationCheckState(){
+    protected virtual void AnimationCheckState(){
         if(state == State.Cooldown){
             animator.SetBool("IsCooldown",true);
             DisableAttack(0);
@@ -123,13 +122,13 @@ public class EnemyAI3 : MonoBehaviour{
         }
     }
 
-    void CheckHealth(){
+    protected virtual void CheckHealth(){
         if(health.GetCurrentHealth() <= 0 && state != State.Dead){
             Dead();
         }
     }
 
-    void CoolDownAttaickTime(){
+    protected virtual void CoolDownAttaickTime(){
         if (!timerReachedCoolDownAttack && state == State.Cooldown) timerCoolDownAttack += Time.deltaTime;
         if (!timerReachedCoolDownAttack && timerCoolDownAttack > CoolDownAttack && state == State.Cooldown){ //#############
             agent.speed = speed;
@@ -140,7 +139,7 @@ public class EnemyAI3 : MonoBehaviour{
     }
     
 
-    private void CooldownKnockBackTime(){
+    protected virtual private void CooldownKnockBackTime(){
         if (!timerReachedCoolKnockBack && state == State.KnockBack)timerCoolKnockBack += Time.deltaTime;
         if (!timerReachedCoolKnockBack && timerCoolKnockBack > KnockBackTime && state == State.KnockBack){ //#############
             agent.speed = speed;
@@ -149,15 +148,15 @@ public class EnemyAI3 : MonoBehaviour{
         }     
     }
 
-    void KnockBack(Vector3 hitDirection, float knockBackForce){
+    protected virtual private void KnockBack(Vector3 hitDirection, float knockBackForce){
         state = State.KnockBack;
         animator.SetTrigger("Knockback");
         rb.AddForce(hitDirection.normalized * knockBackForce, ForceMode.Impulse);
     }
 
-    void Chase(){
+    public void Chase() {
         DisableAttack(0);
-        animator.SetBool("Chase",true);
+        animator.SetBool("Chase", true);
         agent.SetDestination(player.transform.position);
     }
 
@@ -200,13 +199,14 @@ public class EnemyAI3 : MonoBehaviour{
             return;
         }else{
             state = State.Dead;
+            Destroy(bar.gameObject);
+            agent.enabled = false;
+            animator.SetBool("Death",true);
+            attackIndicatorCanvas.gameObject.SetActive(false);
         }
-        Destroy(bar.gameObject);
-        agent.enabled = false;
-        animator.SetBool("Death",true);
     }
 
-    void Patrol(){
+    protected virtual void Patrol(){
         if (!walkpointSet)
             SearchForDest();
         if (walkpointSet)
@@ -240,10 +240,11 @@ public class EnemyAI3 : MonoBehaviour{
 
     void DisableAttack(int AttackTimeFrame){
         HideIndicator();
-        boxCollider.enabled = false;
-        agent.transform.LookAt(player.transform);
-        if(AttackTimeFrame != 0 ){
-            ShowIndicator(AttackTimeFrame);
+        if(boxCollider != null){
+            boxCollider.enabled = false;
+            if(AttackTimeFrame != 0 ){
+                ShowIndicator(AttackTimeFrame);
+            }
         }
     }
 
@@ -286,10 +287,11 @@ public class EnemyAI3 : MonoBehaviour{
 
     void OnTriggerEnter(Collider other){
         if(other.isTrigger && other.gameObject.CompareTag("PlayerSword")){
+            Debug.Log("Damage");
             health.CalculateDamage(playerWeapon.damage);
             agent.transform.LookAt(player.transform);
             Vector3 knockBackDirection = transform.position - player.transform.position;
-            KnockBack(knockBackDirection, 100f);
+            KnockBack(knockBackDirection, 10f);
         }
     }
 

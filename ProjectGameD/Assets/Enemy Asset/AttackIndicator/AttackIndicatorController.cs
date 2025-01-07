@@ -45,7 +45,6 @@ public class AttackIndicatorController : MonoBehaviour
     }
 
 
-
         public void HideIndicator()
     {
         if (attackIndicator != null)
