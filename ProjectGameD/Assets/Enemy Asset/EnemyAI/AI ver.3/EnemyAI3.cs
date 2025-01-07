@@ -55,6 +55,7 @@ public class EnemyAI3 : MonoBehaviour{
     [SerializeField] Canvas attackIndicatorCanvas;
     [SerializeField] AttackIndicatorController attackIndicatorController;
 
+
     protected virtual void Start(){
         playerWeapon = GameObject.Find("PlayerSwordHitbox").GetComponent<PlayerWeapon>();
         state = State.Ready;
@@ -201,7 +202,6 @@ public class EnemyAI3 : MonoBehaviour{
             Destroy(bar.gameObject);
             agent.enabled = false;
             animator.SetBool("Death",true);
-            //Destroy(attackIndicatorCanvas);
             attackIndicatorCanvas.gameObject.SetActive(false);
         }
     }

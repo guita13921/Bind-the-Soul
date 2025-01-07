@@ -28,6 +28,26 @@ public class ObjFadeing : MonoBehaviour
         fadeSpeed = 10;
         FadeAmount = 0.1f; // Target fade opacity (you can adjust this based on your needs)
         numberOfChild = transform.childCount;
+
+        // Initialize the objectToFind and material lists
+        for (int i = 0; i < numberOfChild; i++)
+        {
+            GameObject child = transform.GetChild(i).gameObject;
+            objectToFind.Add(child);
+
+            Renderer renderer = child.GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                Material mat = renderer.material;
+                material.Add(mat);
+
+                // Set material to transparent mode
+                SetMaterialToTransparent(mat);
+
+                // Store the original opacity
+                originalOpacity.Add(mat.color.a);
+            }
+        }
     }
 
     void Update()
@@ -67,21 +87,10 @@ public class ObjFadeing : MonoBehaviour
         mat.renderQueue = 3000; // Transparent render queue
     }
 
-
     void FadeNow()
     {
-        for (int i = 0; i < numberOfChild; i++)
+        for (int i = 0; i < material.Count; i++)
         {
-            // If materials and game objects aren't initialized yet, do it once
-            if (objectToFind.Count <= i)
-            {
-                objectToFind.Add(transform.GetChild(i).gameObject);
-                material.Add(objectToFind[i].GetComponent<Renderer>().material);
-
-                SetMaterialToTransparent(material[i]);
-                originalOpacity.Add(material[i].color.a); // Store original opacity
-            }
-
             // Get the current color of the material
             Color currentColor = material[i].color;
 
@@ -93,7 +102,7 @@ public class ObjFadeing : MonoBehaviour
 
     void ResetFade()
     {
-        for (int i = 0; i < numberOfChild; i++)
+        for (int i = 0; i < material.Count; i++)
         {
             // Get the current color of the material
             Color currentColor = material[i].color;

@@ -18,8 +18,6 @@ public class Chaos_warriors : EnemyAI3
     [SerializeField] private int berserkDamageBoost = 10;
     [SerializeField] private float berserkAttackCooldownMultiplier = 3f; 
 
-    [SerializeField] BoxCollider jumphitbox;
-
     //Aniamtion Config
     [SerializeField] private float animationSpeedMultiplier = 1; // Multiplier for animation speed
 
@@ -56,10 +54,9 @@ public class Chaos_warriors : EnemyAI3
     private void EnterBerserkMode()
     {
         isBerserk = true;
-        //Debug.Log("Berserk Mode Activated!");
 
         //Stat Config
-        agent.speed = 3; // Increase movement speed
+        agent.speed = 3; 
         Debug.Log("speed : " + CoolDownAttack);
         weapon.damage += berserkDamageBoost; // Boost damage
         CoolDownAttack = 3f; // Reduce attack cooldown
@@ -68,22 +65,12 @@ public class Chaos_warriors : EnemyAI3
         animator.SetBool("IsBerserk",true); // Play Berserk animation
         SetAnimationSpeed(animationSpeedMultiplier * 1.25f); // Make animations faster in Berserk mode
     }
-
-    void OnTriggerEnter(Collider other){
-        if(jumphitbox.isTrigger && other.gameObject.CompareTag("Player") && isBerserk){
-            agent.transform.LookAt(player.transform);
-            animator.SetTrigger("JumpAttack");
-            state = State.Cooldown;
-        }else{
-            return;
-        }
-    }
-
+    /*
     void StartJumpAttack(){
-
     }
 
     void StopJumpAttack(){
 
     }
+    */
 }
