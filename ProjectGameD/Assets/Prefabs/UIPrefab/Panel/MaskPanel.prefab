@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1352591628989366850}
   - component: {fileID: 302310457893838429}
   - component: {fileID: 5093541923161766369}
+  - component: {fileID: 6543055216604346607}
   m_Layer: 5
   m_Name: MaskPanel
   m_TagString: Untagged
@@ -112,6 +113,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6543055216604346607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5151489529736443501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffca0b2039128fa46aee4255f6fbb01e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventSystem: {fileID: 0}
 --- !u!1001 &4174273008690278022
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -120,6 +134,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2033032421428480504}
     m_Modifications:
+    - target: {fileID: 2525278338322079163, guid: 1a46ba9d89de7cd43bfee26d0143d23e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3465161236558991021}
     - target: {fileID: 3439397503574783911, guid: 1a46ba9d89de7cd43bfee26d0143d23e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -220,9 +238,19 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4407725437272215536, guid: 1a46ba9d89de7cd43bfee26d0143d23e, type: 3}
-    - {fileID: 1416856467519967512, guid: 1a46ba9d89de7cd43bfee26d0143d23e, type: 3}
+    - target: {fileID: 8740331280742060501, guid: 1a46ba9d89de7cd43bfee26d0143d23e, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 8740331280742060501, guid: 1a46ba9d89de7cd43bfee26d0143d23e, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 8740331280742060501, guid: 1a46ba9d89de7cd43bfee26d0143d23e, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -250,6 +278,8 @@ MonoBehaviour:
   characterData: {fileID: 11400000, guid: e628f4ad3830604478a34deaa6dbc29e, type: 2}
   buffUIPanel: {fileID: 1609701386613463329}
   buffButtonPrefab: {fileID: 8165221742510492786, guid: 055a167eb80422848837daeedf3d3a31, type: 3}
+  animator: {fileID: 5093541923161766369}
+  eventSystem: {fileID: 0}
 --- !u!224 &1609701386613463329 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3439397503574783911, guid: 1a46ba9d89de7cd43bfee26d0143d23e, type: 3}

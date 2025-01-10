@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -12,6 +13,9 @@ public class BuffReader : MonoBehaviour
     public GameObject buffButtonPrefab; // Prefab for buff buttons
 
     private List<Buff> buffs;
+
+    public Animator animator;
+    public EventSystem eventSystem;
 
     void Start()
     {
@@ -194,6 +198,7 @@ public class BuffReader : MonoBehaviour
 
             // Create a button for the buff
             GameObject buttonObj = Instantiate(buffButtonPrefab, buffUIPanel);
+            Transform childd = buttonObj.transform.GetChild(0);
 
             // Adjust position relative to the panel
             RectTransform buttonRect = buttonObj.GetComponent<RectTransform>();
@@ -201,13 +206,13 @@ public class BuffReader : MonoBehaviour
             // Set position: middle first, then above, then below
             buttonRect.anchoredPosition = new Vector2(0, yOffsets[i]);
 
-            Button button = buttonObj.GetComponent<Button>();
+            Button button = childd.GetComponent<Button>();
 
-            Transform child1 = buttonObj.transform.GetChild(0);
+            Transform child1 = childd.transform.GetChild(0);
             TMPro.TextMeshProUGUI MainText = child1.GetComponent<TMPro.TextMeshProUGUI>();
-            Transform child2 = buttonObj.transform.GetChild(1);
+            Transform child2 = childd.transform.GetChild(1);
             TMPro.TextMeshProUGUI DescriptionText = child2.GetComponent<TMPro.TextMeshProUGUI>();
-            Transform child3 = buttonObj.transform.GetChild(2);
+            Transform child3 = childd.transform.GetChild(2);
             TMPro.TextMeshProUGUI TypeText = child3.GetComponent<TMPro.TextMeshProUGUI>();
 
             if (MainText != null)
@@ -225,8 +230,10 @@ public class BuffReader : MonoBehaviour
             button.onClick.AddListener(() =>
             {
                 selectedBuff.applyEffect(characterData);
+                animator.Play("Out");
+
                 Debug.Log($"{selectedBuff.name} applied!");
-                ShowRandomAvailableBuffs(); // Refresh buff selection
+                eventSystem.enabled = false;
             });
         }
     }
