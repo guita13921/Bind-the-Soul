@@ -48,6 +48,13 @@ public class EnemyAI3 : MonoBehaviour{
     [SerializeField] private int numberOfRandomVariations;
     private int currentBehaviorType = -1; // Default to -1 indicating no behavior set yet
 
+    // Spawn Effect Variables
+    [Header("Spawn Settings")]
+    [SerializeField] private float spawnDelay = 2f; // Freeze duration
+    [SerializeField] private VisualEffect spawnEffect; // VFX Graph effect
+    [SerializeField] protected bool isSpawning = true;
+    [SerializeField] private float effectSizeMultiplier = 2f; // Multiplier for size
+
     //Heath and Canvas
     [SerializeField] Canvas bar;
     [SerializeField] protected EnemyHealth health;
@@ -56,7 +63,14 @@ public class EnemyAI3 : MonoBehaviour{
     [SerializeField] AttackIndicatorController attackIndicatorController;
 
 
-    protected virtual void Start(){
+    protected virtual void Start()
+    {
+        InitializeComponents();
+        StartCoroutine(HandleSpawn());
+    }
+
+    private void InitializeComponents()
+    {
         playerWeapon = GameObject.Find("PlayerSwordHitbox").GetComponent<PlayerWeapon>();
         state = State.Ready;
         agent = GetComponent<NavMeshAgent>();
@@ -66,8 +80,31 @@ public class EnemyAI3 : MonoBehaviour{
         weapon = GetComponentInChildren<Weapon_Enemy>();
         boxCollider = GetComponentInChildren<BoxCollider>();
         rb = GetComponent<Rigidbody>();
-
     }
+
+    private IEnumerator HandleSpawn()
+        {
+            isSpawning = true;
+            agent.enabled = false;
+
+            // Set the size of the VFX effect
+            if (spawnEffect != null)
+            {
+                spawnEffect.SetFloat("EffectSize", effectSizeMultiplier); // Adjust size
+                spawnEffect.Play();
+            }
+
+            yield return new WaitForSeconds(spawnDelay);
+
+            if (spawnEffect != null)
+            {
+                spawnEffect.Stop();
+            }
+
+            agent.enabled = true;
+            isSpawning = false;
+     }
+
 
     public virtual void SetStat(float IN_knockBackTime, float IN_coolDownAttack,
         int IN_randomVariations, int IN_Speed, int IN_Damage,int IN_range,
@@ -88,19 +125,32 @@ public class EnemyAI3 : MonoBehaviour{
         IN_agent.stoppingDistance = IN_stoprange;
     }
 
-    protected virtual void Update(){
-        //transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+    protected virtual void Update()
+    {
+        if (isSpawning || state == State.Dead) return;
 
         CheckHealth();
-        if(state != State.Dead){
-            AnimationCheckState();
-            CooldownKnockBackTime();
-            CoolDownAttaickTime();
-            playerInsight = Physics.CheckSphere(transform.position, sightRange, playerLayer);
-            PlayerInAttackrange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
-            if (!playerInsight && !PlayerInAttackrange && state != State.KnockBack && state != State.Cooldown)Patrol();
-            if (playerInsight && !PlayerInAttackrange && state != State.KnockBack && state != State.Cooldown)Chase();
-            if (playerInsight && PlayerInAttackrange && state == State.Ready)Attack();
+        AnimationCheckState();
+        CooldownKnockBackTime();
+        CoolDownAttaickTime();
+
+        // Check player visibility and distance
+        playerInsight = Physics.CheckSphere(transform.position, sightRange, playerLayer);
+        PlayerInAttackrange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
+
+        // Only proceed with movement logic if the NavMeshAgent is active and placed on a NavMesh
+        if (agent.isActiveAndEnabled && agent.isOnNavMesh)
+        {
+            if (!playerInsight && !PlayerInAttackrange && state != State.KnockBack && state != State.Cooldown)
+                Patrol();
+            if (playerInsight && !PlayerInAttackrange && state != State.KnockBack && state != State.Cooldown)
+                Chase();
+            if (playerInsight && PlayerInAttackrange && state == State.Ready)
+                Attack();
+        }
+        else
+        {
+            Debug.LogWarning("NavMeshAgent is not active or is not on a NavMesh. Movement disabled.");
         }
     }
 
@@ -172,26 +222,31 @@ public class EnemyAI3 : MonoBehaviour{
         animator.SetBool("Attack", true);
     }
 
-    private IEnumerator DashForward(){
+    private IEnumerator DashForward() {
         isDashing = true;
 
         Vector3 dashDirection = transform.forward;
-        float reducedDashDistance = dashDistance; //* 0.5f;  // Reduce to 50% of the original range
-        Vector3 targetPosition = transform.position + dashDirection * reducedDashDistance;
-        float dashTime = reducedDashDistance / dashSpeed;  // Total dash distance divided by speed
-        float startTime = Time.time;
+        float reducedDashDistance = dashDistance; 
+        Vector3 potentialTargetPosition = transform.position + dashDirection * reducedDashDistance;
 
-        // While the enemy has not reached the target position
-        while (Vector3.Distance(transform.position, targetPosition) > 0.1f) {
-            float journeyProgress = (Time.time - startTime) / dashTime;
-            transform.position = Vector3.Lerp(transform.position, targetPosition, journeyProgress);
-            yield return null;
+        // Project the target position onto the NavMesh
+        if (NavMesh.SamplePosition(potentialTargetPosition, out NavMeshHit hit, reducedDashDistance, NavMesh.AllAreas)) {
+            Vector3 targetPosition = hit.position; // Use the position on the NavMesh
+            float dashTime = Vector3.Distance(transform.position, targetPosition) / dashSpeed; // Adjust dash time
+            float startTime = Time.time;
+
+            // While the enemy has not reached the target position
+            while (Vector3.Distance(transform.position, targetPosition) > 0.1f) {
+                float journeyProgress = (Time.time - startTime) / dashTime;
+                transform.position = Vector3.Lerp(transform.position, targetPosition, journeyProgress);
+                yield return null;
+            }
+        } else {
+            Debug.LogWarning("Dash target position is not on the NavMesh. Cancelling dash.");
         }
 
-        //transform.position = targetPosition;
-
         isDashing = false;
-        //StopAttack();
+        //StopAttack(); // Optional
     }
 
     void Dead(){
@@ -286,7 +341,7 @@ public class EnemyAI3 : MonoBehaviour{
     }
 
     void OnTriggerEnter(Collider other){
-        if(other.isTrigger && other.gameObject.CompareTag("PlayerSword")){
+        if(other.isTrigger && other.gameObject.CompareTag("PlayerSword") && state != State.Dead){
             Debug.Log("Damage");
             health.CalculateDamage(playerWeapon.damage);
             agent.transform.LookAt(player.transform);
