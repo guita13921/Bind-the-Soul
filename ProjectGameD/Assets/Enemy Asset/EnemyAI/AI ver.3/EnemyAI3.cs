@@ -90,7 +90,6 @@ public class EnemyAI3 : MonoBehaviour{
             // Set the size of the VFX effect
             if (spawnEffect != null)
             {
-                spawnEffect.SetFloat("EffectSize", effectSizeMultiplier); // Adjust size
                 spawnEffect.Play();
             }
 

@@ -115,7 +115,7 @@ public class BulletScript : MonoBehaviour
 
     void FlashEffect()
     {
-        Debug.Log("FLASH");
+        //Debug.Log("FLASH");
         if (flash != null)
         {
             var flashInstance = Instantiate(flash, transform.position, Quaternion.identity);
