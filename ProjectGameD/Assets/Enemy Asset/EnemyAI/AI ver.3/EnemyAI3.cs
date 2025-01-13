@@ -11,16 +11,15 @@ using UnityEngine.VFX;
 public class EnemyAI3 : MonoBehaviour{
     [SerializeField] protected GameObject player;
     [SerializeField] protected NavMeshAgent agent;
-    [SerializeField] CapsuleCollider caps;
-    [SerializeField] LayerMask groundLayer,playerLayer;
+    [SerializeField] protected LayerMask groundLayer,playerLayer;
     [SerializeField] Rigidbody rb;
 
     //Walk Var
     Vector3 destPoint;
     bool walkpointSet;
-    [SerializeField] float range;
-    [SerializeField] float sightRange,attackRange;
-    [SerializeField] bool playerInsight,PlayerInAttackrange;
+    [SerializeField] private protected float range;
+    [SerializeField] private protected float sightRange,attackRange;
+    [SerializeField] private protected bool playerInsight,PlayerInAttackrange;
 
     //Animatotion var
     protected Animator animator;
@@ -49,16 +48,29 @@ public class EnemyAI3 : MonoBehaviour{
     [SerializeField] private int numberOfRandomVariations;
     private int currentBehaviorType = -1; // Default to -1 indicating no behavior set yet
 
+    // Spawn Effect Variables
+    [Header("Spawn Settings")]
+    [SerializeField] private float spawnDelay = 2f; // Freeze duration
+    [SerializeField] private VisualEffect spawnEffect; // VFX Graph effect
+    [SerializeField] protected bool isSpawning = true;
+    [SerializeField] private float effectSizeMultiplier = 2f; // Multiplier for size
+
     //Heath and Canvas
     [SerializeField] Canvas bar;
     [SerializeField] protected EnemyHealth health;
     [SerializeField] PlayerWeapon playerWeapon;
     [SerializeField] Canvas attackIndicatorCanvas;
     [SerializeField] AttackIndicatorController attackIndicatorController;
-    
 
 
-    protected virtual void Start(){
+    protected virtual void Start()
+    {
+        InitializeComponents();
+        StartCoroutine(HandleSpawn());
+    }
+
+    private void InitializeComponents()
+    {
         playerWeapon = GameObject.Find("PlayerSwordHitbox").GetComponent<PlayerWeapon>();
         state = State.Ready;
         agent = GetComponent<NavMeshAgent>();
@@ -66,9 +78,33 @@ public class EnemyAI3 : MonoBehaviour{
         animator = GetComponent<Animator>();
         health = GetComponent<EnemyHealth>();
         weapon = GetComponentInChildren<Weapon_Enemy>();
+        boxCollider = GetComponentInChildren<BoxCollider>();
         rb = GetComponent<Rigidbody>();
-        //attackIndicatorController = GetComponentInChildren<AttackIndicatorController>();
     }
+
+    private IEnumerator HandleSpawn()
+        {
+            isSpawning = true;
+            agent.enabled = false;
+
+            // Set the size of the VFX effect
+            if (spawnEffect != null)
+            {
+                spawnEffect.SetFloat("EffectSize", effectSizeMultiplier); // Adjust size
+                spawnEffect.Play();
+            }
+
+            yield return new WaitForSeconds(spawnDelay);
+
+            if (spawnEffect != null)
+            {
+                spawnEffect.Stop();
+            }
+
+            agent.enabled = true;
+            isSpawning = false;
+     }
+
 
     public virtual void SetStat(float IN_knockBackTime, float IN_coolDownAttack,
         int IN_randomVariations, int IN_Speed, int IN_Damage,int IN_range,
@@ -89,23 +125,36 @@ public class EnemyAI3 : MonoBehaviour{
         IN_agent.stoppingDistance = IN_stoprange;
     }
 
-    protected virtual void Update(){
-        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+    protected virtual void Update()
+    {
+        if (isSpawning || state == State.Dead) return;
 
         CheckHealth();
-        if(state != State.Dead){
-            AnimationCheckState();
-            CooldownKnockBackTime();
-            CoolDownAttaickTime();
-            playerInsight = Physics.CheckSphere(transform.position, sightRange, playerLayer);
-            PlayerInAttackrange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
-            if (!playerInsight && !PlayerInAttackrange && state != State.KnockBack && state != State.Cooldown)Patrol();
-            if (playerInsight && !PlayerInAttackrange && state != State.KnockBack && state != State.Cooldown)Chase();
-            if (playerInsight && PlayerInAttackrange && state == State.Ready)Attack();
+        AnimationCheckState();
+        CooldownKnockBackTime();
+        CoolDownAttaickTime();
+
+        // Check player visibility and distance
+        playerInsight = Physics.CheckSphere(transform.position, sightRange, playerLayer);
+        PlayerInAttackrange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
+
+        // Only proceed with movement logic if the NavMeshAgent is active and placed on a NavMesh
+        if (agent.isActiveAndEnabled && agent.isOnNavMesh)
+        {
+            if (!playerInsight && !PlayerInAttackrange && state != State.KnockBack && state != State.Cooldown)
+                Patrol();
+            if (playerInsight && !PlayerInAttackrange && state != State.KnockBack && state != State.Cooldown)
+                Chase();
+            if (playerInsight && PlayerInAttackrange && state == State.Ready)
+                Attack();
+        }
+        else
+        {
+            Debug.LogWarning("NavMeshAgent is not active or is not on a NavMesh. Movement disabled.");
         }
     }
 
-    void AnimationCheckState(){
+    protected virtual void AnimationCheckState(){
         if(state == State.Cooldown){
             animator.SetBool("IsCooldown",true);
             DisableAttack(0);
@@ -123,13 +172,13 @@ public class EnemyAI3 : MonoBehaviour{
         }
     }
 
-    void CheckHealth(){
+    protected virtual void CheckHealth(){
         if(health.GetCurrentHealth() <= 0 && state != State.Dead){
             Dead();
         }
     }
 
-    void CoolDownAttaickTime(){
+    protected virtual void CoolDownAttaickTime(){
         if (!timerReachedCoolDownAttack && state == State.Cooldown) timerCoolDownAttack += Time.deltaTime;
         if (!timerReachedCoolDownAttack && timerCoolDownAttack > CoolDownAttack && state == State.Cooldown){ //#############
             agent.speed = speed;
@@ -140,7 +189,7 @@ public class EnemyAI3 : MonoBehaviour{
     }
     
 
-    private void CooldownKnockBackTime(){
+    protected virtual private void CooldownKnockBackTime(){
         if (!timerReachedCoolKnockBack && state == State.KnockBack)timerCoolKnockBack += Time.deltaTime;
         if (!timerReachedCoolKnockBack && timerCoolKnockBack > KnockBackTime && state == State.KnockBack){ //#############
             agent.speed = speed;
@@ -149,15 +198,15 @@ public class EnemyAI3 : MonoBehaviour{
         }     
     }
 
-    void KnockBack(Vector3 hitDirection, float knockBackForce){
+    protected virtual private void KnockBack(Vector3 hitDirection, float knockBackForce){
         state = State.KnockBack;
         animator.SetTrigger("Knockback");
         rb.AddForce(hitDirection.normalized * knockBackForce, ForceMode.Impulse);
     }
 
-    void Chase(){
+    public void Chase() {
         DisableAttack(0);
-        animator.SetBool("Chase",true);
+        animator.SetBool("Chase", true);
         agent.SetDestination(player.transform.position);
     }
 
@@ -173,26 +222,31 @@ public class EnemyAI3 : MonoBehaviour{
         animator.SetBool("Attack", true);
     }
 
-    private IEnumerator DashForward(){
+    private IEnumerator DashForward() {
         isDashing = true;
 
         Vector3 dashDirection = transform.forward;
-        float reducedDashDistance = dashDistance; //* 0.5f;  // Reduce to 50% of the original range
-        Vector3 targetPosition = transform.position + dashDirection * reducedDashDistance;
-        float dashTime = reducedDashDistance / dashSpeed;  // Total dash distance divided by speed
-        float startTime = Time.time;
+        float reducedDashDistance = dashDistance; 
+        Vector3 potentialTargetPosition = transform.position + dashDirection * reducedDashDistance;
 
-        // While the enemy has not reached the target position
-        while (Vector3.Distance(transform.position, targetPosition) > 0.1f) {
-            float journeyProgress = (Time.time - startTime) / dashTime;
-            transform.position = Vector3.Lerp(transform.position, targetPosition, journeyProgress);
-            yield return null;
+        // Project the target position onto the NavMesh
+        if (NavMesh.SamplePosition(potentialTargetPosition, out NavMeshHit hit, reducedDashDistance, NavMesh.AllAreas)) {
+            Vector3 targetPosition = hit.position; // Use the position on the NavMesh
+            float dashTime = Vector3.Distance(transform.position, targetPosition) / dashSpeed; // Adjust dash time
+            float startTime = Time.time;
+
+            // While the enemy has not reached the target position
+            while (Vector3.Distance(transform.position, targetPosition) > 0.1f) {
+                float journeyProgress = (Time.time - startTime) / dashTime;
+                transform.position = Vector3.Lerp(transform.position, targetPosition, journeyProgress);
+                yield return null;
+            }
+        } else {
+            Debug.LogWarning("Dash target position is not on the NavMesh. Cancelling dash.");
         }
 
-        //transform.position = targetPosition;
-
         isDashing = false;
-        //StopAttack();
+        //StopAttack(); // Optional
     }
 
     void Dead(){
@@ -200,13 +254,14 @@ public class EnemyAI3 : MonoBehaviour{
             return;
         }else{
             state = State.Dead;
+            Destroy(bar.gameObject);
+            agent.enabled = false;
+            animator.SetBool("Death",true);
+            attackIndicatorCanvas.gameObject.SetActive(false);
         }
-        Destroy(bar.gameObject);
-        agent.enabled = false;
-        animator.SetBool("Death",true);
     }
 
-    void Patrol(){
+    protected virtual void Patrol(){
         if (!walkpointSet)
             SearchForDest();
         if (walkpointSet)
@@ -240,10 +295,11 @@ public class EnemyAI3 : MonoBehaviour{
 
     void DisableAttack(int AttackTimeFrame){
         HideIndicator();
-        boxCollider.enabled = false;
-        agent.transform.LookAt(player.transform);
-        if(AttackTimeFrame != 0 ){
-            ShowIndicator(AttackTimeFrame);
+        if(boxCollider != null){
+            boxCollider.enabled = false;
+            if(AttackTimeFrame != 0 ){
+                ShowIndicator(AttackTimeFrame);
+            }
         }
     }
 
@@ -285,11 +341,12 @@ public class EnemyAI3 : MonoBehaviour{
     }
 
     void OnTriggerEnter(Collider other){
-        if(other.isTrigger && other.gameObject.CompareTag("PlayerSword")){
+        if(other.isTrigger && other.gameObject.CompareTag("PlayerSword") && state != State.Dead){
+            Debug.Log("Damage");
             health.CalculateDamage(playerWeapon.damage);
             agent.transform.LookAt(player.transform);
             Vector3 knockBackDirection = transform.position - player.transform.position;
-            KnockBack(knockBackDirection, 100f);
+            KnockBack(knockBackDirection, 10f);
         }
     }
 

@@ -46,7 +46,7 @@ public class SmoothCameraFollow : MonoBehaviour
                     _fader = hit.collider.gameObject.GetComponent<ObjFadeing>();
                     if (_fader != null)
                     {
-                        Debug.Log("HIT");
+                        //Debug.Log("HIT");
                         _fader.timeRemaining = 0.1;
                         _fader.DoFade = true;
                     }

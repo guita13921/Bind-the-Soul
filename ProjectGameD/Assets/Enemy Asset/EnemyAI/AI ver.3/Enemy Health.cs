@@ -8,10 +8,10 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private float maxHealth;
     [SerializeField] private float currentHealth;
 
-    void Start()
-    {
-        maxHealth = Health;
-        currentHealth = maxHealth;
+    public void SetState(int IN_Health){
+        Health = IN_Health;
+        maxHealth = IN_Health;
+        currentHealth = IN_Health;
     }
 
     public void CalculateDamage(float playerWeaponDamage)
