@@ -60,15 +60,19 @@ public class ArrowTrap : MonoBehaviour
         // Calculate the direction to the target
         Vector3 direction = (targetPosition - turret.position).normalized;
 
-        // Rotate the turret to face the floor trap's position
-        turret.LookAt(new Vector3(targetPosition.x, turret.position.y, targetPosition.z));
+        // Introduce random error in the direction's z-axis
+        float error = Random.Range(-0.05f, 0.05f); // Adjust the range for more or less error
+        direction = Quaternion.Euler(0, 0, error) * direction;
+
+        // Set the arrow's rotation to face the (slightly adjusted) target direction
+        arrow.transform.rotation = Quaternion.LookRotation(direction);
 
         // Apply velocity to the arrow to shoot it
         Rigidbody arrowRb = arrow.GetComponent<Rigidbody>();
         if (arrowRb != null)
         {
             arrowRb.isKinematic = false; // Ensure it's not kinematic
-            arrowRb.velocity = direction * arrowSpeed; // Apply velocity in the target direction
+            arrowRb.velocity = direction * arrowSpeed; // Apply velocity in the adjusted direction
         }
         else
         {
