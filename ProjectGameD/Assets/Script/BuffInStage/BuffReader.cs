@@ -35,8 +35,8 @@ public class BuffReader : MonoBehaviour
         {
             new Buff(
                 data => "Vampirism",
-                data => !data.vampirism,
-                data => data.vampirism = true,
+                data => data.vampirism < 3,
+                data => data.vampirism++,
                 data => "Restores player health for every attack",
                 data => "Normal Attack"
             ),
