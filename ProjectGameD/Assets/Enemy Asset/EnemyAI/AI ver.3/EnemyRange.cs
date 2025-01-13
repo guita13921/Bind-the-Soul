@@ -8,7 +8,7 @@ public class EnemyRange : EnemyAI3{
     public GameObject enemyBullet;
     [SerializeField]public Transform SpawnPoint;
     public Vector2 uiOffset;
-    [SerializeField] private int numberOfBullets = 3; // Number of bullets to fire
+    [SerializeField] private int numberOfBullets; // Number of bullets to fire
     [SerializeField] private float bulletDelay = 0.5f; // Time between bullets
 
 
@@ -18,7 +18,9 @@ public class EnemyRange : EnemyAI3{
     }
 
     protected override void Update() {
-        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        
+        //transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        if (isSpawning || state == State.Dead) return;
 
         CheckHealth();
         if(state != State.Dead){
