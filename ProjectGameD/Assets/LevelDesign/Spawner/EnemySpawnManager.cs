@@ -1,0 +1,161 @@
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI; // For using the Text component
+
+[System.Serializable]
+public class EnemyType
+{
+    public GameObject prefab;  // The enemy prefab
+    public int spawnCost;      // Points required to spawn this enemy
+}
+
+public class EnemySpawnManager : MonoBehaviour
+{
+    [Header("Spawn Configuration")]
+    [Tooltip("Spawn points where enemies will appear.")]
+    public List<Transform> spawnPoints;
+
+    [Tooltip("List of enemy types with their associated spawn costs.")]
+    public List<EnemyType> enemyTypes;
+
+    [Header("Wave Settings")]
+    [Tooltip("Base points available for spawning enemies in a wave.")]
+    public int basePointsPerWave;
+
+    [Tooltip("Total number of waves.")]
+    public int totalWaves;
+
+    [Tooltip("Objects to activate after the last wave.")]
+    public List<GameObject> nextStageObjects;
+
+    [Header("UI Elements")]
+    [Tooltip("Text element to display current wave number.")]
+    public Text waveText;
+
+    [Tooltip("Text element to display remaining points for the current wave.")]
+    public Text pointsText;
+
+    [SerializeField] private int currentWave = 0;
+    [SerializeField] private int enemiesRemaining;
+    [SerializeField] private int pointsToSpend; // Remaining points for the wave
+
+    private List<Transform> usedSpawnPoints; // Tracks used spawn points in the current wave
+
+    private void Start()
+    {
+        InitializeNextStageObjects();
+        StartNextWave();
+    }
+
+    private void Update()
+    {
+        // Monitor active enemies in the scene
+        enemiesRemaining = GameObject.FindGameObjectsWithTag("Enemy").Length;
+
+        if (enemiesRemaining == 0)
+        {
+            if (currentWave < totalWaves)
+            {
+                StartNextWave();
+            }
+            else
+            {
+                EnableNextStageObjects();
+            }
+        }
+
+        // Update the UI
+        UpdateUI();
+    }
+
+    private void StartNextWave()
+    {
+        currentWave++;
+        pointsToSpend = basePointsPerWave;
+        usedSpawnPoints = new List<Transform>(); // Reset the used spawn points for the new wave
+
+        Debug.Log($"Starting Wave {currentWave} with {pointsToSpend} points.");
+
+        while (pointsToSpend > 0 && usedSpawnPoints.Count < spawnPoints.Count)
+        {
+            Transform spawnPoint = GetUnusedSpawnPoint();
+            if (spawnPoint == null)
+            {
+                Debug.LogWarning("No unused spawn points available.");
+                break;
+            }
+
+            EnemyType selectedEnemy = GetRandomEnemyType(pointsToSpend);
+            if (selectedEnemy != null)
+            {
+                SpawnEnemyAtPoint(spawnPoint, selectedEnemy);
+                pointsToSpend -= selectedEnemy.spawnCost;
+            }
+            else
+            {
+                Debug.LogWarning("No more spawnable enemies within the budget.");
+                break; // No more spawnable enemies within budget
+            }
+        }
+
+        Debug.Log($"Wave {currentWave} completed spawning!");
+    }
+
+    private void SpawnEnemyAtPoint(Transform spawnPoint, EnemyType enemyType)
+    {
+        Instantiate(enemyType.prefab, spawnPoint.position, Quaternion.identity);
+        Debug.Log($"Spawned {enemyType.prefab.name} at {spawnPoint.position}");
+        usedSpawnPoints.Add(spawnPoint); // Mark this spawn point as used
+    }
+
+    private Transform GetUnusedSpawnPoint()
+    {
+        List<Transform> availablePoints = new List<Transform>(spawnPoints);
+        availablePoints.RemoveAll(usedSpawnPoints.Contains);
+
+        if (availablePoints.Count > 0)
+        {
+            return availablePoints[Random.Range(0, availablePoints.Count)];
+        }
+
+        return null; // No unused spawn points left
+    }
+
+    private EnemyType GetRandomEnemyType(int maxCost)
+    {
+        List<EnemyType> affordableEnemies = enemyTypes.FindAll(e => e.spawnCost <= maxCost);
+        return affordableEnemies.Count > 0 ? affordableEnemies[Random.Range(0, affordableEnemies.Count)] : null;
+    }
+
+    private void InitializeNextStageObjects()
+    {
+        foreach (var obj in nextStageObjects)
+        {
+            obj.SetActive(false);
+        }
+    }
+
+    private void EnableNextStageObjects()
+    {
+        foreach (var obj in nextStageObjects)
+        {
+            obj.SetActive(true);
+        }
+
+        Debug.Log("All waves completed! Next stage is now active.");
+    }
+
+    private void UpdateUI()
+    {
+        // Update wave and points text
+        if (waveText != null)
+        {
+            waveText.text = $"Wave: {currentWave}/{totalWaves}";
+        }
+
+        if (pointsText != null)
+        {
+            pointsText.text = $"Points: {pointsToSpend}";
+        }
+    }
+}
