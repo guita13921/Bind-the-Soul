@@ -16,7 +16,7 @@ public class CharacterData : ScriptableObject
     [Space]
     //Speacial Attack buff
     [Header("Special Attack")]
-    public int specialAttack = 0; //0 for spin ,1 for big sword , 2 for red spin,for heaven
+    public int specialAttack = 0; //0 for spin ,1 for big sword , 2 for red spin,3 for heaven
 
     [Space]
     public bool specialAdd1 = false; // make special bigger

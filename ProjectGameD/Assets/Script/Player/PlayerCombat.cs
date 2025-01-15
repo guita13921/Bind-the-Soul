@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.PlayerLoop;
 
 public class PlayerCombat : MonoBehaviour
@@ -52,7 +53,7 @@ public class PlayerCombat : MonoBehaviour
     // Update is called once per frame
     {
         //Test sword mode
-        if (Input.GetKeyDown(KeyCode.M))
+        /*if (Input.GetKeyDown(KeyCode.M))
         {
             if (normalmode)
             {
@@ -62,7 +63,7 @@ public class PlayerCombat : MonoBehaviour
             {
                 normalmode = true;
             }
-        }
+        }*/
 
         SpecialAttack();
         if (
@@ -79,7 +80,6 @@ public class PlayerCombat : MonoBehaviour
                 Cast();
             }
         }
-
         ExitAttack();
     }
 
