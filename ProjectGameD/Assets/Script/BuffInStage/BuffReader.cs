@@ -34,14 +34,14 @@ public class BuffReader : MonoBehaviour
         buffs = new List<Buff>
         {
             new Buff(
-                data => "Vampirism",
+                data => $"Vampirism (LV.{data.vampirism} -> LV.{data.vampirism + 1})",
                 data => data.vampirism < 3,
                 data => data.vampirism++,
                 data => "Restores player health for every attack",
                 data => "Normal Attack"
             ),
             new Buff(
-                data => "Barrier",
+                data => $"Barrier (LV.{data.barrierLV} -> LV.{data.barrierLV + 1})",
                 data => data.barrierLV < 3,
                 data => data.barrierLV++,
                 data =>
@@ -51,7 +51,8 @@ public class BuffReader : MonoBehaviour
                 data => "Passive"
             ),
             new Buff(
-                data => "Increase damage",
+                data =>
+                    $"Increase damage (LV.{data.normalAttackDamageUpLV} -> LV.{data.normalAttackDamageUpLV + 1})",
                 data => data.normalAttackDamageUpLV < 3,
                 data => data.normalAttackDamageUpLV++,
                 data => "Increases the damage of normal attacks",
@@ -65,7 +66,8 @@ public class BuffReader : MonoBehaviour
                 data => "Normal Attack"
             ),
             new Buff(
-                data => "Greatsword Slash",
+                data =>
+                    $"Greatsword Slash (LV.{data.specialAttack} -> LV.{data.specialAttack + 1})",
                 data => data.specialAttack == 0,
                 data => data.specialAttack = 1,
                 data =>
@@ -102,35 +104,38 @@ public class BuffReader : MonoBehaviour
                 data => "Speical attack"
             ),
             new Buff(
-                data => "Increase damage",
+                data =>
+                    $"Increase damage (LV.{data.SpecialDamageUpLV} -> LV.{data.SpecialDamageUpLV + 1})",
                 data => data.SpecialDamageUpLV < 3,
                 data => data.SpecialDamageUpLV++,
                 data => "Increases the damage of special attacks",
                 data => "Speical attack"
             ),
+            // new Buff(
+            //     data => "Bigger",
+            //     data => data.specialBiggerLV < 3,
+            //     data => data.specialBiggerLV++,
+            //     data => "Increases the size of special attacks",
+            //     data => "Speical attack"
+            // ),
             new Buff(
-                data => "Bigger",
-                data => data.specialBiggerLV < 3,
-                data => data.specialBiggerLV++,
-                data => "Increases the size of special attacks",
-                data => "Speical attack"
-            ),
-            new Buff(
-                data => "Increase Damage",
+                data =>
+                    $"Increase Damage (LV.{data.skillDamageUpLV} -> LV.{data.skillDamageUpLV + 1})",
                 data => data.skillDamageUpLV < 3,
                 data => data.skillDamageUpLV++,
                 data => "Increases the damage of skill ",
                 data => "Skill"
             ),
             new Buff(
-                data => "Slow",
+                data => $"Slow (LV.{data.skillSlowEnemyLV} -> LV.{data.skillSlowEnemyLV + 1})",
                 data => data.skillSlowEnemyLV < 3,
                 data => data.skillSlowEnemyLV++,
                 data => "skill now slow enemy",
                 data => "Skill"
             ),
             new Buff(
-                data => "Poision",
+                data =>
+                    $"Poision (LV.{data.skillPoisionEnemyLV} -> LV.{data.skillPoisionEnemyLV + 1})",
                 data => data.skillPoisionEnemyLV < 3,
                 data => data.skillPoisionEnemyLV++,
                 data => "skill now poison enemy",

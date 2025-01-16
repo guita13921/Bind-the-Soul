@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 3470090705834035637}
   - component: {fileID: 338109992104157761}
   - component: {fileID: 4516754931290037281}
+  - component: {fileID: 8898256612929282431}
+  - component: {fileID: 1293719378303264110}
   m_Layer: 0
   m_Name: Hitbox Controller
   m_TagString: PlayerSword
@@ -28,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 876564768695279392}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.07, y: 1.4, z: 0.40683806}
   m_LocalScale: {x: 2.9897807, y: 2.6460004, z: 11.104899}
   m_ConstrainProportionsScale: 0
@@ -118,4 +120,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e09e283d8f9f7845ad1eeeea4e1ed1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enabletime: 1
+  enabletime: 0.1
+  loop: 0
+  looptime: 0
+  destroyTime: 0
+--- !u!54 &8898256612929282431
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 876564768695279392}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!114 &1293719378303264110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 876564768695279392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d82814dbe5f9504da5bdebd39888ce6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
