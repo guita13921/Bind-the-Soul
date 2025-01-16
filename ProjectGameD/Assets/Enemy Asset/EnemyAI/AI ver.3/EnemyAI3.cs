@@ -259,9 +259,13 @@ public class EnemyAI3 : MonoBehaviour{
             return;
         }else{
             state = State.Dead;
+
+            // Change the tag of the enemy to "Untagged" or any other tag
+            gameObject.tag = "Untagged";
+
             Destroy(bar.gameObject);
             agent.enabled = false;
-            animator.SetBool("Death",true);
+            animator.SetBool("Death", true);
             attackIndicatorCanvas.gameObject.SetActive(false);
         }
     }
