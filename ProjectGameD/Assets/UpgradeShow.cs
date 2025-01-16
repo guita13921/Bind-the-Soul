@@ -7,7 +7,10 @@ public class UpgradeShow : MonoBehaviour
     public EnemySpawnManager enemySpawnManager;
     public GameObject upgradePanel;
 
-    void Start() { }
+    void Start()
+    {
+        GameObject vfx = Instantiate(upgradePanel);
+    }
 
     void Update()
     {
