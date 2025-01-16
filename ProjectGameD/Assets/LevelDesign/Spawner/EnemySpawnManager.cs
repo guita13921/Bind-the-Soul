@@ -1,7 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI; // For using the Text component
-using System.Collections;
 
 [System.Serializable]
 public class EnemyType
@@ -41,13 +41,13 @@ public class EnemySpawnManager : MonoBehaviour
     public Text pointsText;
 
     [SerializeField]
-    private int currentWave = 0;
+    public int currentWave = 0;
 
     [SerializeField]
     public int enemiesRemaining;
 
     [SerializeField]
-    private int pointsToSpend; // Remaining points for the wave
+    public int pointsToSpend; // Remaining points for the wave
 
     private List<Transform> usedSpawnPoints; // Tracks used spawn points in the current wave
 

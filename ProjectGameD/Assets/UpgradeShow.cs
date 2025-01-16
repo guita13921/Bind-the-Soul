@@ -6,14 +6,21 @@ public class UpgradeShow : MonoBehaviour
 {
     public EnemySpawnManager enemySpawnManager;
     public GameObject upgradePanel;
-
-    void Start()
-    {
-        GameObject vfx = Instantiate(upgradePanel);
-    }
+    private bool show = true;
 
     void Update()
     {
-        if (enemySpawnManager.enemiesRemaining == 0) { }
+        if (enemySpawnManager.currentWave == enemySpawnManager.totalWaves)
+        {
+            if (
+                enemySpawnManager.enemiesRemaining == 0
+                && enemySpawnManager.pointsToSpend == 0
+                && show
+            )
+            {
+                GameObject vfx = Instantiate(upgradePanel);
+                show = false;
+            }
+        }
     }
 }
