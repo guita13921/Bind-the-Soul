@@ -4,7 +4,7 @@ using UnityEngine;
 public class CharacterData : ScriptableObject
 {
     [Header("Passive")]
-    public bool vampirism = false;
+    public int vampirism = 0;
     public int barrierLV = 0;
 
     [Space]
@@ -16,7 +16,7 @@ public class CharacterData : ScriptableObject
     [Space]
     //Speacial Attack buff
     [Header("Special Attack")]
-    public int specialAttack = 0; //0 for spin ,1 for big sword , 2 for red spin,for heaven
+    public int specialAttack = 0; //0 for spin ,1 for big sword , 2 for red spin,3 for heaven
 
     [Space]
     public bool specialAdd1 = false; // make special bigger
@@ -34,7 +34,7 @@ public class CharacterData : ScriptableObject
 
     public void ResetToDefault()
     {
-        vampirism = false;
+        vampirism = 0;
         barrierLV = 0;
 
         forthNormalAttack = false;

@@ -21,7 +21,7 @@ public class PlayerCD : MonoBehaviour
         float roundedCooldown = Mathf.Round(cooldown * 10f) / 10f;
 
         // Display the cooldown value with only one digit
-        CDText.text = roundedCooldown.ToString("F1"); // "F1" format specifier ensures one digit after the decimal point
+        CDText.text = roundedCooldown.ToString("F1");
     }
 
     public void cooldownReady()

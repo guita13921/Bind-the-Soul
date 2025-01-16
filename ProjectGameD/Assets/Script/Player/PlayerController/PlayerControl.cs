@@ -13,7 +13,6 @@ public partial class PlayerControl : MonoBehaviour
     private CapsuleCollider capsuleCollider;
     private bool isDead;
     private Health health;
-    public ControlPower controlPower;
 
     private void Start()
     {
@@ -58,6 +57,8 @@ public partial class PlayerControl : MonoBehaviour
         //Reload();
     }
 
+    private bool canDash = true; // Tracks whether dashing is allowed.
+
     [SerializeField]
     float speedwhengethit = 1.5f;
 
@@ -79,7 +80,6 @@ public partial class PlayerControl : MonoBehaviour
             if (Input.GetKey(KeyCode.L) && !isDashing)
             {
                 StartCoroutine(Dash());
-                controlPower.DashVFX();
             }
         }
         else { }

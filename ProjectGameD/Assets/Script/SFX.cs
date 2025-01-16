@@ -4,26 +4,48 @@ using UnityEngine;
 
 public class SFX : MonoBehaviour
 {
-    [SerializeField] GameObject Sword_SFX;
-        [SerializeField] GameObject SSword_SFX;
+    public CharacterData characterData;
 
-    [SerializeField] GameObject Hit_SFX;
+    [SerializeField]
+    GameObject Sword_SFX;
 
+    [SerializeField]
+    GameObject SwordSpin_SFX;
+
+    [SerializeField]
+    GameObject BigSwordSFX;
+
+    [SerializeField]
+    GameObject LightBulletSFX;
+
+    [SerializeField]
+    GameObject Hit_SFX;
 
     // Start is called before the first frame update
-   
-    public void Slash(){
+
+    public void Slash()
+    {
         GameObject sfx = Instantiate(Sword_SFX);
-
     }
-    public void SkillSlash(){
-        GameObject sfx = Instantiate(SSword_SFX);
 
+    public void SkillSlash()
+    {
+        if (characterData.specialAttack == 1)
+        {
+            GameObject sfx = Instantiate(BigSwordSFX);
+        }
+        else if (characterData.specialAttack == 3)
+        {
+            GameObject sfx = Instantiate(LightBulletSFX);
+        }
+        else
+        {
+            GameObject sfx = Instantiate(SwordSpin_SFX);
+        }
     }
-    public void Hit(){
+
+    public void Hit()
+    {
         GameObject sfx = Instantiate(Hit_SFX);
-
     }
-
-
 }

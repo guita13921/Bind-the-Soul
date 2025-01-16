@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    [SerializeField] private float Health;
-    [SerializeField] private float maxHealth;
-    [SerializeField] private float currentHealth;
+    [SerializeField]
+    private float Health;
 
-    public void SetState(int IN_Health){
+    [SerializeField]
+    private float maxHealth;
+
+    [SerializeField]
+    private float currentHealth;
+    public GameObject dmgtext;
+
+    public void SetState(int IN_Health)
+    {
         Health = IN_Health;
         maxHealth = IN_Health;
         currentHealth = IN_Health;
@@ -17,6 +24,7 @@ public class EnemyHealth : MonoBehaviour
     public void CalculateDamage(float playerWeaponDamage)
     {
         currentHealth -= playerWeaponDamage;
+
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Ensure health doesn't go below 0
     }
 

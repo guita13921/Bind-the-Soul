@@ -6,8 +6,8 @@ using System.Collections;
 [System.Serializable]
 public class EnemyType
 {
-    public GameObject prefab;  // The enemy prefab
-    public int spawnCost;      // Points required to spawn this enemy
+    public GameObject prefab; // The enemy prefab
+    public int spawnCost; // Points required to spawn this enemy
 }
 
 public class EnemySpawnManager : MonoBehaviour
@@ -40,9 +40,14 @@ public class EnemySpawnManager : MonoBehaviour
     [Tooltip("Text element to display remaining points for the current wave.")]
     public Text pointsText;
 
-    [SerializeField] private int currentWave = 0;
-    [SerializeField] private int enemiesRemaining;
-    [SerializeField] private int pointsToSpend; // Remaining points for the wave
+    [SerializeField]
+    private int currentWave = 0;
+
+    [SerializeField]
+    public int enemiesRemaining;
+
+    [SerializeField]
+    private int pointsToSpend; // Remaining points for the wave
 
     private List<Transform> usedSpawnPoints; // Tracks used spawn points in the current wave
 
@@ -136,7 +141,9 @@ public class EnemySpawnManager : MonoBehaviour
     private EnemyType GetRandomEnemyType(int maxCost)
     {
         List<EnemyType> affordableEnemies = enemyTypes.FindAll(e => e.spawnCost <= maxCost);
-        return affordableEnemies.Count > 0 ? affordableEnemies[Random.Range(0, affordableEnemies.Count)] : null;
+        return affordableEnemies.Count > 0
+            ? affordableEnemies[Random.Range(0, affordableEnemies.Count)]
+            : null;
     }
 
     private void InitializeNextStageObjects()
