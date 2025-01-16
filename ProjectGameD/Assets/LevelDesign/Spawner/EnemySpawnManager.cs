@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI; // For using the Text component
+using System.Collections;
 
 [System.Serializable]
 public class EnemyType
@@ -27,6 +28,10 @@ public class EnemySpawnManager : MonoBehaviour
 
     [Tooltip("Objects to activate after the last wave.")]
     public List<GameObject> nextStageObjects;
+
+    [Header("Spawn Timing")]
+    [Tooltip("Delay between spawning each enemy.")]
+    public float spawnDelay = 5f; // Time delay before spawning the next enemy
 
     [Header("UI Elements")]
     [Tooltip("Text element to display current wave number.")]
@@ -75,7 +80,11 @@ public class EnemySpawnManager : MonoBehaviour
         usedSpawnPoints = new List<Transform>(); // Reset the used spawn points for the new wave
 
         Debug.Log($"Starting Wave {currentWave} with {pointsToSpend} points.");
+        StartCoroutine(SpawnWaveEnemies());
+    }
 
+    private IEnumerator SpawnWaveEnemies()
+    {
         while (pointsToSpend > 0 && usedSpawnPoints.Count < spawnPoints.Count)
         {
             Transform spawnPoint = GetUnusedSpawnPoint();
@@ -90,6 +99,9 @@ public class EnemySpawnManager : MonoBehaviour
             {
                 SpawnEnemyAtPoint(spawnPoint, selectedEnemy);
                 pointsToSpend -= selectedEnemy.spawnCost;
+
+                // Add delay before the next spawn
+                yield return new WaitForSeconds(spawnDelay);
             }
             else
             {

@@ -135,7 +135,7 @@ public class BulletScript : MonoBehaviour
 
     void HitTarget()
     {
-        Debug.Log("HIT");
+        //Debug.Log("HIT");
         if (hit != null)
         {
             var hitRotation = transform.rotation;

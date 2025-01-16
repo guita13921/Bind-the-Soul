@@ -468,6 +468,37 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: e3f5d4eb4650d32408f55db101de0b2a, type: 2}
   m_BuildHeightMesh: 0
+--- !u!114 &205850992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205850990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: -1372625422
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 42de3aeb5605aac4bb03c04e575b5bde, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!4 &213175601 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6034069689006214208, guid: aabab08332c8d83439f36c4f5b687c1f, type: 3}
@@ -1088,15 +1119,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7885558524904013766, guid: 021d7a364347fc8418c658ee701af906, type: 3}
       propertyPath: totalWaves
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7885558524904013766, guid: 021d7a364347fc8418c658ee701af906, type: 3}
       propertyPath: basePointsPerWave
-      value: 30
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7885558524904013766, guid: 021d7a364347fc8418c658ee701af906, type: 3}
       propertyPath: enemyTypes.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7885558524904013766, guid: 021d7a364347fc8418c658ee701af906, type: 3}
       propertyPath: spawnPoints.Array.size
@@ -1189,9 +1220,17 @@ PrefabInstance:
     - target: {fileID: 7885558524904013766, guid: 021d7a364347fc8418c658ee701af906, type: 3}
       propertyPath: enemyTypes.Array.data[0].prefab
       value: 
-      objectReference: {fileID: 8037888334414812160, guid: a910488e7a40afa43a5f2a275fc61d49, type: 3}
+      objectReference: {fileID: 2743053519421347597, guid: da7691b394829754cb789ddf972d5ee5, type: 3}
     - target: {fileID: 7885558524904013766, guid: 021d7a364347fc8418c658ee701af906, type: 3}
       propertyPath: enemyTypes.Array.data[1].prefab
+      value: 
+      objectReference: {fileID: 8037888334414812160, guid: a910488e7a40afa43a5f2a275fc61d49, type: 3}
+    - target: {fileID: 7885558524904013766, guid: 021d7a364347fc8418c658ee701af906, type: 3}
+      propertyPath: enemyTypes.Array.data[2].prefab
+      value: 
+      objectReference: {fileID: 100082, guid: 24c4300f68c986241af51004b72b03f2, type: 3}
+    - target: {fileID: 7885558524904013766, guid: 021d7a364347fc8418c658ee701af906, type: 3}
+      propertyPath: enemyTypes.Array.data[3].prefab
       value: 
       objectReference: {fileID: 4363578991983522480, guid: 6924745a509f7b746bc74f3d4548b1aa, type: 3}
     - target: {fileID: 7885558524904013766, guid: 021d7a364347fc8418c658ee701af906, type: 3}
@@ -1200,6 +1239,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7885558524904013766, guid: 021d7a364347fc8418c658ee701af906, type: 3}
       propertyPath: enemyTypes.Array.data[1].spawnCost
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7885558524904013766, guid: 021d7a364347fc8418c658ee701af906, type: 3}
+      propertyPath: enemyTypes.Array.data[2].spawnCost
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7885558524904013766, guid: 021d7a364347fc8418c658ee701af906, type: 3}
+      propertyPath: enemyTypes.Array.data[3].spawnCost
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8520537324207846276, guid: 021d7a364347fc8418c658ee701af906, type: 3}
@@ -3651,6 +3698,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1814906532148107324, guid: d0e0afb6c4b2c3f4f97eb742d268472b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 205850991}
+    - targetCorrespondingSourceObject: {fileID: 1814906532148107324, guid: d0e0afb6c4b2c3f4f97eb742d268472b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 205850992}
   m_SourcePrefab: {fileID: 100100000, guid: d0e0afb6c4b2c3f4f97eb742d268472b, type: 3}
 --- !u!1001 &1308077891
 PrefabInstance:

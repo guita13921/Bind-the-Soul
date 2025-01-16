@@ -55,6 +55,12 @@ public class EnemyAI3 : MonoBehaviour{
     [SerializeField] protected bool isSpawning = true;
     [SerializeField] private float effectSizeMultiplier = 2f; // Multiplier for size
 
+    // Hit Effect
+    [SerializeField] private GameObject hitEffectPrefab; // Prefab for the hit effect
+    [SerializeField] private Transform hitEffectSpawnPoint; // Where the effect spawns (optional)
+    [SerializeField] private float hitEffectDuration = 1f; // Time before destroying the prefab
+
+
     //Heath and Canvas
     [SerializeField] Canvas bar;
     [SerializeField] protected EnemyHealth health;
@@ -341,11 +347,30 @@ public class EnemyAI3 : MonoBehaviour{
 
     void OnTriggerEnter(Collider other){
         if(other.isTrigger && other.gameObject.CompareTag("PlayerSword") && state != State.Dead){
-            Debug.Log("Damage");
+            //Debug.Log("Damage");
             health.CalculateDamage(playerWeapon.damage);
             agent.transform.LookAt(player.transform);
             Vector3 knockBackDirection = transform.position - player.transform.position;
             KnockBack(knockBackDirection, 10f);
+            PlayHitEffect();
+        }
+    }
+
+    private void PlayHitEffect() {
+        if (hitEffectPrefab != null) {
+            // Determine the spawn position (use spawn point or fallback to the enemy's position)
+            Vector3 spawnPosition = (hitEffectSpawnPoint != null) 
+                ? hitEffectSpawnPoint.position 
+                : transform.position;
+
+            // Instantiate the hit effect prefab
+            GameObject hitEffectInstance = Instantiate(hitEffectPrefab, spawnPosition, Quaternion.identity);
+
+            // Optionally, parent it to the enemy (useful for effects like blood dripping)
+            hitEffectInstance.transform.SetParent(transform);
+
+            // Destroy the effect after a set duration
+            Destroy(hitEffectInstance, hitEffectDuration);
         }
     }
 
