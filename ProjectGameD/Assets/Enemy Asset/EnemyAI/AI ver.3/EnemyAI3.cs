@@ -503,7 +503,7 @@ public class EnemyAI3 : MonoBehaviour
         agent.speed = 0;
     }
 
-    void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         if (other.isTrigger && other.gameObject.CompareTag("PlayerSword") && state != State.Dead)
         {
@@ -519,7 +519,7 @@ public class EnemyAI3 : MonoBehaviour
     public GameObject[] sound;
     public GameObject dmgtext;
 
-    private void PlayHitEffect()
+    public void PlayHitEffect()
     {
         if (hitEffectPrefab != null)
         {
