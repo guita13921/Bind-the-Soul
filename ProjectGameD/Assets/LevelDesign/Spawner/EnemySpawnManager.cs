@@ -176,5 +176,6 @@ public class EnemySpawnManager : MonoBehaviour
         {
             pointsText.text = $"Points: {pointsToSpend}";
         }
+
     }
 }
