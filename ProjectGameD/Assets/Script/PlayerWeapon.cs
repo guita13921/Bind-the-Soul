@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerWeapon : MonoBehaviour
 {
     public float damage;
-    public CharacterData characterData;
 
     private void OnTriggerEnter(Collider other)
     {
