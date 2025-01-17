@@ -24,7 +24,6 @@ public class HitDetection : MonoBehaviour
                 if (audioSource != null)
                 {
                     audioSource.Play();
-                    Debug.Log("soudn playe");
                 }
             }
             if (playerWeapon != null)
