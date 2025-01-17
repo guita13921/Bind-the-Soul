@@ -6,16 +6,27 @@ public class HitDetection : MonoBehaviour
 {
     public GameObject hitVFX;
     public GameObject dmgtext;
+    public GameObject[] sound;
 
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("PlayerSword"))
         {
             GameObject vfx = Instantiate(hitVFX, this.transform.position, Quaternion.identity);
-            Debug.Log("ff");
 
             PlayerWeapon playerWeapon = other.GetComponent<PlayerWeapon>();
-
+            if (sound != null && sound.Length > 0)
+            {
+                int randomIndex = UnityEngine.Random.Range(0, sound.Length);
+                GameObject soundObject = sound[randomIndex];
+                GameObject swordhit = Instantiate(soundObject);
+                AudioSource audioSource = soundObject.GetComponent<AudioSource>();
+                if (audioSource != null)
+                {
+                    audioSource.Play();
+                    Debug.Log("soudn playe");
+                }
+            }
             if (playerWeapon != null)
             {
                 float damage = playerWeapon.damage;
