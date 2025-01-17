@@ -254,21 +254,35 @@ public class EnemyAI3 : MonoBehaviour{
         //StopAttack(); // Optional
     }
 
-    void Dead(){
-        if(state == State.Dead){
-            return;
-        }else{
-            state = State.Dead;
+void Dead(){
+    if(state == State.Dead){
+        return;
+    }else{
+        state = State.Dead;
 
-            // Change the tag of the enemy to "Untagged" or any other tag
-            gameObject.tag = "Untagged";
-
-            Destroy(bar.gameObject);
-            agent.enabled = false;
-            animator.SetBool("Death", true);
-            attackIndicatorCanvas.gameObject.SetActive(false);
+        // Change the tag of the enemy and all its children to "DEAD"
+        gameObject.tag = "DEAD"; // Change the tag of the parent (enemy)
+        
+        // Iterate over all children and set their tag to "DEAD"
+        foreach (Transform child in transform)
+        {
+            child.gameObject.tag = "DEAD";
         }
+
+        // Destroy the health bar
+        Destroy(bar.gameObject);
+
+        // Disable NavMeshAgent
+        agent.enabled = false;
+
+        // Play death animation
+        animator.SetBool("Death", true);
+
+        // Deactivate the attack indicator canvas
+        attackIndicatorCanvas.gameObject.SetActive(false);
     }
+}
+
 
     protected virtual void Patrol(){
         if (!walkpointSet)
@@ -381,5 +395,6 @@ public class EnemyAI3 : MonoBehaviour{
     void ResetAttackBehavior() {
         currentBehaviorType = -1; // Reset to allow for a new random behavior in the next attack
     }
+    
 
 }
