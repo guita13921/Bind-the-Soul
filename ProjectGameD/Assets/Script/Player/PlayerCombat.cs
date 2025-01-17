@@ -109,7 +109,7 @@ public class PlayerCombat : MonoBehaviour
 
             controlPower.StartVFX();
 
-            weapon.damage = combo[comboCounter].damage;
+            weapon.damage = combo[comboCounter].damage + (characterData.normalAttackDamageUpLV * 5);
             comboCounter++;
 
             if (comboCounter == 4)
