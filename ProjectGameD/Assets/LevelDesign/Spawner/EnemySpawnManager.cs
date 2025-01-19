@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI; // For using the Text component
@@ -5,8 +6,8 @@ using UnityEngine.UI; // For using the Text component
 [System.Serializable]
 public class EnemyType
 {
-    public GameObject prefab;  // The enemy prefab
-    public int spawnCost;      // Points required to spawn this enemy
+    public GameObject prefab; // The enemy prefab
+    public int spawnCost; // Points required to spawn this enemy
 }
 
 public class EnemySpawnManager : MonoBehaviour
@@ -28,6 +29,10 @@ public class EnemySpawnManager : MonoBehaviour
     [Tooltip("Objects to activate after the last wave.")]
     public List<GameObject> nextStageObjects;
 
+    [Header("Spawn Timing")]
+    [Tooltip("Delay between spawning each enemy.")]
+    public float spawnDelay = 5f; // Time delay before spawning the next enemy
+
     [Header("UI Elements")]
     [Tooltip("Text element to display current wave number.")]
     public Text waveText;
@@ -35,9 +40,14 @@ public class EnemySpawnManager : MonoBehaviour
     [Tooltip("Text element to display remaining points for the current wave.")]
     public Text pointsText;
 
-    [SerializeField] private int currentWave = 0;
-    [SerializeField] private int enemiesRemaining;
-    [SerializeField] private int pointsToSpend; // Remaining points for the wave
+    [SerializeField]
+    public int currentWave = 0;
+
+    [SerializeField]
+    public int enemiesRemaining;
+
+    [SerializeField]
+    public int pointsToSpend; // Remaining points for the wave
 
     private List<Transform> usedSpawnPoints; // Tracks used spawn points in the current wave
 
@@ -75,7 +85,11 @@ public class EnemySpawnManager : MonoBehaviour
         usedSpawnPoints = new List<Transform>(); // Reset the used spawn points for the new wave
 
         Debug.Log($"Starting Wave {currentWave} with {pointsToSpend} points.");
+        StartCoroutine(SpawnWaveEnemies());
+    }
 
+    private IEnumerator SpawnWaveEnemies()
+    {
         while (pointsToSpend > 0 && usedSpawnPoints.Count < spawnPoints.Count)
         {
             Transform spawnPoint = GetUnusedSpawnPoint();
@@ -90,6 +104,9 @@ public class EnemySpawnManager : MonoBehaviour
             {
                 SpawnEnemyAtPoint(spawnPoint, selectedEnemy);
                 pointsToSpend -= selectedEnemy.spawnCost;
+
+                // Add delay before the next spawn
+                yield return new WaitForSeconds(spawnDelay);
             }
             else
             {
@@ -124,7 +141,9 @@ public class EnemySpawnManager : MonoBehaviour
     private EnemyType GetRandomEnemyType(int maxCost)
     {
         List<EnemyType> affordableEnemies = enemyTypes.FindAll(e => e.spawnCost <= maxCost);
-        return affordableEnemies.Count > 0 ? affordableEnemies[Random.Range(0, affordableEnemies.Count)] : null;
+        return affordableEnemies.Count > 0
+            ? affordableEnemies[Random.Range(0, affordableEnemies.Count)]
+            : null;
     }
 
     private void InitializeNextStageObjects()
@@ -157,5 +176,6 @@ public class EnemySpawnManager : MonoBehaviour
         {
             pointsText.text = $"Points: {pointsToSpend}";
         }
+
     }
 }

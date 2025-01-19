@@ -11,9 +11,13 @@ public class SpikeTrap : MonoBehaviour
     [SerializeField] private float spikeSpeed; // Speed at which the spikes shoot up
     [SerializeField] private bool autoReset = true; // If true, the trap resets automatically
 
+    [Header("Damage Settings")]
+    [SerializeField] private float spikeDamage = 10f; // Damage dealt by the spike trap
+
     private Vector3 initialPosition; // Original position of the spikes
     private Vector3 activePosition; // Position when spikes are fully activated
     private bool isTriggered = false; // Prevent multiple triggers
+    private bool isActive = false; // Whether the spikes are currently active
 
     private void Start()
     {
@@ -24,11 +28,17 @@ public class SpikeTrap : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Check if the player steps on the trap
-        if (other.CompareTag("Player") && !isTriggered)
+        // Check if the trap is triggered
+        if (!isTriggered && other.CompareTag("Player"))
         {
             isTriggered = true;
             StartCoroutine(ActivateTrap());
+        }
+
+        // If spikes are active, calculate damage
+        if (isActive)
+        {
+            ApplyDamage(other);
         }
     }
 
@@ -39,6 +49,9 @@ public class SpikeTrap : MonoBehaviour
 
         // Move spikes up
         yield return StartCoroutine(MoveSpikes(activePosition));
+
+        // Spikes are now active
+        isActive = true;
 
         // Wait for the reset delay if auto-reset is enabled
         if (autoReset)
@@ -63,12 +76,29 @@ public class SpikeTrap : MonoBehaviour
         // Move spikes back to the initial position
         StartCoroutine(MoveSpikes(initialPosition));
         isTriggered = false;
+        isActive = false; // Spikes are no longer active
+    }
+
+    private void ApplyDamage(Collider other)
+    {
+        // Check if the object has the EnemyHealth script
+        EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
+        if (enemyHealth != null && isActive)
+        {
+            // Apply damage to the enemy
+            enemyHealth.CalculateDamage(spikeDamage);
+            Debug.Log($"Spike Trap dealt {spikeDamage} damage to {other.name}. Current Health: {enemyHealth.GetCurrentHealth()}");
+        }
     }
 
     private void OnDrawGizmos()
     {
         // Optional: Visualize the trigger area in the editor
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(transform.position, GetComponent<BoxCollider>().size);
+        var boxCollider = GetComponent<BoxCollider>();
+        if (boxCollider != null)
+        {
+            Gizmos.DrawWireCube(transform.position, boxCollider.size);
+        }
     }
 }

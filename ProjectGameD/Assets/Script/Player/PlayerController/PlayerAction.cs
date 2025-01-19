@@ -48,9 +48,17 @@ public partial class PlayerControl
     private Vector3 spawnPosition; // Set this to the desired spawn position
 
     public DashCheck dashCheck; // Assign in inspector
+    public ControlPower controlPower;
 
     IEnumerator Dash()
     {
+        if (!canDash)
+        {
+            yield break; // Exit if the cooldown is active
+        }
+        controlPower.DashVFX();
+
+        canDash = false; // Prevent dashing again immediately
         isDashing = true;
         Vector3 dashDirection = transform.forward.normalized;
         float distanceTraveled = 0f;
@@ -95,6 +103,10 @@ public partial class PlayerControl
         // Ensure the dash animation ends
         animator.Play("Idle");
         isDashing = false;
+
+        // Wait for the cooldown to complete
+        yield return new WaitForSeconds(0.25f);
+        canDash = true; // Reset the cooldown
     }
 
     private bool CheckForCollisions()

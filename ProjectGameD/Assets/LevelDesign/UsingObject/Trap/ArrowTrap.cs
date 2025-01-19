@@ -57,12 +57,14 @@ public class ArrowTrap : MonoBehaviour
         // Instantiate the arrow at the turret's position
         GameObject arrow = Instantiate(arrowPrefab, turret.position, Quaternion.identity);
 
-        // Calculate the direction to the target
-        Vector3 direction = (targetPosition - turret.position).normalized;
+        // Calculate the direction to the target while ignoring the Y-axis
+        Vector3 direction = (targetPosition - turret.position);
+        direction.y = 0; // Ignore Y-axis by setting it to 0
+        direction = direction.normalized;
 
-        // Introduce random error in the direction's z-axis
+        // Introduce random error in the direction's Z-axis
         float error = Random.Range(-0.05f, 0.05f); // Adjust the range for more or less error
-        direction = Quaternion.Euler(0, 0, error) * direction;
+        direction = Quaternion.Euler(0, error * 360f, 0) * direction;
 
         // Set the arrow's rotation to face the (slightly adjusted) target direction
         arrow.transform.rotation = Quaternion.LookRotation(direction);
@@ -82,7 +84,6 @@ public class ArrowTrap : MonoBehaviour
         // Optional: Destroy the arrow after a certain duration to prevent clutter
         Destroy(arrow, 5f);
     }
-
 
     private void ResetTrap()
     {

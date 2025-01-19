@@ -80,4 +80,6 @@ public class EnemyRange : EnemyAI3{
         agent.speed = speed;
     }
 
+    
+
 }

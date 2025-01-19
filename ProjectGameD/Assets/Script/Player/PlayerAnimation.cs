@@ -39,9 +39,15 @@ public class PlayerAnimation : MonoBehaviour
         if (Walking)
         {
             animator.SetBool("isRunning", true);
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("CAST"))
+            {
+                animator.SetBool("RunningAndCasting", true);
+            }
         }
         else
         {
+            animator.SetBool("RunningAndCasting", false);
+
             animator.SetBool("isRunning", false);
         }
     }

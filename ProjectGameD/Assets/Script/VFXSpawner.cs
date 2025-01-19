@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class particletest : MonoBehaviour
+public class VFXSpawner : MonoBehaviour
 {
     public GameObject parentObject;
     public string childToSpawn;
@@ -29,5 +29,6 @@ public class particletest : MonoBehaviour
             copiedObject.transform.SetParent(null); // This removes the new object from any hierarchy parent
             copiedObject.SetActive(true); // Make sure the object is active
         }
+        Destroy(gameObject);
     }
 }

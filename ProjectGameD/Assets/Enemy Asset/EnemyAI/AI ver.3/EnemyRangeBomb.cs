@@ -13,6 +13,9 @@ public class EnemyRangeBomb : EnemyAI3
     protected override void Update()
     {
 
+        //transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        if (isSpawning || state == State.Dead) return;
+
         CheckHealth();
         if(state != State.Dead){
             AnimationCheckState();

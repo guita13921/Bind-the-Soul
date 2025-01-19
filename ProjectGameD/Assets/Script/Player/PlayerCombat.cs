@@ -3,26 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.PlayerLoop;
 
 public class PlayerCombat : MonoBehaviour
 {
+    public ProjectileAttack projectileAttack;
     public List<AttackSO> combo;
     public GameObject[] vfxPrefabs; // Array to hold references to VFX prefabs
-    public GameObject[] specialVfxPrefabs;
 
-    public GameObject[] sKillVFX;
-    public GameObject[] specialSKillVFX;
+    public GameObject[] skillVFX;
 
     public GameObject[] qSkill;
-
+    public CharacterData characterData;
     float lastClickedTime; //time betweeen attack in combo
     float lastComboEnd; //amount of time before player can do the next combo
-    int comboCounter;
+    public int comboCounter;
 
-    float specialAttackCooldown = 5f;
-    float timeSinceLastSpecialAttack = 0f;
-    bool isSpecialAttackReady = true;
+    public float specialAttackCooldown = 2f;
+    public float timeSinceLastSpecialAttack = 0f;
+    public bool isSpecialAttackReady = true;
     Animator animator;
 
     [SerializeField]
@@ -33,22 +33,27 @@ public class PlayerCombat : MonoBehaviour
     BoxCollider boxCollider;
     public Transform parentObject; // The object inside which you want to spawn the new object
 
-    [SerializeField]
     public bool normalmode = true;
     public PlayerCD playerCD;
 
     bool forthAttack = false;
+    bool check4thattack = false;
+    public ControlPower controlPower;
+    public GameObject[] heaven;
 
     void Start()
     {
         animator = GetComponent<Animator>();
+        forthAttack = characterData.forthNormalAttack;
+
+        heaven[0].SetActive(characterData.specialAttack == 3);
     }
 
     void Update()
     // Update is called once per frame
     {
         //Test sword mode
-        if (Input.GetKeyDown(KeyCode.M))
+        /*if (Input.GetKeyDown(KeyCode.M))
         {
             if (normalmode)
             {
@@ -58,21 +63,20 @@ public class PlayerCombat : MonoBehaviour
             {
                 normalmode = true;
             }
-        }
+        }*/
+        Cast();
 
         SpecialAttack();
         if (
             !animator.GetCurrentAnimatorStateInfo(0).IsName("GotHit")
             && !animator.GetCurrentAnimatorStateInfo(0).IsName("Dash")
+            && !animator.GetCurrentAnimatorStateInfo(0).IsName("CAST") // Add check for CAST state
+            && !animator.GetCurrentAnimatorStateInfo(0).IsName("SPAttack") // Add check for SPAttack state
         )
         {
-            if (Input.GetKeyDown(KeyCode.J) && forthAttack == false)
+            if (Input.GetKeyDown(KeyCode.J) && !check4thattack)
             {
                 Attack();
-            }
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                Cast();
             }
         }
 
@@ -88,24 +92,29 @@ public class PlayerCombat : MonoBehaviour
             && !animator.GetCurrentAnimatorStateInfo(0).IsName("SPAttack")
         )
         {
+            if (!forthAttack && comboCounter == 3)
+            {
+                comboCounter = 1;
+            }
             animator.runtimeAnimatorController = combo[comboCounter].animatorOV;
             animator.Play("Attack", 0, 0);
+
             sfx.Slash();
 
             if (vfxPrefabs != null && vfxPrefabs.Length > 0)
             {
-                GameObject vfxPrefab = normalmode
-                    ? vfxPrefabs[comboCounter]
-                    : specialVfxPrefabs[comboCounter];
+                GameObject vfxPrefab = vfxPrefabs[comboCounter];
                 Instantiate(vfxPrefab, parentObject);
             }
 
-            weapon.damage = combo[comboCounter].damage;
+            controlPower.StartVFX();
+
+            weapon.damage = combo[comboCounter].damage + (characterData.normalAttackDamageUpLV * 5);
             comboCounter++;
+
             if (comboCounter == 4)
             {
-                Debug.Log("d");
-                forthAttack = true;
+                check4thattack = true;
                 StartCoroutine(WaitForAnimationToFinish());
             }
             lastClickedTime = Time.time;
@@ -126,17 +135,39 @@ public class PlayerCombat : MonoBehaviour
         {
             yield return null; // Wait for the next frame
         }
-        forthAttack = false;
+        check4thattack = false;
 
         comboCounter = 0;
         lastComboEnd = Time.time;
     }
 
+    public GameObject KCooldown;
+    public GameObject QCooldown;
+
+    public bool isCastReady = true;
+    public float timeSinceLastCast = 0f;
+    public float castCooldown = 3f; // Set the cooldown duration for cast
+
     void Cast()
     {
-        animator.Play("CAST", 0, 0);
-        GameObject vfxPrefab = qSkill[0];
-        Instantiate(vfxPrefab, parentObject);
+        if (!isCastReady)
+        {
+            timeSinceLastCast += Time.deltaTime;
+            if (timeSinceLastCast > castCooldown)
+            {
+                isCastReady = true;
+            }
+        }
+        if (isCastReady && Input.GetKeyDown(KeyCode.Q))
+        {
+            QCooldown.SetActive(true);
+
+            timeSinceLastCast = 0;
+            animator.Play("CAST", 0, 0);
+            GameObject vfxPrefab = qSkill[0];
+            Instantiate(vfxPrefab, parentObject);
+            isCastReady = false;
+        }
     }
 
     void SpecialAttack()
@@ -144,30 +175,37 @@ public class PlayerCombat : MonoBehaviour
         if (!isSpecialAttackReady)
         {
             timeSinceLastSpecialAttack += Time.deltaTime;
-            playerCD.CooldownText(specialAttackCooldown - timeSinceLastSpecialAttack);
+            if (timeSinceLastSpecialAttack > (0.6 * specialAttackCooldown))
+            {
+                projectileAttack.faster = false;
+                heaven[1].SetActive(false);
+            }
+
             if (timeSinceLastSpecialAttack >= specialAttackCooldown)
             {
                 isSpecialAttackReady = true;
                 timeSinceLastSpecialAttack = 0f;
-                playerCD.cooldownReady();
             }
         }
-
         if (isSpecialAttackReady && Input.GetKeyDown(KeyCode.K))
         {
-            if (normalmode)
+            KCooldown.SetActive(true);
+            GameObject vfxPrefab = skillVFX[0];
+
+            Instantiate(vfxPrefab, parentObject);
+
+            sfx.SkillSlash();
+            if (characterData.specialAttack == 1 || characterData.specialAttack == 3)
             {
-                GameObject vfxPrefab = sKillVFX[0];
-                Instantiate(vfxPrefab, parentObject);
+                animator.Play("CAST", 0, 0);
+                heaven[1].SetActive(characterData.specialAttack == 3);
+
+                projectileAttack.faster = true;
             }
             else
             {
-                GameObject vfxPrefab = specialSKillVFX[0];
-                Instantiate(vfxPrefab, parentObject);
+                animator.Play("SPAttack", 0, 0);
             }
-            sfx.SkillSlash();
-
-            animator.Play("SPAttack", 0, 0);
             isSpecialAttackReady = false;
         }
     }

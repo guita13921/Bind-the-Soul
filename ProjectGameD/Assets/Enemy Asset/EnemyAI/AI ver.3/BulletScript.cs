@@ -115,7 +115,7 @@ public class BulletScript : MonoBehaviour
 
     void FlashEffect()
     {
-        Debug.Log("FLASH");
+        //Debug.Log("FLASH");
         if (flash != null)
         {
             var flashInstance = Instantiate(flash, transform.position, Quaternion.identity);
@@ -135,7 +135,7 @@ public class BulletScript : MonoBehaviour
 
     void HitTarget()
     {
-        Debug.Log("HIT");
+        //Debug.Log("HIT");
         if (hit != null)
         {
             var hitRotation = transform.rotation;
