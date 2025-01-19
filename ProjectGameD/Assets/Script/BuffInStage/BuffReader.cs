@@ -60,7 +60,7 @@ public class BuffReader : MonoBehaviour
             ),
             new Buff(
                 data => "Forth attack",
-                data => !data.forthNormalAttack,
+                data => data.forthNormalAttack,
                 data => data.forthNormalAttack = true,
                 data => "Adds a new attack to the normal attack combo",
                 data => "Normal Attack"
@@ -155,10 +155,7 @@ public class BuffReader : MonoBehaviour
                         "The Greatsword Slash now creates a crack that explodes on impact"
                     );
                 else
-                    return (
-                        "Triple the sword",
-                        "The Greatsword Slash now releases three swords at the same time"
-                    );
+                    return ("Triple attack", "The special attack will triple in power");
             case 2:
                 if (type == 1)
                     return ("Red aura", "Creates an aura around you that damages enemies in range");
@@ -208,7 +205,6 @@ public class BuffReader : MonoBehaviour
             // Adjust position relative to the panel
             RectTransform buttonRect = buttonObj.GetComponent<RectTransform>();
 
-            // Set position: middle first, then above, then below
             buttonRect.anchoredPosition = new Vector2(0, yOffsets[i]);
 
             Button button = childd.GetComponent<Button>();

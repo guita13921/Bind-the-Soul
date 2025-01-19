@@ -19,9 +19,13 @@ public class CharacterData : ScriptableObject
     public int specialAttack = 0; //0 for spin ,1 for big sword , 2 for red spin,3 for heaven
 
     [Space]
-    public bool specialAdd1 = false; // make special bigger
+    public bool specialAdd1 = false; //
 
     public bool specialAdd2 = false; //
+    public bool specialAdd3 = false; //
+    public bool specialAdd4 = false; //
+    public bool specialAdd5 = false; //
+    public bool specialAdd6 = false; //
 
     public int specialBiggerLV = 0;
     public int SpecialDamageUpLV = 0;
