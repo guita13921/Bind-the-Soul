@@ -35,8 +35,8 @@ public class Soulbond : MonoBehaviour
         // Calculate button spacing
         RectTransform panelRect = buffUIPanel.GetComponent<RectTransform>();
         float panelHeight = panelRect.rect.height;
-        float buttonHeight = 300; // Adjust this value as needed
-        float spacing = 20f; // Add spacing between buttons
+        float buttonHeight = 0; // Adjust this value as needed
+        float spacing = 100; // Add spacing between buttons
         float currentYOffset = -spacing; // Start just below the top of the panel
 
         foreach (var buff in availableBuffs)
@@ -50,7 +50,7 @@ public class Soulbond : MonoBehaviour
             currentYOffset -= buttonHeight + spacing;
 
             Transform childd = buttonObj.transform.GetChild(0);
-            Button button = childd.GetComponent<Button>();
+            Toggle button = childd.GetComponent<Toggle>();
 
             // Set button text
             Transform child1 = childd.transform.GetChild(0);
@@ -71,12 +71,78 @@ public class Soulbond : MonoBehaviour
                 Debug.LogWarning("Text component not found on the buff button prefab.");
             }
 
-            // Add click event to apply the buff
-            button.onClick.AddListener(() =>
+            button.onValueChanged.AddListener(isOn =>
             {
-                buff.applyEffect(characterData);
-                Debug.Log($"{buff.name(characterData)} applied!");
+                HandleToggleChangeWithLimit(isOn, buttonObj, buff, button);
             });
+        }
+    }
+
+    public Transform selectedBuffPanel;
+    public int maxSelectableBuffs = 3; // Maximum number of selectable buffs
+    private int currentSelectedBuffs = 0; // Counter for selected buffs
+
+    void HandleToggleChangeWithLimit(
+        bool isOn,
+        GameObject buttonObj,
+        Buff buff,
+        Toggle currentToggle
+    )
+    {
+        if (isOn)
+        {
+            if (currentSelectedBuffs < maxSelectableBuffs)
+            {
+                buttonObj.transform.SetParent(selectedBuffPanel, false);
+                currentSelectedBuffs++;
+                Debug.Log(
+                    $"Buff {buff.name(characterData)} added to selected panel. Current count: {currentSelectedBuffs}"
+                );
+
+                if (currentSelectedBuffs >= maxSelectableBuffs)
+                {
+                    DisableAllUnselectedToggles();
+                }
+            }
+            else
+            {
+                currentToggle.isOn = false;
+                Debug.LogWarning($"Cannot select more than {maxSelectableBuffs} buffs.");
+            }
+        }
+        else
+        {
+            buttonObj.transform.SetParent(buffUIPanel, false);
+            currentSelectedBuffs--;
+            Debug.Log(
+                $"Buff {buff.name(characterData)} removed from selected panel. Current count: {currentSelectedBuffs}"
+            );
+
+            EnableAllToggles();
+        }
+    }
+
+    void DisableAllUnselectedToggles()
+    {
+        foreach (Transform child in buffUIPanel)
+        {
+            Toggle toggle = child.GetComponentInChildren<Toggle>();
+            if (toggle != null && !toggle.isOn)
+            {
+                toggle.interactable = false;
+            }
+        }
+    }
+
+    void EnableAllToggles()
+    {
+        foreach (Transform child in buffUIPanel)
+        {
+            Toggle toggle = child.GetComponentInChildren<Toggle>();
+            if (toggle != null)
+            {
+                toggle.interactable = true;
+            }
         }
     }
 
@@ -85,14 +151,14 @@ public class Soulbond : MonoBehaviour
         buffs = new List<Buff>
         {
             new Buff(
-                data => $"Vampirism (LV.{data.vampirism}",
+                data => $"Vampirism LV.{data.vampirism}",
                 data => data.vampirism > 0,
                 data => data.vampirism++,
                 data => "Restores player health for every attack",
                 data => "Normal Attack"
             ),
             new Buff(
-                data => $"Barrier (LV.{data.barrierLV}",
+                data => $"Barrier LV.{data.barrierLV}",
                 data => data.barrierLV > 0,
                 data => data.barrierLV++,
                 data =>
@@ -102,7 +168,7 @@ public class Soulbond : MonoBehaviour
                 data => "Passive"
             ),
             new Buff(
-                data => $"Increase damage (LV.{data.normalAttackDamageUpLV}",
+                data => $"Increase damage LV.{data.normalAttackDamageUpLV}",
                 data => data.normalAttackDamageUpLV > 0,
                 data => data.normalAttackDamageUpLV++,
                 data => "Increases the damage of normal attacks",
@@ -116,7 +182,7 @@ public class Soulbond : MonoBehaviour
                 data => "Normal Attack"
             ),
             new Buff(
-                data => $"Greatsword Slash (LV.{data.specialAttack}",
+                data => $"Greatsword Slash LV.{data.specialAttack}",
                 data => data.specialAttack == 1,
                 data => data.specialAttack = 1,
                 data =>
@@ -181,28 +247,28 @@ public class Soulbond : MonoBehaviour
                 data => "Speical attack"
             ),
             new Buff(
-                data => $"Increase damage (LV.{data.SpecialDamageUpLV}",
+                data => $"Increase damage LV.{data.SpecialDamageUpLV}",
                 data => data.SpecialDamageUpLV > 0,
                 data => data.SpecialDamageUpLV++,
                 data => "Increases the damage of special attacks",
                 data => "Speical attack"
             ),
             new Buff(
-                data => $"Increase Damage (LV.{data.skillDamageUpLV}",
+                data => $"Increase Damage LV.{data.skillDamageUpLV}",
                 data => data.skillDamageUpLV > 0,
                 data => data.skillDamageUpLV++,
                 data => "Increases the damage of skill ",
                 data => "Skill"
             ),
             new Buff(
-                data => $"Slow (LV.{data.skillSlowEnemyLV}",
+                data => $"Slow LV.{data.skillSlowEnemyLV}",
                 data => data.skillSlowEnemyLV > 0,
                 data => data.skillSlowEnemyLV++,
                 data => "skill now slow enemy",
                 data => "Skill"
             ),
             new Buff(
-                data => $"Poision (LV.{data.skillPoisionEnemyLV}",
+                data => $"Poision LV.{data.skillPoisionEnemyLV}",
                 data => data.skillPoisionEnemyLV > 0,
                 data => data.skillPoisionEnemyLV++,
                 data => "skill now poison enemy",

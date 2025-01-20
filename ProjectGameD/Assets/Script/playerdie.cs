@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class playerdie : MonoBehaviour
 {
@@ -12,23 +14,21 @@ public class playerdie : MonoBehaviour
     {
         health = GetComponent<Health>();
         animator = GetComponent<Animator>();
-
     }
-    void Update(){
 
-        if (health.currentHealth <=0 && !hasDied)
+    void Update()
+    {
+        if (health.currentHealth <= 0 && !hasDied)
         {
             animator.Play("die", 0, 0);
-            gameObject.tag="Untagged";
-            gameObject.layer=default;
-            hasDied =true;
+            gameObject.tag = "Untagged";
+            gameObject.layer = default;
+            hasDied = true;
         }
-         else if (hasDied && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+        else if (hasDied && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
         {
             // Lock the animation at the end
             animator.enabled = false;
         }
     }
-
-    
 }
