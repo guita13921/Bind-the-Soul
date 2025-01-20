@@ -3,6 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewCharacterData", menuName = "Character/CharacterData")]
 public class CharacterData : ScriptableObject
 {
+    public int deathCount = 0;
+
     [Header("Passive")]
     public int vampirism = 0;
     public int barrierLV = 0;
@@ -38,6 +40,8 @@ public class CharacterData : ScriptableObject
 
     public void ResetToDefault()
     {
+        deathCount = 0;
+
         vampirism = 0;
         barrierLV = 0;
 
@@ -48,6 +52,11 @@ public class CharacterData : ScriptableObject
         specialAttack = 0; // Default to "spin"
         specialAdd1 = false;
         specialAdd2 = false;
+        specialAdd3 = false;
+        specialAdd4 = false;
+        specialAdd5 = false;
+        specialAdd6 = false;
+
         specialBiggerLV = 0;
         SpecialDamageUpLV = 0;
 

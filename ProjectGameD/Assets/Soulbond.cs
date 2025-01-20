@@ -13,6 +13,8 @@ public class Soulbond : MonoBehaviour
     private List<Buff> buffs;
 
     //public Animator animator;
+    [SerializeField]
+    bool isPauseMenu = false;
 
     void Start()
     {
@@ -70,16 +72,18 @@ public class Soulbond : MonoBehaviour
             {
                 Debug.LogWarning("Text component not found on the buff button prefab.");
             }
-
-            button.onValueChanged.AddListener(isOn =>
+            if (!isPauseMenu)
             {
-                HandleToggleChangeWithLimit(isOn, buttonObj, buff, button);
-            });
+                button.onValueChanged.AddListener(isOn =>
+                {
+                    HandleToggleChangeWithLimit(isOn, buttonObj, buff, button);
+                });
+            }
         }
     }
 
     public Transform selectedBuffPanel;
-    public int maxSelectableBuffs = 3; // Maximum number of selectable buffs
+    public int maxSelectableBuffs = 0; // Maximum number of selectable buffs
     private int currentSelectedBuffs = 0; // Counter for selected buffs
 
     void HandleToggleChangeWithLimit(
@@ -89,6 +93,7 @@ public class Soulbond : MonoBehaviour
         Toggle currentToggle
     )
     {
+        maxSelectableBuffs = characterData.deathCount;
         if (isOn)
         {
             if (currentSelectedBuffs < maxSelectableBuffs)

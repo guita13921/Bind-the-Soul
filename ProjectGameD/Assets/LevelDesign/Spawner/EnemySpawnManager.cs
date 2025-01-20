@@ -51,6 +51,9 @@ public class EnemySpawnManager : MonoBehaviour
 
     private List<Transform> usedSpawnPoints; // Tracks used spawn points in the current wave
 
+    [SerializeField]
+    UpgradeShow upgradeShow;
+
     private void Start()
     {
         InitializeNextStageObjects();
@@ -70,6 +73,7 @@ public class EnemySpawnManager : MonoBehaviour
             }
             else
             {
+                upgradeShow.ShowUpgradeUI();
                 EnableNextStageObjects();
             }
         }
@@ -176,6 +180,5 @@ public class EnemySpawnManager : MonoBehaviour
         {
             pointsText.text = $"Points: {pointsToSpend}";
         }
-
     }
 }

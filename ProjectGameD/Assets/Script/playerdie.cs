@@ -10,6 +10,9 @@ public class playerdie : MonoBehaviour
     private Animator animator;
     private bool hasDied = false;
 
+    [SerializeField]
+    CharacterData characterData;
+
     void Start()
     {
         health = GetComponent<Health>();
@@ -20,6 +23,7 @@ public class playerdie : MonoBehaviour
     {
         if (health.currentHealth <= 0 && !hasDied)
         {
+            characterData.deathCount += 1;
             animator.Play("die", 0, 0);
             gameObject.tag = "Untagged";
             gameObject.layer = default;
