@@ -68,7 +68,7 @@ public class EnemyAI3 : MonoBehaviour
     public State state;
 
     [SerializeField]
-    protected float speed;
+    public float speed;
 
     //CoolDown var
     [SerializeField]
@@ -280,7 +280,7 @@ public class EnemyAI3 : MonoBehaviour
             && timerCoolDownAttack > CoolDownAttack
             && state == State.Cooldown
         )
-        { //#############
+        { 
             agent.speed = speed;
             state = State.Ready;
             timerCoolDownAttack = 0;
@@ -374,7 +374,7 @@ public class EnemyAI3 : MonoBehaviour
         //StopAttack(); // Optional
     }
 
-    void Dead()
+    protected virtual void Dead()
     {
         if (state == State.Dead)
         {
@@ -397,13 +397,15 @@ public class EnemyAI3 : MonoBehaviour
             Destroy(bar.gameObject);
 
             // Disable NavMeshAgent
-            agent.enabled = false;
 
             // Play death animation
             animator.SetBool("Death", true);
 
             // Deactivate the attack indicator canvas
             attackIndicatorCanvas.gameObject.SetActive(false);
+
+            // Destroy the enemy game object after 5 seconds
+            Destroy(gameObject, 5f);
         }
     }
 
@@ -507,11 +509,25 @@ public class EnemyAI3 : MonoBehaviour
     {
         if (other.isTrigger && other.gameObject.CompareTag("PlayerSword") && state != State.Dead)
         {
-            //Debug.Log("Damage");
+            // Calculate damage
             health.CalculateDamage(playerWeapon.damage);
-            agent.transform.LookAt(player.transform);
-            Vector3 knockBackDirection = transform.position - player.transform.position;
-            KnockBack(knockBackDirection, 10f);
+
+
+            // Check if the enemy is in berserk mode
+            if (this is Chaos_warriors chaosWarrior && chaosWarrior.isBerserk)
+            {
+                // If berserk, don't apply knockback
+                Debug.Log($"{gameObject.name} is in berserk mode and cannot be knocked back.");
+            }
+            else
+            {
+                // Apply knockback if not in berserk mode
+                agent.transform.LookAt(player.transform);
+                Vector3 knockBackDirection = transform.position - player.transform.position;
+                KnockBack(knockBackDirection, 10f);
+            }
+
+            // Play hit effect
             PlayHitEffect();
         }
     }
@@ -570,4 +586,5 @@ public class EnemyAI3 : MonoBehaviour
     {
         currentBehaviorType = -1; // Reset to allow for a new random behavior in the next attack
     }
+
 }

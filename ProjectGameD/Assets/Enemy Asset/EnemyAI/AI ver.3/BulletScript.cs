@@ -20,15 +20,23 @@ public class BulletScript : MonoBehaviour
     public float sideAngle = 25;
     public float upAngle = 20;
 
-    //Homing Time
+    // Homing Time
     [SerializeField] private float elapsedTime; // Timer to track elapsed time
     [SerializeField] private float runDuration; // Duration to run the Update logic
     private bool isHomingActive = true; // Flag to control homing behavior
+
+    [Space]
+    [Header("Self-Destruction Settings")]
+    [SerializeField] private float maxLifetime = 5f; // Destroy bullet after this time
+    [SerializeField] private float maxRange = 50f; // Maximum distance the bullet can travel before destruction
+    private Vector3 spawnPosition; // To calculate traveled distance
 
     void Start()
     {
         FlashEffect();
         newRandom();
+        spawnPosition = transform.position; // Record the initial spawn position
+        Destroy(gameObject, maxLifetime); // Automatically destroy after maxLifetime
     }
 
     void newRandom()
@@ -37,8 +45,8 @@ public class BulletScript : MonoBehaviour
         randomSideAngle = Random.Range(-sideAngle, sideAngle);
     }
 
-    //Link from another script
-    //TARGET POSITION + TARGET OFFSET
+    // Link from another script
+    // TARGET POSITION + TARGET OFFSET
     public void UpdateTarget(Transform targetPosition, Vector3 Offset)
     {
         target = targetPosition;
@@ -49,6 +57,13 @@ public class BulletScript : MonoBehaviour
     void Update()
     {
         elapsedTime += Time.deltaTime; // Increment the timer
+
+        // Destroy the bullet if it exceeds the maximum range
+        if (Vector3.Distance(spawnPosition, transform.position) > maxRange)
+        {
+            Destroy(gameObject); // Destroy bullet if it travels too far
+            return;
+        }
 
         // Disable homing logic if elapsed time exceeds the run duration
         if (elapsedTime > runDuration)
@@ -77,12 +92,6 @@ public class BulletScript : MonoBehaviour
 
             float distanceThisFrame = Time.deltaTime * speed;
 
-            //if (direction.magnitude <= distanceThisFrame)
-            //{
-            //    HitTarget();
-            //    return;
-           // }
-
             // Translate the bullet while locking the Y position
             Vector3 newPosition = transform.position + direction.normalized * distanceThisFrame;
             newPosition.y = transform.position.y; // Lock Y position
@@ -108,14 +117,16 @@ public class BulletScript : MonoBehaviour
         if (other.tag == "Player")
         {
             HitTarget();
-        }else{
+        }
+        else
+        {
             FlashEffect();
         }
     }
 
     void FlashEffect()
     {
-        //Debug.Log("FLASH");
+        // Debug.Log("FLASH");
         if (flash != null)
         {
             var flashInstance = Instantiate(flash, transform.position, Quaternion.identity);
@@ -135,7 +146,7 @@ public class BulletScript : MonoBehaviour
 
     void HitTarget()
     {
-        //Debug.Log("HIT");
+        // Debug.Log("HIT");
         if (hit != null)
         {
             var hitRotation = transform.rotation;

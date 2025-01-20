@@ -14,7 +14,7 @@ public class EnemyHealth : MonoBehaviour
     private float currentHealth;
     public GameObject dmgtext;
 
-    public void SetState(int IN_Health)
+    public void SetState(float IN_Health)
     {
         Health = IN_Health;
         maxHealth = IN_Health;
@@ -24,7 +24,6 @@ public class EnemyHealth : MonoBehaviour
     public void CalculateDamage(float playerWeaponDamage)
     {
         currentHealth -= playerWeaponDamage;
-
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Ensure health doesn't go below 0
     }
 
