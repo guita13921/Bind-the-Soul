@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9169417834255911225}
   - component: {fileID: 3444873302811956305}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: PlayerDeath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5405,6 +5405,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 1566182528010272311, guid: dc6c63187e4b0664893b6c86790bc228, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2304373642813379535}
+    - target: {fileID: 1566182528010272311, guid: dc6c63187e4b0664893b6c86790bc228, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
     - target: {fileID: 6691429477407473754, guid: dc6c63187e4b0664893b6c86790bc228, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -5489,11 +5497,20 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 62036248367287462}
+    - target: {fileID: 8852186443815704648, guid: dc6c63187e4b0664893b6c86790bc228, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc6c63187e4b0664893b6c86790bc228, type: 3}
+--- !u!1 &2304373642813379535 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8852186443815704648, guid: dc6c63187e4b0664893b6c86790bc228, type: 3}
+  m_PrefabInstance: {fileID: 7287826080021597063}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &4179116829160016861 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6691429477407473754, guid: dc6c63187e4b0664893b6c86790bc228, type: 3}

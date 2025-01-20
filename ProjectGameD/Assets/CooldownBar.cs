@@ -24,24 +24,24 @@ public class CooldownBar : MonoBehaviour
 
     private void KUpdatecooldown()
     {
-        Debug.Log(
-            (playerCombat.specialAttackCooldown - playerCombat.timeSinceLastSpecialAttack)
-                / playerCombat.specialAttackCooldown
-        );
-        KCooldown.fillAmount = Mathf.Lerp(
-            KCooldown.fillAmount,
-            (playerCombat.specialAttackCooldown - playerCombat.timeSinceLastSpecialAttack)
-                / playerCombat.specialAttackCooldown,
-            Time.deltaTime * 10
-        );
-        Debug.Log(
-            Mathf.Lerp(
-                KCooldown.fillAmount,
-                (playerCombat.specialAttackCooldown - playerCombat.timeSinceLastSpecialAttack)
-                    / playerCombat.specialAttackCooldown,
-                Time.deltaTime * 10
-            )
-        );
+        // Debug.Log(
+        //     (playerCombat.specialAttackCooldown - playerCombat.timeSinceLastSpecialAttack)
+        //         / playerCombat.specialAttackCooldown
+        // );
+        // KCooldown.fillAmount = Mathf.Lerp(
+        //     KCooldown.fillAmount,
+        //     (playerCombat.specialAttackCooldown - playerCombat.timeSinceLastSpecialAttack)
+        //         / playerCombat.specialAttackCooldown,
+        //     Time.deltaTime * 10
+        // );
+        // Debug.Log(
+        //     Mathf.Lerp(
+        //         KCooldown.fillAmount,
+        //         (playerCombat.specialAttackCooldown - playerCombat.timeSinceLastSpecialAttack)
+        //             / playerCombat.specialAttackCooldown,
+        //         Time.deltaTime * 10
+        //     )
+        // );
         if (playerCombat.isSpecialAttackReady)
         {
             Kobj.SetActive(false);

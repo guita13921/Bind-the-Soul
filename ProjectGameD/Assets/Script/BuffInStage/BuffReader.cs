@@ -19,6 +19,13 @@ public class BuffReader : MonoBehaviour
 
     void Start()
     {
+        eventSystem = FindObjectOfType<EventSystem>();
+
+        if (eventSystem != null)
+        {
+            Debug.Log("EventSystem found: " + eventSystem.name);
+        }
+
         InitializeBuffs();
         ShowRandomAvailableBuffs();
     }

@@ -10,6 +10,8 @@ public class SceneTransition : MonoBehaviour
 
     public void NextScene(string _sceneName)
     {
+        if (_sceneName == "MainMenu")
+            Time.timeScale = 1f;
         TransitionManager.Instance().Transition(_sceneName, transition, loaddelay);
     }
 }
