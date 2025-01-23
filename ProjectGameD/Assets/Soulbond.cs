@@ -11,6 +11,7 @@ public class Soulbond : MonoBehaviour
     public GameObject buffButtonPrefab; // Prefab for buff buttons
 
     private List<Buff> buffs;
+    public List<Buff> buffForActive;
 
     //public Animator animator;
     [SerializeField]
@@ -19,6 +20,7 @@ public class Soulbond : MonoBehaviour
     void Start()
     {
         InitializeBuffs();
+        buffForActive = new List<Buff>();
         ShowAllAvailableBuffs();
     }
 
@@ -99,6 +101,8 @@ public class Soulbond : MonoBehaviour
             if (currentSelectedBuffs < maxSelectableBuffs)
             {
                 buttonObj.transform.SetParent(selectedBuffPanel, false);
+
+                buffForActive.Add(buff);
                 currentSelectedBuffs++;
                 Debug.Log(
                     $"Buff {buff.name(characterData)} added to selected panel. Current count: {currentSelectedBuffs}"
@@ -119,6 +123,7 @@ public class Soulbond : MonoBehaviour
         {
             buttonObj.transform.SetParent(buffUIPanel, false);
             currentSelectedBuffs--;
+            buffForActive.Remove(buff);
             Debug.Log(
                 $"Buff {buff.name(characterData)} removed from selected panel. Current count: {currentSelectedBuffs}"
             );
