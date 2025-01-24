@@ -106,4 +106,28 @@ public class BossRotationWithAnimation : MonoBehaviour
         agent.speed = 0;
     }
 
+        /// <summary>
+    /// Stops the NavMeshAgent and locks movement.
+    /// </summary>
+    public void LockMovement()
+    {
+        if (agent)
+        {
+            agent.isStopped = true; // Stop the NavMeshAgent
+            agent.velocity = Vector3.zero; // Ensure the agent stops moving immediately
+        }
+    }
+
+    /// <summary>
+    /// Resumes the NavMeshAgent and unlocks movement.
+    /// </summary>
+    public void UnlockMovement()
+    {
+        if (agent)
+        {
+            agent.isStopped = false; // Resume NavMeshAgent movement
+        }
+    }
+    
+
 }
