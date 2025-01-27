@@ -20,7 +20,9 @@ public class PlayerCombat : MonoBehaviour
     float lastComboEnd; //amount of time before player can do the next combo
     public int comboCounter;
 
-    public float specialAttackCooldown = 2f;
+    public float specialAttackCooldown = 10f;
+    public float castCooldown = 5f; // Set the cooldown duration for cast
+
     public float timeSinceLastSpecialAttack = 0f;
     public bool isSpecialAttackReady = true;
     Animator animator;
@@ -108,8 +110,16 @@ public class PlayerCombat : MonoBehaviour
             }
 
             controlPower.StartVFX();
+            int randomValue = UnityEngine.Random.Range(0, 10); // Generate a random integer between 0 and 9
+            if (randomValue < characterData.normalAttackCrit)
+            {
+                weapon.damage = combo[comboCounter].damage * 3; //crit
+            }
+            else
+            {
+                weapon.damage = combo[comboCounter].damage;
+            }
 
-            weapon.damage = combo[comboCounter].damage + (characterData.normalAttackDamageUpLV * 5);
             comboCounter++;
 
             if (comboCounter == 4)
@@ -146,7 +156,6 @@ public class PlayerCombat : MonoBehaviour
 
     public bool isCastReady = true;
     public float timeSinceLastCast = 0f;
-    public float castCooldown = 3f; // Set the cooldown duration for cast
 
     void Cast()
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 public partial class PlayerControl : MonoBehaviour
 {
     [SerializeField]
-    private float _speed = 3.5f;
+    public float _speed = 3.5f;
 
     [SerializeField]
     private float _turnSpeed = 500;

@@ -8,14 +8,9 @@ public class Health : MonoBehaviour
 {
     public float maxHealth;
     public float currentHealth;
+
     void Start()
     {
-        currentHealth =1;
         currentHealth = maxHealth;
-    }
-
-    void Update()
-    {
-        
     }
 }

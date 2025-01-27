@@ -8,7 +8,8 @@ public class ControlPower : MonoBehaviour
     public PlayerCombat playerCombat;
     public CharacterData characterData;
     public Transform parentObject;
-
+    public PlayerControl playerControl;
+    public Health health;
     bool forthAttack = false;
     bool normalAttackSlash = false;
 
@@ -39,6 +40,11 @@ public class ControlPower : MonoBehaviour
             playerCombat.combo.Add(attackSOs[0]);
         }
         // StartCoroutine(InstantiateSkillCoroutine());
+        CheckSpeed();
+        CheckHP();
+        CheckQKCooldown();
+        CheckWaitDashtime();
+        CheckHPRestoreTHreshold();
     }
 
     void Update()
@@ -64,6 +70,11 @@ public class ControlPower : MonoBehaviour
         Instantiate(dashVFX[0], parentObject);
     }
 
+    public void CheckSpeed()
+    {
+        playerControl._speed = playerControl._speed + (1 * characterData.moveFaster);
+    }
+
     public void StartVFX()
     {
         if (normalAttackSlash && playerCombat.comboCounter == 2)
@@ -84,47 +95,30 @@ public class ControlPower : MonoBehaviour
         playerCombat.qSkill[0] = qSkillVFX[qSkillTpye];
     }
 
-    // public void SetPlayerSkillVFX(
-    //     CharacterData characterData,
-    //     PlayerCombat playerCombat,
-    //     int skillnum
-    // )
-    // {
-    //     if (characterData.specialAdd1 && characterData.specialAdd2)
-    //     {
-    //         playerCombat.speicalVFX[0] = SpecialVfxAdd1and2[skillnum];
-    //     }
-    //     else if (characterData.specialAdd1)
-    //     {
-    //         playerCombat.speicalVFX[0] = SpecialVfxAdd1[skillnum];
-    //     }
-    //     else if (characterData.specialAdd2)
-    //     {
-    //         playerCombat.speicalVFX[0] = SpecialVfxAdd2[skillnum];
-    //     }
-    //     else
-    //     {
-    //         playerCombat.speicalVFX[0] = SpecialVfx[skillnum];
-    //     }
-    // }
+    void CheckHP()
+    {
+        health.maxHealth = health.maxHealth + (1000 * characterData.maxHPIncrease);
+    }
 
-    // public void CheckSpecialskill()
-    // {
-    //     speicalSkills = characterData.specialAttack;
-    //     switch (speicalSkills)
-    //     {
-    //         case 0:
-    //             playerCombat.speicalVFX[0] = SpecialVfx[0];
-    //             break;
-    //         case 1:
-    //             SetPlayerSkillVFX(characterData, playerCombat, 1);
-    //             break;
-    //         case 2:
-    //             SetPlayerSkillVFX(characterData, playerCombat, 2);
-    //             break;
-    //         case 3:
-    //             SetPlayerSkillVFX(characterData, playerCombat, 3);
-    //             break;
-    //     }
-    // }
+    void CheckWaitDashtime()
+    {
+        playerControl.dashWaitTime =
+            playerControl.dashWaitTime - (0.15f * characterData.ReduceDashCooldown);
+    }
+
+    void CheckQKCooldown()
+    {
+        playerCombat.castCooldown = playerCombat.castCooldown - characterData.QKReduceCooldown;
+        playerCombat.specialAttackCooldown =
+            playerCombat.specialAttackCooldown - characterData.QKReduceCooldown;
+    }
+
+    void CheckHPRestoreTHreshold()
+    {
+        float threshold = 0.20f * characterData.healToThreshold;
+        if (health.currentHealth < (health.currentHealth * threshold))
+        {
+            health.currentHealth = health.currentHealth * threshold;
+        }
+    }
 }

@@ -24,6 +24,7 @@ public class VFXSpawner : MonoBehaviour
             );
 
             copiedObject.transform.SetParent(null);
+            // copiedObject.transform.localScale = new Vector3(10f, 10f, 10f); // Set scale to (1, 1, 1)
             copiedObject.SetActive(true);
         }
         Destroy(gameObject);

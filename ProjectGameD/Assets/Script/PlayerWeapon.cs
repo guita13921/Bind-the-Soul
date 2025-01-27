@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerWeapon : MonoBehaviour
 {
     public float damage;
+    public CharacterData characterData;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -12,7 +13,9 @@ public class PlayerWeapon : MonoBehaviour
         if (enemy != null)
         {
             if (enemy.CompareTag("Enemy"))
+            {
                 enemy.health.currentHealth -= damage;
+            }
         }
     }
 }
