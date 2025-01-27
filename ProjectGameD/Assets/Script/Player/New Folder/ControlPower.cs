@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class ControlPower : MonoBehaviour
@@ -20,12 +21,14 @@ public class ControlPower : MonoBehaviour
     public GameObject[] SpecialVfxAdd2; //k button
     public GameObject[] SpecialVfxAdd1and2; //k button
 
-    public GameObject[] qSkill;
+    public GameObject[] qSkillVFX;
 
     public List<AttackSO> attackSOs;
 
     string qSkillsname;
     int speicalSkills;
+    int specialVfxlv = 0;
+    private int qSkillTpye;
 
     void Start()
     {
@@ -41,7 +44,8 @@ public class ControlPower : MonoBehaviour
     void Update()
     {
         CheckQskill();
-        CheckSpecialskill();
+        // CheckSpecialskill();
+        CheckSpeical();
     }
 
     // IEnumerator InstantiateSkillCoroutine()
@@ -68,61 +72,59 @@ public class ControlPower : MonoBehaviour
         }
     }
 
+    private void CheckSpeical()
+    {
+        specialVfxlv = characterData.specialLV;
+        playerCombat.speicalVFX[0] = SpecialVfx[specialVfxlv];
+    }
+
     public void CheckQskill()
     {
-        qSkillsname = characterData.qskillName;
-        switch (qSkillsname)
-        {
-            case "normal":
-                break;
-
-            case "lightning":
-                playerCombat.qSkill[0] = qSkill[0];
-                break;
-        }
+        qSkillTpye = characterData.QSkillType;
+        playerCombat.qSkill[0] = qSkillVFX[qSkillTpye];
     }
 
-    public void SetPlayerSkillVFX(
-        CharacterData characterData,
-        PlayerCombat playerCombat,
-        int skillnum
-    )
-    {
-        if (characterData.specialAdd1 && characterData.specialAdd2)
-        {
-            playerCombat.skillVFX[0] = SpecialVfxAdd1and2[skillnum];
-        }
-        else if (characterData.specialAdd1)
-        {
-            playerCombat.skillVFX[0] = SpecialVfxAdd1[skillnum];
-        }
-        else if (characterData.specialAdd2)
-        {
-            playerCombat.skillVFX[0] = SpecialVfxAdd2[skillnum];
-        }
-        else
-        {
-            playerCombat.skillVFX[0] = SpecialVfx[skillnum];
-        }
-    }
+    // public void SetPlayerSkillVFX(
+    //     CharacterData characterData,
+    //     PlayerCombat playerCombat,
+    //     int skillnum
+    // )
+    // {
+    //     if (characterData.specialAdd1 && characterData.specialAdd2)
+    //     {
+    //         playerCombat.speicalVFX[0] = SpecialVfxAdd1and2[skillnum];
+    //     }
+    //     else if (characterData.specialAdd1)
+    //     {
+    //         playerCombat.speicalVFX[0] = SpecialVfxAdd1[skillnum];
+    //     }
+    //     else if (characterData.specialAdd2)
+    //     {
+    //         playerCombat.speicalVFX[0] = SpecialVfxAdd2[skillnum];
+    //     }
+    //     else
+    //     {
+    //         playerCombat.speicalVFX[0] = SpecialVfx[skillnum];
+    //     }
+    // }
 
-    public void CheckSpecialskill()
-    {
-        speicalSkills = characterData.specialAttack;
-        switch (speicalSkills)
-        {
-            case 0:
-                playerCombat.skillVFX[0] = SpecialVfx[0];
-                break;
-            case 1:
-                SetPlayerSkillVFX(characterData, playerCombat, 1);
-                break;
-            case 2:
-                SetPlayerSkillVFX(characterData, playerCombat, 2);
-                break;
-            case 3:
-                SetPlayerSkillVFX(characterData, playerCombat, 3);
-                break;
-        }
-    }
+    // public void CheckSpecialskill()
+    // {
+    //     speicalSkills = characterData.specialAttack;
+    //     switch (speicalSkills)
+    //     {
+    //         case 0:
+    //             playerCombat.speicalVFX[0] = SpecialVfx[0];
+    //             break;
+    //         case 1:
+    //             SetPlayerSkillVFX(characterData, playerCombat, 1);
+    //             break;
+    //         case 2:
+    //             SetPlayerSkillVFX(characterData, playerCombat, 2);
+    //             break;
+    //         case 3:
+    //             SetPlayerSkillVFX(characterData, playerCombat, 3);
+    //             break;
+    //     }
+    // }
 }

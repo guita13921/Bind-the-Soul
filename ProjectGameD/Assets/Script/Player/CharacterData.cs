@@ -6,7 +6,6 @@ public class CharacterData : ScriptableObject
     public int deathCount = 0;
 
     [Header("Passive")]
-    public int vampirism = 0;
     public int barrierLV = 0;
 
     [Space]
@@ -37,6 +36,36 @@ public class CharacterData : ScriptableObject
     public int skillDamageUpLV = 0;
     public int skillSlowEnemyLV = 0;
     public int skillPoisionEnemyLV = 0;
+
+    /// <summary>
+    /// ///////////
+    /// </summary>/
+    [Header("New System")]
+    public int reduceIncomeDamage = 0;
+    public int specialLV = 0;
+    public int healToThreshold = 0;
+    public int QKReduceCooldown = 0;
+    public int maxHPIncrease = 0;
+    public int vampirism = 0;
+
+    public int normalAttackCrit = 0;
+    public int moveFaster = 0;
+    public int ReduceDashCooldown = 0;
+    public int reduceIncomeDamageDependOnHP = 0;
+
+    public int QSkillType = 0;
+
+    public bool Q1_QKDamageUp = false;
+    public bool Q1_QKFasterWider = false;
+    public bool Q1_QKKillEnemyDamageUp = false;
+
+    public bool Q2_QKCrit = false;
+    public bool Q2_QKStackable = false;
+    public bool Q2_SmallBullet = false;
+
+    public bool Q3_QKWeak = false;
+    public bool Q3_QKExplode = false;
+    public bool Q3_Barrier = false;
 
     public void ResetToDefault()
     {

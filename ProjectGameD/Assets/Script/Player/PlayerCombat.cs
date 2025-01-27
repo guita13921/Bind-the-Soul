@@ -12,7 +12,7 @@ public class PlayerCombat : MonoBehaviour
     public List<AttackSO> combo;
     public GameObject[] vfxPrefabs; // Array to hold references to VFX prefabs
 
-    public GameObject[] skillVFX;
+    public GameObject[] speicalVFX;
 
     public GameObject[] qSkill;
     public CharacterData characterData;
@@ -190,7 +190,7 @@ public class PlayerCombat : MonoBehaviour
         if (isSpecialAttackReady && Input.GetKeyDown(KeyCode.K))
         {
             KCooldown.SetActive(true);
-            GameObject vfxPrefab = skillVFX[0];
+            GameObject vfxPrefab = speicalVFX[0];
 
             Instantiate(vfxPrefab, parentObject);
 
