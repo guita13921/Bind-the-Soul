@@ -9,7 +9,7 @@ public class RangeSensor : MonoBehaviour
     [SerializeField] private float maxRange = 20f; // Maximum range for ranged attacks
     [SerializeField] private LayerMask detectionLayer; // LayerMask to filter for player detection
 
-    private Transform player;
+    [SerializeField] private Transform player;
 
     private void Start()
     {
@@ -46,6 +46,16 @@ public class RangeSensor : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, minRange);
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, maxRange);
+    }
+
+    public bool IsPlayerOutOfRange()
+    {
+        if (player == null) return false;
+
+        // Check distance between this object and the player
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+        return distanceToPlayer > maxRange;
     }
 
 }

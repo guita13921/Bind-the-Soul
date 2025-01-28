@@ -4,52 +4,58 @@ using UnityEngine;
 
 public class SmoothCameraFollow : MonoBehaviour
 {
-    private Vector3 _offset;
-
-    [SerializeField]
-    private Transform target;
-
-    [SerializeField]
-    private float smoothTime;
+    [Header("Camera Settings")]
+    [SerializeField] private Transform target; // Player or object to follow
+    [SerializeField] private float smoothTime = 0.3f; // Smoothing factor for camera movement
+    [SerializeField] private Vector3 offset = new Vector3(8.5f, 8.5f, -10); // Camera's offset relative to the player
     private Vector3 _currentVelocity = Vector3.zero;
-    public ObjFadeing _fader;
 
-    private void Awake() => _offset = transform.position - target.position;
+    [Header("Object Fading")]
+    public ObjFadeing _fader; // Reference to object fading script (optional)
 
-    void Update()
+    private void LateUpdate()
     {
-        Vector3 targetPosition = target.position + _offset;
+        if (target == null) return;
+
+        // Calculate the desired position of the camera
+        Vector3 desiredPosition = target.position + offset;
+
+        // Smoothly move the camera to the desired position
         transform.position = Vector3.SmoothDamp(
             transform.position,
-            targetPosition,
+            desiredPosition,
             ref _currentVelocity,
             smoothTime
         );
 
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-        {
-            Vector3 dir = player.transform.position - transform.position;
-            Ray ray = new Ray(transform.position, dir);
-            RaycastHit hit;
+        // Make the camera always look at the target
+        transform.LookAt(target);
 
-            if (Physics.Raycast(ray, out hit))
+        // Check for obstacles between the camera and the player and handle fading
+        HandleObstacleFading();
+    }
+
+    /// <summary>
+    /// Checks for obstacles between the camera and the player and applies fading to objects in the way.
+    /// </summary>
+    private void HandleObstacleFading()
+    {
+        if (target == null) return;
+
+        // Direction from the camera to the player
+        Vector3 directionToPlayer = target.position - transform.position;
+
+        // Perform a raycast to detect obstacles between the camera and the player
+        if (Physics.Raycast(transform.position, directionToPlayer.normalized, out RaycastHit hit, directionToPlayer.magnitude))
+        {
+            if (hit.collider != null && hit.collider.gameObject != target.gameObject)
             {
-                if (hit.collider == null)
-                    return;
-                if (hit.collider.gameObject == player)
+                // If an obstacle is detected, try to apply fading
+                _fader = hit.collider.GetComponent<ObjFadeing>();
+                if (_fader != null)
                 {
-                    if (_fader != null) { }
-                }
-                else
-                {
-                    _fader = hit.collider.gameObject.GetComponent<ObjFadeing>();
-                    if (_fader != null)
-                    {
-                        //Debug.Log("HIT");
-                        _fader.timeRemaining = 0.1;
-                        _fader.DoFade = true;
-                    }
+                    _fader.timeRemaining = 0.1f; // Set fade timer
+                    _fader.DoFade = true;       // Trigger fade
                 }
             }
         }

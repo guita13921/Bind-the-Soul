@@ -66,7 +66,7 @@ public partial class PlayerControl
         spawnPosition = transform.position + dashDirection * dashDistance;
         bool CheckForCollision = false;
         dashCheck.SetCollisionState(false);
-        Debug.Log(dashCheck.willCollide);
+        //Debug.Log(dashCheck.willCollide);
 
         GameObject instantiatedObject = Instantiate(
             prefabToInstantiate,
@@ -75,11 +75,11 @@ public partial class PlayerControl
         );
 
         yield return null; // Allows one frame to pass
-        Debug.Log(dashCheck.willCollide);
+        //Debug.Log(dashCheck.willCollide);
 
         if (!dashCheck.willCollide)
         {
-            Debug.Log("not hit");
+            //Debug.Log("not hit");
             Physics.IgnoreLayerCollision(7, 9, true);
         }
 
