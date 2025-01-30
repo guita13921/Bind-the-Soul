@@ -11,21 +11,26 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField]
     bool isQK = true;
 
+    [SerializeField]
+    GameObject followArrow;
+
     void Start()
     {
         if (isQK && characterData.Q1_QKDamageUp)
+        {
             damage += 500;
-        damageR = damage;
+            damageR = damage;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        damage = damageR;
-
         if (isQK && characterData.Q2_QKCrit)
         {
-            int randomValue = UnityEngine.Random.Range(0, 10); // Generate a random integer between 0 and 9
-            if (randomValue < 2)
+            damage = damageR;
+
+            int randomValue = UnityEngine.Random.Range(0, 10);
+            if (randomValue < 2) // 20%
             {
                 damage *= 3;
             }
@@ -35,8 +40,14 @@ public class PlayerWeapon : MonoBehaviour
         {
             if (enemy.CompareTag("Enemy"))
             {
+                Instantiate(followArrow, this.transform.position, Quaternion.identity);
                 enemy.health.currentHealth -= damage;
             }
         }
+    }
+
+    private void FollowBullet()
+    {
+        GameObject vfx = Instantiate(followArrow, this.transform.position, Quaternion.identity);
     }
 }
