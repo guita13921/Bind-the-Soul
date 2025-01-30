@@ -37,9 +37,9 @@ public class CharacterData : ScriptableObject
     public int skillSlowEnemyLV = 0;
     public int skillPoisionEnemyLV = 0;
 
-    /// <summary>
-    /// ///////////
-    /// </summary>/
+    // /// <summary>
+    // /// ///////////
+    // /// </summary>/
     [Header("New System")]
     public int reduceIncomeDamage = 0;
     public int specialLV = 0;
@@ -52,7 +52,7 @@ public class CharacterData : ScriptableObject
     public int moveFaster = 0;
     public int ReduceDashCooldown = 0;
     public int reduceIncomeDamageDependOnHP = 0;
-
+    public int addDamageDependOnHP = 0;
     public int QSkillType = 0;
 
     public bool Q1_QKDamageUp = false;
@@ -69,29 +69,25 @@ public class CharacterData : ScriptableObject
 
     public void ResetToDefault()
     {
-        deathCount = 0;
-
+        reduceIncomeDamage = 0;
+        specialLV = 0;
+        healToThreshold = 0;
+        QKReduceCooldown = 0;
+        maxHPIncrease = 0;
         vampirism = 0;
-        barrierLV = 0;
-
-        forthNormalAttack = false;
-        normalAttackDamageUpLV = 0;
-        normalAttackSlash = false;
-
-        specialAttack = 0; // Default to "spin"
-        specialAdd1 = false;
-        specialAdd2 = false;
-        specialAdd3 = false;
-        specialAdd4 = false;
-        specialAdd5 = false;
-        specialAdd6 = false;
-
-        specialBiggerLV = 0;
-        SpecialDamageUpLV = 0;
-
-        qskillName = "normal"; // Default skill
-        skillDamageUpLV = 0;
-        skillSlowEnemyLV = 0;
-        skillPoisionEnemyLV = 0;
+        normalAttackCrit = 0;
+        moveFaster = 0;
+        ReduceDashCooldown = 0;
+        reduceIncomeDamageDependOnHP = 0;
+        QSkillType = 0;
+        Q1_QKDamageUp = false;
+        Q1_QKFasterWider = false;
+        Q1_QKKillEnemyDamageUp = false;
+        Q2_QKCrit = false;
+        Q2_QKStackable = false;
+        Q2_SmallBullet = false;
+        Q3_QKWeak = false;
+        Q3_QKExplode = false;
+        Q3_Barrier = false;
     }
 }

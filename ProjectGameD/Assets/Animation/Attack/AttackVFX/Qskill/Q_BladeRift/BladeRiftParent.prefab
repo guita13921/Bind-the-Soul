@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6986438752207031854}
   m_Layer: 7
   m_Name: BladeRiftParent
-  m_TagString: Untagged
+  m_TagString: PlayerSword
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,7 +27,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1716250638466890224}
@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentObject: {fileID: 8998323707472471028}
   childToSpawn: BladeRift
+  characterData: {fileID: 11400000, guid: e628f4ad3830604478a34deaa6dbc29e, type: 2}
 --- !u!1001 &1500840253163357738
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -98,10 +99,6 @@ PrefabInstance:
     - target: {fileID: 3778413053001303065, guid: 9fe152b9b381f8945a1d01d4c329868b, type: 3}
       propertyPath: m_Name
       value: BladeRift
-      objectReference: {fileID: 0}
-    - target: {fileID: 3778413053001303065, guid: 9fe152b9b381f8945a1d01d4c329868b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

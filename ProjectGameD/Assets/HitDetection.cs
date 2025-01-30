@@ -8,12 +8,15 @@ public class HitDetection : MonoBehaviour
     public GameObject dmgtext;
     public GameObject[] sound;
     public Health health;
+    public CharacterData characterData;
 
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("PlayerSword"))
         {
-            health.currentHealth = health.currentHealth + 2;
+            if (characterData.vampirism > 0)
+                health.currentHealth = health.currentHealth + 2;
+
             GameObject vfx = Instantiate(hitVFX, this.transform.position, Quaternion.identity);
 
             PlayerWeapon playerWeapon = other.GetComponent<PlayerWeapon>();

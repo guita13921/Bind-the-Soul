@@ -7,6 +7,7 @@ public class VFXSpawner : MonoBehaviour
 {
     public GameObject parentObject;
     public string childToSpawn;
+    public CharacterData characterData;
 
     void Start()
     {
@@ -24,7 +25,8 @@ public class VFXSpawner : MonoBehaviour
             );
 
             copiedObject.transform.SetParent(null);
-            // copiedObject.transform.localScale = new Vector3(10f, 10f, 10f); // Set scale to (1, 1, 1)
+            if (characterData.Q1_QKFasterWider)
+                copiedObject.transform.localScale = new Vector3(1.25f, 1.25f, 1.25f); // Set scale to (1, 1, 1)
             copiedObject.SetActive(true);
         }
         Destroy(gameObject);

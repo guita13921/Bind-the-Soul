@@ -10,6 +10,7 @@ public class HitboxController : MonoBehaviour
     public float looptime = 0f;
 
     private BoxCollider boxCollider;
+
     private float timer = 0f;
     private float loopTimer = 0f;
     private bool isColliderEnabled = false;
@@ -62,7 +63,7 @@ public class HitboxController : MonoBehaviour
             ToggleBoxCollider(true);
         }
 
-        if (isColliderEnabled && timer >= enabletime + 0.1f)
+        if (isColliderEnabled && timer >= enabletime + 0.2f)
         {
             Destroy(gameObject);
         }

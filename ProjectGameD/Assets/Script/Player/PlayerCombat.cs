@@ -13,7 +13,7 @@ public class PlayerCombat : MonoBehaviour
     public GameObject[] vfxPrefabs; // Array to hold references to VFX prefabs
 
     public GameObject[] speicalVFX;
-
+    public Health health;
     public GameObject[] qSkill;
     public CharacterData characterData;
     float lastClickedTime; //time betweeen attack in combo
@@ -42,6 +42,7 @@ public class PlayerCombat : MonoBehaviour
     bool check4thattack = false;
     public ControlPower controlPower;
     public GameObject[] heaven;
+    float additionaldamage = 0;
 
     void Start()
     {
@@ -54,18 +55,6 @@ public class PlayerCombat : MonoBehaviour
     void Update()
     // Update is called once per frame
     {
-        //Test sword mode
-        /*if (Input.GetKeyDown(KeyCode.M))
-        {
-            if (normalmode)
-            {
-                normalmode = false;
-            }
-            else
-            {
-                normalmode = true;
-            }
-        }*/
         Cast();
 
         SpecialAttack();
@@ -111,13 +100,21 @@ public class PlayerCombat : MonoBehaviour
 
             controlPower.StartVFX();
             int randomValue = UnityEngine.Random.Range(0, 10); // Generate a random integer between 0 and 9
+            if (health.currentHealth < (health.maxHealth * 0.25f))
+            {
+                float add = characterData.addDamageDependOnHP * 0.15f;
+                additionaldamage = combo[comboCounter].damage * add;
+            }
+            weapon.damage = combo[comboCounter].damage + 1000;
+
             if (randomValue < characterData.normalAttackCrit)
             {
-                weapon.damage = combo[comboCounter].damage * 3; //crit
+                weapon.damage = Mathf.CeilToInt(combo[comboCounter].damage + additionaldamage);
+                weapon.damage *= 3; //crit
             }
             else
             {
-                weapon.damage = combo[comboCounter].damage;
+                weapon.damage = Mathf.CeilToInt(combo[comboCounter].damage + additionaldamage);
             }
 
             comboCounter++;
@@ -179,6 +176,9 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    float ksize = 1f;
+
     void SpecialAttack()
     {
         if (!isSpecialAttackReady)
@@ -200,6 +200,8 @@ public class PlayerCombat : MonoBehaviour
         {
             KCooldown.SetActive(true);
             GameObject vfxPrefab = speicalVFX[0];
+            if (characterData.Q1_QKFasterWider)
+                vfxPrefab.transform.localScale = new Vector3(ksize, ksize, ksize); // Set scale to (1, 1, 1)
 
             Instantiate(vfxPrefab, parentObject);
 
