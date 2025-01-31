@@ -132,8 +132,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5289480448830008196}
-  - component: {fileID: 3580353667346269330}
   - component: {fileID: 1248646216095852161}
+  - component: {fileID: 8041041004095657062}
   m_Layer: 0
   m_Name: 'SkeletonAttackHitBox (Missing Prefab with guid: d7595fdc46493ce488f9e45596fefba2)'
   m_TagString: EnemyWeapon
@@ -1175,28 +1175,11 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7404230272763511411, guid: d7595fdc46493ce488f9e45596fefba2, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3580353667346269330}
+      addedObject: {fileID: 1248646216095852161}
     - targetCorrespondingSourceObject: {fileID: 7404230272763511411, guid: d7595fdc46493ce488f9e45596fefba2, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1248646216095852161}
+      addedObject: {fileID: 8041041004095657062}
   m_SourcePrefab: {fileID: 100100000, guid: d7595fdc46493ce488f9e45596fefba2, type: 3}
---- !u!114 &3580353667346269330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 215288001100056065}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d9922a04b3454f4f8256f998ca7d0a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 1000
-  sfx: {fileID: 0}
-  vfxPrefabs: {fileID: 1000013355911406, guid: d32aa916f50cac94db11e6f19821a58f, type: 3}
-  parentObject: {fileID: 5289480448830008196}
-  blood: {fileID: 100000, guid: 14987c031123b98408a165a8bf1288d4, type: 3}
 --- !u!65 &1248646216095852161
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1218,6 +1201,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5, y: 1, z: 0.5898849}
   m_Center: {x: 0, y: 0, z: -0.20505749}
+--- !u!114 &8041041004095657062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 215288001100056065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0571ab3c9c65bb42ae6230de4697814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1000
+  health: {fileID: 0}
+  characterData: {fileID: 11400000, guid: e628f4ad3830604478a34deaa6dbc29e, type: 2}
 --- !u!1001 &8036844857144763894
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3077,7 +3075,7 @@ MonoBehaviour:
   playerInsight: 0
   PlayerInAttackrange: 0
   boxCollider: {fileID: 0}
-  weapon: {fileID: 3580353667346269330}
+  weapon: {fileID: 0}
   dashDistance: 0
   dashSpeed: 0
   state: 0
