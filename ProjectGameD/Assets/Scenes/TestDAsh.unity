@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.3069224, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4241,14 +4241,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MC 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2669944366082762142, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
-      propertyPath: isQK
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2669944366082762142, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
-      propertyPath: followArrow
-      value: 
-      objectReference: {fileID: 4771662488360507348, guid: c7d21c87bcbc63d43b9812fb5266f3f4, type: 3}
     - target: {fileID: 2815616981491428810, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4289,14 +4281,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3612036221736693775, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
-      propertyPath: m_IsActive
+    - target: {fileID: 5774670589769222585, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 5774670589769222585, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
+      propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6065301410070953268, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
-      propertyPath: health
-      value: 
-      objectReference: {fileID: 549652218}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12754,6 +12746,8 @@ GameObject:
   - component: {fileID: 1540582641}
   - component: {fileID: 1540582645}
   - component: {fileID: 1540582646}
+  - component: {fileID: 1540582648}
+  - component: {fileID: 1540582647}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Enemy
@@ -12876,6 +12870,33 @@ MonoBehaviour:
   damage: 500
   health: {fileID: 549652218}
   characterData: {fileID: 11400000, guid: e628f4ad3830604478a34deaa6dbc29e, type: 2}
+--- !u!114 &1540582647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540582640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adcf43b4f3b4d1f4d85699d886a6f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 0
+  currentHealth: 0
+--- !u!114 &1540582648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540582640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 160b8cf13a6872a4bb137fdb0b7961e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: {fileID: 0}
 --- !u!1001 &1540800175
 PrefabInstance:
   m_ObjectHideFlags: 0

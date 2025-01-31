@@ -33,7 +33,7 @@ public partial class PlayerControl : MonoBehaviour
         )
         {
             Vector3 attackMovement = transform.forward * _speed * Time.deltaTime; // Use _speed or another attack-specific speed
-            _rb.MovePosition(_rb.position + attackMovement / 3);
+            _rb.MovePosition(_rb.position + attackMovement / 10);
         }
     }
 

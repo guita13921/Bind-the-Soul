@@ -12,7 +12,7 @@ public class PlayerWeapon : MonoBehaviour
     bool isQK = true;
 
     [SerializeField]
-    GameObject followArrow;
+    ProjectileAttack projectileAttack;
 
     void Start()
     {
@@ -40,14 +40,10 @@ public class PlayerWeapon : MonoBehaviour
         {
             if (enemy.CompareTag("Enemy"))
             {
-                Instantiate(followArrow, this.transform.position, Quaternion.identity);
+                projectileAttack.SpwanBull();
+
                 enemy.health.currentHealth -= damage;
             }
         }
-    }
-
-    private void FollowBullet()
-    {
-        GameObject vfx = Instantiate(followArrow, this.transform.position, Quaternion.identity);
     }
 }
