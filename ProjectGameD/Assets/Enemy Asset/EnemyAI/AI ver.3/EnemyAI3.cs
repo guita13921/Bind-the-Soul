@@ -507,64 +507,66 @@ public class EnemyAI3 : MonoBehaviour
     {
         if (other.isTrigger && other.gameObject.CompareTag("PlayerSword") && state != State.Dead)
         {
-            //Debug.Log("Damage");
-            health.CalculateDamage(playerWeapon.damage);
+            PlayerWeapon playerWeapon = other.gameObject.GetComponent<PlayerWeapon>();
+            if (playerWeapon != null)
+                health.CalculateDamage(playerWeapon.damage);
+
             agent.transform.LookAt(player.transform);
             Vector3 knockBackDirection = transform.position - player.transform.position;
             KnockBack(knockBackDirection, 10f);
-            PlayHitEffect();
+            //PlayHitEffect();
         }
     }
 
-    public GameObject[] sound;
-    public GameObject dmgtext;
-
-    public void PlayHitEffect()
-    {
-        if (hitEffectPrefab != null)
+    //public GameObject[] sound;
+    //public GameObject dmgtext;
+    /*
+        public void PlayHitEffect()
         {
-            // Determine the spawn position (use spawn point or fallback to the enemy's position)
-            Vector3 spawnPosition =
-                (hitEffectSpawnPoint != null) ? hitEffectSpawnPoint.position : transform.position;
-
-            // Instantiate the hit effect prefab
-            GameObject hitEffectInstance = Instantiate(
-                hitEffectPrefab,
-                spawnPosition,
-                Quaternion.identity
-            );
-            if (sound != null && sound.Length > 0)
+            if (hitEffectPrefab != null)
             {
-                int randomIndex = UnityEngine.Random.Range(0, sound.Length);
-                GameObject soundObject = sound[randomIndex];
-                GameObject swordhit = Instantiate(soundObject);
-                AudioSource audioSource = soundObject.GetComponent<AudioSource>();
-                if (audioSource != null)
+                // Determine the spawn position (use spawn point or fallback to the enemy's position)
+                Vector3 spawnPosition =
+                    (hitEffectSpawnPoint != null) ? hitEffectSpawnPoint.position : transform.position;
+    
+                // Instantiate the hit effect prefab
+                GameObject hitEffectInstance = Instantiate(
+                    hitEffectPrefab,
+                    spawnPosition,
+                    Quaternion.identity
+                );
+                if (sound != null && sound.Length > 0)
                 {
-                    audioSource.Play();
+                    int randomIndex = UnityEngine.Random.Range(0, sound.Length);
+                    GameObject soundObject = sound[randomIndex];
+                    GameObject swordhit = Instantiate(soundObject);
+                    AudioSource audioSource = soundObject.GetComponent<AudioSource>();
+                    if (audioSource != null)
+                    {
+                        audioSource.Play();
+                    }
                 }
-            }
-            if (playerWeapon != null)
-            {
-                float damage = playerWeapon.damage;
-                Debug.Log(damage);
-                Vector3 newPosition = this.transform.position;
-                newPosition.y += 1;
-                GameObject dmg = Instantiate(dmgtext, newPosition, Quaternion.Euler(0, 60, 0));
-
-                damageShow damageTextComponent = dmg.GetComponent<damageShow>();
-                if (damageTextComponent != null)
+                if (playerWeapon != null)
                 {
-                    damageTextComponent.SetDamage(damage);
+                    float damage = playerWeapon.damage;
+                    Debug.Log(damage);
+                    Vector3 newPosition = this.transform.position;
+                    newPosition.y += 1;
+                    GameObject dmg = Instantiate(dmgtext, newPosition, Quaternion.Euler(0, 60, 0));
+    
+                    damageShow damageTextComponent = dmg.GetComponent<damageShow>();
+                    if (damageTextComponent != null)
+                    {
+                        damageTextComponent.SetDamage(damage);
+                    }
                 }
+                // Optionally, parent it to the enemy (useful for effects like blood dripping)
+                hitEffectInstance.transform.SetParent(transform);
+    
+                // Destroy the effect after a set duration
+                Destroy(hitEffectInstance, hitEffectDuration);
             }
-            // Optionally, parent it to the enemy (useful for effects like blood dripping)
-            hitEffectInstance.transform.SetParent(transform);
-
-            // Destroy the effect after a set duration
-            Destroy(hitEffectInstance, hitEffectDuration);
-        }
-    }
+        }*/
 
     void ResetAttackBehavior()
     {

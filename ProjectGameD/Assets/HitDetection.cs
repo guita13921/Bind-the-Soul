@@ -10,6 +10,11 @@ public class HitDetection : MonoBehaviour
     public Health health;
     public CharacterData characterData;
 
+    void Start()
+    {
+        health = FindObjectOfType<Health>();
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("PlayerSword"))

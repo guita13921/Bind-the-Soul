@@ -237,7 +237,7 @@ public class PlayerCombat : MonoBehaviour
             animator.Play("SPAttack", 0, 0);
             isSpecialAttackReady = false;
         }
-        Debug.Log("first attack: " + timeSinceLastSpecialAttack);
+        //Debug.Log("first attack: " + timeSinceLastSpecialAttack);
     }
 
     float timeSinceLastSpecialAttack2 = 0f;
@@ -269,7 +269,7 @@ public class PlayerCombat : MonoBehaviour
             animator.Play("SPAttack", 0, 0);
             isSpecialAttackReady2 = false;
         }
-        Debug.Log("second attack: " + timeSinceLastSpecialAttack2);
+        //Debug.Log("second attack: " + timeSinceLastSpecialAttack2);
     }
 
     void ExitAttack()

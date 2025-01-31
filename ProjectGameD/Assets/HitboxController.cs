@@ -10,7 +10,7 @@ public class HitboxController : MonoBehaviour
     public float looptime = 0f;
 
     private BoxCollider boxCollider;
-
+    private SphereCollider sphereCollider;
     private float timer = 0f;
     private float loopTimer = 0f;
     private bool isColliderEnabled = false;
@@ -19,7 +19,15 @@ public class HitboxController : MonoBehaviour
     void Start()
     {
         boxCollider = GetComponent<BoxCollider>();
-        boxCollider.enabled = false;
+        if (boxCollider == null)
+        {
+            sphereCollider = GetComponent<SphereCollider>();
+            sphereCollider.enabled = false;
+        }
+        else
+        {
+            boxCollider.enabled = false;
+        }
     }
 
     void Update()
@@ -71,7 +79,15 @@ public class HitboxController : MonoBehaviour
 
     private void ToggleBoxCollider(bool state)
     {
-        boxCollider.enabled = state;
-        isColliderEnabled = state;
+        if (boxCollider != null)
+        {
+            boxCollider.enabled = state;
+            isColliderEnabled = state;
+        }
+        else
+        {
+            sphereCollider.enabled = state;
+            isColliderEnabled = state;
+        }
     }
 }
