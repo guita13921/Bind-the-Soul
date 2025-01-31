@@ -11,7 +11,7 @@ public class Weapon_Enemy : MonoBehaviour
     public GameObject blood; // Array to hold references to VFX prefabs
 
     private void OnTriggerEnter(Collider other)
-    {
+    { /*
         var enemy = other.gameObject.GetComponent<enemy>();
         if (enemy != null)
         {
@@ -25,11 +25,11 @@ public class Weapon_Enemy : MonoBehaviour
                 Debug.Log(damage);
                 enemy.health.currentHealth -= damage;
             }
-            if (other.gameObject.CompareTag("Player"))
-            {
-                var HP = other.gameObject.GetComponent<Health>();
-                HP.currentHealth -= damage;
-            }
+        }*/
+        if (other.gameObject.CompareTag("Player"))
+        {
+            var HP = other.gameObject.GetComponent<Health>();
+            HP.currentHealth -= damage;
         }
     }
 }
