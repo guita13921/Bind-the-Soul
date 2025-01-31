@@ -206,7 +206,7 @@ public class DragonBoss : MonoBehaviour
                 }
                 else
                 {
-                    StartCombo(Rangecombo2); // Laser Attack
+                    StartCombo(RangeCombo1); // Laser Attack
                 }
             }
             else if (MeleeSensor.IsPlayerInRange())
@@ -228,11 +228,11 @@ public class DragonBoss : MonoBehaviour
                 float randomChance = Random.value; // Random value between 0.0 and 1.0
                 if (randomChance < 0.5f) // 50% chance
                 {
-                    StartCombo(OutRangecombo1); // Forward Rush + Claw Swipe
+                    StartCombo(RangeCombo1); // Forward Rush + Claw Swipe
                 }
                 else
                 {
-                    StartCombo(OutRangecombo2); // Summon Minions
+                    StartCombo(RangeCombo1); // Summon Minions
                 }
             }
         }
@@ -284,7 +284,7 @@ public class DragonBoss : MonoBehaviour
                 case BossAction.ClawSwipe:
                     Debug.Log("Boss performs Claw Swipe.");
                     bossAnimations.PerformClawSwipe();
-                    yield return new WaitForSeconds(6f); // Adjust timing as needed
+                    yield return new WaitForSeconds(3f); // Adjust timing as needed
                     break;
 
                 case BossAction.TailSweep:

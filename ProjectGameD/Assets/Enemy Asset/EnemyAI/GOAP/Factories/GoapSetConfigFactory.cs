@@ -50,7 +50,7 @@ namespace EnemyAI.GOAP.Factories
 
             builder.AddAction<MeleeAction>()
             .SetTarget<PlayerTarget>()
-            .AddEffect<PlayerHealth>(EffectType.Decrease)
+            //.AddEffect<PlayerHealth>(EffectType.Decrease)
             .SetBaseCost(injector.AttackConfig.MeleeAttackCost)
             .SetInRange(injector.AttackConfig.SensorRadius);
         }
@@ -60,8 +60,8 @@ namespace EnemyAI.GOAP.Factories
             builder.AddGoal<WanderGoal>()
             .AddCondition<IsWandering>(Comparison.GreaterThanOrEqual, 1);
 
-            builder.AddGoal<KillPlayer>()
-            .AddCondition<PlayerHealth>(Comparison.SmallerThanOrEqual, 0);
+            builder.AddGoal<KillPlayer>();
+            //.AddCondition<PlayerHealth>(Comparison.SmallerThanOrEqual, 0);
         }
     }
 }

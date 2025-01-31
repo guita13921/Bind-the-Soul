@@ -25,6 +25,9 @@ public class SmoothCamera4Boss : MonoBehaviour
 
         // Calculate the midpoint between the player and the boss
         Vector3 midpoint = (player.position + boss.position) / 2f;
+        
+        // Add local axis Z offset
+        midpoint += pivot.forward * -30f;
 
         // Move the pivot smoothly to the midpoint
         pivot.position = Vector3.SmoothDamp(

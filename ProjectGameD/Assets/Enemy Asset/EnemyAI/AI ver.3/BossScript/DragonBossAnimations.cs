@@ -7,17 +7,84 @@ public class DragonBossAnimations : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Animator animator;
-    [SerializeField] private ParticleSystem fireBreathEffect;
     [SerializeField] private Transform player; // Reference to the player
-    private BossRotationWithAnimation movementController;
+    [SerializeField] private BossRotationWithAnimation movementController;
+
+    [Header("FireBreath")]
+    [SerializeField] private FlamethrowerHitbox flamethrowerHitbox; // Reference to the flamethr
+    [SerializeField] private ParticleSystem fireBreathEffect;
+    
+    [Header("Bullet")]
+    [SerializeField] public GameObject enemyBullet;
+    [SerializeField] public Transform SpawnPoint; //Headposition
+    [SerializeField] private int numberOfBullets = 5; // Number of bullets to fire
+    [SerializeField] private float bulletDelay = 0f; // Time between bullets
+    public Vector2 uiOffset;
 
     public void PerformFireBreath()
     {
         Debug.Log("Dragon uses Fire Breath!");
         animator.SetTrigger("FireBreath");
-        if (fireBreathEffect != null) fireBreathEffect.Play();
+        if (fireBreathEffect != null)
+        {
+            fireBreathEffect.Play();
+            StartCoroutine(StopFireBreathEffect()); // Stop VFX after a delay
+        }
+    }
+
+    private IEnumerator StopFireBreathEffect()
+    {
+        yield return new WaitForSeconds(6f); // Adjust based on the duration of the VFX
+        if (fireBreathEffect != null)
+        {
+            fireBreathEffect.Stop();
+        }
 
     }
+
+    public void IncreaseFireBreath()
+    {
+        if (fireBreathEffect != null)
+        {
+            var main = fireBreathEffect.main;
+            main.startSize = new ParticleSystem.MinMaxCurve(main.startSize.constantMin * 4f, main.startSize.constantMax * 4f);
+            main.startSpeed = new ParticleSystem.MinMaxCurve(main.startSpeed.constantMin * 4f, main.startSpeed.constantMax * 4f);
+            flamethrowerHitbox.ActivateHitbox();
+            StartCoroutine(ShootWithDelay(numberOfBullets, bulletDelay));
+        }
+    }
+
+    public void DecreaseFireBreath()
+    {
+        if (fireBreathEffect != null)
+        {
+            var main = fireBreathEffect.main;
+            main.startSize = new ParticleSystem.MinMaxCurve(main.startSize.constantMin * 0.25f, main.startSize.constantMax * 0.25f);
+            main.startSpeed = new ParticleSystem.MinMaxCurve(main.startSpeed.constantMin * 0.25f, main.startSpeed.constantMax * 0.25f);
+            flamethrowerHitbox.DeactivateHitbox();
+        }
+    }
+
+    IEnumerator ShootWithDelay(int numberOfBullets, float bulletDelay)
+    {
+        // Prevent starting multiple shooting coroutines
+        for (int i = 0; i < numberOfBullets; i++)
+        {
+            ShootBullet(); // Fire a bullet
+            yield return new WaitForSeconds(bulletDelay); // Wait before firing the next
+        }
+    }
+
+    private void ShootBullet()
+    {
+        GameObject projectile = Instantiate(enemyBullet, SpawnPoint.position, SpawnPoint.rotation);
+        projectile.GetComponent<BulletScript>().UpdateTarget(player.transform, (Vector3)uiOffset);
+    }
+
+    void StartShoot(){
+        StartCoroutine(ShootWithDelay(numberOfBullets, bulletDelay));
+    }
+
 
     public void LookAtPlayer()
     {
