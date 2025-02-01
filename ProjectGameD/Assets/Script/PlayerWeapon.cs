@@ -18,7 +18,7 @@ public class PlayerWeapon : MonoBehaviour
     {
         if (isQK && characterData.Q1_QKDamageUp)
         {
-            damage += 500;
+            damage += damage * 0.25f;
             damageR = damage;
         }
     }

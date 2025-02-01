@@ -30,15 +30,6 @@ public class SFX : MonoBehaviour
 
     public void SkillSlash()
     {
-        if (characterData.specialAttack == 1)
-        {
-            GameObject sfx = Instantiate(BigSwordSFX);
-        }
-        else if (characterData.specialAttack == 3)
-        {
-            GameObject sfx = Instantiate(LightBulletSFX);
-        }
-        else
         {
             GameObject sfx = Instantiate(SwordSpin_SFX);
         }

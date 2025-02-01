@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -44,141 +45,179 @@ public class BuffReader : MonoBehaviour
                 data => $"Vampirism (LV.{data.vampirism} -> LV.{data.vampirism + 1})",
                 data => data.vampirism < 3,
                 data => data.vampirism++,
-                data => "Restores player health for every attack",
+                data => $"Restores player health by {2 + data.vampirism} for every attack",
                 data => "Normal Attack"
             ),
             new Buff(
-                data => $"Barrier (LV.{data.barrierLV} -> LV.{data.barrierLV + 1})",
-                data => data.barrierLV < 3,
-                data => data.barrierLV++,
                 data =>
-                    data.barrierLV == 0
-                        ? "Receive a barrier that can absorb one attack"
-                        : "The barrier can absorb one additional attack",
+                    $"Iron Body (LV.{data.reduceIncomeDamage} -> LV.{data.reduceIncomeDamage + 1})",
+                data => data.reduceIncomeDamage < 3,
+                data => data.reduceIncomeDamage++,
+                data => $"Reduce incoming damage by {5 * (data.reduceIncomeDamage + 1)}%",
+                data => "Passive"
+            ),
+            new Buff(
+                data => $"Super Special (LV.{data.specialLV} -> LV.{data.specialLV + 1})",
+                data => data.specialLV < 3,
+                data => data.specialLV++,
+                data => "Upgrade the special attack to a stronger version",
+                data => "Special Attack"
+            ),
+            new Buff(
+                data =>
+                    $"Threshold Revival (LV.{data.healToThreshold} -> LV.{data.healToThreshold + 1})",
+                data => data.healToThreshold < 3,
+                data => data.healToThreshold++,
+                data =>
+                    $"Heal the player's health points to the health threshold of {20 * (data.healToThreshold + 1)}% after entering a new stage",
                 data => "Passive"
             ),
             new Buff(
                 data =>
-                    $"Increase damage (LV.{data.normalAttackDamageUpLV} -> LV.{data.normalAttackDamageUpLV + 1})",
-                data => data.normalAttackDamageUpLV < 3,
-                data => data.normalAttackDamageUpLV++,
-                data => "Increases the damage of normal attacks",
+                    $"Acceleration (LV.{data.QKReduceCooldown} -> LV.{data.QKReduceCooldown + 1})",
+                data => data.QKReduceCooldown < 3,
+                data => data.QKReduceCooldown++,
+                data =>
+                    $"Reduce special attack and skill cooldown by {15 * (data.QKReduceCooldown + 1)}%",
+                data => "Passive"
+            ),
+            new Buff(
+                data => $"Overgrowth (LV.{data.maxHPIncrease} -> LV.{data.maxHPIncrease + 1})",
+                data => data.maxHPIncrease < 3,
+                data => data.maxHPIncrease++,
+                data => $"Increase max health points by {1000 * (data.maxHPIncrease + 1)}",
+                data => "Passive"
+            ),
+            new Buff(
+                data =>
+                    $"Lethal Strike (LV.{data.normalAttackCrit} -> LV.{data.normalAttackCrit + 1})",
+                data => data.normalAttackCrit < 3,
+                data => data.normalAttackCrit++,
+                data =>
+                    $"Normal attack now has a {10 * (data.normalAttackCrit + 1)}% chance to triple the damage",
                 data => "Normal Attack"
             ),
             new Buff(
-                data => "Forth attack",
-                data => data.forthNormalAttack,
-                data => data.forthNormalAttack = true,
-                data => "Adds a new attack to the normal attack combo",
-                data => "Normal Attack"
+                data => $"Superspeed (LV.{data.moveFaster} -> LV.{data.moveFaster + 1})",
+                data => data.moveFaster < 3,
+                data => data.moveFaster++,
+                data => $"Move faster",
+                data => "Passive"
             ),
             new Buff(
                 data =>
-                    $"Greatsword Slash (LV.{data.specialAttack} -> LV.{data.specialAttack + 1})",
-                data => data.specialAttack == 0,
-                data => data.specialAttack = 1,
-                data =>
-                    "Transforms the special attack into a powerful forward strike with a large sword",
-                data => "Speical attack"
-            ),
-            new Buff(
-                data => "Crimson Spin",
-                data => data.specialAttack == 0,
-                data => data.specialAttack = 2,
-                data => "Transforms the special attack into a powerful spin attack",
-                data => "Speical attack"
-            ),
-            new Buff(
-                data => "Light bullet",
-                data => data.specialAttack == 0,
-                data => data.specialAttack = 3,
-                data =>
-                    "Transforms the special attack into a light bullet that automatically attacks",
-                data => "Speical attack"
-            ),
-            new Buff(
-                data => getAddSpecialName(data.specialAttack, 1).name,
-                data => !data.specialAdd1 && data.specialAttack != 0,
-                data => data.specialAdd1 = true,
-                data => getAddSpecialName(data.specialAttack, 1).description,
-                data => "Speical attack"
-            ),
-            new Buff(
-                data => getAddSpecialName(data.specialAttack, 2).name,
-                data => !data.specialAdd2 && data.specialAttack != 0,
-                data => data.specialAdd2 = true,
-                data => getAddSpecialName(data.specialAttack, 2).description,
-                data => "Speical attack"
+                    $"Swift Step (LV.{data.ReduceDashCooldown} -> LV.{data.ReduceDashCooldown + 1})",
+                data => data.ReduceDashCooldown < 3,
+                data => data.ReduceDashCooldown++,
+                data => $"Reduce dash cooldown by {15 * (data.ReduceDashCooldown + 1)}%",
+                data => "Passive"
             ),
             new Buff(
                 data =>
-                    $"Increase damage (LV.{data.SpecialDamageUpLV} -> LV.{data.SpecialDamageUpLV + 1})",
-                data => data.SpecialDamageUpLV < 3,
-                data => data.SpecialDamageUpLV++,
-                data => "Increases the damage of special attacks",
-                data => "Speical attack"
+                    $"Swift Step (LV.{data.reduceIncomeDamageDependOnHP} -> LV.{data.reduceIncomeDamageDependOnHP + 1})",
+                data => data.reduceIncomeDamageDependOnHP < 3,
+                data => data.reduceIncomeDamageDependOnHP++,
+                data =>
+                    $"If HP is less than 25%, reduce incoming damage by {15 * (data.reduceIncomeDamageDependOnHP + 1)}%",
+                data => "Passive"
             ),
-            // new Buff(
-            //     data => "Bigger",
-            //     data => data.specialBiggerLV < 3,
-            //     data => data.specialBiggerLV++,
-            //     data => "Increases the size of special attacks",
-            //     data => "Speical attack"
-            // ),
             new Buff(
                 data =>
-                    $"Increase Damage (LV.{data.skillDamageUpLV} -> LV.{data.skillDamageUpLV + 1})",
-                data => data.skillDamageUpLV < 3,
-                data => data.skillDamageUpLV++,
-                data => "Increases the damage of skill ",
+                    $"Last Stand (LV.{data.addDamageDependOnHP} -> LV.{data.addDamageDependOnHP + 1})",
+                data => data.addDamageDependOnHP < 3,
+                data => data.addDamageDependOnHP++,
+                data =>
+                    $"If HP is less than 25%, increase damage by {15 * (data.addDamageDependOnHP + 1)}%",
+                data => "Passive"
+            ),
+            new Buff(
+                data => $"Evolution: Red Blade",
+                data => data.QSkillType == 0,
+                data => data.QSkillType = 1,
+                data => $"Change skill to Red Blade",
                 data => "Skill"
             ),
             new Buff(
-                data => $"Slow (LV.{data.skillSlowEnemyLV} -> LV.{data.skillSlowEnemyLV + 1})",
-                data => data.skillSlowEnemyLV < 3,
-                data => data.skillSlowEnemyLV++,
-                data => "skill now slow enemy",
+                data => $"Evolution: Homing Bullet",
+                data => data.QSkillType == 0,
+                data => data.QSkillType = 2,
+                data => $"Change skill to a bullet that follows the enemy",
                 data => "Skill"
             ),
             new Buff(
-                data =>
-                    $"Poision (LV.{data.skillPoisionEnemyLV} -> LV.{data.skillPoisionEnemyLV + 1})",
-                data => data.skillPoisionEnemyLV < 3,
-                data => data.skillPoisionEnemyLV++,
-                data => "skill now poison enemy",
+                data => $"Evolution: Aura",
+                data => data.QSkillType == 0,
+                data => data.QSkillType = 3,
+                data => $"Change skill to an area of effect damage",
                 data => "Skill"
             ),
-        };
-    }
+            new Buff(
+                data => $"Killing Strike",
+                data => data.QSkillType == 1,
+                data => data.Q1_QKDamageUp = true,
+                data => $"Increase skill and special attack damage by 25%",
+                data => "Evo:Skill"
+            ),
+            new Buff(
+                data => $"Maximum Output",
+                data => data.QSkillType == 1,
+                data => data.Q1_QKFasterWider = true,
+                data => $"Increase the size of special attack and skill",
+                data => "Evo:Skill"
+            ),
+            /*
+            new Buff(
+                data => $"Bloodlust",
+                data => data.QSkillType == 1,
+                data => data.Q1_QKKillEnemyDamageUp = true,
+                data => $"Increase the size of special attack and skill",
+                data => "Evo:Skill"
+            ),*/
+            new Buff(
+                data => $"Super Lethal",
+                data => data.QSkillType == 2,
+                data => data.Q2_QKCrit = true,
+                data => $"Special attack and skill have a 20% chance to deal triple damage",
+                data => "Evo:Skill"
+            ),
+            new Buff(
+                data => $"Stackable",
+                data => data.QSkillType == 2,
+                data => data.Q2_QKStackable = true,
+                data => $"Special skill and skill can now be stored with a maximum of 2",
+                data => "Evo:Skill"
+            ),
+            new Buff(
+                data => $"Little Bee",
+                data => data.QSkillType == 2,
+                data => data.Q2_SmallBullet = true,
+                data => $"There is a small bullet after the attack",
+                data => "Evo:Skill"
+            ),
 
-    private (string name, string description) getAddSpecialName(int specailattack, int type)
-    {
-        switch (specailattack)
-        {
-            case 1:
-                if (type == 1)
-                    return (
-                        "Crack explosion",
-                        "The Greatsword Slash now creates a crack that explodes on impact"
-                    );
-                else
-                    return ("Triple attack", "The special attack will triple in power");
-            case 2:
-                if (type == 1)
-                    return ("Red aura", "Creates an aura around you that damages enemies in range");
-                else
-                    return ("Blue aura", "Creates an aura around you that slow enemies in range");
-            case 3:
-                if (type == 1)
-                    return (
-                        "Light explode",
-                        "The light bullet now has a 20% chance to explode on impact with enemies."
-                    );
-                else
-                    return ("Light strike", "The light bullet is transformed into a light strike");
-            default:
-                return ("Unknown Attack", "Description not available");
-        }
+            /*
+                         new Buff(
+                            data => $"Hand broker",
+                            data => data.QSkillType == 3,
+                            data => data.Q3_QKWeak = true,
+                            data => $"Enemy attack reduce",
+                            data => "Evo:Skill"
+                        ),
+                         new Buff(
+                            data => $"Little bee",
+                            data => data.QSkillType == 3,
+                            data => data.Q3_QKExplode = true,
+                            data => $"There a small bullet after atttack",
+                            data => "Evo:Skill"
+                        ),
+                         new Buff(
+                            data => $"Little bee",
+                            data => data.QSkillType == 3,
+                            data => data.Q3_Barrier = true,
+                            data => $"There a small bullet after atttack",
+                            data => "Evo:Skill"
+                        ),*/
+        };
     }
 
     void ShowRandomAvailableBuffs()

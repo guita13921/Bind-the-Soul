@@ -33,8 +33,6 @@ public class ControlPower : MonoBehaviour
 
     void Start()
     {
-        forthAttack = characterData.forthNormalAttack;
-        normalAttackSlash = characterData.normalAttackSlash;
         if (forthAttack)
         {
             playerCombat.combo.Add(attackSOs[0]);
