@@ -17,11 +17,6 @@ public class ControlPower : MonoBehaviour
     public GameObject[] dashVFX;
     public GameObject[] SpecialVfx; //k button
 
-    public GameObject[] SpecialVfxBig; //k button
-    public GameObject[] SpecialVfxAdd1; //k button
-    public GameObject[] SpecialVfxAdd2; //k button
-    public GameObject[] SpecialVfxAdd1and2; //k button
-
     public GameObject[] qSkillVFX;
 
     public List<AttackSO> attackSOs;

@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.PlayerLoop;
+using UnityEngine.UI;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -151,6 +152,20 @@ public class PlayerCombat : MonoBehaviour
     public GameObject KCooldown;
     public GameObject QCooldown;
 
+    [SerializeField]
+    Image Kimage;
+
+    [SerializeField]
+    Image Qimage;
+
+    public GameObject KCooldown2;
+    public GameObject QCooldown2;
+
+    [SerializeField]
+    Image Kimage2;
+
+    [SerializeField]
+    Image Qimage2;
     public bool isCastReady = true;
     public bool isCastReady2 = true;
 
@@ -173,6 +188,7 @@ public class PlayerCombat : MonoBehaviour
         if (isCastReady && Input.GetKeyDown(KeyCode.Q))
         {
             QCooldown.SetActive(true);
+            Qimage.color = new Color(0f, 0f, 0f);
 
             animator.Play("CAST", 0, 0);
             GameObject vfxPrefab = qSkill[0];
@@ -201,7 +217,8 @@ public class PlayerCombat : MonoBehaviour
             && characterData.Q2_QKStackable
         )
         {
-            //QCooldown.SetActive(true);
+            QCooldown2.SetActive(true);
+            Qimage2.color = new Color(0, 0, 0f);
 
             animator.Play("CAST", 0, 0);
             GameObject vfxPrefab = qSkill[0];
@@ -229,6 +246,8 @@ public class PlayerCombat : MonoBehaviour
         if (isSpecialAttackReady && Input.GetKeyDown(KeyCode.K))
         {
             KCooldown.SetActive(true);
+            Kimage.color = new Color(0f, 0f, 0f);
+
             GameObject vfxPrefab = speicalVFX[0];
             if (characterData.Q1_QKFasterWider)
                 vfxPrefab.transform.localScale = new Vector3(ksize, ksize, ksize); // Set scale to (1, 1, 1)
@@ -240,7 +259,7 @@ public class PlayerCombat : MonoBehaviour
         //Debug.Log("first attack: " + timeSinceLastSpecialAttack);
     }
 
-    float timeSinceLastSpecialAttack2 = 0f;
+    public float timeSinceLastSpecialAttack2 = 0f;
 
     void SpecialAttack2()
     {
@@ -260,7 +279,9 @@ public class PlayerCombat : MonoBehaviour
             && characterData.Q2_QKStackable
         )
         {
-            //KCooldown.SetActive(true);
+            KCooldown2.SetActive(true);
+            Kimage2.color = new Color(0f, 0f, 0f);
+
             GameObject vfxPrefab = speicalVFX[0];
             if (characterData.Q1_QKFasterWider)
                 vfxPrefab.transform.localScale = new Vector3(ksize, ksize, ksize); // Set scale to (1, 1, 1)

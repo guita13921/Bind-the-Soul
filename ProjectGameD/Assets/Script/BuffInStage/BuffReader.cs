@@ -78,7 +78,7 @@ public class BuffReader : MonoBehaviour
                 data => data.QKReduceCooldown < 3,
                 data => data.QKReduceCooldown++,
                 data =>
-                    $"Reduce special attack and skill cooldown by {15 * (data.QKReduceCooldown + 1)}%",
+                    $"Reduce special attack and skill cooldown by (data.QKReduceCooldown + 1) second",
                 data => "Passive"
             ),
             new Buff(
