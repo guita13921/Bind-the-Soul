@@ -57,6 +57,7 @@ public partial class PlayerControl
         {
             yield break; // Exit if the cooldown is active
         }
+        isAttack = false;
         controlPower.DashVFX();
 
         canDash = false; // Prevent dashing again immediately

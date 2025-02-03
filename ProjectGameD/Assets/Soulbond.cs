@@ -213,6 +213,16 @@ public class Soulbond : MonoBehaviour
                 data => "Normal Attack"
             ),
             new Buff(
+                data => $"Electric Trail (LV.{data.dashExplode})",
+                data => data.dashExplode != 0,
+                data => data.dashExplode++,
+                data =>
+                    data.dashExplode == 0
+                        ? $"When Dash left an electric bomb behind"
+                        : "Increase electric bomb damage",
+                data => "Passive"
+            ),
+            new Buff(
                 data => $"Superspeed (LV.{data.moveFaster})",
                 data => data.moveFaster != 0,
                 data => data.moveFaster++,

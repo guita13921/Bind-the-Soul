@@ -61,6 +61,8 @@ public class ControlPower : MonoBehaviour
     public void DashVFX()
     {
         Instantiate(dashVFX[0], parentObject);
+        if (characterData.dashExplode > 0)
+            Instantiate(dashVFX[1], parentObject);
     }
 
     public void CheckSpeed()

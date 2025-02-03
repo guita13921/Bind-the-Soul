@@ -131,6 +131,16 @@ public class BuffReader : MonoBehaviour
                 data => "Passive"
             ),
             new Buff(
+                data => $"Electric Trail (LV.{data.dashExplode} -> LV.{data.dashExplode + 1})",
+                data => data.dashExplode < 3,
+                data => data.dashExplode++,
+                data =>
+                    data.dashExplode == 0
+                        ? $"When Dash left an electric bomb behind"
+                        : "Increase electric bomb damage",
+                data => "Passive"
+            ),
+            new Buff(
                 data => $"Evolution: Red Blade",
                 data => data.QSkillType == 0,
                 data => data.QSkillType = 1,
@@ -173,6 +183,7 @@ public class BuffReader : MonoBehaviour
                 data => $"Increase the size of special attack and skill",
                 data => "Evo:Skill"
             ),*/
+
             new Buff(
                 data => $"Super Lethal",
                 data => data.QSkillType == 2,

@@ -29,7 +29,8 @@ public partial class PlayerControl : MonoBehaviour
             Imframe();
             GatherInput();
             WalkingSFX();
-
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("CAST"))
+                isAttack = false;
             if (!GotHit && !isDashing)
             {
                 Attack();

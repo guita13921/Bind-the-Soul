@@ -4,6 +4,7 @@ using UnityEngine;
 public class CharacterData : ScriptableObject
 {
     public int deathCount = 0;
+    public float currentHP = 1000;
 
     /*
         [Header("Passive")]
@@ -53,6 +54,7 @@ public class CharacterData : ScriptableObject
     public int moveFaster = 0;
     public int ReduceDashCooldown = 0;
     public int reduceIncomeDamageDependOnHP = 0;
+    public int dashExplode = 0;
     public int addDamageDependOnHP = 0;
     public int QSkillType = 0;
 

@@ -18,6 +18,9 @@ public class HealthBar : MonoBehaviour
         PaHP = GetComponentInParent<EnemyHealth>();
         maxHealth = PaHP.GetMaxHealth();
         health = PaHP.GetCurrentHealth();
+
+        healthslider.maxValue = maxHealth;
+        easeHealthSlider.maxValue = maxHealth;
     }
 
     // Update is called once per frame

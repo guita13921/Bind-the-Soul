@@ -1778,6 +1778,8 @@ GameObject:
   - component: {fileID: 4924355293669243938}
   - component: {fileID: 4557427396945878400}
   - component: {fileID: 6326996756796907906}
+  - component: {fileID: 5395475953653349978}
+  - component: {fileID: 6264644386883689429}
   m_Layer: 0
   m_Name: Priest
   m_TagString: Enemy
@@ -1861,10 +1863,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3719ca31e16b674fb994790c13bd0dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 0
   maxHealth: 0
   currentHealth: 0
-  dmgtext: {fileID: 0}
 --- !u!114 &6296621909723067463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1912,11 +1912,6 @@ MonoBehaviour:
   playerWeapon: {fileID: 0}
   attackIndicatorCanvas: {fileID: 7106717236073869485}
   attackIndicatorController: {fileID: 551855349233425011}
-  sound:
-  - {fileID: 6269816721746788171, guid: 2aa8bb578d888fd4d81a22c1a23a11cd, type: 3}
-  - {fileID: 5357182591586133925, guid: 3d8ef8ab70a0ed0489ccd4356f5e6265, type: 3}
-  - {fileID: 4399829981604430862, guid: 66694a1d2fd71694c96122a55f5121cf, type: 3}
-  dmgtext: {fileID: 693769129120289603, guid: 4795ff2b90e7ba846ab6791295f49d65, type: 3}
   enemyBullet: {fileID: 1184375899483656, guid: 7cce25b3e76ae8d44bc6f265d1279c4b, type: 3}
   SpawnPoint: {fileID: 6012492923429148166}
   uiOffset: {x: 0, y: 0}
@@ -1943,7 +1938,7 @@ MonoBehaviour:
   IN_KnockBackTime: 3
   IN_CoolDownAttack: 8
   IN_numberOfRandomVariations: 1
-  IN_Health: 20
+  IN_Health: 100
   IN_Speed: 2
   IN_Damage: 10
   IN_range: 10
@@ -2005,6 +2000,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetOffset: {x: 0, y: 1.12, z: 0}
+--- !u!54 &5395475953653349978
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4363578991983522480}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 0
+  m_ImplicitTensor: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &6264644386883689429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4363578991983522480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0eaff8a5bf9bf843bf35b91419ff83f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitVFX: {fileID: 5738661500007511725, guid: 58d8526b8eefac74ca3c39f9f7abb8f9, type: 3}
+  dmgtext: {fileID: 693769129120289603, guid: 4795ff2b90e7ba846ab6791295f49d65, type: 3}
+  sound:
+  - {fileID: 4399829981604430862, guid: 66694a1d2fd71694c96122a55f5121cf, type: 3}
+  - {fileID: 5357182591586133925, guid: 3d8ef8ab70a0ed0489ccd4356f5e6265, type: 3}
+  - {fileID: 6269816721746788171, guid: 2aa8bb578d888fd4d81a22c1a23a11cd, type: 3}
+  health: {fileID: 0}
+  characterData: {fileID: 11400000, guid: e628f4ad3830604478a34deaa6dbc29e, type: 2}
 --- !u!1 &4514782077138980834
 GameObject:
   m_ObjectHideFlags: 0

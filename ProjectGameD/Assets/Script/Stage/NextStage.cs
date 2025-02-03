@@ -17,9 +17,17 @@ public class NextStage : MonoBehaviour
     [SerializeField]
     String NextSceneName;
 
+    [SerializeField]
+    Health health;
+
+    [SerializeField]
+    CharacterData characterData;
+
     // Start is called before the first frame update
     public void loadscene(string NextSceneName)
     {
+        characterData.currentHP = health.currentHealth;
+
         TransitionManager.Instance().Transition(NextSceneName, transition, loaddelay);
     }
 

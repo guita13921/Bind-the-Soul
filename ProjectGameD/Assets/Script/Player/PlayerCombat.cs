@@ -38,7 +38,6 @@ public class PlayerCombat : MonoBehaviour
     public Transform parentObject; // The object inside which you want to spawn the new object
 
     public bool normalmode = true;
-    public PlayerCD playerCD;
 
     bool forthAttack = false;
     bool check4thattack = false;
@@ -57,7 +56,6 @@ public class PlayerCombat : MonoBehaviour
         SpecialAttack2();
 
         Cast();
-
         SpecialAttack();
         if (
             !animator.GetCurrentAnimatorStateInfo(0).IsName("GotHit")
