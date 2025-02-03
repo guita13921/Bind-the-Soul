@@ -13,38 +13,42 @@ public class CooldownBar : MonoBehaviour
 
     [SerializeField]
     private PlayerCombat playerCombat;
+
+    [SerializeField]
+    private GameObject cooldown2;
     public GameObject Kobj;
     public GameObject Qobj;
+    public CharacterData characterData;
 
     void Update()
     {
         KUpdatecooldown();
         QUpdatecooldown();
+        if (characterData.Q2_QKStackable)
+        {
+            cooldown2.SetActive(true);
+        }
     }
+
+    [SerializeField]
+    Image Kimage;
+
+    [SerializeField]
+    Image Qimage;
 
     private void KUpdatecooldown()
     {
-        Debug.Log(
-            (playerCombat.specialAttackCooldown - playerCombat.timeSinceLastSpecialAttack)
-                / playerCombat.specialAttackCooldown
-        );
         KCooldown.fillAmount = Mathf.Lerp(
             KCooldown.fillAmount,
             (playerCombat.specialAttackCooldown - playerCombat.timeSinceLastSpecialAttack)
                 / playerCombat.specialAttackCooldown,
-            Time.deltaTime * 10
+            Time.deltaTime * 100
         );
-        Debug.Log(
-            Mathf.Lerp(
-                KCooldown.fillAmount,
-                (playerCombat.specialAttackCooldown - playerCombat.timeSinceLastSpecialAttack)
-                    / playerCombat.specialAttackCooldown,
-                Time.deltaTime * 10
-            )
-        );
+
         if (playerCombat.isSpecialAttackReady)
         {
             Kobj.SetActive(false);
+            Kimage.color = new Color(255f, 217f, 0f);
         }
     }
 
@@ -54,11 +58,12 @@ public class CooldownBar : MonoBehaviour
             QCooldown.fillAmount,
             (playerCombat.castCooldown - playerCombat.timeSinceLastCast)
                 / playerCombat.castCooldown,
-            Time.deltaTime * 10
+            Time.deltaTime * 100
         );
         if (playerCombat.isCastReady)
         {
             Qobj.SetActive(false);
+            Qimage.color = new Color(255f, 217f, 0f);
         }
     }
 }

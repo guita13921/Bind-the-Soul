@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    [SerializeField]
-    private float Health;
+    //[SerializeField]
+    //private float Health;
 
     [SerializeField]
-    private float maxHealth;
+    public float maxHealth;
 
     [SerializeField]
     private float currentHealth;
-    public GameObject dmgtext;
 
     public void SetState(float IN_Health)
     {
-        Health = IN_Health;
+        //Health = IN_Health; it seem that you never used this value
         maxHealth = IN_Health;
         currentHealth = IN_Health;
     }

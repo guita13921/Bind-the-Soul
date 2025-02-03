@@ -7,27 +7,27 @@ public class VFXSpawner : MonoBehaviour
 {
     public GameObject parentObject;
     public string childToSpawn;
+    public CharacterData characterData;
 
     void Start()
     {
-        Transform childTransform = parentObject.transform.Find(childToSpawn); // Replace with the actual child name
+        Transform childTransform = parentObject.transform.Find(childToSpawn);
 
         if (childTransform != null)
         {
-            // Get the world position and rotation of the child object
             Vector3 worldPosition = childTransform.position;
             Quaternion worldRotation = childTransform.rotation;
 
-            // Instantiate the child object in world space (at the same position and rotation)
             GameObject copiedObject = Instantiate(
                 childTransform.gameObject,
                 worldPosition,
                 worldRotation
             );
 
-            // Optionally, you can detach the copied object from any parent if you don't want it to have a parent
-            copiedObject.transform.SetParent(null); // This removes the new object from any hierarchy parent
-            copiedObject.SetActive(true); // Make sure the object is active
+            copiedObject.transform.SetParent(null);
+            if (characterData.Q1_QKFasterWider)
+                copiedObject.transform.localScale = new Vector3(1.25f, 1.25f, 1.25f); // Set scale to (1, 1, 1)
+            copiedObject.SetActive(true);
         }
         Destroy(gameObject);
     }

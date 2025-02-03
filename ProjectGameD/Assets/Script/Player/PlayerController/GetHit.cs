@@ -7,6 +7,9 @@ public partial class PlayerControl : MonoBehaviour
 {
     bool GotHit = false;
 
+    [SerializeField]
+    GameObject[] hurtsound;
+
     private void OnTriggerEnter(Collider Hit)
     {
         if (
@@ -17,6 +20,8 @@ public partial class PlayerControl : MonoBehaviour
         {
             GotHit = true;
             animator.Play("GotHit", 0, 0);
+            int randomIndex = Random.Range(0, hurtsound.Length);
+            GameObject humansfx = Instantiate(hurtsound[randomIndex]);
         }
     }
 

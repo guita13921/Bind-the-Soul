@@ -68,7 +68,7 @@ public class EnemyAI3 : MonoBehaviour
     public State state;
 
     [SerializeField]
-    public float speed;
+    protected float speed;
 
     //CoolDown var
     [SerializeField]
@@ -280,7 +280,7 @@ public class EnemyAI3 : MonoBehaviour
             && timerCoolDownAttack > CoolDownAttack
             && state == State.Cooldown
         )
-        { 
+        { //#############
             agent.speed = speed;
             state = State.Ready;
             timerCoolDownAttack = 0;
@@ -374,7 +374,7 @@ public class EnemyAI3 : MonoBehaviour
         //StopAttack(); // Optional
     }
 
-    protected virtual void Dead()
+    void Dead()
     {
         if (state == State.Dead)
         {
@@ -397,15 +397,13 @@ public class EnemyAI3 : MonoBehaviour
             Destroy(bar.gameObject);
 
             // Disable NavMeshAgent
+            agent.enabled = false;
 
             // Play death animation
             animator.SetBool("Death", true);
 
             // Deactivate the attack indicator canvas
             attackIndicatorCanvas.gameObject.SetActive(false);
-
-            // Destroy the enemy game object after 5 seconds
-            Destroy(gameObject, 5f);
         }
     }
 
@@ -509,82 +507,69 @@ public class EnemyAI3 : MonoBehaviour
     {
         if (other.isTrigger && other.gameObject.CompareTag("PlayerSword") && state != State.Dead)
         {
-            // Calculate damage
-            health.CalculateDamage(playerWeapon.damage);
-
-
-            // Check if the enemy is in berserk mode
-            if (this is Chaos_warriors chaosWarrior && chaosWarrior.isBerserk)
-            {
-                // If berserk, don't apply knockback
-                Debug.Log($"{gameObject.name} is in berserk mode and cannot be knocked back.");
-            }
-            else
-            {
-                // Apply knockback if not in berserk mode
-                agent.transform.LookAt(player.transform);
-                Vector3 knockBackDirection = transform.position - player.transform.position;
-                KnockBack(knockBackDirection, 10f);
-            }
-
-            // Play hit effect
-            PlayHitEffect();
-        }
-    }
-
-    public GameObject[] sound;
-    public GameObject dmgtext;
-
-    public void PlayHitEffect()
-    {
-        if (hitEffectPrefab != null)
-        {
-            // Determine the spawn position (use spawn point or fallback to the enemy's position)
-            Vector3 spawnPosition =
-                (hitEffectSpawnPoint != null) ? hitEffectSpawnPoint.position : transform.position;
-
-            // Instantiate the hit effect prefab
-            GameObject hitEffectInstance = Instantiate(
-                hitEffectPrefab,
-                spawnPosition,
-                Quaternion.identity
-            );
-            if (sound != null && sound.Length > 0)
-            {
-                int randomIndex = UnityEngine.Random.Range(0, sound.Length);
-                GameObject soundObject = sound[randomIndex];
-                GameObject swordhit = Instantiate(soundObject);
-                AudioSource audioSource = soundObject.GetComponent<AudioSource>();
-                if (audioSource != null)
-                {
-                    audioSource.Play();
-                }
-            }
+            PlayerWeapon playerWeapon = other.gameObject.GetComponent<PlayerWeapon>();
             if (playerWeapon != null)
-            {
-                float damage = playerWeapon.damage;
-                Debug.Log(damage);
-                Vector3 newPosition = this.transform.position;
-                newPosition.y += 1;
-                GameObject dmg = Instantiate(dmgtext, newPosition, Quaternion.Euler(0, 60, 0));
+                health.CalculateDamage(playerWeapon.damage);
 
-                damageShow damageTextComponent = dmg.GetComponent<damageShow>();
-                if (damageTextComponent != null)
-                {
-                    damageTextComponent.SetDamage(damage);
-                }
-            }
-            // Optionally, parent it to the enemy (useful for effects like blood dripping)
-            hitEffectInstance.transform.SetParent(transform);
-
-            // Destroy the effect after a set duration
-            Destroy(hitEffectInstance, hitEffectDuration);
+            agent.transform.LookAt(player.transform);
+            Vector3 knockBackDirection = transform.position - player.transform.position;
+            KnockBack(knockBackDirection, 10f);
+            //PlayHitEffect();
         }
     }
+
+    //public GameObject[] sound;
+    //public GameObject dmgtext;
+    /*
+        public void PlayHitEffect()
+        {
+            if (hitEffectPrefab != null)
+            {
+                // Determine the spawn position (use spawn point or fallback to the enemy's position)
+                Vector3 spawnPosition =
+                    (hitEffectSpawnPoint != null) ? hitEffectSpawnPoint.position : transform.position;
+    
+                // Instantiate the hit effect prefab
+                GameObject hitEffectInstance = Instantiate(
+                    hitEffectPrefab,
+                    spawnPosition,
+                    Quaternion.identity
+                );
+                if (sound != null && sound.Length > 0)
+                {
+                    int randomIndex = UnityEngine.Random.Range(0, sound.Length);
+                    GameObject soundObject = sound[randomIndex];
+                    GameObject swordhit = Instantiate(soundObject);
+                    AudioSource audioSource = soundObject.GetComponent<AudioSource>();
+                    if (audioSource != null)
+                    {
+                        audioSource.Play();
+                    }
+                }
+                if (playerWeapon != null)
+                {
+                    float damage = playerWeapon.damage;
+                    Debug.Log(damage);
+                    Vector3 newPosition = this.transform.position;
+                    newPosition.y += 1;
+                    GameObject dmg = Instantiate(dmgtext, newPosition, Quaternion.Euler(0, 60, 0));
+    
+                    damageShow damageTextComponent = dmg.GetComponent<damageShow>();
+                    if (damageTextComponent != null)
+                    {
+                        damageTextComponent.SetDamage(damage);
+                    }
+                }
+                // Optionally, parent it to the enemy (useful for effects like blood dripping)
+                hitEffectInstance.transform.SetParent(transform);
+    
+                // Destroy the effect after a set duration
+                Destroy(hitEffectInstance, hitEffectDuration);
+            }
+        }*/
 
     void ResetAttackBehavior()
     {
         currentBehaviorType = -1; // Reset to allow for a new random behavior in the next attack
     }
-
 }

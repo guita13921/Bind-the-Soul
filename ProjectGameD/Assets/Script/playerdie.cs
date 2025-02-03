@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class playerdie : MonoBehaviour
 {
@@ -8,27 +10,38 @@ public class playerdie : MonoBehaviour
     private Animator animator;
     private bool hasDied = false;
 
+    [SerializeField]
+    CharacterData characterData;
+
+    [SerializeField]
+    GameObject deathsound;
+
     void Start()
     {
         health = GetComponent<Health>();
         animator = GetComponent<Animator>();
-
     }
-    void Update(){
 
-        if (health.currentHealth <=0 && !hasDied)
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.X))
         {
-            animator.Play("die", 0, 0);
-            gameObject.tag="Untagged";
-            gameObject.layer=default;
-            hasDied =true;
+            health.currentHealth = 0;
         }
-         else if (hasDied && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+        if (health.currentHealth <= 0 && !hasDied)
+        {
+            Instantiate(deathsound);
+            characterData.deathCount += 1;
+            animator.Play("die", 0, 0);
+
+            gameObject.tag = "Untagged";
+            gameObject.layer = default;
+            hasDied = true;
+        }
+        else if (hasDied && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
         {
             // Lock the animation at the end
             animator.enabled = false;
         }
     }
-
-    
 }

@@ -49,6 +49,7 @@ public partial class PlayerControl
 
     public DashCheck dashCheck; // Assign in inspector
     public ControlPower controlPower;
+    public float dashWaitTime = 0.75f;
 
     IEnumerator Dash()
     {
@@ -56,6 +57,7 @@ public partial class PlayerControl
         {
             yield break; // Exit if the cooldown is active
         }
+        isAttack = false;
         controlPower.DashVFX();
 
         canDash = false; // Prevent dashing again immediately
@@ -105,7 +107,7 @@ public partial class PlayerControl
         isDashing = false;
 
         // Wait for the cooldown to complete
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(dashWaitTime);
         canDash = true; // Reset the cooldown
     }
 

@@ -8,15 +8,25 @@ public class UpgradeShow : MonoBehaviour
     public GameObject upgradePanel;
     private bool show = true;
 
-    void Update()
+    // void Update()
+    // {
+    //     Debug.Log(enemySpawnManager.enemiesRemaining + " " + enemySpawnManager.pointsToSpend);
+    //     if (
+    //         enemySpawnManager.currentWave == enemySpawnManager.totalWaves
+    //         && enemySpawnManager.enemiesRemaining == 0
+    //         && enemySpawnManager.pointsToSpend == 0
+    //         && show
+    //     )
+    //     {
+    //         GameObject vfx = Instantiate(upgradePanel);
+    //         show = false;
+    //     }
+    // }
+
+    public void ShowUpgradeUI()
     {
-        if (enemySpawnManager.currentWave == enemySpawnManager.totalWaves)
         {
-            if (
-                enemySpawnManager.enemiesRemaining == 0
-                && enemySpawnManager.pointsToSpend == 0
-                && show
-            )
+            if (show)
             {
                 GameObject vfx = Instantiate(upgradePanel);
                 show = false;

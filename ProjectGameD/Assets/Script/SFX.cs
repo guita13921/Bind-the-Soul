@@ -13,6 +13,9 @@ public class SFX : MonoBehaviour
     GameObject SwordSpin_SFX;
 
     [SerializeField]
+    GameObject SwordSpin_human;
+
+    [SerializeField]
     GameObject BigSwordSFX;
 
     [SerializeField]
@@ -21,26 +24,24 @@ public class SFX : MonoBehaviour
     [SerializeField]
     GameObject Hit_SFX;
 
+    [SerializeField]
+    GameObject[] Normal_humanSFX;
+
     // Start is called before the first frame update
 
     public void Slash()
     {
         GameObject sfx = Instantiate(Sword_SFX);
+
+        int randomIndex = Random.Range(0, Normal_humanSFX.Length);
+        GameObject humansfx = Instantiate(Normal_humanSFX[randomIndex]);
     }
 
     public void SkillSlash()
     {
-        if (characterData.specialAttack == 1)
-        {
-            GameObject sfx = Instantiate(BigSwordSFX);
-        }
-        else if (characterData.specialAttack == 3)
-        {
-            GameObject sfx = Instantiate(LightBulletSFX);
-        }
-        else
         {
             GameObject sfx = Instantiate(SwordSpin_SFX);
+            GameObject sfx2 = Instantiate(SwordSpin_human);
         }
     }
 

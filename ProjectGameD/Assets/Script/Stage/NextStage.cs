@@ -1,20 +1,39 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using EasyTransition;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class NextStage : MonoBehaviour{
+public class NextStage : MonoBehaviour
+{
+    public TransitionSettings transition;
+    public float loaddelay;
 
-    [SerializeField] String currentScene;
-    [SerializeField] String NextSceneName;
+    [SerializeField]
+    String currentScene;
+
+    [SerializeField]
+    String NextSceneName;
+
+    [SerializeField]
+    Health health;
+
+    [SerializeField]
+    CharacterData characterData;
+
     // Start is called before the first frame update
-    public void loadscene(String NextSceneName){
-        SceneManager.LoadScene(NextSceneName);
+    public void loadscene(string NextSceneName)
+    {
+        characterData.currentHP = health.currentHealth;
+
+        TransitionManager.Instance().Transition(NextSceneName, transition, loaddelay);
     }
 
-    void OnTriggerEnter(){
-        loadscene(NextSceneName);
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+            loadscene(NextSceneName);
     }
 }
