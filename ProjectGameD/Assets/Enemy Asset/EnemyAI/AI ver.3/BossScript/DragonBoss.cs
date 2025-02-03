@@ -65,11 +65,9 @@ public class DragonBoss : MonoBehaviour
     [Header("Agent")]
     //Range
     //FireVar01 fire 50%
-    [SerializeField] private List<BossAction> RangeCombo1 = new List<BossAction> { BossAction.Backward, BossAction.FireBreath };
-    //FireVar02 laser 20%
+    [SerializeField] private List<BossAction> Rangecombo1 = new List<BossAction> { BossAction.Backward, BossAction.FireBreath };
+    //FireVar02 laser 25%
     [SerializeField] private List<BossAction> Rangecombo2 = new List<BossAction> { BossAction.KnockBack, BossAction.Backward, BossAction.Laser };
-    //Summon 15%
-    [SerializeField] private List<BossAction> Rangecombo3 = new List<BossAction> { BossAction.Backward, BossAction.SummonMinions };
     
     //Malee
     //Attack 35%
@@ -90,7 +88,6 @@ public class DragonBoss : MonoBehaviour
     {
         // Initialize health
         currentHealth = maxHealth;
-
         // Ensure references
         if (!player) player = GameObject.FindWithTag("Player").transform;
 
@@ -98,6 +95,7 @@ public class DragonBoss : MonoBehaviour
         if (!movementController) Debug.LogError("BossRotationWithAnimation script is missing!");
 
         TransitionToPhase(BossPhase.Phase1);
+        
     }
 
     private void Update()
@@ -202,24 +200,32 @@ public class DragonBoss : MonoBehaviour
                 float randomChance = Random.value; // Random value between 0.0 and 1.0
                 if (randomChance < 0.5f) // 50% chance
                 {
-                    StartCombo(RangeCombo1); // Fire Breath
+                    StartCombo(Rangecombo1); // Fire Breath
                 }
                 else
                 {
-                    StartCombo(RangeCombo1); // Laser Attack
+                    StartCombo(Rangecombo2); // Claw Swipe + Tail Sweep
                 }
             }
             else if (MeleeSensor.IsPlayerInRange())
             {
-                // Randomly choose between melee combos
                 float randomChance = Random.value; // Random value between 0.0 and 1.0
-                if (randomChance < 0.5f) // 50% chance
+
+                if (randomChance < 0.35f) // 35% chance
                 {
                     StartCombo(Maleecombo1); // Tail Sweep + Claw Swipe
                 }
-                else
+                else if (randomChance < 0.70f) // Another 35% chance (total 70%)
                 {
                     StartCombo(Maleecombo2); // Claw Swipe + Tail Sweep
+                }
+                else if (randomChance < 0.90f) // 20% chance (total 90%)
+                {
+                    StartCombo(Maleecombo3); // Backward + Forward Rush
+                }
+                else // Remaining 10% chance
+                {
+                    StartCombo(Maleecombo4); // Knockback (Evade)
                 }
             }
             else if (RangeSensor.IsPlayerOutOfRange() && IsPlayerInFront())
@@ -228,11 +234,11 @@ public class DragonBoss : MonoBehaviour
                 float randomChance = Random.value; // Random value between 0.0 and 1.0
                 if (randomChance < 0.5f) // 50% chance
                 {
-                    StartCombo(RangeCombo1); // Forward Rush + Claw Swipe
+                    StartCombo(OutRangecombo1); // Forward Rush + Claw Swipe
                 }
                 else
                 {
-                    StartCombo(RangeCombo1); // Summon Minions
+                    StartCombo(OutRangecombo2); // Summon Minions
                 }
             }
         }

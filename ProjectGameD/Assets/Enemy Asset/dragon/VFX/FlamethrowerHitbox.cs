@@ -6,10 +6,9 @@ public class FlamethrowerHitbox : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float damagePerSecond = 10f; // Damage per second while player is in the hitbox
-    [SerializeField] private float hitboxDuration = 6f; // Duration of the hitbox (should match the VFX duration)
     [SerializeField] private LayerMask playerLayer; // Layer mask for the player
 
-    private bool isActive = false;
+    [SerializeField] private bool isActive = false;
     private float activeTime = 0f;
     private BoxCollider boxCollider; // Reference to the BoxCollider component
 
@@ -28,12 +27,6 @@ public class FlamethrowerHitbox : MonoBehaviour
         if (isActive)
         {
             activeTime += Time.deltaTime;
-
-            // Check if the hitbox duration has expired
-            if (activeTime >= hitboxDuration)
-            {
-                DeactivateHitbox();
-            }
 
             // Apply damage to the player if they are within the hitbox
             Collider[] hitPlayers = Physics.OverlapBox(boxCollider.bounds.center, boxCollider.bounds.extents, transform.rotation, playerLayer);
