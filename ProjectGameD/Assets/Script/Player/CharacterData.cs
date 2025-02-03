@@ -92,5 +92,6 @@ public class CharacterData : ScriptableObject
         Q3_QKWeak = false;
         Q3_QKExplode = false;
         Q3_Barrier = false;
+        dashExplode = 0;
     }
 }
