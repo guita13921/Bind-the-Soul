@@ -165,21 +165,21 @@ public class Soulbond : MonoBehaviour
                 data => data.vampirism != 0,
                 data => data.vampirism++,
                 data => $"Restores player health by {2 + data.vampirism} for every attack",
-                data => "Normal Attack"
+                data => "Vampirism"
             ),
             new Buff(
                 data => $"Iron Body (LV.{data.reduceIncomeDamage})",
                 data => data.reduceIncomeDamage != 0,
                 data => data.reduceIncomeDamage++,
                 data => $"Reduce incoming damage by {5 * (data.reduceIncomeDamage + 1)}%",
-                data => "Passive"
+                data => "Iron Body"
             ),
             new Buff(
                 data => $"Super Special (LV.{data.specialLV})",
                 data => data.specialLV != 0,
                 data => data.specialLV++,
                 data => "Upgrade the special attack to a stronger version",
-                data => "Special Attack"
+                data => "Super Special"
             ),
             new Buff(
                 data => $"Threshold Revival (LV.{data.healToThreshold})",
@@ -187,22 +187,22 @@ public class Soulbond : MonoBehaviour
                 data => data.healToThreshold++,
                 data =>
                     $"Heal the player's health points to the health threshold of {20 * (data.healToThreshold + 1)}% after entering a new stage",
-                data => "Passive"
+                data => "Threshold Revival"
             ),
             new Buff(
                 data => $"Acceleration (LV.{data.QKReduceCooldown})",
                 data => data.QKReduceCooldown != 0,
                 data => data.QKReduceCooldown++,
                 data =>
-                    $"Reduce special attack and skill cooldown by data.QKReduceCooldown + 1) second",
-                data => "Passive"
+                    $"Reduce special attack and skill cooldown by {data.QKReduceCooldown + 1} second",
+                data => "Acceleration"
             ),
             new Buff(
                 data => $"Overgrowth (LV.{data.maxHPIncrease})",
                 data => data.maxHPIncrease != 0,
                 data => data.maxHPIncrease++,
                 data => $"Increase max health points by {1000 * (data.maxHPIncrease + 1)}",
-                data => "Passive"
+                data => "Overgrowth"
             ),
             new Buff(
                 data => $"Lethal Strike (LV.{data.normalAttackCrit})",
@@ -210,29 +210,29 @@ public class Soulbond : MonoBehaviour
                 data => data.normalAttackCrit++,
                 data =>
                     $"Normal attack now has a {10 * (data.normalAttackCrit + 1)}% chance to triple the damage",
-                data => "Normal Attack"
+                data => "Lethal Strike"
             ),
             new Buff(
                 data => $"Superspeed (LV.{data.moveFaster})",
                 data => data.moveFaster != 0,
                 data => data.moveFaster++,
                 data => $"Move faster",
-                data => "Passive"
+                data => "Superspeed"
             ),
             new Buff(
                 data => $"Swift Step (LV.{data.ReduceDashCooldown} )",
                 data => data.ReduceDashCooldown != 0,
                 data => data.ReduceDashCooldown++,
                 data => $"Reduce dash cooldown by {15 * (data.ReduceDashCooldown + 1)}%",
-                data => "Passive"
+                data => "Swift Step"
             ),
             new Buff(
-                data => $"Swift Step (LV.{data.reduceIncomeDamageDependOnHP})",
+                data => $"Unyielding spirit (LV.{data.reduceIncomeDamageDependOnHP})",
                 data => data.reduceIncomeDamageDependOnHP != 0,
                 data => data.reduceIncomeDamageDependOnHP++,
                 data =>
                     $"If HP is less than 25%, reduce incoming damage by {15 * (data.reduceIncomeDamageDependOnHP + 1)}%",
-                data => "Passive"
+                data => "Unyielding spirit"
             ),
             new Buff(
                 data => $"Last Stand (LV.{data.addDamageDependOnHP})",
@@ -240,42 +240,42 @@ public class Soulbond : MonoBehaviour
                 data => data.addDamageDependOnHP++,
                 data =>
                     $"If HP is less than 25%, increase damage by {15 * (data.addDamageDependOnHP + 1)}%",
-                data => "Passive"
+                data => "Last Stand"
             ),
             new Buff(
                 data => $"Evolution: Red Blade",
                 data => data.QSkillType == 1,
                 data => data.QSkillType = 1,
                 data => $"Change skill to Red Blade",
-                data => "Skill"
+                data => "Evolution: Red Blade"
             ),
             new Buff(
                 data => $"Evolution: Homing Bullet",
                 data => data.QSkillType == 2,
                 data => data.QSkillType = 2,
                 data => $"Change skill to a bullet that follows the enemy",
-                data => "Skill"
+                data => "Evolution: Homing Bullet"
             ),
             new Buff(
                 data => $"Evolution: Aura",
                 data => data.QSkillType == 3,
                 data => data.QSkillType = 3,
                 data => $"Change skill to an area of effect damage",
-                data => "Skill"
+                data => "Evolution: Aura"
             ),
             new Buff(
                 data => $"Killing Strike",
                 data => data.Q1_QKDamageUp == true,
                 data => data.Q1_QKDamageUp = true,
                 data => $"Increase skill and special attack damage by 25%",
-                data => "Evo:Skill"
+                data => "Killing Strike"
             ),
             new Buff(
                 data => $"Maximum Output",
                 data => data.Q1_QKFasterWider == true,
                 data => data.Q1_QKFasterWider = true,
                 data => $"Increase the size of special attack and skill",
-                data => "Evo:Skill"
+                data => "Maximum Output"
             ),
             /*
             new Buff(
@@ -290,7 +290,7 @@ public class Soulbond : MonoBehaviour
                 data => data.Q2_QKCrit == true,
                 data => data.Q2_QKCrit = true,
                 data => $"Special attack and skill have a 20% chance to deal triple damage",
-                data => "Evo:Skill"
+                data => "Super Lethal"
             ),
             new Buff(
                 data => $"Stackable",
@@ -304,7 +304,7 @@ public class Soulbond : MonoBehaviour
                 data => data.Q2_SmallBullet == true,
                 data => data.Q2_SmallBullet = true,
                 data => $"There is a small bullet after the attack",
-                data => "Evo:Skill"
+                data => "Little Bee"
             ),
 
             /*
