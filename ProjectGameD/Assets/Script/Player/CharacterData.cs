@@ -65,7 +65,7 @@ public class CharacterData : ScriptableObject
     public bool Q2_SmallBullet = false;
 
     public bool Q3_QKWeak = false;
-    public bool Q3_QKExplode = false;
+    public bool Q3_QKSlow = false;
     public bool Q3_Barrier = false;
 
     public void ResetToDefault()
@@ -88,7 +88,7 @@ public class CharacterData : ScriptableObject
         Q2_QKStackable = false;
         Q2_SmallBullet = false;
         Q3_QKWeak = false;
-        Q3_QKExplode = false;
+        Q3_QKSlow = false;
         Q3_Barrier = false;
     }
 }

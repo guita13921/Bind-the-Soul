@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -44,6 +45,9 @@ public class PlayerCombat : MonoBehaviour
     bool check4thattack = false;
     public ControlPower controlPower;
     float additionaldamage = 0;
+
+    public bool isShield1 = false;
+    public bool isShield2 = false;
 
     void Start()
     {
@@ -232,6 +236,12 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField]
     float ksize = 1f;
 
+    [SerializeField]
+    GameObject barrier1;
+
+    [SerializeField]
+    GameObject barrier2;
+
     void SpecialAttack()
     {
         if (!isSpecialAttackReady)
@@ -255,6 +265,12 @@ public class PlayerCombat : MonoBehaviour
             sfx.SkillSlash();
             animator.Play("SPAttack", 0, 0);
             isSpecialAttackReady = false;
+
+            if (characterData.Q3_Barrier)
+            {
+                Instantiate(barrier1, parentObject);
+                isShield1 = true;
+            }
         }
         //Debug.Log("first attack: " + timeSinceLastSpecialAttack);
     }
@@ -289,6 +305,11 @@ public class PlayerCombat : MonoBehaviour
             sfx.SkillSlash();
             animator.Play("SPAttack", 0, 0);
             isSpecialAttackReady2 = false;
+            if (characterData.Q3_Barrier)
+            {
+                Instantiate(barrier2, parentObject);
+                isShield2 = true;
+            }
         }
         //Debug.Log("second attack: " + timeSinceLastSpecialAttack2);
     }

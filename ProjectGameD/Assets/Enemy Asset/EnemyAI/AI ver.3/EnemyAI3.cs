@@ -125,6 +125,22 @@ public class EnemyAI3 : MonoBehaviour
 
     [SerializeField]
     AttackIndicatorController attackIndicatorController;
+    private float originalSpeed = 0f;
+    private bool isSlowingDown = false; // Flag to check if already slowing down
+    private float slowTimer = 0f;
+
+    public void FixSpeed()
+    {
+        if (!isSlowingDown)
+            speed = speed * 0.7f;
+        slowTimer = 2f;
+        isSlowingDown = true;
+    }
+
+    public void setoriginalspeed()
+    {
+        originalSpeed = speed;
+    }
 
     protected virtual void Start()
     {
@@ -198,6 +214,14 @@ public class EnemyAI3 : MonoBehaviour
 
     protected virtual void Update()
     {
+        // //agent.speed = speed;
+        slowTimer -= Time.deltaTime;
+        if (slowTimer < 0)
+        {
+            speed = originalSpeed;
+            isSlowingDown = false;
+        }
+
         if (isSpawning || state == State.Dead)
             return;
 

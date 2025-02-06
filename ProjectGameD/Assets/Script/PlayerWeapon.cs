@@ -35,14 +35,19 @@ public class PlayerWeapon : MonoBehaviour
                 damage *= 3;
             }
         }
-        var enemy = other.gameObject.GetComponent<enemy>();
+
+        var enemy = other.gameObject.GetComponent<EnemyHealth>();
+        var enemyai3 = other.gameObject.GetComponent<EnemyAI3>();
         if (enemy != null)
         {
-            if (enemy.CompareTag("Enemy"))
+            if (other.CompareTag("Enemy"))
             {
+                if (characterData.Q3_QKSlow && isQK)
+                {
+                    enemyai3.FixSpeed();
+                }
                 projectileAttack.SpwanBull();
-
-                enemy.health.currentHealth -= damage;
+                enemy.CalculateDamage(damage);
             }
         }
     }
