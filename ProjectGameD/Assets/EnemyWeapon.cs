@@ -9,6 +9,9 @@ public class EnemyWeapon : MonoBehaviour
     public CharacterData characterData;
     private float reducedDamageSecond = 0; // if HP < 25% of maxHP
     public PlayerCombat playerCombat;
+    public float reduceDamageTimer = 0f;
+    public bool reducedDamage = false;
+    float damageR = 0f;
 
     void Start()
     {
@@ -16,8 +19,26 @@ public class EnemyWeapon : MonoBehaviour
         playerCombat = FindObjectOfType<PlayerCombat>();
     }
 
+    void Update()
+    {
+        if (reducedDamage)
+        {
+            reduceDamageTimer -= Time.deltaTime;
+            if (reduceDamageTimer < 0)
+            {
+                reducedDamage = false;
+            }
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
+        damageR = damage;
+        if (reducedDamage)
+        {
+            damage -= damage * 0.3f;
+        }
+
         Health player = other.gameObject.GetComponent<Health>();
         if (player != null && other.CompareTag("Player"))
         {
@@ -36,5 +57,6 @@ public class EnemyWeapon : MonoBehaviour
                 );
             }
         }
+        damage = damageR;
     }
 }

@@ -12,6 +12,12 @@ public class EnemyHealth : MonoBehaviour
 
     [SerializeField]
     private float currentHealth;
+    EnemyWeapon enemyWeapon1;
+
+    void Start()
+    {
+        enemyWeapon1 = GetComponentInChildren<EnemyWeapon>();
+    }
 
     public void SetState(int IN_Health)
     {
@@ -20,7 +26,18 @@ public class EnemyHealth : MonoBehaviour
         currentHealth = IN_Health;
     }
 
-    public void CalculateDamage(float playerWeaponDamage)
+    public void CalculateDamage(float playerWeaponDamage, bool isQK, bool Q3_reduceDamage)
+    {
+        currentHealth -= playerWeaponDamage;
+        if (Q3_reduceDamage && isQK)
+        {
+            enemyWeapon1.reduceDamageTimer = 5f;
+            enemyWeapon1.reducedDamage = true;
+        }
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Ensure health doesn't go below 0
+    }
+
+    public void CalculateDamageOld(float playerWeaponDamage)
     {
         currentHealth -= playerWeaponDamage;
 

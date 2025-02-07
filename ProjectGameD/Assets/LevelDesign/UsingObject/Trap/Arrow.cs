@@ -6,7 +6,9 @@ public class ArrowCollision : MonoBehaviour
 {
     [Header("Arrow Settings")]
     public GameObject hitEffectPrefab; // Assign your hit effect prefab in the Inspector
-    [SerializeField] private float arrowDamage = 10f; // Damage dealt by the arrow
+
+    [SerializeField]
+    private float arrowDamage = 10f; // Damage dealt by the arrow
 
     private void OnTriggerEnter(Collider other)
     {
@@ -24,8 +26,10 @@ public class ArrowCollision : MonoBehaviour
             if (enemyHealth != null)
             {
                 // Calculate damage on the enemy
-                enemyHealth.CalculateDamage(arrowDamage);
-                Debug.Log($"{other.gameObject.name} took {arrowDamage} damage. Remaining health: {enemyHealth.GetCurrentHealth()}");
+                enemyHealth.CalculateDamageOld(arrowDamage);
+                Debug.Log(
+                    $"{other.gameObject.name} took {arrowDamage} damage. Remaining health: {enemyHealth.GetCurrentHealth()}"
+                );
             }
 
             // Destroy the arrow after collision

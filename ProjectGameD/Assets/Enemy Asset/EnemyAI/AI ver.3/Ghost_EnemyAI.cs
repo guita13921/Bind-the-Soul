@@ -9,44 +9,78 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.VFX;
 
-public class Ghost_EnemyAI : MonoBehaviour{
-    
-    [SerializeField]GameObject player;
+public class Ghost_EnemyAI : MonoBehaviour
+{
+    [SerializeField]
+    GameObject player;
     NavMeshAgent agent;
-    [SerializeField] CapsuleCollider caps;
-    [SerializeField]LayerMask groundLayer,playerLayer;
+
+    [SerializeField]
+    CapsuleCollider caps;
+
+    [SerializeField]
+    LayerMask groundLayer,
+        playerLayer;
 
     //Walk Var
     Vector3 destPoint;
     bool walkpointSet;
-    [SerializeField] float range;
-    [SerializeField]float sightRange,attackRange,RetreatRange;
-    [SerializeField] bool playerInsight,PlayerInAttackrange,PlayerInRetreatRange;
-    
-    
+
+    [SerializeField]
+    float range;
+
+    [SerializeField]
+    float sightRange,
+        attackRange,
+        RetreatRange;
+
+    [SerializeField]
+    bool playerInsight,
+        PlayerInAttackrange,
+        PlayerInRetreatRange;
+
     //State Var
-    public enum State{Ready,Cooldown,KnockBack,Dead};
-    [SerializeField] public State state;
+    public enum State
+    {
+        Ready,
+        Cooldown,
+        KnockBack,
+        Dead,
+    };
+
+    [SerializeField]
+    public State state;
     int speed = 3;
 
     //FireObject
     public float BulletSpeed;
     public GameObject enemyBullet;
     private float bulletTime;
-    [SerializeField]private float bulletTimeEr;
-    [SerializeField]public Transform SpawnPoint;
+
+    [SerializeField]
+    private float bulletTimeEr;
+
+    [SerializeField]
+    public Transform SpawnPoint;
 
     //CoolDown var
-    [SerializeField] float timerCoolDownAttack = 0;
+    [SerializeField]
+    float timerCoolDownAttack = 0;
     bool timerReachedCoolDownAttack = false;
-    [SerializeField] float timerCoolKnockBack = 0;
+
+    [SerializeField]
+    float timerCoolKnockBack = 0;
     bool timerReachedCoolKnockBack = false;
 
     //Heath and Canvas
-    [SerializeField] EnemyHealth health;
-    [SerializeField] PlayerWeapon playerWeapon;
+    [SerializeField]
+    EnemyHealth health;
 
-    void Start(){
+    [SerializeField]
+    PlayerWeapon playerWeapon;
+
+    void Start()
+    {
         playerWeapon = GameObject.Find("PlayerSwordHitbox").GetComponent<PlayerWeapon>();
         state = State.Ready;
         agent = GetComponent<NavMeshAgent>();
@@ -71,7 +105,8 @@ public class Ghost_EnemyAI : MonoBehaviour{
     }
     */
 
-    void Update(){
+    void Update()
+    {
         CheckHealth();
 
         if (state != State.Dead)
@@ -83,26 +118,36 @@ public class Ghost_EnemyAI : MonoBehaviour{
             // Check player distances
             playerInsight = Physics.CheckSphere(transform.position, sightRange, playerLayer);
             PlayerInAttackrange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
-            PlayerInRetreatRange = Physics.CheckSphere(transform.position, RetreatRange, playerLayer);
+            PlayerInRetreatRange = Physics.CheckSphere(
+                transform.position,
+                RetreatRange,
+                playerLayer
+            );
 
             // Determine behavior based on state and player distance
-            switch (state){
+            switch (state)
+            {
                 case State.Ready:
                     if (playerInsight)
                     {
-                        if (PlayerInAttackrange){
+                        if (PlayerInAttackrange)
+                        {
                             Shoot();
                         }
-                        else{
+                        else
+                        {
                             Chase();
                         }
                     }
                     break;
 
                 case State.Cooldown:
-                    if(PlayerInRetreatRange){
+                    if (PlayerInRetreatRange)
+                    {
                         Retreat();
-                    }else{
+                    }
+                    else
+                    {
                         agent.SetDestination(transform.position);
                     }
                     break;
@@ -112,47 +157,56 @@ public class Ghost_EnemyAI : MonoBehaviour{
         }
     }
 
-
-    void CheckHealth(){
-        if(health.GetCurrentHealth() <= 0 && state != State.Dead){
+    void CheckHealth()
+    {
+        if (health.GetCurrentHealth() <= 0 && state != State.Dead)
+        {
             Dead();
-        }else{
-
         }
+        else { }
     }
 
-    private void CooldownKnockBackTime(){
-        if (!timerReachedCoolKnockBack && state == State.KnockBack)timerCoolKnockBack += Time.deltaTime;
-        if (!timerReachedCoolKnockBack && timerCoolKnockBack > 5 && state == State.KnockBack){
+    private void CooldownKnockBackTime()
+    {
+        if (!timerReachedCoolKnockBack && state == State.KnockBack)
+            timerCoolKnockBack += Time.deltaTime;
+        if (!timerReachedCoolKnockBack && timerCoolKnockBack > 5 && state == State.KnockBack)
+        {
             agent.speed = speed;
             state = State.Ready;
             timerCoolKnockBack = 0;
-        }     
+        }
     }
 
-    void CoolDownAttaickTime(){
-        if (!timerReachedCoolDownAttack && state == State.Cooldown) timerCoolDownAttack += Time.deltaTime;
-        if (!timerReachedCoolDownAttack && timerCoolDownAttack > 5 && state == State.Cooldown){
+    void CoolDownAttaickTime()
+    {
+        if (!timerReachedCoolDownAttack && state == State.Cooldown)
+            timerCoolDownAttack += Time.deltaTime;
+        if (!timerReachedCoolDownAttack && timerCoolDownAttack > 5 && state == State.Cooldown)
+        {
             state = State.Ready;
             timerCoolDownAttack = 0;
-        }  
-
+        }
     }
 
-    void KnockBack(){
+    void KnockBack()
+    {
         state = State.KnockBack;
         agent.transform.LookAt(player.transform);
     }
 
-    void Retreat(){
+    void Retreat()
+    {
         agent.SetDestination(-player.transform.position);
     }
 
-    void Chase(){
+    void Chase()
+    {
         agent.SetDestination(player.transform.position);
     }
 
-    void Shoot(){
+    void Shoot()
+    {
         // Stop the NavMeshAgent movement
         agent.isStopped = true; // Prevents the agent from moving during shooting
         agent.velocity = Vector3.zero;
@@ -176,15 +230,20 @@ public class Ghost_EnemyAI : MonoBehaviour{
         for (int i = 0; i < numberOfBullets; i++)
         {
             // Instantiate the bullet
-            GameObject bullet = Instantiate(enemyBullet, SpawnPoint.transform.position, SpawnPoint.transform.rotation);
+            GameObject bullet = Instantiate(
+                enemyBullet,
+                SpawnPoint.transform.position,
+                SpawnPoint.transform.rotation
+            );
 
             // Calculate scatter direction
             Vector3 scatterDirection = SpawnPoint.forward;
-            scatterDirection = Quaternion.Euler(
-                UnityEngine.Random.Range(-spreadAngle, spreadAngle), // Yaw (left-right)
-                UnityEngine.Random.Range(-spreadAngle, spreadAngle), // Pitch (up-down)
-                0 // No roll
-            ) * scatterDirection;
+            scatterDirection =
+                Quaternion.Euler(
+                    UnityEngine.Random.Range(-spreadAngle, spreadAngle), // Yaw (left-right)
+                    UnityEngine.Random.Range(-spreadAngle, spreadAngle), // Pitch (up-down)
+                    0 // No roll
+                ) * scatterDirection;
 
             // Add force to the bullet in the scatter direction
             Rigidbody bulletRig = bullet.GetComponent<Rigidbody>();
@@ -201,12 +260,14 @@ public class Ghost_EnemyAI : MonoBehaviour{
         agent.isStopped = false; // Allow the agent to move again
     }
 
-    void Dead(){
+    void Dead()
+    {
         agent.enabled = false;
         this.tag = "Untagged";
     }
 
-    void Patrol(){
+    void Patrol()
+    {
         if (!walkpointSet)
             SearchForDest();
         if (walkpointSet)
@@ -215,7 +276,8 @@ public class Ghost_EnemyAI : MonoBehaviour{
             walkpointSet = false;
     }
 
-    void SearchForDest(){
+    void SearchForDest()
+    {
         float z = UnityEngine.Random.Range(-range, range);
         float x = UnityEngine.Random.Range(-range, range);
 
@@ -225,18 +287,22 @@ public class Ghost_EnemyAI : MonoBehaviour{
             transform.position.z + z
         );
 
-        if (Physics.Raycast(destPoint, Vector3.down, groundLayer)){
+        if (Physics.Raycast(destPoint, Vector3.down, groundLayer))
+        {
             walkpointSet = true;
         }
     }
 
-    void StartKnockBack(){
+    void StartKnockBack()
+    {
         agent.speed = 0;
     }
 
-    void OnTriggerEnter(Collider other){
-        if(other.isTrigger && other.gameObject.CompareTag("PlayerSword")){
-            health.CalculateDamage(playerWeapon.damage);
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.isTrigger && other.gameObject.CompareTag("PlayerSword"))
+        {
+            //health.CalculateDamage(playerWeapon.damage);
             KnockBack();
             StartKnockBack();
         }

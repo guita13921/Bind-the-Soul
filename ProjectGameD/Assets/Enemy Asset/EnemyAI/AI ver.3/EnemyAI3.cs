@@ -400,6 +400,8 @@ public class EnemyAI3 : MonoBehaviour
 
     void Dead()
     {
+        playerWeapon.killEnemyTimerAdder();
+
         if (state == State.Dead)
         {
             return;
@@ -532,8 +534,8 @@ public class EnemyAI3 : MonoBehaviour
         if (other.isTrigger && other.gameObject.CompareTag("PlayerSword") && state != State.Dead)
         {
             PlayerWeapon playerWeapon = other.gameObject.GetComponent<PlayerWeapon>();
-            if (playerWeapon != null)
-                health.CalculateDamage(playerWeapon.damage);
+            //if (playerWeapon != null)
+            //health.CalculateDamage(playerWeapon.damage);
 
             agent.transform.LookAt(player.transform);
             Vector3 knockBackDirection = transform.position - player.transform.position;

@@ -36,6 +36,7 @@ public class HitDetection : MonoBehaviour
                     audioSource.Play();
                 }
             }
+            /*
             if (playerWeapon != null)
             {
                 float damage = playerWeapon.damage;
@@ -49,7 +50,20 @@ public class HitDetection : MonoBehaviour
                 {
                     damageTextComponent.SetDamage(damage);
                 }
-            }
+            }*/
+        }
+    }
+
+    public void SpanwDamageText(float damage)
+    {
+        Vector3 newPosition = this.transform.position;
+        newPosition.y += 1;
+        GameObject dmg = Instantiate(dmgtext, newPosition, Quaternion.Euler(0, 60, 0));
+
+        damageShow damageTextComponent = dmg.GetComponent<damageShow>();
+        if (damageTextComponent != null)
+        {
+            damageTextComponent.SetDamage(damage);
         }
     }
 }
