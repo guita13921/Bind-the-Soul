@@ -17,16 +17,14 @@ public class DragonBoss : MonoBehaviour
     [SerializeField] private BossPhase currentPhase = BossPhase.Phase1;
 
     [Header("General Settings")]
-    [SerializeField] private float maxHealth = 1000f;
-    private float currentHealth;
+    [SerializeField] EnemyHealth enemyHealth;
 
     [SerializeField] private Transform player; // Reference to the player
 
     [Header("Phase 1 Settings")]
-    [SerializeField] private float phase1AttackCooldown = 10f;
+    [SerializeField] private float phase1AttackCooldown = 6f;
 
     [Header("Phase 2 Settings")]
-    [SerializeField] private float flightHeight = 20f;
     [SerializeField] private float phase2AttackCooldown = 10f;
 
     [Header("Enrage Settings")]
@@ -37,7 +35,6 @@ public class DragonBoss : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Animator animator;
-    //[SerializeField] private ParticleSystem fireBreathEffect;
     [SerializeField] private DragonBossAnimations bossAnimations;
     private BossRotationWithAnimation movementController;
 
@@ -63,6 +60,7 @@ public class DragonBoss : MonoBehaviour
     public bool isExecutingCombo = false; // Tracks if a combo is currently being executed
 
     [Header("Agent")]
+    //[SerializeField] private List<BossAction> TEST = new List<BossAction> { BossAction.Backward, BossAction.ForwardRush };
     //Range
     //FireVar01 fire 50%
     [SerializeField] private List<BossAction> Rangecombo1 = new List<BossAction> { BossAction.Backward, BossAction.FireBreath };
@@ -80,14 +78,14 @@ public class DragonBoss : MonoBehaviour
     [SerializeField] private List<BossAction> Maleecombo4 = new List<BossAction> { BossAction.KnockBack};
 
     //Out Of range
-    //50% rush dash
-    [SerializeField] private List<BossAction> OutRangecombo1 = new List<BossAction> { BossAction.ForwardRush, BossAction.ClawSwipe  };
-    //50% summon
+    //20% rush dash
+    [SerializeField] private List<BossAction> OutRangecombo1 = new List<BossAction> { BossAction.ForwardRush, BossAction.TailSweep};
+    //20% summon
     [SerializeField] private List<BossAction> OutRangecombo2 = new List<BossAction> { BossAction.SummonMinions};
+    //60% Laser
+    [SerializeField] private List<BossAction> OutRangecombo3 = new List<BossAction> { BossAction.Laser};
     private void Start()
     {
-        // Initialize health
-        currentHealth = maxHealth;
         // Ensure references
         if (!player) player = GameObject.FindWithTag("Player").transform;
 
@@ -98,7 +96,7 @@ public class DragonBoss : MonoBehaviour
         
     }
 
-    private void Update()
+    public void Update()
     {
         // Handle states
         switch (currentPhase)
@@ -121,11 +119,12 @@ public class DragonBoss : MonoBehaviour
         }
 
         // Check for phase transitions
-        if (currentHealth <= 0 && currentPhase != BossPhase.Dead)
+        
+        if (enemyHealth.GetCurrentHealth() <= 0 && currentPhase != BossPhase.Dead)
         {
             TransitionToPhase(BossPhase.Dead);
         }
-        else if (enableEnrage && !isEnraged && currentHealth <= maxHealth * enrageThreshold)
+        else if (enableEnrage && !isEnraged && enemyHealth.GetCurrentHealth() <= enemyHealth.GetMaxHealth() * enrageThreshold)
         {
             TransitionToPhase(BossPhase.Enraged);
         }
@@ -136,7 +135,6 @@ public class DragonBoss : MonoBehaviour
     {
         if (player == null) return;
 
-        // Attack logic
         AttackPhase1();
     }
 
@@ -144,44 +142,24 @@ public class DragonBoss : MonoBehaviour
     private void HandlePhase2()
     {
         if (player == null) return;
-
-        // Hover in the air
-        Vector3 hoverPosition = new Vector3(player.position.x, flightHeight, player.position.z);
-        transform.position = Vector3.Lerp(transform.position, hoverPosition, Time.deltaTime);
-
-        // Attack the player
         AttackPhase2();
     }
 
     /// Handles the behavior for the enraged phase.
     private void HandleEnraged()
     {
-        Debug.Log("Boss is enraged! Increased aggression!");
-
-        // Increase attack speed or frequency
-        phase1AttackCooldown *= 0.75f;
+        //Debug.Log("Boss is enraged! Increased aggression!");
         phase2AttackCooldown *= 0.75f;
-
-        // Behave based on current phase
-        if (currentPhase == BossPhase.Phase1) HandlePhase1();
         if (currentPhase == BossPhase.Phase2) HandlePhase2();
     }
 
     private bool IsPlayerInFront()
     {
         if (player == null) return false;
-
-        // Calculate the direction to the player
         Vector3 directionToPlayer = (player.position - transform.position).normalized;
-
-        // Calculate the angle between the boss's forward direction and the direction to the player
         float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
-
-        // Check if the player is within the front cone (e.g., 90 degrees)
         return angleToPlayer <= 45f; // Adjust the angle as needed
     }
-
-    private int lastMeleeAttackIndex = -1; // Tracks the last melee animation played
 
     /// Triggers an attack in Phase 1.
     private void AttackPhase1()
@@ -201,10 +179,12 @@ public class DragonBoss : MonoBehaviour
                 if (randomChance < 0.5f) // 50% chance
                 {
                     StartCombo(Rangecombo1); // Fire Breath
+                    //StartCombo(TEST); // Backward + Forward Rush
                 }
                 else
                 {
-                    StartCombo(Rangecombo2); // Claw Swipe + Tail Sweep
+                    StartCombo(Rangecombo2); //
+                    //StartCombo(TEST); // Backward + Forward Rush
                 }
             }
             else if (MeleeSensor.IsPlayerInRange())
@@ -214,10 +194,12 @@ public class DragonBoss : MonoBehaviour
                 if (randomChance < 0.35f) // 35% chance
                 {
                     StartCombo(Maleecombo1); // Tail Sweep + Claw Swipe
+                    //StartCombo(TEST); // Backward + Forward Rush
                 }
                 else if (randomChance < 0.70f) // Another 35% chance (total 70%)
                 {
                     StartCombo(Maleecombo2); // Claw Swipe + Tail Sweep
+                    //StartCombo(TEST); // Backward + Forward Rush
                 }
                 else if (randomChance < 0.90f) // 20% chance (total 90%)
                 {
@@ -226,24 +208,26 @@ public class DragonBoss : MonoBehaviour
                 else // Remaining 10% chance
                 {
                     StartCombo(Maleecombo4); // Knockback (Evade)
+                    //StartCombo(TEST); // Backward + Forward Rush
                 }
             }
             else if (RangeSensor.IsPlayerOutOfRange() && IsPlayerInFront())
             {
                 // Randomly choose between out-of-range combos
-                float randomChance = Random.value; // Random value between 0.0 and 1.0
-                if (randomChance < 0.5f) // 50% chance
+                float randomChance = Random.value;
+                if (randomChance < 0.2f)
                 {
                     StartCombo(OutRangecombo1); // Forward Rush + Claw Swipe
-                }
-                else
+                }else if (randomChance < 0.4f)
                 {
-                    StartCombo(OutRangecombo2); // Summon Minions
+                    StartCombo(OutRangecombo2); // Backward + Forward Rush
+                }else 
+                {
+                    StartCombo(OutRangecombo3); // Knockback (Evade)
                 }
             }
         }
     }
-
 
     /// Starts executing the given combo.
     private void StartCombo(List<BossAction> combo)
@@ -322,13 +306,65 @@ public class DragonBoss : MonoBehaviour
     {
         attackTimer += Time.deltaTime;
 
-        if (attackTimer >= phase2AttackCooldown)
+        // Perform an attack only after the cooldown
+        if (attackTimer >= phase2AttackCooldown && !isExecutingCombo)
         {
             attackTimer = 0f;
+            // Decide which combo to execute based on player position
+            if (RangeSensor.IsPlayerInRange() && !MeleeSensor.IsPlayerInRange() && IsPlayerInFront())
+            {
+                // Randomly choose between range combos
+                float randomChance = Random.value; // Random value between 0.0 and 1.0
+                if (randomChance < 0.5f) // 50% chance
+                {
+                    StartCombo(Rangecombo1); // Fire Breath
+                    //StartCombo(TEST); // Backward + Forward Rush
+                }
+                else
+                {
+                    StartCombo(Rangecombo2); //
+                    //StartCombo(TEST); // Backward + Forward Rush
+                }
+            }
+            else if (MeleeSensor.IsPlayerInRange())
+            {
+                float randomChance = Random.value; // Random value between 0.0 and 1.0
 
-            // Fire rain attack
-            animator.SetTrigger("FireRain");
-            Debug.Log("Dragon uses Fire Rain in Phase 2!");
+                if (randomChance < 0.35f) // 35% chance
+                {
+                    StartCombo(Maleecombo1); // Tail Sweep + Claw Swipe
+                    //StartCombo(TEST); // Backward + Forward Rush
+                }
+                else if (randomChance < 0.70f) // Another 35% chance (total 70%)
+                {
+                    StartCombo(Maleecombo2); // Claw Swipe + Tail Sweep
+                    //StartCombo(TEST); // Backward + Forward Rush
+                }
+                else if (randomChance < 0.90f) // 20% chance (total 90%)
+                {
+                    StartCombo(Maleecombo3); // Backward + Forward Rush
+                }
+                else // Remaining 10% chance
+                {
+                    StartCombo(Maleecombo4); // Knockback (Evade)
+                    //StartCombo(TEST); // Backward + Forward Rush
+                }
+            }
+            else if (RangeSensor.IsPlayerOutOfRange() && IsPlayerInFront())
+            {
+                // Randomly choose between out-of-range combos
+                float randomChance = Random.value;
+                if (randomChance < 0.2f)
+                {
+                    StartCombo(OutRangecombo1); // Forward Rush + Claw Swipe
+                }else if (randomChance < 0.4f)
+                {
+                    StartCombo(OutRangecombo2); // Backward + Forward Rush
+                }else 
+                {
+                    StartCombo(OutRangecombo3); // Knockback (Evade)
+                }
+            }
         }
     }
 
@@ -352,6 +388,7 @@ public class DragonBoss : MonoBehaviour
             case BossPhase.Enraged:
                 Debug.Log("Boss is now Enraged!");
                 isEnraged = true;
+                bossAnimations.TriggerEnrage();
                 break;
 
             case BossPhase.Dead:
@@ -374,14 +411,8 @@ public class DragonBoss : MonoBehaviour
         Destroy(gameObject, 5f);
     }
 
-    /// Reduces the boss's health.
-    public void TakeDamage(float damage)
-    {
-        if (currentPhase == BossPhase.Dead) return;
-
-        currentHealth -= damage;
-        Debug.Log($"Boss Health: {currentHealth}/{maxHealth}");
+    public bool GetEnrage(){
+        return isEnraged;
     }
-
 
 }

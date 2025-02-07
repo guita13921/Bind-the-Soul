@@ -10,7 +10,8 @@ public class DragonBossAnimations : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Transform player; // Reference to the player
     [SerializeField] private BossRotationWithAnimation movementController;
-     public float rotationSpeed = 1f; // Adjust rotation speed as needed
+    [SerializeField] private MeleeSensor meleeSensor;
+     public float rotationSpeed = 0.5f; // Adjust rotation speed as needed
 
     [Header("FireBreath/Laser")]
     [SerializeField] private FlamethrowerHitbox flamethrowerHitbox; // Reference to the flamethr
@@ -22,12 +23,15 @@ public class DragonBossAnimations : MonoBehaviour
     
     [Header("Malee")]
     [SerializeField] private SphereCollider ClawSlamAttackHitBox; // Reference to the flamethr
-    [SerializeField] private Weapon_Enemy ClawSlamAttackHitBox_Script;
+    [SerializeField] private EnemyWeapon ClawSlamAttackHitBox_Script;
     [SerializeField] private SphereCollider TailHitboxes; // Reference to the flamethr
-    [SerializeField] private Weapon_Enemy TailHitbox_script;
+    [SerializeField] private EnemyWeapon TailHitbox_script;
     [SerializeField] private BoxCollider ClawSlengthHitBox; // Reference to the flamethr
-    [SerializeField] private Weapon_Enemy ClawSlengthHitBox_Script;
+    [SerializeField] private EnemyWeapon ClawSlengthHitBox_Script;
+    [SerializeField] private BoxCollider RushForwardHitBox; // Reference to the flamethr
+    [SerializeField] private EnemyWeapon RushForwardHitBox_Script;
     private bool isClawSlength = false;
+    private bool isRushForward = false;
     
     [Header("Bullet")]
     [SerializeField] public GameObject enemyBullet;
@@ -36,15 +40,21 @@ public class DragonBossAnimations : MonoBehaviour
     [SerializeField] private float bulletDelay = 0f; // Time between bullets
     public Vector2 uiOffset;
 
+    [Header("Nuke")]
+    [SerializeField] public ParticleSystem ChargeEffect;
+    [SerializeField] public bool IsCharging = false;
+    float duration = 5f;
+    float elapsedTime = 0f;
+
     private void Update()
     {
-        if (isFiringLaser && player.transform.position != null)
+        if ((isFiringLaser || isClawSlength || isRushForward) && player.transform.position != null)
         {
-            LookAtPlayer();
-        }
-        else if (isClawSlength  && player.transform.position != null)
-        {
-            LookAtPlayer();
+            if(isFiringLaser && meleeSensor.IsPlayerInRange()){
+                return;
+            }else{
+                LookAtPlayer();
+            }
         }else{
             return;
         }
@@ -104,13 +114,11 @@ public class DragonBossAnimations : MonoBehaviour
         }
     }
 
-
     private void ShootBullet()
     {
         GameObject projectile = Instantiate(enemyBullet, SpawnPoint.position, SpawnPoint.rotation);
         projectile.GetComponent<BulletScript>().UpdateTarget(player.transform, (Vector3)uiOffset);
     }
-
 
     private void LookAtPlayer()
     {
@@ -148,14 +156,12 @@ public class DragonBossAnimations : MonoBehaviour
         //Debug.Log("Forward Rush completed!");
     }
 
-
     public void PerformForwardRush()
     {
         Debug.Log("Dragon uses ForwardRush!");
-        LookAtPlayer();
         StartCoroutine(DashToPlayer());
         animator.SetTrigger("ForwardRush");
-        //StartCoroutine(DashToPlayer());
+        isRushForward = true;
     }
 
     public void PerformLaser()
@@ -196,17 +202,24 @@ public class DragonBossAnimations : MonoBehaviour
         isClawSlength = false;
     }
 
+    public void Enable_RushForward(){
+        RushForwardHitBox.enabled = true;
+    }
+    
+    public void Disable_RushForward(){
+        RushForwardHitBox.enabled = false;
+        isRushForward = false;
+    }
+
     public void Enable_TailHitBox()
     {
-        TailHitboxes.enabled = false;
+        TailHitboxes.enabled = true;
     }
 
     public void Disable_TailHitBox()
     {
         TailHitboxes.enabled = false;
     }
-
-
 
     public void PerformTailSweep()
     {
@@ -226,10 +239,8 @@ public class DragonBossAnimations : MonoBehaviour
     public void PerformKnockBack()
     {
         Debug.Log("Dragon performs KnockBack!");
-
         animator.SetTrigger("KnockBackRoar");
     }
-
 
     public void LockMovement()
     {
@@ -276,4 +287,32 @@ public class DragonBossAnimations : MonoBehaviour
         isFiringLaser = false;
     }
 
+    public void TriggerEnrage(){
+        animator.SetTrigger("Enrage");
+        IsCharging = true;
+    }
+
+    public IEnumerator ChargeNuke()
+    {
+        movementController.LockMovement();
+        ChargeEffect.Play();
+
+        Vector3 originalScale = ChargeEffect.transform.localScale;
+        Vector3 targetScale = originalScale * 2f;
+
+        while (elapsedTime < duration)
+        {
+            ChargeEffect.transform.localScale = Vector3.Lerp(originalScale, targetScale, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        ChargeEffect.transform.localScale = targetScale;
+    }
+
+    public void EndEnrage(){
+        ChargeEffect.Stop();
+        IsCharging = false;
+        animator.SetTrigger("EndEnrage");
+    }
 }

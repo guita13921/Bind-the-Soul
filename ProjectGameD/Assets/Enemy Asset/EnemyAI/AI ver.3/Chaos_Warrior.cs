@@ -95,7 +95,7 @@ public class Chaos_warriors : EnemyAI3
     /// <summary>
     /// Play the death sequence after the second death.
     /// </summary>
-    protected override void Dead()
+    public override void Dead()
     {
         if (!hasDiedOnce)
         {

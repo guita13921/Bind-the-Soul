@@ -17,24 +17,20 @@ public class Weapon_Enemy : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-    { /*
-        var enemy = other.gameObject.GetComponent<enemy>();
-        if (enemy != null)
-        {
-            if (enemy.gameObject.CompareTag("Player"))
-            {
-                //sfx.Hit();
-                // Instantiate(vfxPrefabs, parentObject);
-                //Instantiate(blood);
-
-
-                Debug.Log(damage);
-                enemy.health.currentHealth -= damage;
-            }
-        }*/
+    { 
         if (other.gameObject.CompareTag("Player"))
         {
             var HP = other.gameObject.GetComponent<Health>();
+            HP.currentHealth -= damage;
+        }
+    }
+
+    private void OnTriggerStay (Collider other)
+    { 
+        if (other.gameObject.CompareTag("Player"))
+        {
+            var HP = other.gameObject.GetComponent<Health>();
+            Debug.Log("OnTriggerStay");
             HP.currentHealth -= damage;
         }
     }

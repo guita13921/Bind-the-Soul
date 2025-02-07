@@ -374,7 +374,7 @@ public class EnemyAI3 : MonoBehaviour
         //StopAttack(); // Optional
     }
 
-    void Dead()
+    public virtual void Dead()
     {
         if (state == State.Dead)
         {

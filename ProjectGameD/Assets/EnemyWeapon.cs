@@ -24,4 +24,14 @@ public class EnemyWeapon : MonoBehaviour
             player.currentHealth -= Mathf.Max(0, damage - reducedDamage - reducedDamageDependOnHP);
         }
     }
+
+    private void OnTriggerStay (Collider other)
+    { 
+        if (other.gameObject.CompareTag("Player"))
+        {
+            var HP = other.gameObject.GetComponent<Health>();
+            Debug.Log("OnTriggerStay");
+            HP.currentHealth -= damage;
+        }
+    }
 }
