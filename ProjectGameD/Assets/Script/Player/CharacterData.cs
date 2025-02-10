@@ -4,7 +4,8 @@ using UnityEngine;
 public class CharacterData : ScriptableObject
 {
     public int deathCount = 0;
-
+    public int rerollpoint = 1;
+    public float Health=10000;
     /*
         [Header("Passive")]
         public int barrierLV = 0;
@@ -90,5 +91,6 @@ public class CharacterData : ScriptableObject
         Q3_QKWeak = false;
         Q3_QKSlow = false;
         Q3_Barrier = false;
+        rerollpoint = 1;
     }
 }

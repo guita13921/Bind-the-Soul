@@ -12,7 +12,7 @@ public class BuffReader : MonoBehaviour
     public CharacterData characterData;
     public Transform buffUIPanel; // Parent object for UI buttons
     public GameObject buffButtonPrefab; // Prefab for buff buttons
-
+    public TextMeshProUGUI rerollText; // Declare a reference
     private List<Buff> buffs;
 
     public Animator animator;
@@ -26,6 +26,7 @@ public class BuffReader : MonoBehaviour
         {
             Debug.Log("EventSystem found: " + eventSystem.name);
         }
+        rerollText.text = $"Current reroll point: {characterData.rerollpoint}";
 
         InitializeBuffs();
         ShowRandomAvailableBuffs();
@@ -33,8 +34,11 @@ public class BuffReader : MonoBehaviour
 
     public void ResetBuff()
     {
+        characterData.rerollpoint--;
+
         InitializeBuffs();
         ShowRandomAvailableBuffs();
+        rerollText.text = $"Current reroll point: {characterData.rerollpoint}";
     }
 
     void InitializeBuffs()
@@ -153,70 +157,68 @@ public class BuffReader : MonoBehaviour
             ),
             new Buff(
                 data => $"Killing Strike",
-                data => data.QSkillType == 1,
+                data => data.QSkillType == 1 && data.Q1_QKDamageUp == false,
                 data => data.Q1_QKDamageUp = true,
                 data => $"Increase skill and special attack damage by 25%",
                 data => "Killing Strike"
             ),
             new Buff(
                 data => $"Maximum Output",
-                data => data.QSkillType == 1,
+                data => data.QSkillType == 1 && data.Q1_QKFasterWider == false,
                 data => data.Q1_QKFasterWider = true,
                 data => $"Increase the size of special attack and skill",
                 data => "Maximum Output"
             ),
-            /*
             new Buff(
                 data => $"Bloodlust",
-                data => data.QSkillType == 1,
+                data => data.QSkillType == 1 && data.Q1_QKKillEnemyDamageUp == false,
                 data => data.Q1_QKKillEnemyDamageUp = true,
                 data => $"Increase the size of special attack and skill",
-                data => "Evo:Skill"
-            ),*/
+                data => "Bloodlust"
+            ),
             new Buff(
                 data => $"Super Lethal",
-                data => data.QSkillType == 2,
+                data => data.QSkillType == 2 && data.Q2_QKCrit == false,
                 data => data.Q2_QKCrit = true,
                 data => $"Special attack and skill have a 20% chance to deal triple damage",
                 data => "Super Lethal"
             ),
             new Buff(
                 data => $"Stackable",
-                data => data.QSkillType == 2,
+                data => data.QSkillType == 2 && data.Q2_QKStackable == false,
                 data => data.Q2_QKStackable = true,
                 data => $"Special skill and skill can now be stored with a maximum of 2",
                 data => "Stackable"
             ),
             new Buff(
                 data => $"Little Bee",
-                data => data.QSkillType == 2,
+                data => data.QSkillType == 2 && data.Q2_SmallBullet == false,
                 data => data.Q2_SmallBullet = true,
                 data => $"There is a small bullet after the attack",
                 data => "Little Bee"
             ),
-
-            /*
-                         new Buff(
-                            data => $"Hand broker",
-                            data => data.QSkillType == 3,
-                            data => data.Q3_QKWeak = true,
-                            data => $"Enemy attack reduce",
-                            data => "Evo:Skill"
-                        ),
-                         new Buff(
-                            data => $"Little bee",
-                            data => data.QSkillType == 3,
-                            data => data.Q3_QKExplode = true,
-                            data => $"There a small bullet after atttack",
-                            data => "Evo:Skill"
-                        ),
-                         new Buff(
-                            data => $"Little bee",
-                            data => data.QSkillType == 3,
-                            data => data.Q3_Barrier = true,
-                            data => $"There a small bullet after atttack",
-                            data => "Evo:Skill"
-                        ),*/
+            new Buff(
+                data => $"Hand breaker",
+                data => data.QSkillType == 3,
+                data => data.Q3_QKWeak = true,
+                data => $"Enemies hit by a special attack or skill will have their attack reduced",
+                data => "Hand breaker"
+            ),
+            new Buff(
+                data => $"Froze feet",
+                data => data.QSkillType == 3 && data.Q3_QKSlow == false,
+                data => data.Q3_QKSlow = true,
+                data => $"SLow down enemies hit by a special attack or skill",
+                data => "Froze feet"
+            ),
+            new Buff(
+                data => $"Barrier",
+                data => data.QSkillType == 3 && data.Q3_Barrier == false,
+                data => data.Q3_Barrier = true,
+                data =>
+                    $"Become invincible for a short amount of time after using a special attack",
+                data => "Barrier"
+            ),
         };
     }
 
@@ -278,7 +280,7 @@ public class BuffReader : MonoBehaviour
             {
                 selectedBuff.applyEffect(characterData);
                 animator.Play("Out");
-
+                Destroy(transform.parent.parent.gameObject, 1.5f);
                 Debug.Log($"{selectedBuff.name} applied!");
                 eventSystem.enabled = false;
             });

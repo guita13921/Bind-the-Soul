@@ -8,9 +8,10 @@ public class Health : MonoBehaviour
 {
     public float maxHealth;
     public float currentHealth;
-
+    public CharacterData characterData;
     void Start()
     {
-        currentHealth = maxHealth;
+    currentHealth = maxHealth;
+        //currentHealth = characterData.Health;
     }
 }

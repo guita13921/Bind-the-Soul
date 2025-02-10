@@ -12,7 +12,7 @@ public class UpgradeICON : MonoBehaviour
 
     void Start()
     {
-        image.color = new Color(255f, 255f, 255f); // Change to the appropriate index
+        image.color = new Color(255f, 255f, 255f);
 
         if (tmpText != null && image != null && icon.Length > 0)
         {
@@ -105,6 +105,25 @@ public class UpgradeICON : MonoBehaviour
                 case "Little Bee":
                     image.sprite = icon[2];
                     image.color = new Color(100, 255f, 69); // Change to the appropriate index
+
+                    break;
+                case "Bloodlust":
+                    image.sprite = icon[12];
+                    image.color = new Color(255, 0, 0); // Change to the appropriate index
+
+                    break;
+                case "Froze feet":
+                    image.sprite = icon[8];
+                    image.color = new Color(0, 0, 255); // Change to the appropriate index
+
+                    break;
+                case "Hand breaker":
+                    image.sprite = icon[0];
+                    image.color = new Color(0, 0, 255); // Change to the appropriate index
+
+                    break;
+                case "Barrier":
+                    image.sprite = icon[13];
 
                     break;
             }

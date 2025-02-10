@@ -45,7 +45,7 @@ public class EnemyAI3 : MonoBehaviour
     BoxCollider boxCollider;
 
     [SerializeField]
-    protected Weapon_Enemy weapon;
+    protected EnemyWeapon weapon;
 
     //Attack Forward
     [SerializeField]
@@ -156,9 +156,20 @@ public class EnemyAI3 : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         animator = GetComponent<Animator>();
         health = GetComponent<EnemyHealth>();
-        weapon = GetComponentInChildren<Weapon_Enemy>();
-        boxCollider = GetComponentInChildren<BoxCollider>();
-        rb = GetComponent<Rigidbody>();
+        weapon = GetComponentInChildren<EnemyWeapon>();
+        foreach (Transform child in transform)
+        {
+            if (child.gameObject.name != "HitVFXSpawnplaceReal")
+            {
+                boxCollider = child.GetComponent<BoxCollider>();
+
+                if (boxCollider != null)
+                {
+                    break;
+                }
+            }
+        }    
+            rb = GetComponent<Rigidbody>();
     }
 
     private IEnumerator HandleSpawn()

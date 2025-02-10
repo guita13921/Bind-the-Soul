@@ -277,14 +277,13 @@ public class Soulbond : MonoBehaviour
                 data => $"Increase the size of special attack and skill",
                 data => "Maximum Output"
             ),
-            /*
             new Buff(
                 data => $"Bloodlust",
-                data => data.QSkillType == 1,
+                data => data.Q1_QKKillEnemyDamageUp == true,
                 data => data.Q1_QKKillEnemyDamageUp = true,
                 data => $"Increase the size of special attack and skill",
-                data => "Evo:Skill"
-            ),*/
+                data => "Bloodlust"
+            ),
             new Buff(
                 data => $"Super Lethal",
                 data => data.Q2_QKCrit == true,
@@ -306,29 +305,28 @@ public class Soulbond : MonoBehaviour
                 data => $"There is a small bullet after the attack",
                 data => "Little Bee"
             ),
-
-            /*
-                         new Buff(
-                            data => $"Hand broker",
-                            data => data.QSkillType == 3,
-                            data => data.Q3_QKWeak = true,
-                            data => $"Enemy attack reduce",
-                            data => "Evo:Skill"
-                        ),
-                         new Buff(
-                            data => $"Little bee",
-                            data => data.QSkillType == 3,
-                            data => data.Q3_QKExplode = true,
-                            data => $"There a small bullet after atttack",
-                            data => "Evo:Skill"
-                        ),
-                         new Buff(
-                            data => $"Little bee",
-                            data => data.QSkillType == 3,
-                            data => data.Q3_Barrier = true,
-                            data => $"There a small bullet after atttack",
-                            data => "Evo:Skill"
-                        ),*/
+            new Buff(
+                data => $"Hand breaker",
+                data => data.Q3_QKWeak == true,
+                data => data.Q3_QKWeak = true,
+                data => $"Enemies hit by a special attack or skill will have their attack reduced",
+                data => "Hand breaker"
+            ),
+            new Buff(
+                data => $"Froze feet",
+                data => data.Q3_QKSlow == true,
+                data => data.Q3_QKSlow = true,
+                data => $"SLow down enemies hit by a special attack or skill",
+                data => "Froze feet"
+            ),
+            new Buff(
+                data => $"Barrier",
+                data => data.Q3_Barrier == true,
+                data => data.Q3_Barrier = true,
+                data =>
+                    $"Become invincible for a short amount of time after using a special attack",
+                data => "Barrier"
+            ),
         };
     }
 }

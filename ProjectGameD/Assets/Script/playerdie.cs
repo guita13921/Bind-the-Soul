@@ -16,6 +16,9 @@ public class playerdie : MonoBehaviour
     [SerializeField]
     GameObject deathsound;
 
+    [SerializeField]
+    GameObject deathsound_BG;
+
     void Start()
     {
         health = GetComponent<Health>();
@@ -31,6 +34,8 @@ public class playerdie : MonoBehaviour
         if (health.currentHealth <= 0 && !hasDied)
         {
             Instantiate(deathsound);
+            Instantiate(deathsound_BG);
+
             characterData.deathCount += 1;
             animator.Play("die", 0, 0);
 
