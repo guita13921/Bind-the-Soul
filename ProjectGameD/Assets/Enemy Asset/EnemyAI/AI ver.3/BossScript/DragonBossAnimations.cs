@@ -11,6 +11,7 @@ public class DragonBossAnimations : MonoBehaviour
     [SerializeField] private Transform player; // Reference to the player
     [SerializeField] private BossRotationWithAnimation movementController;
     [SerializeField] private MeleeSensor meleeSensor;
+    [SerializeField] private DragonBoss dragonBoss;
      public float rotationSpeed = 0.5f; // Adjust rotation speed as needed
 
     [Header("FireBreath/Laser")]
@@ -23,13 +24,14 @@ public class DragonBossAnimations : MonoBehaviour
     
     [Header("Malee")]
     [SerializeField] private SphereCollider ClawSlamAttackHitBox; // Reference to the flamethr
-    [SerializeField] private EnemyWeapon ClawSlamAttackHitBox_Script;
+    [SerializeField] private Weapon_Enemy ClawSlamAttackHitBox_Script;
     [SerializeField] private SphereCollider TailHitboxes; // Reference to the flamethr
-    [SerializeField] private EnemyWeapon TailHitbox_script;
+    [SerializeField] private Weapon_Enemy TailHitbox_script;
     [SerializeField] private BoxCollider ClawSlengthHitBox; // Reference to the flamethr
-    [SerializeField] private EnemyWeapon ClawSlengthHitBox_Script;
+    [SerializeField] private Weapon_Enemy ClawSlengthHitBox_Script;
     [SerializeField] private BoxCollider RushForwardHitBox; // Reference to the flamethr
-    [SerializeField] private EnemyWeapon RushForwardHitBox_Script;
+    [SerializeField] private Weapon_Enemy RushForwardHitBox_Script;
+    [SerializeField] private ParticleSystem TailSweepEffect;
     private bool isClawSlength = false;
     private bool isRushForward = false;
     
@@ -43,8 +45,8 @@ public class DragonBossAnimations : MonoBehaviour
     [Header("Nuke")]
     [SerializeField] public ParticleSystem ChargeEffect;
     [SerializeField] public bool IsCharging = false;
-    float duration = 5f;
-    float elapsedTime = 0f;
+    [SerializeField] float duration_nuke;
+    [SerializeField] float elapsedTime_nuke;
 
     private void Update()
     {
@@ -214,6 +216,7 @@ public class DragonBossAnimations : MonoBehaviour
     public void Enable_TailHitBox()
     {
         TailHitboxes.enabled = true;
+        //TailSweepEffect.Play();
     }
 
     public void Disable_TailHitBox()
@@ -226,6 +229,10 @@ public class DragonBossAnimations : MonoBehaviour
         Debug.Log("Dragon performs Tail Sweep!");
 
         animator.SetTrigger("TailSweep");
+    }
+
+    public void EnableTailSweepEffect(){
+        TailSweepEffect.Play();
     }
 
     public void PerformSummonMinions()
@@ -300,19 +307,21 @@ public class DragonBossAnimations : MonoBehaviour
         Vector3 originalScale = ChargeEffect.transform.localScale;
         Vector3 targetScale = originalScale * 2f;
 
-        while (elapsedTime < duration)
+        while (elapsedTime_nuke < duration_nuke)
         {
-            ChargeEffect.transform.localScale = Vector3.Lerp(originalScale, targetScale, elapsedTime / duration);
-            elapsedTime += Time.deltaTime;
+            ChargeEffect.transform.localScale = Vector3.Lerp(originalScale, targetScale, elapsedTime_nuke / duration_nuke);
+            elapsedTime_nuke += Time.deltaTime;
             yield return null;
         }
 
         ChargeEffect.transform.localScale = targetScale;
+        EndEnrage();
     }
 
     public void EndEnrage(){
         ChargeEffect.Stop();
         IsCharging = false;
         animator.SetTrigger("EndEnrage");
+        dragonBoss.EndEnrage();
     }
 }

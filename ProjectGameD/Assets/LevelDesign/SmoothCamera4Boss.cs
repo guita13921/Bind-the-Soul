@@ -6,7 +6,7 @@ public class SmoothCamera4Boss : MonoBehaviour
 {
     [Header("Camera Settings")]
     [SerializeField] private Transform player; // Player's transform
-    [SerializeField] private Transform boss;   // Boss's transform
+    [SerializeField] private Transform boss;   // Boss's transform (can be null if no boss exists)
     [SerializeField] private Transform pivot;  // Pivot (parent of the camera)
 
     [SerializeField] private float smoothTime = 0.3f; // Smoothing factor for camera movement
@@ -21,29 +21,52 @@ public class SmoothCamera4Boss : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (player == null || boss == null || pivot == null || camera == null) return;
+        // If player or pivot is missing, exit the function
+        if (player == null || pivot == null || camera == null) return;
 
-        // Calculate the midpoint between the player and the boss
-        Vector3 midpoint = (player.position + boss.position) / 2f;
-        
-        // Add local axis Z offset
-        midpoint += pivot.forward * -30f;
+        Vector3 targetPosition;
 
-        // Move the pivot smoothly to the midpoint
+        // Calculate the midpoint: If the boss exists, use the midpoint between player and boss
+        if (boss != null)
+        {
+            // Calculate the midpoint between the player and the boss
+            targetPosition = (player.position + boss.position) / 2f;
+
+            // Add local axis Z offset
+            targetPosition += pivot.forward * -30f;
+
+            // Calculate the distance between the player and the boss
+            float playerBossDistance = Vector3.Distance(player.position, boss.position);
+
+            // Adjust the camera size based on the distance
+            float targetSize = Mathf.Clamp(playerBossDistance, minSize, maxSize);
+
+            // Smoothly interpolate the camera's size (orthographic or FOV)
+            AdjustCameraSize(targetSize);
+        }
+        else
+        {
+            // If no boss, focus only on the player
+            targetPosition = player.position;
+
+            // Add a default offset to ensure the camera doesn't stick directly to the player
+            targetPosition += pivot.forward * -30f;
+
+            // Set the camera size to the minimum size when no boss is present
+            AdjustCameraSize(minSize);
+        }
+
+        // Move the pivot smoothly to the target position
         pivot.position = Vector3.SmoothDamp(
             pivot.position,
-            midpoint,
+            targetPosition,
             ref _currentVelocity,
             smoothTime
         );
+    }
 
-        // Calculate the distance between the player and the boss
-        float playerBossDistance = Vector3.Distance(player.position, boss.position);
-
-        // Adjust the camera size based on the distance
-        float targetSize = Mathf.Clamp(playerBossDistance, minSize, maxSize);
-
-        // Smoothly interpolate the camera's size (orthographic or FOV)
+    private void AdjustCameraSize(float targetSize)
+    {
         if (camera.orthographic)
         {
             // Adjust orthographic size for an orthographic camera

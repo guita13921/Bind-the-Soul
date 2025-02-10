@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic; // This is required for List<>
 using UnityEngine;
+using UnityEngine.AI;
 
 public class DragonBoss : MonoBehaviour
 {
     // Enum for boss phases
-    public enum BossPhase
+    [SerializeField] public enum BossPhase
     {
         Phase1,  // Grounded phase
         Phase2,  // Aerial phase
@@ -18,6 +19,7 @@ public class DragonBoss : MonoBehaviour
 
     [Header("General Settings")]
     [SerializeField] EnemyHealth enemyHealth;
+    [SerializeField] private NavMeshAgent agent;    // NavMeshAgent for movement
 
     [SerializeField] private Transform player; // Reference to the player
 
@@ -26,6 +28,9 @@ public class DragonBoss : MonoBehaviour
 
     [Header("Phase 2 Settings")]
     [SerializeField] private float phase2AttackCooldown = 10f;
+    [SerializeField] private float phase2Height = 10f; // Height for flying phase
+    [SerializeField] private float flySpeed = 5f;     // Movement speed during Phase 2
+    private bool isFlying = false; // Whether the boss is in the air
 
     [Header("Enrage Settings")]
     [SerializeField] private bool enableEnrage = true;
@@ -36,13 +41,14 @@ public class DragonBoss : MonoBehaviour
     [Header("References")]
     [SerializeField] private Animator animator;
     [SerializeField] private DragonBossAnimations bossAnimations;
+    [SerializeField] private DragonBossFlight dragonBossFlight;
     private BossRotationWithAnimation movementController;
-
-    private float attackTimer = 0f;
 
     [Header("Sensor")]
     [SerializeField] private RangeSensor RangeSensor;
     [SerializeField] private MeleeSensor MeleeSensor;
+    private float attackTimer = 0f;
+    
 
     private enum BossAction
     {
@@ -53,8 +59,12 @@ public class DragonBoss : MonoBehaviour
         ClawSwipe,
         TailSweep,
         SummonMinions,
-        KnockBack
+        KnockBack,
+        FireRain,
+        DiveBomb,
+        LavaPits
     }
+    
 
     private List<BossAction> currentCombo = new List<BossAction>(); // Stores the current combo
     public bool isExecutingCombo = false; // Tracks if a combo is currently being executed
@@ -84,6 +94,11 @@ public class DragonBoss : MonoBehaviour
     [SerializeField] private List<BossAction> OutRangecombo2 = new List<BossAction> { BossAction.SummonMinions};
     //60% Laser
     [SerializeField] private List<BossAction> OutRangecombo3 = new List<BossAction> { BossAction.Laser};
+
+    //Phase2Fly
+    [SerializeField] private List<BossAction> Phase2Fly01 = new List<BossAction> { BossAction.FireRain};
+    [SerializeField] private List<BossAction> Phase2Fly02 = new List<BossAction> { BossAction.LavaPits};
+    [SerializeField] private List<BossAction> Phase2Fly03 = new List<BossAction> { BossAction.DiveBomb};
     private void Start()
     {
         // Ensure references
@@ -248,50 +263,65 @@ public class DragonBoss : MonoBehaviour
             switch (action)
             {
                 case BossAction.Backward:
-                    Debug.Log("Boss moves backward.");
+                    //Debug.Log("Boss moves backward.");
                     animator.SetTrigger("DashBackward");
                     yield return new WaitForSeconds(3f); // Adjust timing as needed
                     break;
                 
                 case BossAction.ForwardRush:
-                    Debug.Log("Boss moves ForwardRush.");
+                    //Debug.Log("Boss moves ForwardRush.");
                     bossAnimations.PerformForwardRush(); // Custom ForwardRush logic
                     yield return new WaitForSeconds(3f); // Adjust timing as needed
                     break;
 
                 case BossAction.FireBreath:
-                    Debug.Log("Boss performs Fire Breath.");
+                    //Debug.Log("Boss performs Fire Breath.");
                     bossAnimations.PerformFireBreath(); // Custom fire breath logic
                     yield return new WaitForSeconds(6f); // Adjust timing as needed
                     break;
 
                 case BossAction.Laser:
-                    Debug.Log("Boss fires a laser.");
+                    //Debug.Log("Boss fires a laser.");
                     bossAnimations.PerformLaser(); // Custom fire breath logic
                     yield return new WaitForSeconds(6f); // Adjust timing as needed
                     break;
 
                 case BossAction.ClawSwipe:
-                    Debug.Log("Boss performs Claw Swipe.");
+                    //Debug.Log("Boss performs Claw Swipe.");
                     bossAnimations.PerformClawSwipe();
                     yield return new WaitForSeconds(3f); // Adjust timing as needed
                     break;
 
                 case BossAction.TailSweep:
-                    Debug.Log("Boss performs Tail Sweep.");
+                    //Debug.Log("Boss performs Tail Sweep.");
                     bossAnimations.PerformTailSweep();
                     yield return new WaitForSeconds(2.5f); // Adjust timing as needed
                     break;
 
                 case BossAction.SummonMinions:
-                    Debug.Log("Boss summons minions.");
+                    //Debug.Log("Boss summons minions.");
                     bossAnimations.PerformSummonMinions();
                     yield return new WaitForSeconds(6f); // Adjust timing as needed
                     break;
 
                 case BossAction.KnockBack:
-                    Debug.Log("Boss performs an KnockBack animation.");
+                    //Debug.Log("Boss performs an KnockBack animation.");
                     bossAnimations.PerformKnockBack();
+                    yield return new WaitForSeconds(6f); // Adjust timing as needed
+                    break;
+                case BossAction.FireRain:
+                    Debug.Log("Boss performs an FireRain.");
+                    dragonBossFlight.PerformFireTornado();
+                    yield return new WaitForSeconds(6f); // Adjust timing as needed
+                    break;
+                case BossAction.DiveBomb:
+                    Debug.Log("Boss performs an DiveBomb.");
+                    dragonBossFlight.PerformFireTornado();
+                    yield return new WaitForSeconds(6f); // Adjust timing as needed
+                    break;
+                case BossAction.LavaPits:
+                    Debug.Log("Boss performs an FireTornado.");
+                    dragonBossFlight.PerformFireTornado();
                     yield return new WaitForSeconds(6f); // Adjust timing as needed
                     break;
             }
@@ -304,68 +334,24 @@ public class DragonBoss : MonoBehaviour
     /// Triggers an attack in Phase 2.
     private void AttackPhase2()
     {
-        attackTimer += Time.deltaTime;
-
-        // Perform an attack only after the cooldown
-        if (attackTimer >= phase2AttackCooldown && !isExecutingCombo)
+        if (!isFlying)
         {
-            attackTimer = 0f;
-            // Decide which combo to execute based on player position
-            if (RangeSensor.IsPlayerInRange() && !MeleeSensor.IsPlayerInRange() && IsPlayerInFront())
+            StartFlying();
+        }else{
+            FlyTowardPlayer();
+            float randomChance = Random.value;
+            if (randomChance < 0.35f)
             {
-                // Randomly choose between range combos
-                float randomChance = Random.value; // Random value between 0.0 and 1.0
-                if (randomChance < 0.5f) // 50% chance
-                {
-                    StartCombo(Rangecombo1); // Fire Breath
-                    //StartCombo(TEST); // Backward + Forward Rush
-                }
-                else
-                {
-                    StartCombo(Rangecombo2); //
-                    //StartCombo(TEST); // Backward + Forward Rush
-                }
-            }
-            else if (MeleeSensor.IsPlayerInRange())
+                StartCombo(Phase2Fly01);
+            }else if (randomChance < 0.7f)
             {
-                float randomChance = Random.value; // Random value between 0.0 and 1.0
-
-                if (randomChance < 0.35f) // 35% chance
-                {
-                    StartCombo(Maleecombo1); // Tail Sweep + Claw Swipe
-                    //StartCombo(TEST); // Backward + Forward Rush
-                }
-                else if (randomChance < 0.70f) // Another 35% chance (total 70%)
-                {
-                    StartCombo(Maleecombo2); // Claw Swipe + Tail Sweep
-                    //StartCombo(TEST); // Backward + Forward Rush
-                }
-                else if (randomChance < 0.90f) // 20% chance (total 90%)
-                {
-                    StartCombo(Maleecombo3); // Backward + Forward Rush
-                }
-                else // Remaining 10% chance
-                {
-                    StartCombo(Maleecombo4); // Knockback (Evade)
-                    //StartCombo(TEST); // Backward + Forward Rush
-                }
-            }
-            else if (RangeSensor.IsPlayerOutOfRange() && IsPlayerInFront())
+                StartCombo(Phase2Fly02); 
+            }else 
             {
-                // Randomly choose between out-of-range combos
-                float randomChance = Random.value;
-                if (randomChance < 0.2f)
-                {
-                    StartCombo(OutRangecombo1); // Forward Rush + Claw Swipe
-                }else if (randomChance < 0.4f)
-                {
-                    StartCombo(OutRangecombo2); // Backward + Forward Rush
-                }else 
-                {
-                    StartCombo(OutRangecombo3); // Knockback (Evade)
-                }
+                StartCombo(Phase2Fly03);
             }
         }
+
     }
 
     /// Transitions the boss to a new phase.
@@ -376,17 +362,17 @@ public class DragonBoss : MonoBehaviour
         switch (newPhase)
         {
             case BossPhase.Phase1:
-                Debug.Log("Boss transitioned to Phase 1: Grounded.");
+                //Debug.Log("Boss transitioned to Phase 1: Grounded.");
                 if (movementController) movementController.enabled = true; // Enable movement controller
                 break;
 
             case BossPhase.Phase2:
-                Debug.Log("Boss transitioned to Phase 2: Aerial.");
+                //Debug.Log("Boss transitioned to Phase 2: Aerial.");
                 if (movementController) movementController.enabled = false; // Disable grounded movement logic
                 break;
 
             case BossPhase.Enraged:
-                Debug.Log("Boss is now Enraged!");
+                //Debug.Log("Boss is now Enraged!");
                 isEnraged = true;
                 bossAnimations.TriggerEnrage();
                 break;
@@ -411,8 +397,28 @@ public class DragonBoss : MonoBehaviour
         Destroy(gameObject, 5f);
     }
 
-    public bool GetEnrage(){
-        return isEnraged;
+    private void StartFlying()
+    {
+        isFlying = true;
+        agent.enabled = true;
+        animator.SetTrigger("FlyRoam"); // Play the "fly roam" animation
     }
 
+    private void FlyTowardPlayer()
+    {
+        if (player == null) return;
+
+        // Move the boss toward the player position while maintaining flying height
+        Vector3 targetPosition = new Vector3(player.position.x, phase2Height, player.position.z);
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, flySpeed * Time.deltaTime);
+
+        // Rotate the boss smoothly toward the player
+        Vector3 directionToPlayer = (player.position - transform.position).normalized;
+        Quaternion targetRotation = Quaternion.LookRotation(new Vector3(directionToPlayer.x, 0, directionToPlayer.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 2f);
+    }
+
+    public void EndEnrage(){
+        TransitionToPhase(BossPhase.Phase2);
+    }
 }

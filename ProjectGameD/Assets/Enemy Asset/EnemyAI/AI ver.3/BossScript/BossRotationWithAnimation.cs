@@ -13,6 +13,7 @@ public class BossRotationWithAnimation : MonoBehaviour
     [SerializeField] private Animator animator; // Animator for controlling animations
     [SerializeField] private NavMeshAgent agent; // NavMeshAgent for movement
 
+
     private void Start()
     {
         if (!player) player = GameObject.FindWithTag("Player").transform; // Find player if not set
@@ -119,6 +120,7 @@ public class BossRotationWithAnimation : MonoBehaviour
     }
 
     /// <summary>
+    /// 
     /// Resumes the NavMeshAgent and unlocks movement.
     /// </summary>
     public void UnlockMovement()
