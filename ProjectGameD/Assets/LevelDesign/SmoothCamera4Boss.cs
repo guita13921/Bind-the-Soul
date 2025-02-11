@@ -17,6 +17,10 @@ public class SmoothCamera4Boss : MonoBehaviour
     [SerializeField] private float maxSize = 15f;    // Maximum orthographic size or FOV
     [SerializeField] private float zoomSpeed = 0.3f; // Smoothing speed for zooming
 
+    [Header("Object Fading")]
+    public ObjFadeing _fader; // Reference to object fading script (optional)
+
+
     private Vector3 _currentVelocity = Vector3.zero;
 
     private void LateUpdate()
@@ -25,7 +29,7 @@ public class SmoothCamera4Boss : MonoBehaviour
         if (player == null || pivot == null || camera == null) return;
 
         Vector3 targetPosition;
-
+        HandleObstacleFading();
         // Calculate the midpoint: If the boss exists, use the midpoint between player and boss
         if (boss != null)
         {
@@ -76,6 +80,29 @@ public class SmoothCamera4Boss : MonoBehaviour
         {
             // Adjust field of view (FOV) for a perspective camera
             camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, targetSize, Time.deltaTime * zoomSpeed);
+        }
+    }
+
+    private void HandleObstacleFading()
+    {
+        if (player == null) return;
+
+        // Direction from the camera to the player
+        Vector3 directionToPlayer = player.position - transform.position;
+
+        // Perform a raycast to detect obstacles between the camera and the player
+        if (Physics.Raycast(transform.position, directionToPlayer.normalized, out RaycastHit hit, directionToPlayer.magnitude))
+        {
+            if (hit.collider != null && hit.collider.gameObject != player.gameObject)
+            {
+                // If an obstacle is detected, try to apply fading
+                _fader = hit.collider.GetComponent<ObjFadeing>();
+                if (_fader != null)
+                {
+                    _fader.timeRemaining = 0.1f; // Set fade timer
+                    _fader.DoFade = true;       // Trigger fade
+                }
+            }
         }
     }
 }
