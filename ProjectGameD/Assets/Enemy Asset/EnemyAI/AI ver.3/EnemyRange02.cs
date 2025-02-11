@@ -9,6 +9,8 @@ public class EnemyRange02 : MonoBehaviour
     [Header("Reference")]
     [SerializeField] public EnemyRange02_Animation enemyAnimation;
     [SerializeField] public EnemyHealth health;
+    [SerializeField] bool isDead = false;
+    [SerializeField] Canvas bar;
     [SerializeField] Rigidbody rb;
 
     [Header("Movement")]
@@ -31,6 +33,10 @@ public class EnemyRange02 : MonoBehaviour
     [Header("Stun")]
     [SerializeField] public float stunDuration = 3f; 
 
+    [Header("Spawn Settings")]
+    [SerializeField] private float spawnDelay = 2f; // Freeze duration
+    protected bool isSpawning = true;
+
     private NavMeshAgent agent;
     [SerializeField] private float attackCooldownTimer = 0f;
     private bool isStunned = false;
@@ -44,10 +50,41 @@ public class EnemyRange02 : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        StartCoroutine(HandleSpawn());
+
+        if (rb == null)
+        {
+            rb = GetComponent<Rigidbody>();
+            if (rb == null)
+                Debug.LogWarning("Rigidbody is not assigned to EnemyRange02.");
+        }
+
+        if (health == null)
+        {
+            health = GetComponent<EnemyHealth>();
+            if (health == null)
+                Debug.LogWarning("EnemyHealth is not assigned to EnemyRange02.");
+        }
+    }
+
+    private IEnumerator HandleSpawn()
+    {
+        isSpawning = true;
+        agent.enabled = false;
+        yield return new WaitForSeconds(spawnDelay);
+        agent.enabled = true;
+        isSpawning = false;
     }
 
     void Update()
     {
+
+        if(isDead) return;
+        if (health.GetCurrentHealth() == 0)
+        {   
+            Dead();
+        }
+
         if (isStunned) return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
@@ -114,8 +151,6 @@ public class EnemyRange02 : MonoBehaviour
 
     void FindHidingSpot()
     {
-        Debug.Log("FindHidingSpot");
-
         Collider[] nearbySpots = Physics.OverlapSphere(transform.position, hideSearchRadius, obstacleMask);
 
         Transform bestSpot = null;
@@ -139,13 +174,11 @@ public class EnemyRange02 : MonoBehaviour
 
         if (bestSpot != null)
         {
-            Debug.Log($"Best hiding spot found: {bestSpot.name}");
             agent.SetDestination(bestSpot.position);
             isHiding = true;
         }
         else
         {
-            Debug.Log("No valid hiding spot found");
             isHiding = false;
         }
     }
@@ -169,7 +202,6 @@ public class EnemyRange02 : MonoBehaviour
     public void GetHit()
     {
         if (isStunned) return;
-
         StartCoroutine(Stun());
     }
 
@@ -212,21 +244,42 @@ public class EnemyRange02 : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.isTrigger && other.gameObject.CompareTag("PlayerSword") && health.GetCurrentHealth() != 0)
+        if (other.isTrigger && other.gameObject.CompareTag("PlayerSword") && health != null && health.GetCurrentHealth() != 0)
         {
             PlayerWeapon playerWeapon = other.gameObject.GetComponent<PlayerWeapon>();
             if (playerWeapon != null)
+                GetHit();
                 health.CalculateDamage(playerWeapon.damage);
 
             agent.transform.LookAt(player.transform);
             Vector3 knockBackDirection = transform.position - player.transform.position;
             KnockBack(knockBackDirection, 10f);
+            enemyAnimation.PlayStunAnimation();
         }
     }
 
-    
     private protected virtual void KnockBack(Vector3 hitDirection, float knockBackForce)
     {
-        rb.AddForce(hitDirection.normalized * knockBackForce, ForceMode.Impulse);
+        if (rb != null)
+        {
+            rb.AddForce(hitDirection.normalized * knockBackForce, ForceMode.Impulse);
+        }
+        else
+        {
+            Debug.LogWarning("Rigidbody is missing on KnockBack attempt.");
+        }
+    }
+
+    public virtual void Dead()
+    {
+        gameObject.tag = "DEAD"; 
+        isDead = true;
+        foreach (Transform child in transform)
+        {
+            child.gameObject.tag = "DEAD";
+        }
+        Destroy(bar.gameObject);
+        agent.enabled = false;
+        enemyAnimation.PlayDeadAniamtion();
     }
 }

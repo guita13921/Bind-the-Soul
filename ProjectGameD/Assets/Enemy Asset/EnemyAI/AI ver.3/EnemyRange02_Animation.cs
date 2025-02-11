@@ -87,15 +87,11 @@ public class EnemyRange02_Animation : MonoBehaviour
 
     public void PlayStunAnimation()
     {
-        LockAnimation(); // Lock animation until stun finishes
         animator.SetBool("isIdle", false);
         animator.SetBool("isPatrolling", false);
         animator.SetBool("isAttacking", false);
         animator.SetBool("isHiding", false);
         animator.SetBool("isStunned", true);
-
-        // Automatically unlock after stun animation ends
-        StartCoroutine(UnlockAfterAnimation("Stunned"));
     }
 
     public void PlayIdleAnimation()
@@ -105,6 +101,17 @@ public class EnemyRange02_Animation : MonoBehaviour
         animator.SetBool("isAttacking", false);
         animator.SetBool("isHiding", false);
         animator.SetBool("isStunned", false);
+    }
+
+    public void PlayDeadAniamtion()
+    {
+        animator.SetBool("isIdle", false);
+        animator.SetBool("isPatrolling", false);
+        animator.SetBool("isAttacking", false);
+        animator.SetBool("isHiding", false);
+        animator.SetBool("isStunned", false);
+        animator.SetBool("isDeath", true);
+        LockAnimation();
     }
 
     private void LockAnimation()
