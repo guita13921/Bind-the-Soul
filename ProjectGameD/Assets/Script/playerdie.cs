@@ -9,6 +9,7 @@ public class playerdie : MonoBehaviour
     private Health health;
     private Animator animator;
     private bool hasDied = false;
+    public GameObject currentSoundtrack;
 
     [SerializeField]
     CharacterData characterData;
@@ -33,6 +34,15 @@ public class playerdie : MonoBehaviour
         }
         if (health.currentHealth <= 0 && !hasDied)
         {
+            if (currentSoundtrack != null)
+            {
+                AudioSource audioSource = currentSoundtrack.GetComponent<AudioSource>();
+                if (audioSource != null)
+                {
+                    audioSource.volume = 0f; // Set volume to zero
+                    // audioSource.Stop(); // Uncomment if you want to stop the sound instead
+                }
+            }
             Instantiate(deathsound);
             Instantiate(deathsound_BG);
 

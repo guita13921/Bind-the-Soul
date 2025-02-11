@@ -27,12 +27,17 @@ public class NextStage : MonoBehaviour
     [SerializeField]
     String NextSceneName;
 
+    public float healthRatio = 1f;
+
     // Start is called before the first frame update
     public void loadscene(string NextSceneName)
     {
-        TransitionManager.Instance().Transition(NextSceneName, transition, loaddelay);
         characterData.rerollpoint += 2;
-        //characterData.Health = MChealth.currentHealth;
+
+        characterData.healthRatio = MChealth.currentHealth / MChealth.maxHealth;
+
+        characterData.Health = MChealth.currentHealth;
+        TransitionManager.Instance().Transition(NextSceneName, transition, loaddelay);
     }
 
     void OnTriggerEnter(Collider other)

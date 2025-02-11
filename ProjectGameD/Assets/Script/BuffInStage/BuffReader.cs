@@ -88,7 +88,7 @@ public class BuffReader : MonoBehaviour
             new Buff(
                 data => $"Overgrowth (LV.{data.maxHPIncrease} -> LV.{data.maxHPIncrease + 1})",
                 data => data.maxHPIncrease < 3,
-                data => data.maxHPIncrease++,
+                data => data.HpCalculation(),
                 data => $"Increase max health points by {1000 * (data.maxHPIncrease + 1)}",
                 data => "Overgrowth"
             ),

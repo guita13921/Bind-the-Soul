@@ -1,17 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Profiling;
 using UnityEngine;
-using UnityEngine.AI;
+using UnityEngine.SceneManagement; // Import the SceneManager namespace
 
 public class Health : MonoBehaviour
 {
     public float maxHealth;
     public float currentHealth;
     public CharacterData characterData;
+    public NextStage nextStage;
+
     void Start()
     {
-    currentHealth = maxHealth;
-        //currentHealth = characterData.Health;
+        maxHealth = characterData.maxHealth;
+        currentHealth = characterData.maxHealth * characterData.healthRatio;
     }
 }

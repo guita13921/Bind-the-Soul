@@ -5,7 +5,10 @@ public class CharacterData : ScriptableObject
 {
     public int deathCount = 0;
     public int rerollpoint = 1;
-    public float Health=10000;
+    public float Health = 0;
+    public float maxHealth = 1000;
+    public float healthRatio = 1;
+
     /*
         [Header("Passive")]
         public int barrierLV = 0;
@@ -69,8 +72,17 @@ public class CharacterData : ScriptableObject
     public bool Q3_QKSlow = false;
     public bool Q3_Barrier = false;
 
+    public void HpCalculation()
+    {
+        maxHPIncrease++;
+        maxHealth += 1000 * maxHPIncrease;
+    }
+
     public void ResetToDefault()
     {
+        maxHealth = 1000;
+        Health = maxHealth;
+
         reduceIncomeDamage = 0;
         specialLV = 0;
         healToThreshold = 0;
