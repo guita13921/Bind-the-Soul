@@ -16,13 +16,13 @@ public class EnemyRange02_Animation : MonoBehaviour
         enemy = GetComponent<EnemyRange02>();
         agent = GetComponent<NavMeshAgent>();
 
-        // Save the default agent speed
         defaultSpeed = agent.speed;
     }
 
     void Update()
     {
-        // Lock the agent's speed when the animation is locked
+        if(enemy.GetIsSpawning()) return;
+
         if (isAnimationLocked)
         {
             agent.speed = 0; // Stop movement while the animation is locked
@@ -78,7 +78,7 @@ public class EnemyRange02_Animation : MonoBehaviour
     public void PlayHideAnimation()
     {
         if (isAnimationLocked) return;
-        animator.SetBool("isIdle", false);
+        //animator.SetBool("isIdle", false);
         animator.SetBool("isPatrolling", false);
         animator.SetBool("isAttacking", false);
         animator.SetBool("isHiding", true);
@@ -91,16 +91,17 @@ public class EnemyRange02_Animation : MonoBehaviour
         animator.SetBool("isPatrolling", false);
         animator.SetBool("isAttacking", false);
         animator.SetBool("isHiding", false);
-        animator.SetBool("isStunned", true);
+        animator.SetTrigger("isStunned");
     }
 
     public void PlayIdleAnimation()
     {
         animator.SetBool("isIdle", true);
-        animator.SetBool("isPatrolling", false);
-        animator.SetBool("isAttacking", false);
-        animator.SetBool("isHiding", false);
-        animator.SetBool("isStunned", false);
+    }
+
+    public void PlayEndIdleAnimation()
+    {
+        animator.SetBool("isIdle", false);
     }
 
     public void PlayDeadAniamtion()
@@ -118,6 +119,7 @@ public class EnemyRange02_Animation : MonoBehaviour
     {
         isAnimationLocked = true;
         agent.speed = 0; // Stop movement when the animation is locked
+
     }
 
     private void UnlockAnimation()

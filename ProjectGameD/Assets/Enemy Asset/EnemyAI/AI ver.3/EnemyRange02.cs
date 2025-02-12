@@ -21,7 +21,7 @@ public class EnemyRange02 : MonoBehaviour
     public LayerMask obstacleMask;
 
     [Header("Fireball Attack")]
-    public GameObject fireballPrefab;
+    public GameObject BulletPrefab;
     public Transform firePoint;
     public float attackCooldown;
     public Vector2 uiOffset;
@@ -37,34 +37,29 @@ public class EnemyRange02 : MonoBehaviour
     [SerializeField] private float spawnDelay = 2f; // Freeze duration
     protected bool isSpawning = true;
 
-    private NavMeshAgent agent;
+    [SerializeField] private NavMeshAgent agent;
     [SerializeField] private float attackCooldownTimer = 0f;
     private bool isStunned = false;
     [SerializeField] private bool isOnAttackCooldown = false;
-    private bool isShooting = false;
-    private bool isHiding = false;
+    protected bool isShooting = false;
+    protected bool isHiding = false;
 
     [SerializeField] private int numberOfBullets = 3;
     [SerializeField] private float bulletDelay = 0.5f;
 
-    void Start()
+    // Idle tracking
+    private Vector3 previousPosition;
+    private float idleTimer = 0f;
+    private const float idleThreshold = 0.01f; // Movement threshold
+
+    protected virtual void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        StartCoroutine(HandleSpawn());
-
-        if (rb == null)
-        {
-            rb = GetComponent<Rigidbody>();
-            if (rb == null)
-                Debug.LogWarning("Rigidbody is not assigned to EnemyRange02.");
-        }
-
-        if (health == null)
-        {
-            health = GetComponent<EnemyHealth>();
-            if (health == null)
-                Debug.LogWarning("EnemyHealth is not assigned to EnemyRange02.");
-        }
+        enemyAnimation = GetComponent<EnemyRange02_Animation>();
+        agent = GetComponent<NavMeshAgent>();  // Assign first
+        rb = GetComponent<Rigidbody>();
+        health = GetComponent<EnemyHealth>();
+        StartCoroutine(HandleSpawn());         // Start coroutine after assignment
+        previousPosition = transform.position; // Initialize position tracker
     }
 
     private IEnumerator HandleSpawn()
@@ -76,10 +71,10 @@ public class EnemyRange02 : MonoBehaviour
         isSpawning = false;
     }
 
-    void Update()
+    protected virtual void Update()
     {
+        if(isDead || isSpawning) return;
 
-        if(isDead) return;
         if (health.GetCurrentHealth() == 0)
         {   
             Dead();
@@ -95,8 +90,7 @@ public class EnemyRange02 : MonoBehaviour
 
             if (distanceToPlayer <= attackRange && attackCooldownTimer <= 0)
             {
-                enemyAnimation.PlayAttackAnimation();
-                StartShoot();
+                enemyAnimation?.PlayAttackAnimation();
             }
         }
         else if (isOnAttackCooldown)
@@ -109,7 +103,23 @@ public class EnemyRange02 : MonoBehaviour
             attackCooldownTimer -= Time.deltaTime;
         }
 
-        CheckNearbyObjects();
+        HandleIdleAnimation();
+    }
+
+    void HandleIdleAnimation()
+    {
+        if (Vector3.Distance(transform.position, previousPosition) < idleThreshold)
+        {
+            idleTimer += Time.deltaTime;
+            enemyAnimation?.PlayIdleAnimation();
+        }
+        else
+        {
+            enemyAnimation?.PlayEndIdleAnimation();
+            idleTimer = 0f; // Reset timer if movement detected
+        }
+
+        previousPosition = transform.position; // Update position for next frame
     }
 
     void PatrolToPlayer()
@@ -135,7 +145,7 @@ public class EnemyRange02 : MonoBehaviour
         StartCoroutine(AttackCooldown());
     }
 
-    void StartShoot()
+    private void StartShoot()
     {
         if (!isShooting)
         {
@@ -145,7 +155,7 @@ public class EnemyRange02 : MonoBehaviour
 
     private void ShootBullet()
     {
-        GameObject projectile = Instantiate(fireballPrefab, firePoint.position, firePoint.rotation);
+        GameObject projectile = Instantiate(BulletPrefab, firePoint.position, firePoint.rotation);
         projectile.GetComponent<BulletScript>().UpdateTarget(player.transform, (Vector3)uiOffset);
     }
 
@@ -183,22 +193,6 @@ public class EnemyRange02 : MonoBehaviour
         }
     }
 
-    void CheckNearbyObjects()
-    {
-        if (isHiding)
-        {
-            Collider[] nearbyObjects = Physics.OverlapSphere(transform.position, 0.5f);
-            foreach (var obj in nearbyObjects)
-            {
-                if (obj.CompareTag("DD") && obj.gameObject.layer == LayerMask.NameToLayer("Can't pass"))
-                {
-                    enemyAnimation.PlayIdleAnimation();
-                    break;
-                }
-            }
-        }
-    }
-
     public void GetHit()
     {
         if (isStunned) return;
@@ -208,12 +202,18 @@ public class EnemyRange02 : MonoBehaviour
     private IEnumerator Stun()
     {
         isStunned = true;
-        agent.isStopped = true;
+        if (agent != null && agent.isOnNavMesh)
+        {
+            agent.isStopped = true;
+        }
 
         yield return new WaitForSeconds(stunDuration);
 
         isStunned = false;
-        agent.isStopped = false;
+        if (agent != null && agent.isOnNavMesh)
+        {
+            agent.isStopped = false;
+        }
 
         StartCoroutine(AttackCooldown());
     }
@@ -227,20 +227,10 @@ public class EnemyRange02 : MonoBehaviour
         isOnAttackCooldown = false;
     }
 
-    public bool GetIsShooting()
-    {
-        return isShooting;
-    }
-
-    public bool GetIsOnAttackCooldown()
-    {
-        return isOnAttackCooldown;
-    }
-
-    public bool GetIsStunned()
-    {
-        return isStunned;
-    }
+    public bool GetIsShooting() => isShooting;
+    public bool GetIsSpawning() => isSpawning;
+    public bool GetIsOnAttackCooldown() => isOnAttackCooldown;
+    public bool GetIsStunned() => isStunned;
 
     public void OnTriggerEnter(Collider other)
     {
@@ -254,7 +244,7 @@ public class EnemyRange02 : MonoBehaviour
             agent.transform.LookAt(player.transform);
             Vector3 knockBackDirection = transform.position - player.transform.position;
             KnockBack(knockBackDirection, 10f);
-            enemyAnimation.PlayStunAnimation();
+            enemyAnimation?.PlayStunAnimation();
         }
     }
 
@@ -274,12 +264,24 @@ public class EnemyRange02 : MonoBehaviour
     {
         gameObject.tag = "DEAD"; 
         isDead = true;
+
+        if (agent != null && agent.isOnNavMesh)
+        {
+            agent.isStopped = true; // Stop agent before disabling
+        }
+
         foreach (Transform child in transform)
         {
             child.gameObject.tag = "DEAD";
         }
+
         Destroy(bar.gameObject);
-        agent.enabled = false;
-        enemyAnimation.PlayDeadAniamtion();
+
+        if (agent != null)
+        {
+            agent.enabled = false; // Disable after stopping
+        }
+
+        enemyAnimation?.PlayDeadAniamtion();
     }
 }

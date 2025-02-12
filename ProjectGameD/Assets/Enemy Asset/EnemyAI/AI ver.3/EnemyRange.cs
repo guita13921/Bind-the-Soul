@@ -11,8 +11,6 @@ public class EnemyRange : EnemyAI3{
     [SerializeField] private int numberOfBullets; // Number of bullets to fire
     [SerializeField] private float bulletDelay = 0.5f; // Time between bullets
 
-
-
     protected override void Start() {
         base.Start();
     }
