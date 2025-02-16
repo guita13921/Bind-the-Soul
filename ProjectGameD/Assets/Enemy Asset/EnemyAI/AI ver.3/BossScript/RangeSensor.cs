@@ -25,10 +25,7 @@ public class RangeSensor : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Checks if the player is within the range sensor range.
-    /// </summary>
-    /// <returns>True if the player is within range, otherwise false.</returns>
+
     public bool IsPlayerInRange()
     {
         if (player == null) return false;
@@ -41,7 +38,6 @@ public class RangeSensor : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        // Draw the detection range in the editor for visualization
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, minRange);
         Gizmos.color = Color.green;
@@ -51,10 +47,7 @@ public class RangeSensor : MonoBehaviour
     public bool IsPlayerOutOfRange()
     {
         if (player == null) return false;
-
-        // Check distance between this object and the player
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
         return distanceToPlayer > maxRange;
     }
 

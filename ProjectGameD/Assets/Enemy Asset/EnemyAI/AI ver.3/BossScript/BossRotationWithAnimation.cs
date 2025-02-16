@@ -7,6 +7,7 @@ public class BossRotationWithAnimation : MonoBehaviour
     [SerializeField] private float moveSpeed; // Movement speed
     [SerializeField] private float rotationThreshold; // Angle (in degrees) to start turning
     [SerializeField] private float stopDistance; // Stop moving when close to the player
+    [SerializeField] private float rotationSpeed;
 
     [Header("References")]
     [SerializeField] private Transform player; // Reference to the player
@@ -27,11 +28,8 @@ public class BossRotationWithAnimation : MonoBehaviour
     {
         if (player == null) return;
 
-        // Get direction and angle to the player
         Vector3 directionToPlayer = (player.position - transform.position).normalized;
         float angleToPlayer = Vector3.SignedAngle(transform.forward, directionToPlayer, Vector3.up);
-
-        // Handle movement and rotation
         HandleRotationAndMovement(angleToPlayer, directionToPlayer);
     }
 
@@ -107,6 +105,14 @@ public class BossRotationWithAnimation : MonoBehaviour
         agent.speed = 0;
     }
 
+    private void LookAtPlayer()
+    {
+        Vector3 direction = player.position - transform.position;
+        direction.y = 0; // Keep rotation level (prevent looking up/down)
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+    }
+
     /// Stops the NavMeshAgent and locks movement.
     public void LockMovement()
     {
@@ -119,10 +125,6 @@ public class BossRotationWithAnimation : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 
-    /// Resumes the NavMeshAgent and unlocks movement.
-    /// </summary>
     public void UnlockMovement()
     {
         if (agent)

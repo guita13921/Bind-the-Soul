@@ -361,16 +361,6 @@ public class DragonBoss : MonoBehaviour
 
         switch (newPhase)
         {
-            case BossPhase.Phase1:
-                //Debug.Log("Boss transitioned to Phase 1: Grounded.");
-                if (movementController) movementController.enabled = true; // Enable movement controller
-                break;
-
-            case BossPhase.Phase2:
-                //Debug.Log("Boss transitioned to Phase 2: Aerial.");
-                if (movementController) movementController.enabled = false; // Disable grounded movement logic
-                break;
-
             case BossPhase.Enraged:
                 //Debug.Log("Boss is now Enraged!");
                 isEnraged = true;
