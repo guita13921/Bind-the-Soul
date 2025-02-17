@@ -6,6 +6,8 @@ public class TextPopUp : MonoBehaviour
 {
     public GameObject interactText; // UI Text that says "Press F to Read"
     public GameObject messageCanvas; // Canvas with the full message
+        public AudioSource audioSource; // Canvas with the full message
+
     private bool isPlayerInRange = false; // Track if player is in the trigger zone
 
     private void Start()
@@ -21,6 +23,7 @@ public class TextPopUp : MonoBehaviour
         {
             // Toggle the full message canvas
             messageCanvas.SetActive(!messageCanvas.activeSelf);
+            audioSource.Play();
         }
     }
 
