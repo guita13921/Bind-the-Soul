@@ -19,10 +19,17 @@ public class DissolvingControllerTut : MonoBehaviour
         
     }
 
-    // Update is called once per frame
     void StartDeadAnimation()
     {
         StartCoroutine(DissolveCo());
+    }
+
+    void StartDissolve(){
+        StartCoroutine(DissolveCo());
+    }
+
+    void EndDissolve(){
+        StartCoroutine(ReverseDissolveCo());
     }
 
     IEnumerator DissolveCo()
@@ -45,4 +52,21 @@ public class DissolvingControllerTut : MonoBehaviour
             }
         }
     }
+
+    IEnumerator ReverseDissolveCo()
+    {
+        if (skinnedMaterials.Length > 0)
+        {
+            float counter = 1;
+            while (skinnedMaterials[0].GetFloat("_DissolveAmount") > 0)
+            {
+                counter -= dissolveRate;
+                for (int i = 0; i < skinnedMaterials.Length; i++)
+                {
+                    skinnedMaterials[i].SetFloat("_DissolveAmount", counter);
+                }
+                yield return new WaitForSeconds(refreshRate);
+            }
+        }
+}
 }

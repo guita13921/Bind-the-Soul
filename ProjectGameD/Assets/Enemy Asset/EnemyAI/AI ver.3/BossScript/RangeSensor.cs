@@ -8,6 +8,7 @@ public class RangeSensor : MonoBehaviour
     [SerializeField] private float minRange = 5f;  // Minimum range (outside melee range)
     [SerializeField] private float maxRange = 20f; // Maximum range for ranged attacks
     [SerializeField] private LayerMask detectionLayer; // LayerMask to filter for player detection
+    [SerializeField, Range(-1f, 1f)] private float frontDetectionThreshold = 0.5f; // Threshold to consider the player in front
 
     [SerializeField] private Transform player;
 
@@ -34,6 +35,14 @@ public class RangeSensor : MonoBehaviour
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
         return distanceToPlayer > minRange && distanceToPlayer <= maxRange;
+    }
+
+    public bool IsPlayerInFront()
+    {
+        if (player == null) return false;
+        Vector3 directionToPlayer = (player.position - transform.position).normalized;
+        float dotProduct = Vector3.Dot(transform.forward, directionToPlayer);
+        return dotProduct >= frontDetectionThreshold;
     }
 
     private void OnDrawGizmosSelected()

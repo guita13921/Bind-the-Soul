@@ -30,7 +30,7 @@ public class EnemyWeapon : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             var HP = other.gameObject.GetComponent<Health>();
-            Debug.Log("OnTriggerStay");
+            //Debug.Log("OnTriggerStay");
             HP.currentHealth -= damage;
         }
     }

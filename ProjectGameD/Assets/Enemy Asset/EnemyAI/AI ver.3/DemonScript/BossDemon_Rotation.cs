@@ -9,6 +9,7 @@ public class BossDemon_Rotation : MonoBehaviour
     [SerializeField] private float moveSpeed; // Movement speed
     [SerializeField] private float stopDistance; // Stop moving when close to the player
     [SerializeField] private float rotationSpeed;
+    [SerializeField] private bool isLock = false;
 
     [Header("References")]
     [SerializeField] private Transform player; // Reference to the player
@@ -21,7 +22,6 @@ public class BossDemon_Rotation : MonoBehaviour
         if (!player) player = GameObject.FindWithTag("Player").transform; // Find player if not set
         if (!agent) agent = GetComponent<NavMeshAgent>();
         if (!animator) animator = GetComponent<Animator>();
-
         agent.updateRotation = false; // Disable NavMeshAgent's automatic rotation
     }
 
@@ -71,6 +71,7 @@ public class BossDemon_Rotation : MonoBehaviour
 
     private void LookAtPlayer()
     {
+        if(isLock) return;
         Vector3 direction = player.position - transform.position;
         direction.y = 0; // Keep rotation level (prevent looking up/down)
         Quaternion targetRotation = Quaternion.LookRotation(direction);
@@ -82,6 +83,7 @@ public class BossDemon_Rotation : MonoBehaviour
     {
         if (agent)
         {
+            isLock = true;
             agent.speed = 0;
             agent.isStopped = true; // Stop the NavMeshAgent
             agent.velocity = Vector3.zero; // Ensure the agent stops moving immediately
@@ -92,7 +94,8 @@ public class BossDemon_Rotation : MonoBehaviour
     public void UnlockMovement()
     {
         if (agent)
-        {
+        {   
+            isLock = false;
             agent.isStopped = false; // Resume NavMeshAgent movement
         }
     }
