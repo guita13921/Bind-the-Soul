@@ -11,7 +11,6 @@ public class BossDemon_Animation : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Transform player; // Reference to the player
     [SerializeField] private BossDemon_Rotation movementController;
-    [SerializeField] private DemonKnightBoss dragonBoss;
     private float rotationSpeed = 0.5f; // Adjust rotation speed as needed
 
     [Header("Malee")]
