@@ -33,7 +33,7 @@ public class SceneTransition : MonoBehaviour
         }
         if (audioSource != null && Transitionsound != null)
         {
-            audioSource.PlayOneShot(Transitionsound); // Play the sound instantly
+            audioSource.PlayOneShot(Transitionsound);
         }
         else
         {
