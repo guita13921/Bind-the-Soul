@@ -267,7 +267,6 @@ public class DragonBossAnimations : MonoBehaviour
         laserEffect.Play();
         laserEffectHitbox.ActivateHitbox();
         StartCoroutine(ShootWithDelay(numberOfBullets, bulletDelay));
-
         isFiringLaser = true;
     }
 

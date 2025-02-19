@@ -20,12 +20,23 @@ public class DemonKnightBoss : MonoBehaviour
         Melee2Hit02,
         MeleeRollAttack01,
         KickAttack,
-        OneHandCast01
+        OneHandCast01,
+        TwoHandCast01,
+        TwoHandCast02,
+        TwoHandCasr03,
+        EnRage,
+        Laser,
+        OffmapCast01
     }
 
     private List<BossAction> MeleeCombo01 = new List<BossAction> { BossAction.Melee2Hit01};
-    private List<BossAction> RangeCombo01 = new List<BossAction> { BossAction.OneHandCast01};
-    private List<BossAction> OutRangeCombo01 = new List<BossAction> { BossAction.KickAttack};
+    private List<BossAction> MeleeCombo02 = new List<BossAction> { BossAction.Melee3Hit01};
+    private List<BossAction> MeleeCombo03 = new List<BossAction> { BossAction.Melee2Hit02};
+    private List<BossAction> RangeCombo01 = new List<BossAction> { BossAction.OneHandCast01};   //Cast Basic
+    private List<BossAction> OutRangeCombo01 = new List<BossAction> { BossAction.KickAttack};   //Kick Enemy
+    private List<BossAction> SpecialCombo01 = new List<BossAction> { BossAction.EnRage};        //Call Enemy
+    private List<BossAction> SpecialCombo02 = new List<BossAction> { BossAction.Laser};         //Call laser
+    private List<BossAction> SpecialCombo03 = new List<BossAction> { BossAction.OffmapCast01};   //OffmapCast around boss
 
 
     private List<BossAction> currentCombo = new List<BossAction>(); // Stores the current combo
@@ -41,7 +52,8 @@ public class DemonKnightBoss : MonoBehaviour
     public Transform player;
     public NavMeshAgent agent;
 
-     [SerializeField] private float attackTimer = 0f;
+    private float attackTimer = 0f;
+    [SerializeField] private int comboCounter = 0;
 
     [Header("Phase 1 Settings")]
     [SerializeField] private float phase1AttackCooldown;
@@ -128,15 +140,31 @@ public class DemonKnightBoss : MonoBehaviour
                 
                 case BossAction.KickAttack:
                     BossAnimation.PerformAttack05(); 
-                    yield return new WaitForSeconds(1.5f); 
+                    yield return new WaitForSeconds(3f); 
                     break;
 
                 case BossAction.OneHandCast01:
                     BossAnimation.PerformCast05(); 
-                    yield return new WaitForSeconds(2.5f); 
+                    yield return new WaitForSeconds(3f); 
+                    break;
+
+                case BossAction.EnRage:
+                    BossAnimation.PerformCast01(); 
+                    yield return new WaitForSeconds(3f); 
+                    break;
+
+                case BossAction.Laser:
+                    BossAnimation.PerformCast02(); 
+                    yield return new WaitForSeconds(3.5f); 
+                    break;
+
+                case BossAction.OffmapCast01:
+                    BossAnimation.PerformCast06(); 
+                    yield return new WaitForSeconds(3f); 
                     break;
         }
 
+        comboCounter++;
         isExecutingCombo = false;
         BossAnimation.UnlockMovement();
         }
@@ -157,6 +185,20 @@ public class DemonKnightBoss : MonoBehaviour
         if (attackTimer >= phase1AttackCooldown && !isExecutingCombo)
         {
             attackTimer = 0f;
+            if (comboCounter >= 5)
+            {
+                float randomChance = Random.value;
+
+                if(randomChance <= 0.3f){
+                    StartCombo(SpecialCombo01);
+                }else if (randomChance <= 0.6f){
+                    StartCombo(SpecialCombo02);
+                }else{
+                    StartCombo(SpecialCombo03);
+                }
+                comboCounter = 0;
+                return;
+            }
 
             // Decide which combo to execute based on player position
             if (rangeSensor.IsPlayerInRange() && rangeSensor.IsPlayerInFront() && !meleeSensor.IsPlayerInRange()) //IN RANGE

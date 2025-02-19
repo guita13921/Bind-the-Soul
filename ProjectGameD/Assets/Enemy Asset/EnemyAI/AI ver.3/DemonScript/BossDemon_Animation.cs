@@ -11,6 +11,8 @@ public class BossDemon_Animation : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Transform player; // Reference to the player
     [SerializeField] private BossDemon_Rotation movementController;
+    [SerializeField] public RangeSensor rangeSensor;
+    [SerializeField] public MeleeSensor meleeSensor;
     private float rotationSpeed = 0.5f; // Adjust rotation speed as needed
 
     [Header("Malee")]
@@ -29,13 +31,32 @@ public class BossDemon_Animation : MonoBehaviour
     [SerializeField] private Transform firePoint;
     private Vector2 uiOffset;
 
+    [Header("Laser")]
+    [SerializeField] private FlamethrowerHitbox laserEffectHitbox; 
+    [SerializeField] private VisualEffect laserEffect;
+    private bool isFiringLaser = false;
+
     [Header("Indicator")]
     [SerializeField] AttackIndicatorController attackIndicatorController;
 
 
     private void Update()
     {
+        if ((isFiringLaser) && player.transform.position != null)
+        {
+            if(isFiringLaser && meleeSensor.IsPlayerInRange()){
+                return;
+            }else{
+                movementController.RequestLookAtplayer();
+            }
+        }else{
+            return;
+        }
         
+    }
+
+    void StartShoot(){
+        StartCoroutine(ShootWithDelay(numberOfBullets, bulletDelay));
     }
 
 
@@ -92,10 +113,40 @@ public class BossDemon_Animation : MonoBehaviour
         animator.SetTrigger("Attack05");
     }
 
+    public void PerformCast01()
+    {
+        Debug.Log("PerformCast01");
+        animator.SetTrigger("Cast01");
+    }
+
+    public void PerformCast02()
+    {
+        Debug.Log("PerformCast02");
+        animator.SetTrigger("Cast02");
+    }
+
+    public void PerformCast03()
+    {
+        Debug.Log("PerformCast03");
+        animator.SetTrigger("Cast03");
+    }
+
+    public void PerformCast04()
+    {
+        Debug.Log("PerformCast04");
+        animator.SetTrigger("Cast04");
+    }
+
     public void PerformCast05()
     {
         Debug.Log("PerformCast05");
         animator.SetTrigger("Cast05");
+    }
+
+    public void PerformCast06()
+    {
+        Debug.Log("PerformCast06");
+        animator.SetTrigger("Cast06");
     }
 
     public void LockMovement()
@@ -108,6 +159,14 @@ public class BossDemon_Animation : MonoBehaviour
     {
         //Debug.Log("Movement unlocked.");
         if (movementController) movementController.UnlockMovement(); // Call UnlockMovement from BossRotationWithAnimation
+    }
+
+    public void StartLaser()
+    {
+        laserEffect.Play();
+        laserEffectHitbox.ActivateHitbox();
+        //StartCoroutine(ShootWithDelay(numberOfBullets, bulletDelay));
+        isFiringLaser = true;
     }
 
     private IEnumerator DashForward()

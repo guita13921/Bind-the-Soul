@@ -99,6 +99,10 @@ public class BossDemon_Rotation : MonoBehaviour
             agent.isStopped = false; // Resume NavMeshAgent movement
         }
     }
+
+    public void RequestLookAtplayer(){
+        LookAtPlayer();
+    }
     
 
 }
