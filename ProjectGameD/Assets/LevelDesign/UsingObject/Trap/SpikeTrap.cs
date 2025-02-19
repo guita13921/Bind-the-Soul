@@ -4,15 +4,27 @@ using UnityEngine;
 public class SpikeTrap : MonoBehaviour
 {
     [Header("Trap Settings")]
-    [SerializeField] private GameObject spikes; // The spike object
-    [SerializeField] private float activationDelay; // Delay before spikes activate
-    [SerializeField] private float resetDelay; // Delay before resetting the trap
-    [SerializeField] private float spikeHeight; // Height the spikes shoot up
-    [SerializeField] private float spikeSpeed; // Speed at which the spikes shoot up
-    [SerializeField] private bool autoReset = true; // If true, the trap resets automatically
+    [SerializeField]
+    private GameObject spikes; // The spike object
+
+    [SerializeField]
+    private float activationDelay; // Delay before spikes activate
+
+    [SerializeField]
+    private float resetDelay; // Delay before resetting the trap
+
+    [SerializeField]
+    private float spikeHeight; // Height the spikes shoot up
+
+    [SerializeField]
+    private float spikeSpeed; // Speed at which the spikes shoot up
+
+    [SerializeField]
+    private bool autoReset = true; // If true, the trap resets automatically
 
     [Header("Damage Settings")]
-    [SerializeField] private float spikeDamage = 10f; // Damage dealt by the spike trap
+    [SerializeField]
+    private float spikeDamage = 10f; // Damage dealt by the spike trap
 
     private Vector3 initialPosition; // Original position of the spikes
     private Vector3 activePosition; // Position when spikes are fully activated
@@ -66,7 +78,11 @@ public class SpikeTrap : MonoBehaviour
         // Smoothly move spikes to the target position
         while (Vector3.Distance(spikes.transform.localPosition, targetPosition) > 0.01f)
         {
-            spikes.transform.localPosition = Vector3.MoveTowards(spikes.transform.localPosition, targetPosition, spikeSpeed * Time.deltaTime);
+            spikes.transform.localPosition = Vector3.MoveTowards(
+                spikes.transform.localPosition,
+                targetPosition,
+                spikeSpeed * Time.deltaTime
+            );
             yield return null;
         }
     }
@@ -86,8 +102,10 @@ public class SpikeTrap : MonoBehaviour
         if (enemyHealth != null && isActive)
         {
             // Apply damage to the enemy
-            enemyHealth.CalculateDamage(spikeDamage);
-            Debug.Log($"Spike Trap dealt {spikeDamage} damage to {other.name}. Current Health: {enemyHealth.GetCurrentHealth()}");
+            enemyHealth.CalculateDamageOld(spikeDamage);
+            Debug.Log(
+                $"Spike Trap dealt {spikeDamage} damage to {other.name}. Current Health: {enemyHealth.GetCurrentHealth()}"
+            );
         }
     }
 

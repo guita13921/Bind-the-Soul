@@ -45,7 +45,7 @@ public class EnemyAI3 : MonoBehaviour
     BoxCollider boxCollider;
 
     [SerializeField]
-    protected Weapon_Enemy weapon;
+    protected EnemyWeapon weapon;
 
     //Attack Forward
     [SerializeField]
@@ -125,6 +125,22 @@ public class EnemyAI3 : MonoBehaviour
 
     [SerializeField]
     AttackIndicatorController attackIndicatorController;
+    private float originalSpeed = 0f;
+    private bool isSlowingDown = false; // Flag to check if already slowing down
+    private float slowTimer = 0f;
+
+    public void FixSpeed()
+    {
+        if (!isSlowingDown)
+            speed = speed * 0.7f;
+        slowTimer = 2f;
+        isSlowingDown = true;
+    }
+
+    public void setoriginalspeed()
+    {
+        originalSpeed = speed;
+    }
 
     protected virtual void Start()
     {
@@ -140,9 +156,20 @@ public class EnemyAI3 : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         animator = GetComponent<Animator>();
         health = GetComponent<EnemyHealth>();
-        weapon = GetComponentInChildren<Weapon_Enemy>();
-        boxCollider = GetComponentInChildren<BoxCollider>();
-        rb = GetComponent<Rigidbody>();
+        weapon = GetComponentInChildren<EnemyWeapon>();
+        foreach (Transform child in transform)
+        {
+            if (child.gameObject.name != "HitVFXSpawnplaceReal")
+            {
+                boxCollider = child.GetComponent<BoxCollider>();
+
+                if (boxCollider != null)
+                {
+                    break;
+                }
+            }
+        }    
+            rb = GetComponent<Rigidbody>();
     }
 
     private IEnumerator HandleSpawn()
@@ -198,6 +225,14 @@ public class EnemyAI3 : MonoBehaviour
 
     protected virtual void Update()
     {
+        // //agent.speed = speed;
+        slowTimer -= Time.deltaTime;
+        if (slowTimer < 0)
+        {
+            speed = originalSpeed;
+            isSlowingDown = false;
+        }
+
         if (isSpawning || state == State.Dead)
             return;
 
@@ -376,6 +411,8 @@ public class EnemyAI3 : MonoBehaviour
 
     void Dead()
     {
+        playerWeapon.killEnemyTimerAdder();
+
         if (state == State.Dead)
         {
             return;
@@ -508,8 +545,8 @@ public class EnemyAI3 : MonoBehaviour
         if (other.isTrigger && other.gameObject.CompareTag("PlayerSword") && state != State.Dead)
         {
             PlayerWeapon playerWeapon = other.gameObject.GetComponent<PlayerWeapon>();
-            if (playerWeapon != null)
-                health.CalculateDamage(playerWeapon.damage);
+            //if (playerWeapon != null)
+            //health.CalculateDamage(playerWeapon.damage);
 
             agent.transform.LookAt(player.transform);
             Vector3 knockBackDirection = transform.position - player.transform.position;

@@ -12,7 +12,7 @@ public class ButtonSound : MonoBehaviour
     {
         if (audioSource != null && buttonSound != null)
         {
-            audioSource.PlayOneShot(buttonSound); // Play the sound instantly
+            audioSource.Play();
         }
         else
         {

@@ -8,6 +8,16 @@ using UnityEngine.SceneManagement;
 
 public class NextStage : MonoBehaviour
 {
+    GameObject upgradeCanvas;
+    public CharacterData characterData;
+    public Health MChealth;
+
+    void Update()
+    {
+        // Find the GameObject named "upgradecanvas"
+        upgradeCanvas = GameObject.Find("UpgradeCanvas(Clone)");
+    }
+
     public TransitionSettings transition;
     public float loaddelay;
 
@@ -17,23 +27,22 @@ public class NextStage : MonoBehaviour
     [SerializeField]
     String NextSceneName;
 
-    [SerializeField]
-    Health health;
-
-    [SerializeField]
-    CharacterData characterData;
+    public float healthRatio = 1f;
 
     // Start is called before the first frame update
     public void loadscene(string NextSceneName)
     {
-        characterData.currentHP = health.currentHealth;
+        characterData.rerollpoint += 2;
 
+        characterData.healthRatio = MChealth.currentHealth / MChealth.maxHealth;
+
+        characterData.Health = MChealth.currentHealth;
         TransitionManager.Instance().Transition(NextSceneName, transition, loaddelay);
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && upgradeCanvas == null)
             loadscene(NextSceneName);
     }
 }

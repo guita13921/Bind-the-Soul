@@ -10,36 +10,59 @@ using UnityEngine.VFX;
 
 public class kamikazeEnemy : MonoBehaviour
 {
-    [SerializeField] Rigidbody rb;
-    [SerializeField] protected LayerMask groundLayer,playerLayer;
+    [SerializeField]
+    Rigidbody rb;
 
-    [SerializeField] private Transform player;       // Reference to the player's transform
-    [SerializeField] private bool hasCollided = false;  // To check if the enemy has already collided with the player
-    [SerializeField] private NavMeshAgent agent;
+    [SerializeField]
+    protected LayerMask groundLayer,
+        playerLayer;
+
+    [SerializeField]
+    private Transform player; // Reference to the player's transform
+
+    [SerializeField]
+    private bool hasCollided = false; // To check if the enemy has already collided with the player
+
+    [SerializeField]
+    private NavMeshAgent agent;
 
     //Walk Var
     Vector3 destPoint;
     bool walkpointSet;
-    [SerializeField] private protected float range;
-    [SerializeField] private protected float sightRange,attackRange;
-    [SerializeField] private protected bool playerInsight;
+
+    [SerializeField]
+    private protected float range;
+
+    [SerializeField]
+    private protected float sightRange,
+        attackRange;
+
+    [SerializeField]
+    private protected bool playerInsight;
 
     //Heath and Canvas
-    [SerializeField] Canvas bar;
-    [SerializeField] EnemyHealth health;
-    [SerializeField] PlayerWeapon playerWeapon;
+    [SerializeField]
+    Canvas bar;
+
+    [SerializeField]
+    EnemyHealth health;
+
+    [SerializeField]
+    PlayerWeapon playerWeapon;
 
     //Effect
-    [SerializeField] private GameObject explosionEffect; // Explosion VFX prefab
+    [SerializeField]
+    private GameObject explosionEffect; // Explosion VFX prefab
 
     protected void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform; // Find the player in the scene
         rb = GetComponent<Rigidbody>();
-        agent = GetComponent<NavMeshAgent>(); 
+        agent = GetComponent<NavMeshAgent>();
     }
 
-    public void SetStat(int IN_speed,int IN_range,int IN_sightRange){
+    public void SetStat(int IN_speed, int IN_range, int IN_sightRange)
+    {
         agent.speed = IN_speed;
         range = IN_range;
         sightRange = IN_sightRange;
@@ -48,12 +71,16 @@ public class kamikazeEnemy : MonoBehaviour
     protected void Update()
     {
         playerInsight = Physics.CheckSphere(transform.position, sightRange, playerLayer);
-        if (!playerInsight)Patrol();
-        if (playerInsight)Chase();
-        if (health.GetCurrentHealth() <= 0f && !hasCollided)Die();
+        if (!playerInsight)
+            Patrol();
+        if (playerInsight)
+            Chase();
+        if (health.GetCurrentHealth() <= 0f && !hasCollided)
+            Die();
     }
-    
-    protected virtual void Patrol(){
+
+    protected virtual void Patrol()
+    {
         if (!walkpointSet)
             SearchForDest();
         if (walkpointSet)
@@ -62,7 +89,8 @@ public class kamikazeEnemy : MonoBehaviour
             walkpointSet = false;
     }
 
-    void SearchForDest(){
+    void SearchForDest()
+    {
         float z = UnityEngine.Random.Range(-range, range);
         float x = UnityEngine.Random.Range(-range, range);
 
@@ -72,47 +100,54 @@ public class kamikazeEnemy : MonoBehaviour
             transform.position.z + z
         );
 
-        if (Physics.Raycast(destPoint, Vector3.down, groundLayer)){
+        if (Physics.Raycast(destPoint, Vector3.down, groundLayer))
+        {
             walkpointSet = true;
         }
     }
 
-    public void Chase() {
+    public void Chase()
+    {
         agent.SetDestination(player.transform.position);
     }
 
-    void OnTriggerEnter(Collider other){
-        if (other.gameObject.CompareTag("Player") && health.GetCurrentHealth() > 0f){
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player") && health.GetCurrentHealth() > 0f)
+        {
             Explode();
         }
 
-        if (other.gameObject.CompareTag("PlayerSword") && health.GetCurrentHealth() > 0f){
+        if (other.gameObject.CompareTag("PlayerSword") && health.GetCurrentHealth() > 0f)
+        {
             Debug.Log("Dog got hit");
-            health.CalculateDamage(10f);
+            health.CalculateDamageOld(10f);
             agent.transform.LookAt(player.transform);
         }
     }
 
-
     public void TakeDamage(float damage)
     {
-        health.CalculateDamage(damage);
+        health.CalculateDamageOld(damage);
         Vector3 knockBackDirection = transform.position - player.transform.position;
         KnockBack(knockBackDirection, 10f);
 
-        if (health.GetCurrentHealth() <= 0f){
+        if (health.GetCurrentHealth() <= 0f)
+        {
             Die();
         }
     }
 
-    public void KnockBack(Vector3 hitDirection, float knockBackForce){
+    public void KnockBack(Vector3 hitDirection, float knockBackForce)
+    {
         rb.AddForce(hitDirection.normalized * knockBackForce, ForceMode.Impulse);
     }
 
     void Explode()
     {
-        if (hasCollided) return;
-            hasCollided = true;
+        if (hasCollided)
+            return;
+        hasCollided = true;
         Debug.Log("Boom! Enemy exploded!");
         Invoke(nameof(DestroySelf), 0.5f);
     }
@@ -120,10 +155,13 @@ public class kamikazeEnemy : MonoBehaviour
     void DestroySelf()
     {
         Destroy(gameObject);
-        GameObject explosion = Instantiate(explosionEffect, transform.position, Quaternion.identity);
-        Destroy(explosion, 2f); 
+        GameObject explosion = Instantiate(
+            explosionEffect,
+            transform.position,
+            Quaternion.identity
+        );
+        Destroy(explosion, 2f);
     }
-
 
     void Die()
     {
@@ -131,7 +169,6 @@ public class kamikazeEnemy : MonoBehaviour
         Debug.Log("Enemy died without reaching player.");
 
         // You can add death animations or particle effects here
-        Destroy(gameObject);  // Destroy the enemy object
+        Destroy(gameObject); // Destroy the enemy object
     }
-
 }

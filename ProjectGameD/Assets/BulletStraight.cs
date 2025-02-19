@@ -30,6 +30,14 @@ public class BulletStraight : MonoBehaviour
         Destroy(gameObject, 5f);
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private IEnumerator WaitBeforeMoving()
     {
         yield return new WaitForSeconds(waitTime);

@@ -4,7 +4,10 @@ using UnityEngine;
 public class CharacterData : ScriptableObject
 {
     public int deathCount = 0;
-    public float currentHP = 1000;
+    public int rerollpoint = 1;
+    public float Health = 0;
+    public float maxHealth = 1000;
+    public float healthRatio = 1;
 
     /*
         [Header("Passive")]
@@ -54,7 +57,6 @@ public class CharacterData : ScriptableObject
     public int moveFaster = 0;
     public int ReduceDashCooldown = 0;
     public int reduceIncomeDamageDependOnHP = 0;
-    public int dashExplode = 0;
     public int addDamageDependOnHP = 0;
     public int QSkillType = 0;
 
@@ -67,11 +69,20 @@ public class CharacterData : ScriptableObject
     public bool Q2_SmallBullet = false;
 
     public bool Q3_QKWeak = false;
-    public bool Q3_QKExplode = false;
+    public bool Q3_QKSlow = false;
     public bool Q3_Barrier = false;
+
+    public void HpCalculation()
+    {
+        maxHPIncrease++;
+        maxHealth += 1000 * maxHPIncrease;
+    }
 
     public void ResetToDefault()
     {
+        maxHealth = 1000;
+        Health = maxHealth;
+
         reduceIncomeDamage = 0;
         specialLV = 0;
         healToThreshold = 0;
@@ -90,8 +101,8 @@ public class CharacterData : ScriptableObject
         Q2_QKStackable = false;
         Q2_SmallBullet = false;
         Q3_QKWeak = false;
-        Q3_QKExplode = false;
+        Q3_QKSlow = false;
         Q3_Barrier = false;
-        dashExplode = 0;
+        rerollpoint = 1;
     }
 }

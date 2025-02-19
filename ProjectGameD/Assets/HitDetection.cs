@@ -22,7 +22,7 @@ public class HitDetection : MonoBehaviour
             if (characterData.vampirism > 0)
                 health.currentHealth = health.currentHealth + 2;
 
-            GameObject vfx = Instantiate(hitVFX, this.transform.position, Quaternion.identity);
+            Instantiate(hitVFX, gameObject.transform.position, Quaternion.identity);
 
             PlayerWeapon playerWeapon = other.GetComponent<PlayerWeapon>();
             if (sound != null && sound.Length > 0)
@@ -36,6 +36,7 @@ public class HitDetection : MonoBehaviour
                     audioSource.Play();
                 }
             }
+            /*
             if (playerWeapon != null)
             {
                 float damage = playerWeapon.damage;
@@ -49,7 +50,20 @@ public class HitDetection : MonoBehaviour
                 {
                     damageTextComponent.SetDamage(damage);
                 }
-            }
+            }*/
+        }
+    }
+
+    public void SpanwDamageText(float damage)
+    {
+        Vector3 newPosition = this.transform.position;
+        newPosition.y += 1;
+        GameObject dmg = Instantiate(dmgtext, newPosition, Quaternion.Euler(0, 60, 0));
+
+        damageShow damageTextComponent = dmg.GetComponent<damageShow>();
+        if (damageTextComponent != null)
+        {
+            damageTextComponent.SetDamage(damage);
         }
     }
 }

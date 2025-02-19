@@ -34,7 +34,6 @@ public class ControlPower : MonoBehaviour
         }
         // StartCoroutine(InstantiateSkillCoroutine());
         CheckSpeed();
-        CheckHP();
         CheckQKCooldown();
         CheckWaitDashtime();
         CheckHPRestoreTHreshold();
@@ -88,11 +87,6 @@ public class ControlPower : MonoBehaviour
     {
         qSkillTpye = characterData.QSkillType;
         playerCombat.qSkill[0] = qSkillVFX[qSkillTpye];
-    }
-
-    void CheckHP()
-    {
-        health.maxHealth = health.maxHealth + (1000 * characterData.maxHPIncrease);
     }
 
     void CheckWaitDashtime()

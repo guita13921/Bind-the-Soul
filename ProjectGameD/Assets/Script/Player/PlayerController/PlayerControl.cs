@@ -26,7 +26,7 @@ public partial class PlayerControl : MonoBehaviour
     {
         if (health.currentHealth > 0)
         {
-            Imframe();
+            //Imframe();
             GatherInput();
             WalkingSFX();
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("CAST"))

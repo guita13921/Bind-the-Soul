@@ -7,6 +7,8 @@ public class UpgradeShow : MonoBehaviour
     public EnemySpawnManager enemySpawnManager;
     public GameObject upgradePanel;
     private bool show = true;
+    public GameObject soundtrackOutro;
+    public GameObject currentSoundtrack;
 
     // void Update()
     // {
@@ -25,12 +27,23 @@ public class UpgradeShow : MonoBehaviour
 
     public void ShowUpgradeUI()
     {
+        if (show)
         {
-            if (show)
+            if (currentSoundtrack != null)
             {
-                GameObject vfx = Instantiate(upgradePanel);
-                show = false;
+                AudioSource audioSource = currentSoundtrack.GetComponent<AudioSource>();
+                if (audioSource != null)
+                {
+                    audioSource.volume = 0f; // Set volume to zero
+                    // audioSource.Stop(); // Uncomment if you want to stop the sound instead
+                }
             }
+
+            GameObject vfx = Instantiate(upgradePanel);
+
+            show = false;
+                                    Instantiate(soundtrackOutro);
+
         }
     }
 }

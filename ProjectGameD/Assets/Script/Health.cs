@@ -1,27 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Profiling;
-using UnityEditor.SearchService;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.SceneManagement;
+using UnityEngine.SceneManagement; // Import the SceneManager namespace
 
 public class Health : MonoBehaviour
 {
     public float maxHealth;
     public float currentHealth;
     public CharacterData characterData;
+    public NextStage nextStage;
 
     void Start()
     {
-        string sceneName = SceneManager.GetActiveScene().name;
-        if (sceneName == "Stage01")
-        {
-            currentHealth = maxHealth;
-        }
-        else
-        {
-            currentHealth = characterData.currentHP;
-        }
+        maxHealth = characterData.maxHealth;
+        currentHealth = characterData.maxHealth * characterData.healthRatio;
     }
 }

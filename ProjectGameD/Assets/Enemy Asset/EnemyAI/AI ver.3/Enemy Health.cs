@@ -12,6 +12,25 @@ public class EnemyHealth : MonoBehaviour
 
     [SerializeField]
     private float currentHealth;
+    EnemyWeapon enemyWeapon1;
+    public Rigidbody rb;
+
+    void Start()
+    {
+        enemyWeapon1 = GetComponentInChildren<EnemyWeapon>();
+        rb = GetComponent<Rigidbody>();
+    }
+    void Update()
+    {
+        if (currentHealth <= 0)
+        {
+            // Freeze the Rigidbody by setting its velocity and angular velocity to zero, and freezing the position and rotation
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.isKinematic = true;
+        }
+    }
+
 
     public void SetState(int IN_Health)
     {
@@ -20,7 +39,18 @@ public class EnemyHealth : MonoBehaviour
         currentHealth = IN_Health;
     }
 
-    public void CalculateDamage(float playerWeaponDamage)
+    public void CalculateDamage(float playerWeaponDamage, bool isQK, bool Q3_reduceDamage)
+    {
+        currentHealth -= playerWeaponDamage;
+        if (Q3_reduceDamage && isQK)
+        {
+            enemyWeapon1.reduceDamageTimer = 5f;
+            enemyWeapon1.reducedDamage = true;
+        }
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Ensure health doesn't go below 0
+    }
+
+    public void CalculateDamageOld(float playerWeaponDamage)
     {
         currentHealth -= playerWeaponDamage;
 
