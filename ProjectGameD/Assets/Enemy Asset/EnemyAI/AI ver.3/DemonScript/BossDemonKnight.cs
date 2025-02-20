@@ -1,6 +1,6 @@
-using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class DemonKnightBoss : MonoBehaviour
@@ -140,27 +140,28 @@ public class DemonKnightBoss : MonoBehaviour
                 
                 case BossAction.KickAttack:
                     BossAnimation.PerformAttack05(); 
-                    yield return new WaitForSeconds(3f); 
+                    yield return new WaitForSeconds(4f); 
                     break;
 
                 case BossAction.OneHandCast01:
                     BossAnimation.PerformCast05(); 
-                    yield return new WaitForSeconds(3f); 
+                    yield return new WaitForSeconds(4f); 
                     break;
 
                 case BossAction.EnRage:
                     BossAnimation.PerformCast01(); 
-                    yield return new WaitForSeconds(3f); 
+                    yield return new WaitForSeconds(4f);  
                     break;
 
                 case BossAction.Laser:
                     BossAnimation.PerformCast02(); 
-                    yield return new WaitForSeconds(3.5f); 
+                    yield return new WaitForSeconds(10f); 
+                    BossAnimation.StopLaser();
                     break;
 
                 case BossAction.OffmapCast01:
                     BossAnimation.PerformCast06(); 
-                    yield return new WaitForSeconds(3f); 
+                    yield return new WaitForSeconds(4f);  
                     break;
         }
 
@@ -208,6 +209,7 @@ public class DemonKnightBoss : MonoBehaviour
 
                 if(randomChance <= 1f){
                     StartCombo(RangeCombo01); 
+                    //StartCombo(SpecialCombo02);
                 }
             }
             else if (meleeSensor.IsPlayerInRange() && meleeSensor.IsPlayerInFront()) //IN MELEE

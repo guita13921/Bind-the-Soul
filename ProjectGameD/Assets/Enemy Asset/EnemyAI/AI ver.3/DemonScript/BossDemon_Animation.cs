@@ -32,8 +32,8 @@ public class BossDemon_Animation : MonoBehaviour
     private Vector2 uiOffset;
 
     [Header("Laser")]
-    [SerializeField] private FlamethrowerHitbox laserEffectHitbox; 
-    [SerializeField] private VisualEffect laserEffect;
+    [SerializeField] private List<FlamethrowerHitbox> laserEffectHitboxes; 
+    [SerializeField] private List<VisualEffect> laserEffects;
     private bool isFiringLaser = false;
 
     [Header("Indicator")]
@@ -42,13 +42,9 @@ public class BossDemon_Animation : MonoBehaviour
 
     private void Update()
     {
-        if ((isFiringLaser) && player.transform.position != null)
+        if ((isFiringLaser == true) && player.transform.position != null)
         {
-            if(isFiringLaser && meleeSensor.IsPlayerInRange()){
-                return;
-            }else{
-                movementController.RequestLookAtplayer();
-            }
+            movementController.RequestLookAtplayer_laser();
         }else{
             return;
         }
@@ -158,15 +154,40 @@ public class BossDemon_Animation : MonoBehaviour
     public void UnlockMovement()
     {
         //Debug.Log("Movement unlocked.");
+        animator.SetTrigger("UnlockMovement");
         if (movementController) movementController.UnlockMovement(); // Call UnlockMovement from BossRotationWithAnimation
     }
 
     public void StartLaser()
     {
-        laserEffect.Play();
-        laserEffectHitbox.ActivateHitbox();
-        //StartCoroutine(ShootWithDelay(numberOfBullets, bulletDelay));
+        foreach (var laser in laserEffects)
+        {
+            laser.Play();
+        }
+        
+        foreach (var hitbox in laserEffectHitboxes)
+        {
+            hitbox.ActivateHitbox();
+        }
+        
         isFiringLaser = true;
+        animator.SetBool("IsLaser", true);
+    }
+
+    public void StopLaser()
+    {
+        foreach (var hitbox in laserEffectHitboxes)
+        {
+            hitbox.DeactivateHitbox();
+        }
+        
+        foreach (var laser in laserEffects)
+        {
+            laser.Stop();
+        }
+        
+        isFiringLaser = false;
+        animator.SetBool("IsLaser", false);
     }
 
     private IEnumerator DashForward()
