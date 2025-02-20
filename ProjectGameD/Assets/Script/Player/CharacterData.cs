@@ -104,5 +104,7 @@ public class CharacterData : ScriptableObject
         Q3_QKSlow = false;
         Q3_Barrier = false;
         rerollpoint = 1;
+
+        healthRatio = 1;
     }
 }
