@@ -96,7 +96,7 @@ namespace EasyTransition
             }
 
             //Adding the funcion OnSceneLoad() to the sceneLoaded action
-            SceneManager.sceneLoaded += OnSceneLoad;
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoad;
         }
 
         public void OnSceneLoad(Scene scene, LoadSceneMode mode)

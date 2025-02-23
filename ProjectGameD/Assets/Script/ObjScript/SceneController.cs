@@ -20,12 +20,12 @@ public class SceneController : MonoBehaviour
     void Start()
     {
         detonationTime = 2;
-        currentScene = SceneManager.GetActiveScene().name;
+        currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
     }
 
     public void loadscene(String NextSceneName)
     {
-        SceneManager.LoadScene(NextSceneName);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(NextSceneName);
     }
 
     void Update()

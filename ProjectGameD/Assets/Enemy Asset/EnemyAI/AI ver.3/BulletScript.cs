@@ -7,7 +7,6 @@ public class BulletScript : MonoBehaviour
     public float speed;
     public GameObject hit;
     public GameObject flash;
-    public GameObject newBulletPrefab; // Prefab for the new bullet
     public GameObject[] Detached;
     public bool LocalRotation = false;
     [SerializeField] private Transform target;
@@ -48,13 +47,7 @@ public class BulletScript : MonoBehaviour
         spawnPosition = transform.position;
         Invoke("SetUp", maxLifetime); // Call SetUp instead of Destroy
     }
-
-    void SetUp()
-    {
-        Instantiate(newBulletPrefab, transform.position, Quaternion.identity);
-        Destroy(gameObject);
-    }
-
+    
     void newRandom()
     {
         randomUpAngle = Random.Range(0, upAngle);

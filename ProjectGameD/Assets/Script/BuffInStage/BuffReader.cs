@@ -306,7 +306,7 @@ public class BuffReader : MonoBehaviour
                 characterData.ResetToDefault();
             }
             // Reload the current active scene
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }

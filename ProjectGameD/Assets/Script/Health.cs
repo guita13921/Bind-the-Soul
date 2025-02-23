@@ -10,18 +10,27 @@ public class Health : MonoBehaviour
 {
     public float maxHealth;
     public float currentHealth;
-    public CharacterData characterData;
+    public CharacterData characterData; // Ensure this is assigned
 
     void Start()
     {
-        string sceneName = SceneManager.GetActiveScene().name;
+        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        Debug.Log("Scene Name: " + sceneName);
+
         if (sceneName == "Stage01")
         {
             currentHealth = maxHealth;
         }
         else
         {
-            currentHealth = characterData.currentHP;
+            if (characterData != null)
+            {
+                currentHealth = characterData.currentHP;
+            }
+            else
+            {
+                Debug.LogError("CharacterData is null!");
+            }
         }
     }
 }

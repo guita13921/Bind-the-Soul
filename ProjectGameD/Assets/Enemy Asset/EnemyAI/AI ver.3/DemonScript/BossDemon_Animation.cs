@@ -8,6 +8,7 @@ using UnityEngine.VFX;
 public class BossDemon_Animation : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField] private DemonKnightBoss DemonBoss;
     [SerializeField] private Animator animator;
     [SerializeField] private Transform player; // Reference to the player
     [SerializeField] private BossDemon_Rotation movementController;
@@ -36,8 +37,8 @@ public class BossDemon_Animation : MonoBehaviour
     [SerializeField] private List<VisualEffect> laserEffects;
     private bool isFiringLaser = false;
 
-    [Header("Indicator")]
-    [SerializeField] AttackIndicatorController attackIndicatorController;
+    //[Header("Indicator")]
+    //[SerializeField] AttackIndicatorController attackIndicatorController;
 
 
     private void Update()
@@ -55,7 +56,6 @@ public class BossDemon_Animation : MonoBehaviour
         StartCoroutine(ShootWithDelay(numberOfBullets, bulletDelay));
     }
 
-
     IEnumerator ShootWithDelay(int numberOfBullets, float bulletDelay)
     {
         // Prevent starting multiple shooting coroutines
@@ -69,7 +69,7 @@ public class BossDemon_Animation : MonoBehaviour
     private void ShootBullet()
     {
         GameObject projectile = Instantiate(BulletPrefab, firePoint.position, firePoint.rotation);
-        projectile.GetComponent<BulletScript>().UpdateTarget(player.transform, (Vector3)uiOffset);
+        projectile.GetComponent<SkullBomb>().UpdateTarget(player.transform, (Vector3)uiOffset);
     }
 
     public void PerformSummonMinions()
@@ -160,16 +160,27 @@ public class BossDemon_Animation : MonoBehaviour
 
     public void StartLaser()
     {
-        foreach (var laser in laserEffects)
-        {
-            laser.Play();
+        if(DemonBoss.GetisEnrage() == true){
+            foreach (var laser in laserEffects){
+                laser.Play();
+            }
+            foreach (var hitbox in laserEffectHitboxes)
+            {
+                hitbox.ActivateHitbox();
+            }
         }
-        
-        foreach (var hitbox in laserEffectHitboxes)
-        {
-            hitbox.ActivateHitbox();
+        else{
+
+            if (laserEffects.Count > 0)
+            {
+                laserEffects[0].Play();
+            }
+            if (laserEffectHitboxes.Count > 0)
+            {
+                laserEffectHitboxes[0].ActivateHitbox();
+            }
         }
-        
+
         isFiringLaser = true;
         animator.SetBool("IsLaser", true);
     }
@@ -237,7 +248,7 @@ public class BossDemon_Animation : MonoBehaviour
         {
             StartCoroutine(DashForward());
         }
-        HideIndicator();
+        //HideIndicator();
         int x = 0;
         Int32.TryParse(Number, out x);
         attackHitboxes[x].enabled = true;
@@ -245,7 +256,7 @@ public class BossDemon_Animation : MonoBehaviour
 
     void DisableAttack(String Number)
     {
-        HideIndicator();
+        //HideIndicator();
 
         int x = 0;
         Int32.TryParse(Number, out x);
@@ -259,6 +270,7 @@ public class BossDemon_Animation : MonoBehaviour
         
     }
 
+    /*
     void ShowIndicator(int AttackTimeFrame)
     {
         if (attackIndicatorController != null)
@@ -275,6 +287,7 @@ public class BossDemon_Animation : MonoBehaviour
             attackIndicatorController.HideIndicator();
         }
     }
+    */
 
 
     public void StartKnockBack(){

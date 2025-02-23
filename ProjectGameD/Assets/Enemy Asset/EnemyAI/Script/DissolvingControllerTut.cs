@@ -37,7 +37,7 @@ public class DissolvingControllerTut : MonoBehaviour
 
     IEnumerator DissolveCo()
     {
-        Debug.Log(skinnedMaterials[0].GetFloat("_DissolveAmount"));
+        //Debug.Log(skinnedMaterials[0].GetFloat("_DissolveAmount"));
         if(skinnedMaterials[0].GetFloat("_DissolveAmount") <= 0){
             if(VFXgraph != null)
             {
@@ -61,7 +61,7 @@ public class DissolvingControllerTut : MonoBehaviour
 
     IEnumerator ReverseDissolveCo()
     {
-        Debug.Log(skinnedMaterials[0].GetFloat("_DissolveAmount"));
+        //Debug.Log(skinnedMaterials[0].GetFloat("_DissolveAmount"));
         if(skinnedMaterials[0].GetFloat("_DissolveAmount") != 0){
             if (skinnedMaterials.Length > 0)
             {
