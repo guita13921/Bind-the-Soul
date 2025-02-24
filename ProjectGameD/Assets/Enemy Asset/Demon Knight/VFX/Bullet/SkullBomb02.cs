@@ -14,6 +14,7 @@ public class SkullBomb02 : MonoBehaviour
 
     [SerializeField]Canvas bar;
     [SerializeField]protected EnemyHealth health;
+    [SerializeField]CharacterData characterData;
 
 
     void Start()
@@ -84,13 +85,15 @@ public class SkullBomb02 : MonoBehaviour
         }
     }
 
+    /*
      public void OnTriggerEnter(Collider other)
     {
         if (other.isTrigger && other.gameObject.CompareTag("PlayerSword"))
         {
             PlayerWeapon playerWeapon = other.gameObject.GetComponent<PlayerWeapon>();
-            if (playerWeapon != null) health.CalculateDamage(playerWeapon.damage);
+            if (playerWeapon != null) health.CalculateDamage(playerWeapon.damage, characterData.Q3_QKWeak, characterData.);
 
         }
     }
+    */
 }

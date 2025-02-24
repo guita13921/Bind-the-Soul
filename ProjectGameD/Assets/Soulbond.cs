@@ -212,6 +212,7 @@ public class Soulbond : MonoBehaviour
                     $"Normal attack now has a {10 * (data.normalAttackCrit + 1)}% chance to triple the damage",
                 data => "Lethal Strike"
             ),
+            /*
             new Buff(
                 data => $"Electric Trail (LV.{data.dashExplode})",
                 data => data.dashExplode != 0,
@@ -221,7 +222,7 @@ public class Soulbond : MonoBehaviour
                         ? $"When Dash left an electric bomb behind"
                         : "Increase electric bomb damage",
                 data => "Passive"
-            ),
+            ),*/
             new Buff(
                 data => $"Superspeed (LV.{data.moveFaster})",
                 data => data.moveFaster != 0,

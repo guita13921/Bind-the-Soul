@@ -239,7 +239,7 @@ public class EnemyRange02 : MonoBehaviour
             PlayerWeapon playerWeapon = other.gameObject.GetComponent<PlayerWeapon>();
             if (playerWeapon != null)
                 GetHit();
-                health.CalculateDamage(playerWeapon.damage);
+                //health.CalculateDamage(playerWeapon.damage);
 
             agent.transform.LookAt(player.transform);
             Vector3 knockBackDirection = transform.position - player.transform.position;

@@ -19,7 +19,7 @@ public class DragonHitbox : MonoBehaviour
             if (weapon != null)
             {
                 float finalDamage = weapon.damage * damageMultiplier;
-                enemyHealth.CalculateDamage(finalDamage);
+                enemyHealth.CalculateDamage(finalDamage, true, false);
                 
                 damageAppliedThisFrame = true; // Mark that damage has been applied for this frame
             }

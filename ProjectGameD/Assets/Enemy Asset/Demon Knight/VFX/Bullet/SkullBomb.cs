@@ -136,7 +136,7 @@ public class SkullBomb : MonoBehaviour
             HitTarget();
         }else if (other.isTrigger && other.gameObject.CompareTag("PlayerSword")){
             PlayerWeapon playerWeapon = other.gameObject.GetComponent<PlayerWeapon>();
-            if (playerWeapon != null) health.CalculateDamage(playerWeapon.damage);
+            //if (playerWeapon != null) health.CalculateDamage(playerWeapon.damage);
         }else{
             FlashEffect();
         }
