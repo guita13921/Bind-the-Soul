@@ -27,7 +27,7 @@ public class NextStage : MonoBehaviour
     [SerializeField]
     String NextSceneName;
 
-    public float healthRatio = 1f;
+    private float healthRatio = 1f;
 
     // Start is called before the first frame update
     public void loadscene(string NextSceneName)

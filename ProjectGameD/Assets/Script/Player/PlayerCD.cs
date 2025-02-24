@@ -27,5 +27,6 @@ public class PlayerCD : MonoBehaviour
     public void cooldownReady()
     {
         CDText.text = "ready";
+         
     }
 }

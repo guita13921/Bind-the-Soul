@@ -10,6 +10,6 @@ public class ResetStat : MonoBehaviour
     void Start()
     {
         characterData.ResetToDefault();
-        characterData.deathCount = 0;
+        characterData.deathCount = 0;   
     }
 }
