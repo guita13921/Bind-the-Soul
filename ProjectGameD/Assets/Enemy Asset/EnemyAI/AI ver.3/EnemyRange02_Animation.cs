@@ -9,6 +9,7 @@ public class EnemyRange02_Animation : MonoBehaviour
     private NavMeshAgent agent;
     private bool isAnimationLocked = false; // Prevent overriding animations
     private float defaultSpeed; // To store the agent's normal speed
+    
 
     void Start()
     {

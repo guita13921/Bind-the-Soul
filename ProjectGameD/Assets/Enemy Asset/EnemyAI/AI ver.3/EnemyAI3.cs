@@ -207,8 +207,7 @@ public class EnemyAI3 : MonoBehaviour
         float IN_dashSpeed,
         int IN_stoprange,
         NavMeshAgent IN_agent
-    )
-    {
+    ){
         KnockBackTime = IN_knockBackTime;
         CoolDownAttack = IN_coolDownAttack;
         numberOfRandomVariations = IN_randomVariations;

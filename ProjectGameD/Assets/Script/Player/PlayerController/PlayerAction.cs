@@ -38,11 +38,8 @@ public partial class PlayerControl
         }
     }
 
-    [SerializeField]
-    private float dashDistance = 2f; // Total distance to dash
-
-    [SerializeField]
-    private float dashTime = 0.5f;
+    [SerializeField]private float dashDistance = 2f; // Total distance to dash
+    [SerializeField]private float dashTime = 0.5f;
 
     public GameObject prefabToInstantiate; // Assign your prefab in the inspector
     private Vector3 spawnPosition; // Set this to the desired spawn position
@@ -100,8 +97,9 @@ public partial class PlayerControl
 
             yield return null;
         }
-        Physics.IgnoreLayerCollision(7, 9, false);
 
+        Physics.IgnoreLayerCollision(7, 9, false);
+        
         // Ensure the dash animation ends
         animator.Play("Idle");
         isDashing = false;

@@ -11,11 +11,10 @@ public class EnemyRange02 : MonoBehaviour
     [SerializeField] public EnemyHealth health;
     [SerializeField] bool isDead = false;
     [SerializeField] Canvas bar;
-    [SerializeField] Rigidbody rb;
 
     [Header("Movement")]
-    public Transform player;
-    public float patrolSpeed = 3f;
+    [SerializeField] public GameObject player;
+    public float patrolSpeed;
     [SerializeField] public float detectionRange;
     [SerializeField] public float attackRange;
     public LayerMask obstacleMask;
@@ -27,11 +26,11 @@ public class EnemyRange02 : MonoBehaviour
     public Vector2 uiOffset;
 
     [Header("Hiding")]
-    public float hideDistance = 10f;
-    public float hideSearchRadius = 15f;
+    public float hideDistance;
+    public float hideSearchRadius;
 
     [Header("Stun")]
-    [SerializeField] public float stunDuration = 3f; 
+    [SerializeField] public float stunDuration; 
 
     [Header("Spawn Settings")]
     [SerializeField] private float spawnDelay = 2f; // Freeze duration
@@ -56,10 +55,35 @@ public class EnemyRange02 : MonoBehaviour
     {
         enemyAnimation = GetComponent<EnemyRange02_Animation>();
         agent = GetComponent<NavMeshAgent>();  // Assign first
-        rb = GetComponent<Rigidbody>();
         health = GetComponent<EnemyHealth>();
         StartCoroutine(HandleSpawn());         // Start coroutine after assignment
         previousPosition = transform.position; // Initialize position tracker
+    }
+
+    public virtual void SetStat(
+        float IN_knockBackTime,
+        float IN_attackCooldown,
+        int IN_Speed,
+        int IN_Damage,
+        int IN_range,
+        int IN_sightRange,
+        int IN_attackRange,
+        float IN_dashDistance,
+        float IN_dashSpeed,
+        int IN_stoprange,
+        NavMeshAgent IN_agent,
+        int IN_hideDistance,
+        int IN_hideSearchRadius
+    ){
+        stunDuration = IN_knockBackTime;
+        attackCooldown = IN_attackCooldown;
+        patrolSpeed = IN_Speed;
+        agent.speed = IN_Speed;
+        detectionRange = IN_sightRange;
+        attackRange = IN_attackRange;
+        IN_agent.stoppingDistance = IN_stoprange;
+        hideDistance = IN_hideDistance;
+        hideSearchRadius = IN_hideSearchRadius;
     }
 
     private IEnumerator HandleSpawn()
@@ -82,7 +106,7 @@ public class EnemyRange02 : MonoBehaviour
 
         if (isStunned) return;
 
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         if (distanceToPlayer < detectionRange && !isOnAttackCooldown && !isShooting)
         {
@@ -124,10 +148,10 @@ public class EnemyRange02 : MonoBehaviour
 
     void PatrolToPlayer()
     {
-        if (!Physics.Linecast(transform.position, player.position, obstacleMask))
+        if (!Physics.Linecast(transform.position, player.transform.position, obstacleMask) && isSpawning == false)
         {
             agent.speed = patrolSpeed;
-            agent.SetDestination(player.position);
+            agent.SetDestination(player.transform.position);
         }
     }
 
@@ -168,7 +192,7 @@ public class EnemyRange02 : MonoBehaviour
 
         foreach (var spot in nearbySpots)
         {
-            float distanceToPlayer = Vector3.Distance(spot.transform.position, player.position);
+            float distanceToPlayer = Vector3.Distance(spot.transform.position, player.transform.position);
             float distanceToEnemy = Vector3.Distance(spot.transform.position, transform.position);
 
             if (distanceToPlayer >= hideDistance && distanceToEnemy <= hideSearchRadius)
@@ -242,21 +266,7 @@ public class EnemyRange02 : MonoBehaviour
                 //health.CalculateDamage(playerWeapon.damage);
 
             agent.transform.LookAt(player.transform);
-            Vector3 knockBackDirection = transform.position - player.transform.position;
-            KnockBack(knockBackDirection, 10f);
             enemyAnimation?.PlayStunAnimation();
-        }
-    }
-
-    private protected virtual void KnockBack(Vector3 hitDirection, float knockBackForce)
-    {
-        if (rb != null)
-        {
-            rb.AddForce(hitDirection.normalized * knockBackForce, ForceMode.Impulse);
-        }
-        else
-        {
-            Debug.LogWarning("Rigidbody is missing on KnockBack attempt.");
         }
     }
 

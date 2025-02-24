@@ -12,9 +12,9 @@ public class BossDemon_Animation : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Transform player; // Reference to the player
     [SerializeField] private BossDemon_Rotation movementController;
+    [SerializeField] private BossSpawning bossSpawning;
     [SerializeField] public RangeSensor rangeSensor;
     [SerializeField] public MeleeSensor meleeSensor;
-    private float rotationSpeed = 0.5f; // Adjust rotation speed as needed
 
     [Header("Malee")]
     [SerializeField] private bool isAttacking; // Reference to the flamethr
@@ -29,9 +29,15 @@ public class BossDemon_Animation : MonoBehaviour
     [SerializeField] private float dashDistance;
     [SerializeField] private float dashSpeed;
 
+    [Header("Dashing02")]
+    [SerializeField] private GameObject Dash02VFX; // Assign your prefab in the inspector
+    [SerializeField] private Vector3 Dash02spawnPosition;
+    [SerializeField] private float dash02Distance; // Total distance to dash
+    [SerializeField] private float dash02Time;
+
     [Header("Bullet")]
     [SerializeField] private int numberOfBullets;
-    [SerializeField] private float bulletDelay = 0.5f;
+    [SerializeField] private float bulletDelay;
     [SerializeField] private GameObject BulletPrefab;
     [SerializeField] private Transform firePoint;
     private Vector2 uiOffset;
@@ -171,6 +177,11 @@ public class BossDemon_Animation : MonoBehaviour
         if (movementController) movementController.UnlockMovement(); // Call UnlockMovement from BossRotationWithAnimation
     }
 
+    public void StartDashing(){
+        //Debug.Log("StartDashing");
+        StartCoroutine(DashForward());
+    }
+
     public void StartLaser()
     {
         if(DemonBoss.GetisEnrage() == true){
@@ -215,7 +226,7 @@ public class BossDemon_Animation : MonoBehaviour
     }
 
     public void StartOutMapCast(){
-        Instantiate(OutMapCastEffect, transform.position, Quaternion.identity);
+        Instantiate(OutMapCastEffect, this.transform.position, Quaternion.identity);
     }
 
     private IEnumerator DashForward()
@@ -307,7 +318,6 @@ public class BossDemon_Animation : MonoBehaviour
         if(OffmapIndicator != null) OffmapIndicator.enabled = false;
     }
 
-
     void ShowBombIndicator(int AttackTimeFrame){
         if (BombIndicatorController != null)
         {
@@ -319,6 +329,12 @@ public class BossDemon_Animation : MonoBehaviour
         if (BombIndicatorController != null)
         {
             BombIndicatorController.HideIndicator();
+        }
+    }
+
+    void StartSpawning(){
+        if(bossSpawning != null){
+            bossSpawning.SpawnEenemy();
         }
     }
     

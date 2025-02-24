@@ -37,6 +37,8 @@ public class DemonKnightBoss : MonoBehaviour
     private List<BossAction> MeleeCombo03 = new List<BossAction> { BossAction.Melee2Hit02};
 
     private List<BossAction> RangeCombo01 = new List<BossAction> { BossAction.OneHandCast01};   //Cast Basic
+    private List<BossAction> RangeCombo02 = new List<BossAction> { BossAction.Dashing,BossAction.Melee2Hit01 };
+    private List<BossAction> RangeCombo03 = new List<BossAction> { BossAction.Dashing,BossAction.Melee2Hit01};
 
     private List<BossAction> OutRangeCombo01 = new List<BossAction> { BossAction.KickAttack};  
 
@@ -183,6 +185,11 @@ public class DemonKnightBoss : MonoBehaviour
                     BossAnimation.PerformCast06(); 
                     yield return new WaitForSeconds(10f);  
                     break;
+
+                case BossAction.Dashing:
+                    BossAnimation.StartDashing(); 
+                    yield return new WaitForSeconds(1f);  
+                    break;
         }
 
         comboCounter++;
@@ -234,7 +241,8 @@ public class DemonKnightBoss : MonoBehaviour
 
                 if(randomChance <= 1f){
                     //StartCombo(RangeCombo01); 
-                    StartCombo(SpecialCombo02);
+                    StartCombo(RangeCombo02); 
+                    //StartCombo(SpecialCombo02);
                 }
             }
             else if (meleeSensor.IsPlayerInRange() && meleeSensor.IsPlayerInFront()) //IN MELEE
