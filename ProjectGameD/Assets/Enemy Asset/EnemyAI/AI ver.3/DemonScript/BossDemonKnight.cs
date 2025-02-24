@@ -181,7 +181,7 @@ public class DemonKnightBoss : MonoBehaviour
 
                 case BossAction.OffmapCast01:
                     BossAnimation.PerformCast06(); 
-                    yield return new WaitForSeconds(4f);  
+                    yield return new WaitForSeconds(10f);  
                     break;
         }
 

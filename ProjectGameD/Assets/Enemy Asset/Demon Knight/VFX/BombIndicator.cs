@@ -12,7 +12,7 @@ public class BombIndicator : MonoBehaviour
         if (attackIndicator != null)
         {
             attackIndicator.gameObject.SetActive(true); // Enable the object4
-            StartCoroutine(ScaleIndicatorY(AttackTimeFrame * 160)); // Start the animation
+            StartCoroutine(ScaleIndicatorY(AttackTimeFrame)); // Start the animation
         }
     }
 
@@ -47,8 +47,8 @@ public class BombIndicator : MonoBehaviour
         if (attackIndicator != null)
         {
             Vector3 originalScale = attackIndicator.localScale;
-            attackIndicator.localScale = new Vector3(originalScale.x, 0, originalScale.z);
-            attackIndicatorFinish.localScale = new Vector3(originalScale.x, 0, originalScale.z);
+            attackIndicator.localScale = new Vector3(0, 0, 0);
+            attackIndicatorFinish.localScale = new Vector3(0, 0, 0);
         }
     }
 }

@@ -19,6 +19,10 @@ public class BossDemon_Animation : MonoBehaviour
     [Header("Malee")]
     [SerializeField] private bool isAttacking; // Reference to the flamethr
     [SerializeField] private List<BoxCollider> attackHitboxes = new List<BoxCollider>(); 
+
+    [Header("MaleeVFX")]
+    [SerializeField] private List<ParticleSystem> slashVFX = new List<ParticleSystem>(); 
+    [SerializeField] private List<GameObject> slashVFX_Position = new List<GameObject>();
     
     [Header("Dashing")]
     [SerializeField] private bool isDashing = false;
@@ -37,8 +41,13 @@ public class BossDemon_Animation : MonoBehaviour
     [SerializeField] private List<VisualEffect> laserEffects;
     private bool isFiringLaser = false;
 
-    //[Header("Indicator")]
-    //[SerializeField] AttackIndicatorController attackIndicatorController;
+    [Header("Indicator")]
+    [SerializeField] AttackIndicatorController attackIndicatorController;
+    [SerializeField] BombIndicator BombIndicatorController;
+    [SerializeField] SphereCollider OffmapIndicator;
+
+    [Header("OffMapCast")]
+    public GameObject OutMapCastEffect;
 
 
     private void Update()
@@ -53,7 +62,11 @@ public class BossDemon_Animation : MonoBehaviour
     }
 
     void StartShoot(){
-        StartCoroutine(ShootWithDelay(numberOfBullets, bulletDelay));
+        if(DemonBoss.GetisEnrage() == true){
+            StartCoroutine(ShootWithDelay(numberOfBullets+1, bulletDelay));
+        }else{
+            StartCoroutine(ShootWithDelay(numberOfBullets, bulletDelay));
+        }
     }
 
     IEnumerator ShootWithDelay(int numberOfBullets, float bulletDelay)
@@ -201,6 +214,10 @@ public class BossDemon_Animation : MonoBehaviour
         animator.SetBool("IsLaser", false);
     }
 
+    public void StartOutMapCast(){
+        Instantiate(OutMapCastEffect, transform.position, Quaternion.identity);
+    }
+
     private IEnumerator DashForward()
     {
         isDashing = true;
@@ -242,17 +259,27 @@ public class BossDemon_Animation : MonoBehaviour
         isDashing = false;
     }
 
-    void EnableAttack(String Number)
+    void EnableAttack(string Number)
     {
         if (!isDashing)
         {
             StartCoroutine(DashForward());
         }
-        //HideIndicator();
+
         int x = 0;
-        Int32.TryParse(Number, out x);
-        attackHitboxes[x].enabled = true;
+        if (Int32.TryParse(Number, out x) && x >= 0 && x < attackHitboxes.Count) // Use .Count instead of .Length
+        {
+            attackHitboxes[x].enabled = true;
+
+            // Activate Slash VFX
+            if (slashVFX != null)
+            {
+                //slashVFX[x].Play();
+                Instantiate(slashVFX[x], slashVFX_Position[x].transform.position, Quaternion.identity);
+            }
+        }
     }
+
 
     void DisableAttack(String Number)
     {
@@ -270,7 +297,31 @@ public class BossDemon_Animation : MonoBehaviour
         
     }
 
-    /*
+    void EnableOffMapHitBox()
+    {
+        if(OffmapIndicator != null) OffmapIndicator.enabled = true;
+    }
+
+    void DisableOffMapHitBox()
+    {
+        if(OffmapIndicator != null) OffmapIndicator.enabled = false;
+    }
+
+
+    void ShowBombIndicator(int AttackTimeFrame){
+        if (BombIndicatorController != null)
+        {
+            BombIndicatorController.ShowIndicator(AttackTimeFrame);
+        }
+    }
+
+    void HideBombIndicator(){
+        if (BombIndicatorController != null)
+        {
+            BombIndicatorController.HideIndicator();
+        }
+    }
+    
     void ShowIndicator(int AttackTimeFrame)
     {
         if (attackIndicatorController != null)
@@ -287,7 +338,7 @@ public class BossDemon_Animation : MonoBehaviour
             attackIndicatorController.HideIndicator();
         }
     }
-    */
+    
 
 
     public void StartKnockBack(){
