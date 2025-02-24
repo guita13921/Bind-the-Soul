@@ -12,7 +12,7 @@ public class EnemyWeapon : MonoBehaviour
     public float reduceDamageTimer = 0f;
     public bool reducedDamage = false;
     float damageR = 0f;
-
+    [SerializeField]bool isCurseAttack = false;
     void Start()
     {
         // Find the first active PlayerCombat in the scene
@@ -33,7 +33,13 @@ public class EnemyWeapon : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+   
         damageR = damage;
+        if(playerCombat.gotCurse) damage *= 2;
+     if(isCurseAttack){
+            playerCombat.GotCurse();
+        }
+
         if (reducedDamage)
         {
             damage -= damage * 0.3f;

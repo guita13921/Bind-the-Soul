@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.PlayerLoop;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class PlayerCombat : MonoBehaviour
@@ -56,6 +57,18 @@ public class PlayerCombat : MonoBehaviour
     void Update()
     // Update is called once per frame
     {
+
+        
+        if(gotCurse){
+            timeSinceGotCurse += Time.deltaTime;
+            if (timeSinceGotCurse > CurseDuration)
+            {
+                timeSinceGotCurse = 0;
+flameCanvas.SetActive(false);
+
+                gotCurse = false;
+            }
+        }
         Cast2();
         SpecialAttack2();
 
@@ -337,5 +350,18 @@ public class PlayerCombat : MonoBehaviour
     void DisableAttack()
     {
         boxCollider.enabled = false;
+    }
+
+    public bool gotCurse =false;
+
+
+    public float CurseDuration =3f;
+
+    public float timeSinceGotCurse = 0f;
+    public GameObject flameCanvas;
+
+    public void GotCurse(){
+gotCurse =true;
+flameCanvas.SetActive(true);
     }
 }
