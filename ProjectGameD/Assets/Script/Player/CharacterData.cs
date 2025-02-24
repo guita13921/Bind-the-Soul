@@ -94,6 +94,8 @@ public class CharacterData : ScriptableObject
         ReduceDashCooldown = 0;
         reduceIncomeDamageDependOnHP = 0;
         QSkillType = 0;
+        addDamageDependOnHP = 0;
+
         Q1_QKDamageUp = false;
         Q1_QKFasterWider = false;
         Q1_QKKillEnemyDamageUp = false;
@@ -104,7 +106,6 @@ public class CharacterData : ScriptableObject
         Q3_QKSlow = false;
         Q3_Barrier = false;
         rerollpoint = 1;
-
         healthRatio = 1;
     }
 }
