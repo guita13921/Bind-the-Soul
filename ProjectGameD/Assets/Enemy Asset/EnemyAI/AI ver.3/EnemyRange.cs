@@ -11,8 +11,6 @@ public class EnemyRange : EnemyAI3{
     [SerializeField] private int numberOfBullets; // Number of bullets to fire
     [SerializeField] private float bulletDelay = 0.5f; // Time between bullets
 
-
-
     protected override void Start() {
         base.Start();
     }
@@ -56,6 +54,11 @@ public class EnemyRange : EnemyAI3{
         EndShoot();
     }
 
+    void StartShoot(){
+        StartCoroutine(ShootWithDelay(numberOfBullets, bulletDelay));
+    }
+
+
     private void ShootBullet()
     {
         animator.SetBool("Attack", true);
@@ -68,10 +71,6 @@ public class EnemyRange : EnemyAI3{
         animator.SetBool("Chase", true);
         agent.transform.LookAt(player.transform);
         agent.SetDestination(-player.transform.position);
-    }
-
-    void StartShoot(){
-        StartCoroutine(ShootWithDelay(numberOfBullets, bulletDelay));
     }
 
     void EndShoot(){

@@ -20,25 +20,40 @@ public class BulletScript : MonoBehaviour
     public float sideAngle = 25;
     public float upAngle = 20;
 
-    //Homing Time
-    [SerializeField] private float elapsedTime; // Timer to track elapsed time
-    [SerializeField] private float runDuration; // Duration to run the Update logic
-    private bool isHomingActive = true; // Flag to control homing behavior
+    // Homing Time
+    [SerializeField] private float elapsedTime;
+    [SerializeField] private float runDuration;
+    private bool isHomingActive = true;
+
+    [Space]
+    [Header("Self-Destruction Settings")]
+    [SerializeField] private float maxLifetime;
+    [SerializeField] private float maxRange;
+    private Vector3 spawnPosition;
+    private Rigidbody rb;
 
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
+        if (rb == null)
+        {
+            rb = gameObject.AddComponent<Rigidbody>();
+            rb.useGravity = false;
+            rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        }
+        
         FlashEffect();
         newRandom();
+        spawnPosition = transform.position;
+        Invoke("SetUp", maxLifetime); // Call SetUp instead of Destroy
     }
-
+    
     void newRandom()
     {
         randomUpAngle = Random.Range(0, upAngle);
         randomSideAngle = Random.Range(-sideAngle, sideAngle);
     }
 
-    //Link from another script
-    //TARGET POSITION + TARGET OFFSET
     public void UpdateTarget(Transform targetPosition, Vector3 Offset)
     {
         target = targetPosition;
@@ -48,15 +63,18 @@ public class BulletScript : MonoBehaviour
 
     void Update()
     {
-        elapsedTime += Time.deltaTime; // Increment the timer
+        elapsedTime += Time.deltaTime;
+        if (Vector3.Distance(spawnPosition, transform.position) > maxRange)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
-        // Disable homing logic if elapsed time exceeds the run duration
         if (elapsedTime > runDuration)
         {
             isHomingActive = false;
         }
 
-        // Homing logic only runs when isHomingActive is true
         if (isHomingActive && target != null)
         {
             float distanceToTarget = Vector3.Distance((target.position + targetOffset), transform.position);
@@ -77,28 +95,17 @@ public class BulletScript : MonoBehaviour
 
             float distanceThisFrame = Time.deltaTime * speed;
 
-            //if (direction.magnitude <= distanceThisFrame)
-            //{
-            //    HitTarget();
-            //    return;
-           // }
-
-            // Translate the bullet while locking the Y position
             Vector3 newPosition = transform.position + direction.normalized * distanceThisFrame;
-            newPosition.y = transform.position.y; // Lock Y position
+            newPosition.y = transform.position.y;
             transform.position = newPosition;
 
             transform.rotation = Quaternion.LookRotation(direction);
         }
         else
         {
-            // Move forward in a straight line after homing ends
             Vector3 straightDirection = transform.forward * speed * Time.deltaTime;
             Vector3 newPosition = transform.position + straightDirection;
-
-            // Freeze the y-axis by maintaining the current y position
             newPosition.y = transform.position.y;
-
             transform.position = newPosition;
         }
     }
@@ -108,14 +115,15 @@ public class BulletScript : MonoBehaviour
         if (other.tag == "Player")
         {
             HitTarget();
-        }else{
+        }
+        else
+        {
             FlashEffect();
         }
     }
 
     void FlashEffect()
     {
-        //Debug.Log("FLASH");
         if (flash != null)
         {
             var flashInstance = Instantiate(flash, transform.position, Quaternion.identity);
@@ -135,7 +143,6 @@ public class BulletScript : MonoBehaviour
 
     void HitTarget()
     {
-        //Debug.Log("HIT");
         if (hit != null)
         {
             var hitRotation = transform.rotation;

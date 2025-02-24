@@ -8,7 +8,7 @@ public class EnemyHealth : MonoBehaviour
     //private float Health;
 
     [SerializeField]
-    public float maxHealth;
+    private float maxHealth;
 
     [SerializeField]
     private float currentHealth;
@@ -32,7 +32,7 @@ public class EnemyHealth : MonoBehaviour
     }
 
 
-    public void SetState(int IN_Health)
+    public void SetState(float IN_Health)
     {
         //Health = IN_Health; it seem that you never used this value
         maxHealth = IN_Health;
@@ -53,7 +53,6 @@ public class EnemyHealth : MonoBehaviour
     public void CalculateDamageOld(float playerWeaponDamage)
     {
         currentHealth -= playerWeaponDamage;
-
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Ensure health doesn't go below 0
     }
 

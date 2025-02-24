@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.Events;
 
 namespace EasyTransition
@@ -91,7 +91,7 @@ namespace EasyTransition
         /// <param name="sceneName">The name of the scene you want to get the index of.</param>
         int GetSceneIndex(string sceneName)
         {
-            return SceneManager.GetSceneByName(sceneName).buildIndex;
+            return UnityEngine.SceneManagement.SceneManager.GetSceneByName(sceneName).buildIndex;
         }
 
         IEnumerator Timer(string sceneName, float startDelay, TransitionSettings transitionSettings)
@@ -112,7 +112,7 @@ namespace EasyTransition
             onTransitionCutPointReached?.Invoke();
 
 
-            SceneManager.LoadScene(sceneName);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
 
             yield return new WaitForSecondsRealtime(transitionSettings.destroyTime);
 
@@ -136,7 +136,7 @@ namespace EasyTransition
 
             onTransitionCutPointReached?.Invoke();
 
-            SceneManager.LoadScene(sceneIndex);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(sceneIndex);
 
             yield return new WaitForSecondsRealtime(transitionSettings.destroyTime);
 
@@ -160,7 +160,7 @@ namespace EasyTransition
 
             onTransitionCutPointReached?.Invoke();
 
-            template.GetComponent<Transition>().OnSceneLoad(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+            template.GetComponent<Transition>().OnSceneLoad(UnityEngine.SceneManagement.SceneManager.GetActiveScene(), LoadSceneMode.Single);
 
             yield return new WaitForSecondsRealtime(transitionSettings.destroyTime);
 

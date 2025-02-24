@@ -7,9 +7,9 @@ public class resrt : MonoBehaviour
 {
     private void Reload()
     {
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        int currentSceneIndex = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
         if (Input.GetKeyDown(KeyCode.R))
-            SceneManager.LoadScene(currentSceneIndex);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(currentSceneIndex);
     }
 
     // Start is called before the first frame update

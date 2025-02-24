@@ -409,7 +409,7 @@ public class EnemyAI3 : MonoBehaviour
         //StopAttack(); // Optional
     }
 
-    void Dead()
+    public virtual void Dead()
     {
         playerWeapon.killEnemyTimerAdder();
 
@@ -422,7 +422,7 @@ public class EnemyAI3 : MonoBehaviour
             state = State.Dead;
 
             // Change the tag of the enemy and all its children to "DEAD"
-            gameObject.tag = "DEAD"; // Change the tag of the parent (enemy)
+            gameObject.tag = "DEAD"; 
 
             // Iterate over all children and set their tag to "DEAD"
             foreach (Transform child in transform)

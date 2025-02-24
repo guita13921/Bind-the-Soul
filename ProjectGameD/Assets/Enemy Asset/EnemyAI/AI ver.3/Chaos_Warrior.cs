@@ -11,38 +11,47 @@ using UnityEngine.VFX;
 
 public class Chaos_warriors : EnemyAI3
 {
-    private bool isBerserk = false;
+    public bool isBerserk = false; // Whether the enemy is in berserk mode
+    public bool hasDiedOnce = false; // Whether the enemy has already died once
 
-    //Stat Config
-    [SerializeField] private float berserkSpeedMultiplier = 1f;
-    [SerializeField] private int berserkDamageBoost = 10;
-    [SerializeField] private float berserkAttackCooldownMultiplier = 3f; 
+    // Stat Config
+    [SerializeField] private float berserkSpeedMultiplier;
+    [SerializeField] private int berserkDamageBoost;
+    [SerializeField] private float berserkAttackCooldownMultiplier;
 
-    //Aniamtion Config
-    [SerializeField] private float animationSpeedMultiplier = 1; // Multiplier for animation speed
+    // Animation Config
+    [SerializeField] private float animationSpeedMultiplier;
 
     protected override void Start()
     {
         base.Start(); // Call the base Start() method
-        SetAnimationSpeed(1); // Add custom logic
-        agent.transform.LookAt(player.transform);
+        SetAnimationSpeed(1f); // Initialize the animation speed
     }
 
     protected override void Update()
     {
-        //Debug.Log("Update");
-        CheckHealthForBerserk(); // Custom behavior for Chaos_Warriro
+        if (isSpawning || state == State.Dead) return;
         base.Update(); // Retain the base functionality
     }
-    
 
-    private void CheckHealthForBerserk()
+    /// <summary>
+    /// Check if the enemy should enter berserk mode after dying the first time.
+    /// </summary>
+    protected override void CheckHealth()
     {
-        if (!isBerserk && health.GetCurrentHealth() <= health.GetMaxHealth() * 0.5f){
-            EnterBerserkMode();
+        if (health.GetCurrentHealth() <= 0 && !hasDiedOnce)
+        {
+            EnterBerserkMode(); // Trigger berserk mode instead of dying the first time
+        }
+        else if (health.GetCurrentHealth() <= 0 && hasDiedOnce)
+        {
+            base.CheckHealth(); // Proceed with normal death logic on the second death
         }
     }
 
+    /// <summary>
+    /// Set the animation speed based on a multiplier.
+    /// </summary>
     private void SetAnimationSpeed(float speedMultiplier)
     {
         if (animator != null)
@@ -51,26 +60,51 @@ public class Chaos_warriors : EnemyAI3
         }
     }
 
+    /// <summary>
+    /// Trigger the berserk mode after the first death.
+    /// </summary>
     private void EnterBerserkMode()
     {
+        state = State.Cooldown;
+        if (isBerserk) return; // If already in berserk mode, do nothing
+
+        // Set berserk state
         isBerserk = true;
+        hasDiedOnce = true;
 
-        //Stat Config
-        agent.speed = 3; 
-        Debug.Log("speed : " + CoolDownAttack);
-        weapon.damage += berserkDamageBoost; // Boost damage
-        CoolDownAttack = 3f; // Reduce attack cooldown
-        Debug.Log("CoolDownAttack : " + CoolDownAttack);
-        animator.SetTrigger("Berserk"); // Play Berserk animation
-        animator.SetBool("IsBerserk",true); // Play Berserk animation
-        SetAnimationSpeed(animationSpeedMultiplier * 1.25f); // Make animations faster in Berserk mode
-    }
-    /*
-    void StartJumpAttack(){
+        // Fully restore health
+        health.SetState(health.GetMaxHealth());
+
+        // Boost stats in berserk mode
+        speed *= berserkSpeedMultiplier;
+        //agent.speed = speed;
+        weapon.damage += berserkDamageBoost;
+        CoolDownAttack *= berserkAttackCooldownMultiplier; // Reduce attack cooldown for faster attacks
+
+        // Play berserk animation
+        animator.SetTrigger("Berserk");
+        animator.SetBool("IsBerserk", true);
+
+        // Speed up animations
+        SetAnimationSpeed(animationSpeedMultiplier);
+
+        // Optional: Add visual or audio effects for entering berserk mode
+        Debug.Log($"{gameObject.name} has entered Berserk Mode!");
     }
 
-    void StopJumpAttack(){
+    /// <summary>
+    /// Play the death sequence after the second death.
+    /// </summary>
+    public override void Dead()
+    {
+        if (!hasDiedOnce)
+        {
+            EnterBerserkMode();
+            return;
+        }
 
+        base.Dead();
     }
-    */
+
+    
 }
