@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEditor.Callbacks;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
 public partial class PlayerControl : MonoBehaviour
@@ -13,7 +14,6 @@ public partial class PlayerControl : MonoBehaviour
     private CapsuleCollider capsuleCollider;
     private bool isDead;
     private Health health;
-
     private void Start()
     {
         health = GetComponent<Health>();

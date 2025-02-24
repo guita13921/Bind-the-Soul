@@ -4366,14 +4366,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6065301410070953268, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
-      propertyPath: castCooldown
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7235355743056232594, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
-      propertyPath: deathsound_BG
-      value: 
-      objectReference: {fileID: 3592099849124012100, guid: 38b495573c202f047b08d5ab7c98dfc4, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12900,7 +12892,7 @@ GameObject:
   - component: {fileID: 1540582647}
   m_Layer: 0
   m_Name: Cube (1)
-  m_TagString: Enemy
+  m_TagString: EnemyWeapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12985,7 +12977,7 @@ Transform:
   m_GameObject: {fileID: 1540582640}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.8793437, y: 0.98, z: -4.76}
+  m_LocalPosition: {x: 0.09, y: 0.98, z: -4.17}
   m_LocalScale: {x: 1, y: 3.3234, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -13017,11 +13009,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0571ab3c9c65bb42ae6230de4697814, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 500
+  damage: 100
   characterData: {fileID: 11400000, guid: e628f4ad3830604478a34deaa6dbc29e, type: 2}
   playerCombat: {fileID: 0}
   reduceDamageTimer: 0
   reducedDamage: 0
+  isCurseAttack: 1
 --- !u!114 &1540582647
 MonoBehaviour:
   m_ObjectHideFlags: 0
