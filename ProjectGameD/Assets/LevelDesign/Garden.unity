@@ -592,6 +592,7 @@ MonoBehaviour:
   playerCombat: {fileID: 0}
   reduceDamageTimer: 0
   reducedDamage: 0
+  isCurseAttack: 0
 --- !u!65 &113639612
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -928,11 +929,6 @@ MonoBehaviour:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2734450182208578457, guid: 5a4fb764d464ac34d8deeac31aca0f29, type: 3}
   m_PrefabInstance: {fileID: 1698152545}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &205811090 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4295662927286964586, guid: e441b44d76c184543b7f32f497168b5a, type: 3}
-  m_PrefabInstance: {fileID: 915757273}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &214068800
 PrefabInstance:
@@ -2291,11 +2287,6 @@ MonoBehaviour:
   material: []
   objectToFind: []
   timeRemaining: 0
---- !u!1 &614342401 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4313840477328165726, guid: e441b44d76c184543b7f32f497168b5a, type: 3}
-  m_PrefabInstance: {fileID: 915757273}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &651328746
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4336,22 +4327,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Demon_with_weapon
       objectReference: {fileID: 0}
-    - target: {fileID: 772680945290085106, guid: e441b44d76c184543b7f32f497168b5a, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1680197052648843516, guid: e441b44d76c184543b7f32f497168b5a, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 855640760}
-    - target: {fileID: 1680197052648843516, guid: e441b44d76c184543b7f32f497168b5a, type: 3}
-      propertyPath: moveSpeed
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3291370499422670792, guid: e441b44d76c184543b7f32f497168b5a, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 855640760}
+    - target: {fileID: 3291370499422670792, guid: e441b44d76c184543b7f32f497168b5a, type: 3}
+      propertyPath: phase1AttackCooldown
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3291370499422670792, guid: e441b44d76c184543b7f32f497168b5a, type: 3}
+      propertyPath: phase1AttackCooldown_Enrage
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4747582794381386041, guid: e441b44d76c184543b7f32f497168b5a, type: 3}
       propertyPath: player
       value: 
@@ -4361,41 +4352,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1688106674}
     - target: {fileID: 4747582794381386041, guid: e441b44d76c184543b7f32f497168b5a, type: 3}
-      propertyPath: slashVFX.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4747582794381386041, guid: e441b44d76c184543b7f32f497168b5a, type: 3}
-      propertyPath: slashVFX.Array.data[0]
+      propertyPath: DissolvingController
       value: 
-      objectReference: {fileID: 198393960337124616, guid: 045b6662ee623884f93e9fd396f0629b, type: 3}
-    - target: {fileID: 4747582794381386041, guid: e441b44d76c184543b7f32f497168b5a, type: 3}
-      propertyPath: slashVFX.Array.data[1]
-      value: 
-      objectReference: {fileID: 198190562059387860, guid: d812f8269a59db34d9f1ab119ba4a6c5, type: 3}
-    - target: {fileID: 4747582794381386041, guid: e441b44d76c184543b7f32f497168b5a, type: 3}
-      propertyPath: slashVFX_Position.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4747582794381386041, guid: e441b44d76c184543b7f32f497168b5a, type: 3}
-      propertyPath: slashVFX_Position.Array.data[0]
-      value: 
-      objectReference: {fileID: 205811090}
-    - target: {fileID: 4747582794381386041, guid: e441b44d76c184543b7f32f497168b5a, type: 3}
-      propertyPath: slashVFX_Position.Array.data[1]
-      value: 
-      objectReference: {fileID: 614342401}
-    - target: {fileID: 5473267935584108228, guid: e441b44d76c184543b7f32f497168b5a, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5719383207607662756, guid: e441b44d76c184543b7f32f497168b5a, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8199722765847864853, guid: e441b44d76c184543b7f32f497168b5a, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1200034395}
     - target: {fileID: 9085995161010727491, guid: e441b44d76c184543b7f32f497168b5a, type: 3}
       propertyPath: player
       value: 
@@ -5424,6 +5383,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9111614561732093340, guid: 836951f2ec0c99a478864a4b39415f84, type: 3}
   m_PrefabInstance: {fileID: 1150908026}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1200034395 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3686968551910895113, guid: e441b44d76c184543b7f32f497168b5a, type: 3}
+  m_PrefabInstance: {fileID: 915757273}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8cc951a695c4fc4686681b0d3b60890, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1203649901
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9526,6 +9496,7 @@ MonoBehaviour:
   playerCombat: {fileID: 0}
   reduceDamageTimer: 0
   reducedDamage: 0
+  isCurseAttack: 0
 --- !u!114 &1698152549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9543,6 +9514,7 @@ MonoBehaviour:
   playerCombat: {fileID: 0}
   reduceDamageTimer: 0
   reducedDamage: 0
+  isCurseAttack: 0
 --- !u!198 &1698152550 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 4874774610138751432, guid: 5a4fb764d464ac34d8deeac31aca0f29, type: 3}
@@ -11777,6 +11749,7 @@ MonoBehaviour:
   playerCombat: {fileID: 0}
   reduceDamageTimer: 0
   reducedDamage: 0
+  isCurseAttack: 0
 --- !u!1001 &2039271092
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -145,7 +145,7 @@ public class DemonKnightBoss : MonoBehaviour
             {
                 case BossAction.Melee2Hit01:
                     BossAnimation.PerformAttack01();
-                    yield return new WaitForSeconds(5f);
+                    yield return new WaitForSeconds(5f); //Time must == Animation Time
                     break;
                 
                 case BossAction.Melee3Hit01:

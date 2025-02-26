@@ -25,7 +25,7 @@ public class DissolvingControllerTut : MonoBehaviour
         StartCoroutine(DissolveCo());
     }
 
-    void StartDissolve(){
+    public void StartDissolve(){
         StartCoroutine(DissolveCo());
     }
 

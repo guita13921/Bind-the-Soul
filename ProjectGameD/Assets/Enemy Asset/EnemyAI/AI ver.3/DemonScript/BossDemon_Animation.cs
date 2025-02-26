@@ -15,6 +15,7 @@ public class BossDemon_Animation : MonoBehaviour
     [SerializeField] private BossSpawning bossSpawning;
     [SerializeField] public RangeSensor rangeSensor;
     [SerializeField] public MeleeSensor meleeSensor;
+    [SerializeField] private DissolvingControllerTut DissolvingController;
 
     [Header("Malee")]
     [SerializeField] private bool isAttacking; // Reference to the flamethr
@@ -225,7 +226,7 @@ public class BossDemon_Animation : MonoBehaviour
         animator.SetBool("IsLaser", false);
     }
 
-    public void StartOutMapCast(){
+    public void PlayOutMapCast(){
         Instantiate(OutMapCastEffect, this.transform.position, Quaternion.identity);
     }
 
@@ -286,7 +287,7 @@ public class BossDemon_Animation : MonoBehaviour
             if (slashVFX != null)
             {
                 //slashVFX[x].Play();
-                Instantiate(slashVFX[x], slashVFX_Position[x].transform.position, Quaternion.identity);
+                Instantiate(slashVFX[x], slashVFX_Position[x].transform.position, slashVFX_Position[x].transform.rotation);
             }
         }
     }
@@ -306,6 +307,21 @@ public class BossDemon_Animation : MonoBehaviour
         //    ShowIndicator(AttackTimeFrame);
         //}
         
+    }
+
+    void StartOffMapCast(int AttackTimeFrame){
+        DissolvingController.StartDissolve();
+        ShowBombIndicator(AttackTimeFrame * 4);
+    }
+
+    void EnableOffMapCast(){
+        EnableOffMapHitBox();
+        PlayOutMapCast();
+    }
+
+    void EndOffMapCast(){
+        HideBombIndicator();
+        DisableOffMapHitBox();
     }
 
     void EnableOffMapHitBox()
