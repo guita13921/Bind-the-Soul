@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class SkullBomb02 : MonoBehaviour
@@ -96,4 +97,26 @@ public class SkullBomb02 : MonoBehaviour
         }
     }
     */
+   public void Backward(Vector3 position)
+{
+    StartCoroutine(MoveBackwards(gameObject, position, 1.0f)); // Move in 1 second
+}
+
+IEnumerator MoveBackwards(GameObject obj, Vector3 targetPos, float duration)
+{
+    float elapsedTime = 0;
+    Vector3 startPos = obj.transform.position;
+
+    while (elapsedTime < duration)
+    {
+        float t = elapsedTime / duration;
+        t = 1 - (1 - t) * (1 - t); // Ease-Out Quadratic formula
+
+        obj.transform.position = Vector3.Lerp(startPos, targetPos, t);
+        elapsedTime += Time.deltaTime;
+        yield return null;
+    }
+    
+    obj.transform.position = targetPos;
+}
 }

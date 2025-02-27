@@ -129,7 +129,7 @@ public class SkullBomb : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    bool alredyHit = false;
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player"){
@@ -137,8 +137,9 @@ public class SkullBomb : MonoBehaviour
         }else if (other.isTrigger && other.gameObject.CompareTag("PlayerSword")){
             PlayerWeapon playerWeapon = other.gameObject.GetComponent<PlayerWeapon>();
             //if (playerWeapon != null) health.CalculateDamage(playerWeapon.damage);
-        }else{
-            FlashEffect();
+        }else if (other.tag == "Wall"){
+            if(!alredyHit)
+                HitWall();
         }
     }
 
@@ -192,4 +193,22 @@ public class SkullBomb : MonoBehaviour
         }
         Destroy(gameObject);
     }
+        public GameObject spawnPrefab;
+void HitWall()
+{
+    alredyHit = true;
+    if (spawnPrefab != null)
+    {
+        Vector3 spawnPosition = transform.position;
+        Vector3 targetPosition = transform.position - transform.forward * 1.0f;
+
+        GameObject bomb2 = Instantiate(spawnPrefab, spawnPosition, Quaternion.identity);
+        SkullBomb02 skullbombScript = bomb2.GetComponent<SkullBomb02>();
+        skullbombScript.Backward(targetPosition);
+
+        Destroy(gameObject);
+    }
+}
+
+
 }
