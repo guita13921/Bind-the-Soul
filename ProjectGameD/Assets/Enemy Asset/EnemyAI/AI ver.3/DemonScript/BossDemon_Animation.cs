@@ -102,7 +102,6 @@ public class BossDemon_Animation : MonoBehaviour
     {
         Debug.Log("PerformAttack01");
         animator.SetTrigger("Attack01");
-
     }
 
     public void PerformAttack02()
@@ -428,6 +427,30 @@ public class BossDemon_Animation : MonoBehaviour
                 forceDirection.y = 1f; // Add slight upward force for impact
                 playerRb.AddForce(forceDirection * knockbackForce, ForceMode.Impulse);
             }
+        }
+    }
+
+    public void TransitionToPhase(String newPhase){
+        if(newPhase == "Phase1_Enraged"){
+            animator.SetBool("Phase01",false);
+            animator.SetBool("Phase01_Enrage",true);
+            animator.SetBool("Phase02",false);
+            animator.SetBool("Phase02_Enrage",false);
+
+        }else if(newPhase == "Phase2"){
+            animator.SetBool("Phase01",false);
+            animator.SetBool("Phase01_Enrage",false);
+            animator.SetBool("Phase02",true);
+            animator.SetBool("Phase02_Enrage",false);
+
+        }else if(newPhase == "Phase2_Enraged"){
+            animator.SetBool("Phase01",false);
+            animator.SetBool("Phase01_Enrage",false);
+            animator.SetBool("Phase02",false);
+            animator.SetBool("Phase02_Enrage",true);
+
+        }else{
+            Debug.LogError("TransitionToPhase_Bug");
         }
     }
 

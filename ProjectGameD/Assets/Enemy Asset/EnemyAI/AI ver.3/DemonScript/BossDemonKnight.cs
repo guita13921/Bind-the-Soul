@@ -35,17 +35,23 @@ public class DemonKnightBoss : MonoBehaviour
     private List<BossAction> MeleeCombo01 = new List<BossAction> { BossAction.Melee2Hit01};
     private List<BossAction> MeleeCombo02 = new List<BossAction> { BossAction.Melee3Hit01};
     private List<BossAction> MeleeCombo03 = new List<BossAction> { BossAction.Melee2Hit02};
+    private List<BossAction> MeleeCombo04 = new List<BossAction> { BossAction.MeleeRollAttack01};
 
     private List<BossAction> RangeCombo01 = new List<BossAction> { BossAction.OneHandCast01};   //Cast Basic
     private List<BossAction> RangeCombo02 = new List<BossAction> { BossAction.Dashing,BossAction.Melee2Hit01 };
-    private List<BossAction> RangeCombo03 = new List<BossAction> { BossAction.Dashing,BossAction.Melee2Hit01};
+    private List<BossAction> RangeCombo03 = new List<BossAction> { BossAction.Dashing,BossAction.Melee2Hit02};
+    private List<BossAction> RangeCombo04 = new List<BossAction> { BossAction.Dashing,BossAction.MeleeRollAttack01 };
+    private List<BossAction> RangeCombo05 = new List<BossAction> { BossAction.Dashing,BossAction.Melee2Hit01, BossAction.OneHandCast01};
+    private List<BossAction> RangeCombo06 = new List<BossAction> { BossAction.Dashing,BossAction.Melee2Hit02, BossAction.OneHandCast01};
+    
 
     private List<BossAction> OutRangeCombo01 = new List<BossAction> { BossAction.KickAttack};  
+    private List<BossAction> OutRangeCombo02 = new List<BossAction> { BossAction.Dashing, BossAction.OneHandCast01}; 
+    private List<BossAction> OutRangeCombo03 = new List<BossAction> { BossAction.OneHandCast01}; 
 
     private List<BossAction> SpecialCombo01 = new List<BossAction> { BossAction.CallEnemy};   
     private List<BossAction> SpecialCombo02 = new List<BossAction> { BossAction.Laser};      
     private List<BossAction> SpecialCombo03 = new List<BossAction> { BossAction.OffmapCast01};  
-
 
     private List<BossAction> currentCombo = new List<BossAction>(); // Stores the current combo
     public bool isExecutingCombo = false; // Tracks if a combo is currently being executed
@@ -73,6 +79,8 @@ public class DemonKnightBoss : MonoBehaviour
 
     [Header("EnRage")]
     [SerializeField] private bool isEnrage = false;
+    private float maleeTimeusing = 4f;
+    private float MaleeTimeRage = 1f;
 
     [Header("HitBox")]
     [SerializeField] private CapsuleCollider bodyHitBox;
@@ -106,7 +114,6 @@ public class DemonKnightBoss : MonoBehaviour
                 if (enemyHealth.GetCurrentHealth() <= enemyHealth.GetMaxHealth() * 0.5f)
                 {
                     TransitionToPhase(BossPhase.Phase1_Enraged);
-                    isEnrage = true;
                 }
                 break;
 
@@ -119,7 +126,7 @@ public class DemonKnightBoss : MonoBehaviour
                 if (enemyHealth.GetCurrentHealth() <= enemyHealth.GetMaxHealth() * 0.5f)
                 {
                     TransitionToPhase(BossPhase.Phase2_Enraged);
-                    isEnrage = true;
+                    maleeTimeusing = MaleeTimeRage;
                 }
                 break;
 
@@ -149,22 +156,22 @@ public class DemonKnightBoss : MonoBehaviour
             {
                 case BossAction.Melee2Hit01:
                     BossAnimation.PerformAttack01();
-                    yield return new WaitForSeconds(5f); //Time must == Animation Time
+                    yield return new WaitForSeconds(maleeTimeusing); //Time must == Animation Time
                     break;
                 
                 case BossAction.Melee3Hit01:
                     BossAnimation.PerformAttack02();
-                    yield return new WaitForSeconds(5f);
+                    yield return new WaitForSeconds(maleeTimeusing);
                     break;
 
                 case BossAction.Melee2Hit02:
                     BossAnimation.PerformAttack03();
-                    yield return new WaitForSeconds(5f); 
+                    yield return new WaitForSeconds(maleeTimeusing); 
                     break;
 
                 case BossAction.MeleeRollAttack01:
                     BossAnimation.PerformAttack04(); 
-                    yield return new WaitForSeconds(5f); 
+                    yield return new WaitForSeconds(maleeTimeusing); 
                     break;
                 
                 case BossAction.KickAttack:
@@ -174,7 +181,7 @@ public class DemonKnightBoss : MonoBehaviour
 
                 case BossAction.OneHandCast01:
                     BossAnimation.PerformCast05(); 
-                    yield return new WaitForSeconds(4f); 
+                    yield return new WaitForSeconds(3f); 
                     break;
 
 
@@ -196,12 +203,11 @@ public class DemonKnightBoss : MonoBehaviour
                     break;
         }
 
-        if(action != BossAction.Dashing){
-            comboCounter++;
-            isExecutingCombo = false;
-            BossAnimation.UnlockMovement();
-        }
-
+            if(action != BossAction.Dashing){
+                comboCounter++;
+                isExecutingCombo = false;
+                BossAnimation.UnlockMovement();
+            }
         }
     }
 
@@ -216,6 +222,7 @@ public class DemonKnightBoss : MonoBehaviour
         if (player == null) return;
         AttackPhase1_EnRage();
     }
+
 
     private void AttackPhase1()
     {
@@ -354,6 +361,19 @@ public class DemonKnightBoss : MonoBehaviour
 
         switch (newPhase)
         {
+            case BossPhase.Phase1_Enraged:
+                isEnrage = true;
+                maleeTimeusing = MaleeTimeRage;
+                BossAnimation.TransitionToPhase("Phase1_Enraged");
+                break;
+            case BossPhase.Phase2:
+                isEnrage = false;
+                BossAnimation.TransitionToPhase("Phase2");
+                break;
+            case BossPhase.Phase2_Enraged:
+                isEnrage = true;
+                BossAnimation.TransitionToPhase("Phase2_Enraged");
+                break;            
             case BossPhase.Dead:
                 HandleDeath();
                 break;
@@ -374,6 +394,10 @@ public class DemonKnightBoss : MonoBehaviour
     {
         Debug.Log("Hit");
         attackTimer += 0.5f;
+    }
+    
+    public BossPhase GetBossPhase(){
+        return currentPhase;
     }
 
 }
