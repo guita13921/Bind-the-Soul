@@ -32,9 +32,9 @@ public class BossDemon_Animation : MonoBehaviour
 
     [Header("Dashing02")]
     [SerializeField] private GameObject Dash02VFX; // Assign your prefab in the inspector
-    [SerializeField] private Vector3 Dash02spawnPosition;
-    [SerializeField] private float dash02Distance; // Total distance to dash
-    [SerializeField] private float dash02Time;
+    [SerializeField] private Transform Dash02spawnPosition;
+    //[SerializeField] private float dash02Distance; // Total distance to dash
+    [SerializeField] private float dash02Speed;
 
     [Header("Bullet")]
     [SerializeField] private int numberOfBullets;
@@ -51,7 +51,7 @@ public class BossDemon_Animation : MonoBehaviour
     [Header("Indicator")]
     [SerializeField] AttackIndicatorController attackIndicatorController;
     [SerializeField] BombIndicator BombIndicatorController;
-    [SerializeField] SphereCollider OffmapIndicator;
+    [SerializeField] SphereCollider OffmapHitBox;
 
     [Header("OffMapCast")]
     public GameObject OutMapCastEffect;
@@ -180,7 +180,10 @@ public class BossDemon_Animation : MonoBehaviour
 
     public void StartDashing(){
         //Debug.Log("StartDashing");
-        StartCoroutine(DashForward());
+        movementController.RequestInsideLookAtPlayer();
+        animator.SetTrigger("Dash");
+        Instantiate(Dash02VFX, Dash02spawnPosition.transform.position, Dash02spawnPosition.transform.rotation);
+        StartCoroutine(DashForward02());
     }
 
     public void StartLaser()
@@ -230,7 +233,7 @@ public class BossDemon_Animation : MonoBehaviour
         Instantiate(OutMapCastEffect, this.transform.position, Quaternion.identity);
     }
 
-    private IEnumerator DashForward()
+  private IEnumerator DashForward()
     {
         isDashing = true;
 
@@ -292,6 +295,47 @@ public class BossDemon_Animation : MonoBehaviour
         }
     }
 
+    private IEnumerator DashForward02()
+    {
+    isDashing = true;
+
+    Vector3 dashDirection = transform.forward;
+
+    // Calculate distance to player, clamping it to a max of 8
+    float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+    float temp = Mathf.Min(distanceToPlayer-2, 8f);
+    float reducedDashDistance = Mathf.Max(temp, 0f);
+
+    Vector3 potentialTargetPosition = transform.position + dashDirection * reducedDashDistance;
+
+    // Project the target position onto the NavMesh
+    if (
+        NavMesh.SamplePosition(
+            potentialTargetPosition,
+            out NavMeshHit hit,
+            reducedDashDistance,
+            NavMesh.AllAreas
+        )
+    )
+    {
+        Vector3 targetPosition = hit.position; // Use the position on the NavMesh
+        float dashTime = Vector3.Distance(transform.position, targetPosition) / dash02Speed; // Adjust dash time
+        float startTime = Time.time;
+
+        while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
+        {
+            float journeyProgress = (Time.time - startTime) / dashTime;
+            transform.position = Vector3.Lerp(
+                transform.position,
+                targetPosition,
+                journeyProgress
+            );
+            yield return null;
+        }
+    }
+}
+
+
 
     void DisableAttack(String Number)
     {
@@ -326,12 +370,12 @@ public class BossDemon_Animation : MonoBehaviour
 
     void EnableOffMapHitBox()
     {
-        if(OffmapIndicator != null) OffmapIndicator.enabled = true;
+        if(OffmapHitBox != null) OffmapHitBox.enabled = true;
     }
 
     void DisableOffMapHitBox()
     {
-        if(OffmapIndicator != null) OffmapIndicator.enabled = false;
+        if(OffmapHitBox != null) OffmapHitBox.enabled = false;
     }
 
     void ShowBombIndicator(int AttackTimeFrame){
