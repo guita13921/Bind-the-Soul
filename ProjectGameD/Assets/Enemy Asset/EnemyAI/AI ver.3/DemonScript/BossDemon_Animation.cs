@@ -49,7 +49,7 @@ public class BossDemon_Animation : MonoBehaviour
     private bool isFiringLaser = false;
 
     [Header("Indicator")]
-    [SerializeField] AttackIndicatorController attackIndicatorController;
+    [SerializeField] GameObject attackIndicator;
     [SerializeField] BombIndicator BombIndicatorController;
     [SerializeField] SphereCollider OffmapHitBox;
 
@@ -101,42 +101,49 @@ public class BossDemon_Animation : MonoBehaviour
     public void PerformAttack01()
     {
         Debug.Log("PerformAttack01");
+        movementController.RequestInsideLookAtPlayer();
         animator.SetTrigger("Attack01");
     }
 
     public void PerformAttack02()
     {
         Debug.Log("PerformAttack02");
+        movementController.RequestInsideLookAtPlayer();
         animator.SetTrigger("Attack02");
     }
 
     public void PerformAttack03()
     {
         Debug.Log("PerformAttack03");
+        movementController.RequestInsideLookAtPlayer();
         animator.SetTrigger("Attack03");
     }
 
     public void PerformAttack04()
     {
         Debug.Log("PerformAttack04");
+        movementController.RequestInsideLookAtPlayer();
         animator.SetTrigger("Attack04");
     }
 
     public void PerformAttack05()
     {
         Debug.Log("PerformAttack05");
+        movementController.RequestInsideLookAtPlayer();
         animator.SetTrigger("Attack05");
     }
 
     public void PerformCast01()
     {
         Debug.Log("PerformCast01");
+        movementController.RequestInsideLookAtPlayer();
         animator.SetTrigger("Cast01");
     }
 
     public void PerformCast02()
     {
         Debug.Log("PerformCast02");
+        movementController.RequestInsideLookAtPlayer();
         animator.SetTrigger("Cast02");
     }
 
@@ -149,18 +156,21 @@ public class BossDemon_Animation : MonoBehaviour
     public void PerformCast04()
     {
         Debug.Log("PerformCast04");
+        movementController.RequestInsideLookAtPlayer();
         animator.SetTrigger("Cast04");
     }
 
     public void PerformCast05()
     {
         Debug.Log("PerformCast05");
+        movementController.RequestInsideLookAtPlayer();
         animator.SetTrigger("Cast05");
     }
 
     public void PerformCast06()
     {
         Debug.Log("PerformCast06");
+        movementController.RequestInsideLookAtPlayer();
         animator.SetTrigger("Cast06");
     }
 
@@ -397,15 +407,18 @@ public class BossDemon_Animation : MonoBehaviour
         }
     }
     
-    void ShowIndicator(int AttackTimeFrame)
+    void ShowAttackIndicator(int x)
     {
-        if (attackIndicatorController != null)
+        if (attackIndicator != null)
         {
             //attackIndicatorCanvas.enabled = true;
-            attackIndicatorController.ShowIndicator(AttackTimeFrame);
+            //attackIndicatorController.ShowIndicator(AttackTimeFrame);
+            //attackIndicator.Play();
+            Instantiate(attackIndicator, slashVFX_Position[x].transform.position, slashVFX_Position[x].transform.rotation);
         }
     }
 
+/*
     void HideIndicator()
     {
         if (attackIndicatorController != null)
@@ -413,7 +426,7 @@ public class BossDemon_Animation : MonoBehaviour
             attackIndicatorController.HideIndicator();
         }
     }
-    
+*/  
 
 
     public void StartKnockBack(){

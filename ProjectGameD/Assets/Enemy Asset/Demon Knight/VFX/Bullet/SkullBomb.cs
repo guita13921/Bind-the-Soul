@@ -130,15 +130,18 @@ public class SkullBomb : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    bool alredyHit = false;
+
+    public void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player"){
             HitTarget();
         }else if (other.isTrigger && other.gameObject.CompareTag("PlayerSword")){
             PlayerWeapon playerWeapon = other.gameObject.GetComponent<PlayerWeapon>();
             //if (playerWeapon != null) health.CalculateDamage(playerWeapon.damage);
-        }else{
-            FlashEffect();
+        }else if (other.tag == "Wall"){
+            if(!alredyHit)
+                HitWall();
         }
     }
 
@@ -170,7 +173,9 @@ public class SkullBomb : MonoBehaviour
             {
                 hitRotation = Quaternion.Euler(0, 0, 0);
             }
-            var hitInstance = Instantiate(hit, target.transform.position + targetOffset, hitRotation);
+
+            var hitInstance = Instantiate(hit, this.transform.position + targetOffset, hitRotation);
+
             var hitPs = hitInstance.GetComponent<ParticleSystem>();
             if (hitPs != null)
             {
@@ -192,4 +197,24 @@ public class SkullBomb : MonoBehaviour
         }
         Destroy(gameObject);
     }
+
+
+    void HitWall()
+    {
+        Debug.Log("HitWall");
+        alredyHit = true;
+        if (newBulletPrefab != null)
+        {
+            Vector3 spawnPosition = transform.position;
+            Vector3 targetPosition = transform.position - transform.forward * 1.0f;
+
+            GameObject bomb2 = Instantiate(newBulletPrefab, spawnPosition, Quaternion.identity);
+            SkullBomb02 skullbombScript = bomb2.GetComponent<SkullBomb02>();
+            skullbombScript.Backward(targetPosition);
+
+            Destroy(gameObject);
+        }
+    }
+
+
 }

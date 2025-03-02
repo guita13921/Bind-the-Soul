@@ -43,15 +43,16 @@ public class DemonKnightBoss : MonoBehaviour
     private List<BossAction> RangeCombo04 = new List<BossAction> { BossAction.Dashing,BossAction.MeleeRollAttack01 };
     private List<BossAction> RangeCombo05 = new List<BossAction> { BossAction.Dashing,BossAction.Melee2Hit01, BossAction.OneHandCast01};
     private List<BossAction> RangeCombo06 = new List<BossAction> { BossAction.Dashing,BossAction.Melee2Hit02, BossAction.OneHandCast01};
-    
 
-    private List<BossAction> OutRangeCombo01 = new List<BossAction> { BossAction.KickAttack};  
-    private List<BossAction> OutRangeCombo02 = new List<BossAction> { BossAction.Dashing, BossAction.OneHandCast01}; 
-    private List<BossAction> OutRangeCombo03 = new List<BossAction> { BossAction.OneHandCast01}; 
+    private List<BossAction> OutRangeCombo01 = new List<BossAction> { BossAction.Dashing, BossAction.OneHandCast01}; 
+    private List<BossAction> OutRangeCombo02 = new List<BossAction> { BossAction.OneHandCast01, BossAction.OneHandCast01}; 
+    private List<BossAction> OutRangeCombo03 = new List<BossAction> { BossAction.KickAttack, BossAction.OneHandCast01}; 
+    private List<BossAction> OutRangeCombo04 = new List<BossAction> { BossAction.KickAttack, BossAction.Dashing, BossAction.Melee3Hit01 }; 
 
     private List<BossAction> SpecialCombo01 = new List<BossAction> { BossAction.CallEnemy};   
     private List<BossAction> SpecialCombo02 = new List<BossAction> { BossAction.Laser};      
     private List<BossAction> SpecialCombo03 = new List<BossAction> { BossAction.OffmapCast01};  
+
 
     private List<BossAction> currentCombo = new List<BossAction>(); // Stores the current combo
     public bool isExecutingCombo = false; // Tracks if a combo is currently being executed
@@ -231,6 +232,7 @@ public class DemonKnightBoss : MonoBehaviour
         // Perform an attack only after the cooldown
         if (attackTimer >= phase1AttackCooldown && !isExecutingCombo)
         {
+            
             if (comboCounter >= 5)
             {
                 attackTimer = 0f;
@@ -243,6 +245,7 @@ public class DemonKnightBoss : MonoBehaviour
                 }else{
                     StartCombo(SpecialCombo03);
                 }
+
                 comboCounter = 0;
                 return;
             }
@@ -277,12 +280,13 @@ public class DemonKnightBoss : MonoBehaviour
                 attackTimer = 0f;
                 float randomChance = Random.value;
 
-                if(randomChance <= 1f){
+                if(randomChance <= 0.5f){
                     StartCombo(OutRangeCombo01); 
-                    return;
+                }else{
+                    StartCombo(OutRangeCombo02); 
                 }
             }else{
-                bossDemon_Rotation.RequestLookAtplayer();
+                bossDemon_Rotation.RequestInsideLookAtPlayer();
             }
         }
     }
@@ -392,8 +396,11 @@ public class DemonKnightBoss : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Hit");
-        attackTimer += 0.5f;
+        if (other.isTrigger && other.gameObject.CompareTag("PlayerSword"))
+        {
+            Debug.Log("Hit");
+            attackTimer += 0.5f;
+        }
     }
     
     public BossPhase GetBossPhase(){
