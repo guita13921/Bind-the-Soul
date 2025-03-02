@@ -542,7 +542,7 @@ GameObject:
   - component: {fileID: 8266766726371573650}
   - component: {fileID: 1711076271720672781}
   - component: {fileID: 1632161550804647649}
-  - component: {fileID: 804567402525376612}
+  - component: {fileID: 8636887239174214672}
   m_Layer: 5
   m_Name: AttackIndicator_image
   m_TagString: Untagged
@@ -607,7 +607,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &804567402525376612
+--- !u!114 &8636887239174214672
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1090,7 +1090,7 @@ MonoBehaviour:
   playerInsight: 0
   PlayerInAttackrange: 0
   boxCollider: {fileID: 6479103234984666817}
-  weapon: {fileID: 7810398477676813389}
+  weapon: {fileID: 0}
   dashDistance: 0
   dashSpeed: 0
   state: 0
@@ -1109,7 +1109,7 @@ MonoBehaviour:
   health: {fileID: 903323441945195272}
   playerWeapon: {fileID: 0}
   attackIndicatorCanvas: {fileID: 3721247322941245363}
-  attackIndicatorController: {fileID: 804567402525376612}
+  attackIndicatorController: {fileID: 0}
 --- !u!114 &903323441945195272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1124,6 +1124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 0
   currentHealth: 0
+  rb: {fileID: 0}
 --- !u!114 &2740631648438540679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1136,9 +1137,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb28514f45a88a24fa5b7f91ab9dda43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 4669411091855400998}
   scriptToAccessEnemyAI3: {fileID: 2827542075338680344}
   scriptToAccesskamikazeEnemy: {fileID: 0}
+  scriptToEnemyRange02: {fileID: 0}
+  agent: {fileID: 4669411091855400998}
   Health: {fileID: 903323441945195272}
   Health_Bar_Erase: {fileID: 2711731134058802076}
   Health_Bar: {fileID: 3924400518712491968}
@@ -1154,6 +1156,8 @@ MonoBehaviour:
   IN_dashDistance: 4
   IN_dashSpeed: 10
   IN_stoprange: 3
+  IN_hideDistance: 0
+  IN_hideSearchRadius: 0
 --- !u!54 &8965566667855400599
 Rigidbody:
   m_ObjectHideFlags: 0

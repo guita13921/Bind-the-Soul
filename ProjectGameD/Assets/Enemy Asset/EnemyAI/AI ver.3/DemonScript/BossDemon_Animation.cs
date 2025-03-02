@@ -48,6 +48,10 @@ public class BossDemon_Animation : MonoBehaviour
     [SerializeField] private List<VisualEffect> laserEffects;
     private bool isFiringLaser = false;
 
+    [Header("Shield")]
+    [SerializeField] GameObject shield_Position;
+    [SerializeField] GameObject ShieldVFX;
+
     [Header("Indicator")]
     [SerializeField] GameObject attackIndicator;
     [SerializeField] BombIndicator BombIndicatorController;
@@ -96,6 +100,7 @@ public class BossDemon_Animation : MonoBehaviour
     {
         Debug.Log("Dragon summons minions!");
         animator.SetTrigger("SummonMinions");
+        Instantiate(ShieldVFX, shield_Position.transform.position, shield_Position.transform.rotation);
     }
 
     public void PerformAttack01()
@@ -122,7 +127,7 @@ public class BossDemon_Animation : MonoBehaviour
     public void PerformAttack04()
     {
         Debug.Log("PerformAttack04");
-        movementController.RequestInsideLookAtPlayer();
+        //movementController.RequestInsideLookAtPlayer();
         animator.SetTrigger("Attack04");
     }
 
@@ -145,6 +150,7 @@ public class BossDemon_Animation : MonoBehaviour
         Debug.Log("PerformCast02");
         movementController.RequestInsideLookAtPlayer();
         animator.SetTrigger("Cast02");
+        Instantiate(ShieldVFX, shield_Position.transform.position, shield_Position.transform.rotation);
     }
 
     public void PerformCast03()
@@ -172,6 +178,7 @@ public class BossDemon_Animation : MonoBehaviour
         Debug.Log("PerformCast06");
         movementController.RequestInsideLookAtPlayer();
         animator.SetTrigger("Cast06");
+        Instantiate(ShieldVFX, shield_Position.transform.position, shield_Position.transform.rotation);
     }
 
     public void LockMovement()

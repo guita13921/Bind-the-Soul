@@ -77,4 +77,8 @@ public class EnemyHealth : MonoBehaviour
     {
         return currentHealth;
     }
+
+    public void RestoreFullHealth(){
+        currentHealth = maxHealth;
+    }
 }

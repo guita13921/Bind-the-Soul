@@ -5,7 +5,7 @@ using UnityEditor.UI;
 using UnityEngine;
 
 
-public abstract class AttackIndicatorController : MonoBehaviour
+public class AttackIndicatorController : MonoBehaviour
 {
     public RectTransform attackIndicator; // Ensure this is the RectTransform of your UI image.
     public RectTransform attackIndicatorFinish; // Target scale indicator.
