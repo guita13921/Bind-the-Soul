@@ -127,7 +127,9 @@ public class EnemySpawnManager : MonoBehaviour
 
     private void SpawnEnemyAtPoint(Transform spawnPoint, EnemyType enemyType)
     {
-        Instantiate(enemyType.prefab, spawnPoint.position, Quaternion.identity);
+        
+        GameObject monster = Instantiate(enemyType.prefab, spawnPoint.position, Quaternion.identity);
+        monster.SetActive(true);
         Debug.Log($"Spawned {enemyType.prefab.name} at {spawnPoint.position}");
         usedSpawnPoints.Add(spawnPoint); // Mark this spawn point as used
     }
