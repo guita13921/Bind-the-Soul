@@ -313,7 +313,8 @@ public class BossDemon_Animation : MonoBehaviour
             {
                 //slashVFX[x].Play();
                 Instantiate(slashVFX[x], slashVFX_Position[x].transform.position, slashVFX_Position[x].transform.rotation);
-                if(DemonBoss.GetBossPhase() == DemonKnightBoss.BossPhase.Phase1){
+                if(DemonBoss.GetBossPhase() == DemonKnightBoss.BossPhase.Phase1 
+                || DemonBoss.GetBossPhase() == DemonKnightBoss.BossPhase.Phase2_Enraged){
                     Instantiate(DemonEnegyStrike, slashVFX_Position[x].transform.position, slashVFX_Position[x].transform.rotation);
                 }
             }

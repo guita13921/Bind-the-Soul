@@ -54,9 +54,9 @@ public class BulletScript : MonoBehaviour
         randomSideAngle = Random.Range(-sideAngle, sideAngle);
     }
 
-    public void UpdateTarget(Transform targetPosition, Vector3 Offset)
+    public void UpdateTarget(GameObject player, Vector3 Offset)
     {
-        target = targetPosition;
+        target = player.transform;
         targetOffset = Offset;
         startDistanceToTarget = Vector3.Distance((target.position + targetOffset), transform.position);
     }

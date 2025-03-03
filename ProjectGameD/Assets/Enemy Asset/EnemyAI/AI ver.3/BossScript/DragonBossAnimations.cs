@@ -119,7 +119,7 @@ public class DragonBossAnimations : MonoBehaviour
     private void ShootBullet()
     {
         GameObject projectile = Instantiate(enemyBullet, SpawnPoint.position, SpawnPoint.rotation);
-        projectile.GetComponent<BulletScript>().UpdateTarget(player.transform, (Vector3)uiOffset);
+        //projectile.GetComponent<BulletScript>().UpdateTarget(player.transform, (Vector3)uiOffset);
     }
 
     private void LookAtPlayer()
