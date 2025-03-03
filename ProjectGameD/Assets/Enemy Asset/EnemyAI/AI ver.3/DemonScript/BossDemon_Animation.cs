@@ -63,6 +63,9 @@ public class BossDemon_Animation : MonoBehaviour
     [Header("FrontAttack")]
     public GameObject frontattack;
 
+    [Header("FollowVFXAttack")]
+    [SerializeField] GameObject DemonEnegyStrike;
+
     private void Update()
     {
         if ((isFiringLaser == true) && player.transform.position != null)
@@ -310,6 +313,9 @@ public class BossDemon_Animation : MonoBehaviour
             {
                 //slashVFX[x].Play();
                 Instantiate(slashVFX[x], slashVFX_Position[x].transform.position, slashVFX_Position[x].transform.rotation);
+                if(DemonBoss.GetBossPhase() == DemonKnightBoss.BossPhase.Phase1){
+                    Instantiate(DemonEnegyStrike, slashVFX_Position[x].transform.position, slashVFX_Position[x].transform.rotation);
+                }
             }
         }
     }
