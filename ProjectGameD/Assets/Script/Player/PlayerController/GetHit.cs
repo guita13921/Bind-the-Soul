@@ -31,27 +31,27 @@ public partial class PlayerControl : MonoBehaviour
         }
     }
 
-    private void Imframe()
-    {
-        Weapon_Enemy[] enemyWeapons = FindObjectsOfType<Weapon_Enemy>();
-        foreach (Weapon_Enemy enemyWeapon in enemyWeapons)
-        {
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("GotHit"))
-            {
-                Physics.IgnoreCollision(
-                    GetComponent<CapsuleCollider>(),
-                    enemyWeapon.GetComponent<Collider>(),
-                    true
-                );
-            }
-            else
-            {
-                Physics.IgnoreCollision(
-                    GetComponent<CapsuleCollider>(),
-                    enemyWeapon.GetComponent<Collider>(),
-                    false
-                );
-            }
-        }
-    }
+    // private void Imframe()
+    // {
+    //     Weapon_Enemy[] enemyWeapons = FindObjectsOfType<Weapon_Enemy>();
+    //     foreach (Weapon_Enemy enemyWeapon in enemyWeapons)
+    //     {
+    //         if (animator.GetCurrentAnimatorStateInfo(0).IsName("GotHit"))
+    //         {
+    //             Physics.IgnoreCollision(
+    //                 GetComponent<CapsuleCollider>(),
+    //                 enemyWeapon.GetComponent<Collider>(),
+    //                 true
+    //             );
+    //         }
+    //         else
+    //         {
+    //             Physics.IgnoreCollision(
+    //                 GetComponent<CapsuleCollider>(),
+    //                 enemyWeapon.GetComponent<Collider>(),
+    //                 false
+    //             );
+    //         }
+    //     }
+    // }
 }
