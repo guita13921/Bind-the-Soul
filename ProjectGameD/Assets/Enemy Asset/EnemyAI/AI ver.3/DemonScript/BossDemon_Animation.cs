@@ -32,9 +32,9 @@ public class BossDemon_Animation : MonoBehaviour
 
     [Header("Dashing02")]
     [SerializeField] private GameObject Dash02VFX; // Assign your prefab in the inspector
-    [SerializeField] private Vector3 Dash02spawnPosition;
-    [SerializeField] private float dash02Distance; // Total distance to dash
-    [SerializeField] private float dash02Time;
+    [SerializeField] private Transform Dash02spawnPosition;
+    //[SerializeField] private float dash02Distance; // Total distance to dash
+    [SerializeField] private float dash02Speed;
 
     [Header("Bullet")]
     [SerializeField] private int numberOfBullets;
@@ -48,14 +48,23 @@ public class BossDemon_Animation : MonoBehaviour
     [SerializeField] private List<VisualEffect> laserEffects;
     private bool isFiringLaser = false;
 
+    [Header("Shield")]
+    [SerializeField] GameObject shield_Position;
+    [SerializeField] GameObject ShieldVFX;
+
     [Header("Indicator")]
-    [SerializeField] AttackIndicatorController attackIndicatorController;
+    [SerializeField] GameObject attackIndicator;
     [SerializeField] BombIndicator BombIndicatorController;
-    [SerializeField] SphereCollider OffmapIndicator;
+    [SerializeField] SphereCollider OffmapHitBox;
 
     [Header("OffMapCast")]
     public GameObject OutMapCastEffect;
 
+    [Header("FrontAttack")]
+    public GameObject frontattack;
+
+    [Header("FollowVFXAttack")]
+    [SerializeField] GameObject DemonEnegyStrike;
 
     private void Update()
     {
@@ -96,49 +105,58 @@ public class BossDemon_Animation : MonoBehaviour
     {
         Debug.Log("Dragon summons minions!");
         animator.SetTrigger("SummonMinions");
+        Instantiate(ShieldVFX, shield_Position.transform.position, shield_Position.transform.rotation);
+        bossSpawning.SpawnEenemy();
     }
 
     public void PerformAttack01()
     {
         Debug.Log("PerformAttack01");
+        movementController.RequestInsideLookAtPlayer();
         animator.SetTrigger("Attack01");
-
     }
 
     public void PerformAttack02()
     {
         Debug.Log("PerformAttack02");
+        movementController.RequestInsideLookAtPlayer();
         animator.SetTrigger("Attack02");
     }
 
     public void PerformAttack03()
     {
         Debug.Log("PerformAttack03");
+        movementController.RequestInsideLookAtPlayer();
         animator.SetTrigger("Attack03");
     }
 
     public void PerformAttack04()
     {
         Debug.Log("PerformAttack04");
+        //movementController.RequestInsideLookAtPlayer();
         animator.SetTrigger("Attack04");
     }
 
     public void PerformAttack05()
     {
         Debug.Log("PerformAttack05");
+        movementController.RequestInsideLookAtPlayer();
         animator.SetTrigger("Attack05");
     }
 
     public void PerformCast01()
     {
         Debug.Log("PerformCast01");
+        movementController.RequestInsideLookAtPlayer();
         animator.SetTrigger("Cast01");
     }
 
     public void PerformCast02()
     {
         Debug.Log("PerformCast02");
+        movementController.RequestInsideLookAtPlayer();
         animator.SetTrigger("Cast02");
+        Instantiate(ShieldVFX, shield_Position.transform.position, shield_Position.transform.rotation);
     }
 
     public void PerformCast03()
@@ -150,19 +168,23 @@ public class BossDemon_Animation : MonoBehaviour
     public void PerformCast04()
     {
         Debug.Log("PerformCast04");
+        movementController.RequestInsideLookAtPlayer();
         animator.SetTrigger("Cast04");
     }
 
     public void PerformCast05()
     {
         Debug.Log("PerformCast05");
+        movementController.RequestInsideLookAtPlayer();
         animator.SetTrigger("Cast05");
     }
 
     public void PerformCast06()
     {
         Debug.Log("PerformCast06");
+        movementController.RequestInsideLookAtPlayer();
         animator.SetTrigger("Cast06");
+        Instantiate(ShieldVFX, shield_Position.transform.position, shield_Position.transform.rotation);
     }
 
     public void LockMovement()
@@ -180,7 +202,10 @@ public class BossDemon_Animation : MonoBehaviour
 
     public void StartDashing(){
         //Debug.Log("StartDashing");
-        StartCoroutine(DashForward());
+        movementController.RequestInsideLookAtPlayer();
+        animator.SetTrigger("Dash");
+        Instantiate(Dash02VFX, Dash02spawnPosition.transform.position, Dash02spawnPosition.transform.rotation);
+        StartCoroutine(DashForward02());
     }
 
     public void StartLaser()
@@ -230,7 +255,7 @@ public class BossDemon_Animation : MonoBehaviour
         Instantiate(OutMapCastEffect, this.transform.position, Quaternion.identity);
     }
 
-    private IEnumerator DashForward()
+  private IEnumerator DashForward()
     {
         isDashing = true;
 
@@ -266,7 +291,7 @@ public class BossDemon_Animation : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Dash target position is not on the NavMesh. Cancelling dash.");
+            //Debug.LogWarning("Dash target position is not on the NavMesh. Cancelling dash.");
         }
         isDashing = false;
     }
@@ -288,9 +313,53 @@ public class BossDemon_Animation : MonoBehaviour
             {
                 //slashVFX[x].Play();
                 Instantiate(slashVFX[x], slashVFX_Position[x].transform.position, slashVFX_Position[x].transform.rotation);
+                if(DemonBoss.GetBossPhase() == DemonKnightBoss.BossPhase.Phase1){
+                    Instantiate(DemonEnegyStrike, slashVFX_Position[x].transform.position, slashVFX_Position[x].transform.rotation);
+                }
             }
         }
     }
+
+    private IEnumerator DashForward02()
+    {
+    isDashing = true;
+
+    Vector3 dashDirection = transform.forward;
+
+    // Calculate distance to player, clamping it to a max of 8
+    float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+    float temp = Mathf.Min(distanceToPlayer-2, 8f);
+    float reducedDashDistance = Mathf.Max(temp, 0f);
+
+    Vector3 potentialTargetPosition = transform.position + dashDirection * reducedDashDistance;
+
+    // Project the target position onto the NavMesh
+    if (
+        NavMesh.SamplePosition(
+            potentialTargetPosition,
+            out NavMeshHit hit,
+            reducedDashDistance,
+            NavMesh.AllAreas
+        )
+    )
+    {
+        Vector3 targetPosition = hit.position; // Use the position on the NavMesh
+        float dashTime = Vector3.Distance(transform.position, targetPosition) / dash02Speed; // Adjust dash time
+        float startTime = Time.time;
+
+        while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
+        {
+            float journeyProgress = (Time.time - startTime) / dashTime;
+            transform.position = Vector3.Lerp(
+                transform.position,
+                targetPosition,
+                journeyProgress
+            );
+            yield return null;
+        }
+    }
+}
+
 
 
     void DisableAttack(String Number)
@@ -307,6 +376,10 @@ public class BossDemon_Animation : MonoBehaviour
         //    ShowIndicator(AttackTimeFrame);
         //}
         
+    }
+
+    void StartFrontAttack(){
+        Instantiate(frontattack, this.transform.position, this.transform.rotation);
     }
 
     void StartOffMapCast(int AttackTimeFrame){
@@ -326,12 +399,12 @@ public class BossDemon_Animation : MonoBehaviour
 
     void EnableOffMapHitBox()
     {
-        if(OffmapIndicator != null) OffmapIndicator.enabled = true;
+        if(OffmapHitBox != null) OffmapHitBox.enabled = true;
     }
 
     void DisableOffMapHitBox()
     {
-        if(OffmapIndicator != null) OffmapIndicator.enabled = false;
+        if(OffmapHitBox != null) OffmapHitBox.enabled = false;
     }
 
     void ShowBombIndicator(int AttackTimeFrame){
@@ -354,15 +427,18 @@ public class BossDemon_Animation : MonoBehaviour
         }
     }
     
-    void ShowIndicator(int AttackTimeFrame)
+    void ShowAttackIndicator(int x)
     {
-        if (attackIndicatorController != null)
+        if (attackIndicator != null)
         {
             //attackIndicatorCanvas.enabled = true;
-            attackIndicatorController.ShowIndicator(AttackTimeFrame);
+            //attackIndicatorController.ShowIndicator(AttackTimeFrame);
+            //attackIndicator.Play();
+            Instantiate(attackIndicator, slashVFX_Position[x].transform.position, slashVFX_Position[x].transform.rotation);
         }
     }
 
+/*
     void HideIndicator()
     {
         if (attackIndicatorController != null)
@@ -370,7 +446,7 @@ public class BossDemon_Animation : MonoBehaviour
             attackIndicatorController.HideIndicator();
         }
     }
-    
+*/  
 
 
     public void StartKnockBack(){
@@ -384,6 +460,30 @@ public class BossDemon_Animation : MonoBehaviour
                 forceDirection.y = 1f; // Add slight upward force for impact
                 playerRb.AddForce(forceDirection * knockbackForce, ForceMode.Impulse);
             }
+        }
+    }
+
+    public void TransitionToPhase(String newPhase){
+        if(newPhase == "Phase1_Enraged"){
+            animator.SetBool("Phase01",false);
+            animator.SetBool("Phase01_Enrage",true);
+            animator.SetBool("Phase02",false);
+            animator.SetBool("Phase02_Enrage",false);
+
+        }else if(newPhase == "Phase2"){
+            animator.SetBool("Phase01",false);
+            animator.SetBool("Phase01_Enrage",false);
+            animator.SetBool("Phase02",true);
+            animator.SetBool("Phase02_Enrage",false);
+
+        }else if(newPhase == "Phase2_Enraged"){
+            animator.SetBool("Phase01",false);
+            animator.SetBool("Phase01_Enrage",false);
+            animator.SetBool("Phase02",false);
+            animator.SetBool("Phase02_Enrage",true);
+
+        }else{
+            Debug.LogError("TransitionToPhase_Bug");
         }
     }
 

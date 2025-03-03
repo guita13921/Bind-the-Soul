@@ -7,11 +7,13 @@ public class BombIndicator : MonoBehaviour
     public RectTransform attackIndicator; // Ensure this is the RectTransform of your UI image.
     public RectTransform attackIndicatorFinish; // Target scale indicator.
 
+
     public void ShowIndicator(int AttackTimeFrame)
     {
         if (attackIndicator != null)
         {
             attackIndicator.gameObject.SetActive(true); // Enable the object4
+            attackIndicatorFinish.gameObject.SetActive(true); // Enable the object4
             StartCoroutine(ScaleIndicatorY(AttackTimeFrame)); // Start the animation
         }
     }
@@ -47,8 +49,12 @@ public class BombIndicator : MonoBehaviour
         if (attackIndicator != null)
         {
             Vector3 originalScale = attackIndicator.localScale;
-            attackIndicator.localScale = new Vector3(0, 0, 0);
-            attackIndicatorFinish.localScale = new Vector3(0, 0, 0);
+            //attackIndicator.localScale = new Vector3(0, 0, 0);
+            //attackIndicatorFinish.localScale = new Vector3(0, 0, 0);
+            attackIndicator.localScale = originalScale;
+            attackIndicatorFinish.localScale = originalScale;
+            attackIndicator.gameObject.SetActive(false); // Enable the object4
+            attackIndicatorFinish.gameObject.SetActive(false); // Enable the object4
         }
     }
 }

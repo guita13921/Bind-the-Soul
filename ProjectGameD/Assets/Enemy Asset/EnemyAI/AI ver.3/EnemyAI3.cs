@@ -357,7 +357,7 @@ public class EnemyAI3 : MonoBehaviour
         {
             currentBehaviorType = UnityEngine.Random.Range(0, numberOfRandomVariations);
             animator.SetInteger("AttackType", currentBehaviorType);
-            Debug.Log("Selected Behavior Type: " + currentBehaviorType);
+            //Debug.Log("Selected Behavior Type: " + currentBehaviorType);
         }
 
         animator.SetBool("Chase", false);

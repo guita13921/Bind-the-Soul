@@ -9,6 +9,7 @@ public class BossDemon_Rotation : MonoBehaviour
     [SerializeField] private float moveSpeed; // Movement speed
     [SerializeField] private float stopDistance; // Stop moving when close to the player
     [SerializeField] private float rotationSpeed;
+    [SerializeField] private float rotationSpeed_laser;
     [SerializeField] private bool isLock = false;
 
     [Header("References")]
@@ -87,7 +88,7 @@ public class BossDemon_Rotation : MonoBehaviour
         direction = Quaternion.Euler(0, -45, 0) * direction;
 
         Quaternion targetRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed_laser);
     }
 
     /// Stops the NavMeshAgent and locks movement.
@@ -121,4 +122,16 @@ public class BossDemon_Rotation : MonoBehaviour
         LookAtPlayer_WhenLaser();
     }
 
+    public void RequestInsideLookAtPlayer()
+    {
+        if (player == null) return; // Ensure the player reference exists
+
+        Vector3 directionToPlayer = player.position - transform.position;
+        directionToPlayer.y = 0; // Keep rotation only on the Y-axis
+
+        if (directionToPlayer != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(directionToPlayer); // Instantly face the player
+        }
+    }
 }

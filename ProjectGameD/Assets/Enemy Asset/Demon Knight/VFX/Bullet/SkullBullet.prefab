@@ -51,13 +51,13 @@ SphereCollider:
     m_Bits: 4294967295
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 520
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Radius: 0.6
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &-6392652977586658310
 Rigidbody:
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b48b60548ec0fb54089368b1731b3a9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 10
   hit: {fileID: 1408840603016568, guid: 9e40ae39990b6fe40bf62a1b97e1dc2f, type: 3}
   flash: {fileID: 1625297098178738, guid: 49a433079c1e09c47845a22bcf03f86f, type: 3}
   newBulletPrefab: {fileID: 1184375899483656, guid: a88b1c098d0325e4ab101cf2c3964042, type: 3}
@@ -108,8 +108,8 @@ MonoBehaviour:
   sideAngle: 20
   upAngle: 0
   elapsedTime: 0
-  runDuration: 5
-  maxLifetime: 5
+  runDuration: 0.1
+  maxLifetime: 10
   maxRange: 50
   bar: {fileID: 5048449966833450493}
   health: {fileID: -4722675469032684561}
@@ -127,6 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 1
   currentHealth: 1
+  rb: {fileID: 0}
 --- !u!1 &4750321563690612038
 GameObject:
   m_ObjectHideFlags: 0
