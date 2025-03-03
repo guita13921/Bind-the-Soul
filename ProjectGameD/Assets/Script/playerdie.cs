@@ -52,11 +52,24 @@ public class playerdie : MonoBehaviour
             gameObject.tag = "Untagged";
             gameObject.layer = default;
             hasDied = true;
+
+                        DisableAllScripts(); // Disable all scripts
+
         }
         else if (hasDied && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
         {
             // Lock the animation at the end
             animator.enabled = false;
+        }
+    }
+
+        void DisableAllScripts()
+    {
+        // Loop through all MonoBehaviour components and disable them
+        MonoBehaviour[] scripts = GetComponents<MonoBehaviour>();
+        foreach (MonoBehaviour script in scripts)
+        {
+            script.enabled = false;
         }
     }
 }
