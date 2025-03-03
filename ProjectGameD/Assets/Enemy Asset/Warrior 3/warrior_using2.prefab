@@ -5374,6 +5374,8 @@ MonoBehaviour:
   playerWeapon: {fileID: 0}
   attackIndicatorCanvas: {fileID: 548427023136858590}
   attackIndicatorController: {fileID: 1164283308556864933}
+  isBerserk: 0
+  hasDiedOnce: 0
   berserkSpeedMultiplier: 1
   berserkDamageBoost: 10
   berserkAttackCooldownMultiplier: 0.1
@@ -5390,9 +5392,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb28514f45a88a24fa5b7f91ab9dda43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 361796165723220287}
   scriptToAccessEnemyAI3: {fileID: 5820764458137486523}
   scriptToAccesskamikazeEnemy: {fileID: 0}
+  scriptToEnemyRange02: {fileID: 0}
+  agent: {fileID: 361796165723220287}
   Health: {fileID: 8227437000429398839}
   Health_Bar_Erase: {fileID: 8197130336429368565}
   Health_Bar: {fileID: 8197130336429368565}
@@ -5403,11 +5406,13 @@ MonoBehaviour:
   IN_Speed: 2
   IN_Damage: 10
   IN_range: 10
-  IN_sightRange: 20
+  IN_sightRange: 100
   IN_attackRange: 2
   IN_dashDistance: 2
   IN_dashSpeed: 10
   IN_stoprange: 2
+  IN_hideDistance: 0
+  IN_hideSearchRadius: 0
 --- !u!114 &5201137802221409590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6802,6 +6807,7 @@ MonoBehaviour:
   playerCombat: {fileID: 0}
   reduceDamageTimer: 0
   reducedDamage: 0
+  isCurseAttack: 0
 --- !u!54 &9032465676031935284
 Rigidbody:
   m_ObjectHideFlags: 0

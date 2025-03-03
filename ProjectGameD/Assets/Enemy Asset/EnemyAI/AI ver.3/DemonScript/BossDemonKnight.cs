@@ -221,7 +221,7 @@ public class DemonKnightBoss : MonoBehaviour
 
                 case BossAction.CallEnemy:
                     BossAnimation.PerformSummonMinions(); 
-                    yield return new WaitForSeconds(6f);  
+                    yield return new WaitForSeconds(4f);  
                     break;
 
                 case BossAction.FrontAttckCast:

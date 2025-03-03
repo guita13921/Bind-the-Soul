@@ -42,7 +42,9 @@ public class UpgradeShow : MonoBehaviour
             GameObject vfx = Instantiate(upgradePanel);
 
             show = false;
-                                    Instantiate(soundtrackOutro);
+            if (soundtrackOutro != null)
+
+            Instantiate(soundtrackOutro);
 
         }
     }

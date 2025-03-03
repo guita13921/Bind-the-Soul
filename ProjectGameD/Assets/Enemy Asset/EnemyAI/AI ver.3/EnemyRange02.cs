@@ -54,6 +54,11 @@ public class EnemyRange02 : MonoBehaviour
     protected virtual void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+
+        if(player == null){
+            player = GameObject.FindGameObjectWithTag("Dummy");
+        }
+
         enemyAnimation = GetComponent<EnemyRange02_Animation>();
         agent = GetComponent<NavMeshAgent>();  // Assign first
         health = GetComponent<EnemyHealth>();
@@ -118,7 +123,7 @@ public class EnemyRange02 : MonoBehaviour
                 enemyAnimation?.PlayAttackAnimation();
             }
         }
-        else if (isOnAttackCooldown)
+        else if (isOnAttackCooldown || isDead == false)
         {
             FindHidingSpot();
         }
@@ -149,10 +154,12 @@ public class EnemyRange02 : MonoBehaviour
 
     void PatrolToPlayer()
     {
-        if (!Physics.Linecast(transform.position, player.transform.position, obstacleMask) && isSpawning == false)
+        if (!Physics.Linecast(transform.position, player.transform.position, obstacleMask) && isSpawning == false && isDead == false)
         {
-            agent.speed = patrolSpeed;
-            agent.SetDestination(player.transform.position);
+            if(agent != null){
+                agent.speed = patrolSpeed;
+                agent.SetDestination(player.transform.position);
+            }
         }
     }
 
@@ -207,7 +214,7 @@ public class EnemyRange02 : MonoBehaviour
             }
         }
 
-        if (bestSpot != null)
+        if (bestSpot != null && agent.enabled)
         {
             agent.SetDestination(bestSpot.position);
             isHiding = true;
@@ -287,12 +294,18 @@ public class EnemyRange02 : MonoBehaviour
         }
 
         Destroy(bar.gameObject);
-
-        if (agent != null)
-        {
-            agent.enabled = false; // Disable after stopping
-        }
-
         enemyAnimation?.PlayDeadAniamtion();
+        Destroy(this.gameObject);
+        DisableAllScripts();
+    }
+
+    void DisableAllScripts()
+    {
+        // Loop through all MonoBehaviour components and disable them
+        MonoBehaviour[] scripts = GetComponents<MonoBehaviour>();
+        foreach (MonoBehaviour script in scripts)
+        {
+            script.enabled = false;
+        }
     }
 }

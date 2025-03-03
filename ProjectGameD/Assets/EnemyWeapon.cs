@@ -35,7 +35,8 @@ public class EnemyWeapon : MonoBehaviour
     {
    
         damageR = damage;
-        if(playerCombat.gotCurse) damage *= 2;
+        if (playerCombat != null){
+            if(playerCombat.gotCurse) damage *= 2;}
      if(isCurseAttack){
             playerCombat.GotCurse();
         }

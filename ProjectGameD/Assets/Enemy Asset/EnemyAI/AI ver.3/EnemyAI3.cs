@@ -341,7 +341,7 @@ public class EnemyAI3 : MonoBehaviour
     {
         state = State.KnockBack;
         animator.SetTrigger("Knockback");
-        rb.AddForce(hitDirection.normalized * knockBackForce, ForceMode.Impulse);
+        //rb.AddForce(hitDirection.normalized * knockBackForce, ForceMode.Impulse);
     }
 
     public void Chase()
@@ -429,8 +429,9 @@ public class EnemyAI3 : MonoBehaviour
                 child.gameObject.tag = "DEAD";
             }
 
-            // Destroy the health bar
-            Destroy(bar.gameObject);
+            if(bar != null){
+                Destroy(bar.gameObject);
+            }
 
             // Disable NavMeshAgent
             agent.enabled = false;
@@ -440,6 +441,7 @@ public class EnemyAI3 : MonoBehaviour
 
             // Deactivate the attack indicator canvas
             attackIndicatorCanvas.gameObject.SetActive(false);
+            Destroy(this.gameObject);
         }
     }
 

@@ -295,7 +295,7 @@ public class BossDemon_Animation : MonoBehaviour
         }
         isDashing = false;
     }
-
+    public AudioSource attacksound;
     void EnableAttack(string Number)
     {
         if (!isDashing)
@@ -313,8 +313,9 @@ public class BossDemon_Animation : MonoBehaviour
             {
                 //slashVFX[x].Play();
                 Instantiate(slashVFX[x], slashVFX_Position[x].transform.position, slashVFX_Position[x].transform.rotation);
-                if(DemonBoss.GetBossPhase() == DemonKnightBoss.BossPhase.Phase1 
+                if(DemonBoss.GetBossPhase() == DemonKnightBoss.BossPhase.Phase2 
                 || DemonBoss.GetBossPhase() == DemonKnightBoss.BossPhase.Phase2_Enraged){
+                    attacksound.Play();
                     Instantiate(DemonEnegyStrike, slashVFX_Position[x].transform.position, slashVFX_Position[x].transform.rotation);
                 }
             }
