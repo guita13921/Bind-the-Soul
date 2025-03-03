@@ -64,7 +64,7 @@ public class EnemyRange : EnemyAI3{
         animator.SetBool("Attack", true);
 
         GameObject projectile = Instantiate(enemyBullet, SpawnPoint.position, SpawnPoint.rotation);
-        projectile.GetComponent<BulletScript>().UpdateTarget(player.transform, (Vector3)uiOffset);
+        projectile.GetComponent<BulletScript>().UpdateTarget(player, (Vector3)uiOffset);
     }
 
     public void Hide() {

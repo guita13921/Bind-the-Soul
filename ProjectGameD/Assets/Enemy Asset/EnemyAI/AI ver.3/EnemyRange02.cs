@@ -13,7 +13,7 @@ public class EnemyRange02 : MonoBehaviour
     [SerializeField] Canvas bar;
 
     [Header("Movement")]
-    [SerializeField] public GameObject player;
+    public GameObject player;
     public float patrolSpeed;
     [SerializeField] public float detectionRange;
     [SerializeField] public float attackRange;
@@ -53,6 +53,7 @@ public class EnemyRange02 : MonoBehaviour
 
     protected virtual void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         enemyAnimation = GetComponent<EnemyRange02_Animation>();
         agent = GetComponent<NavMeshAgent>();  // Assign first
         health = GetComponent<EnemyHealth>();
@@ -180,7 +181,7 @@ public class EnemyRange02 : MonoBehaviour
     private void ShootBullet()
     {
         GameObject projectile = Instantiate(BulletPrefab, firePoint.position, firePoint.rotation);
-        projectile.GetComponent<BulletScript>().UpdateTarget(player.transform, (Vector3)uiOffset);
+        projectile.GetComponent<BulletScript>().UpdateTarget(player, (Vector3)uiOffset);
     }
 
     void FindHidingSpot()
