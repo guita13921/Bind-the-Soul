@@ -60,6 +60,8 @@ public class BossDemon_Animation : MonoBehaviour
     [Header("OffMapCast")]
     public GameObject OutMapCastEffect;
 
+    [Header("FrontAttack")]
+    public GameObject frontattack;
 
     private void Update()
     {
@@ -101,6 +103,7 @@ public class BossDemon_Animation : MonoBehaviour
         Debug.Log("Dragon summons minions!");
         animator.SetTrigger("SummonMinions");
         Instantiate(ShieldVFX, shield_Position.transform.position, shield_Position.transform.rotation);
+        bossSpawning.SpawnEenemy();
     }
 
     public void PerformAttack01()
@@ -285,7 +288,7 @@ public class BossDemon_Animation : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Dash target position is not on the NavMesh. Cancelling dash.");
+            //Debug.LogWarning("Dash target position is not on the NavMesh. Cancelling dash.");
         }
         isDashing = false;
     }
@@ -367,6 +370,10 @@ public class BossDemon_Animation : MonoBehaviour
         //    ShowIndicator(AttackTimeFrame);
         //}
         
+    }
+
+    void StartFrontAttack(){
+        Instantiate(frontattack, this.transform.position, this.transform.rotation);
     }
 
     void StartOffMapCast(int AttackTimeFrame){
