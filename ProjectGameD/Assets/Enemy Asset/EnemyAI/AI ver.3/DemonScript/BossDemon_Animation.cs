@@ -17,6 +17,9 @@ public class BossDemon_Animation : MonoBehaviour
     [SerializeField] public MeleeSensor meleeSensor;
     [SerializeField] private DissolvingControllerTut DissolvingController;
 
+    [Header("Audio")]
+    public AudioSource attacksound;
+
     [Header("Malee")]
     [SerializeField] private bool isAttacking; // Reference to the flamethr
     [SerializeField] private List<BoxCollider> attackHitboxes = new List<BoxCollider>(); 
@@ -62,6 +65,8 @@ public class BossDemon_Animation : MonoBehaviour
 
     [Header("FrontAttack")]
     public GameObject frontattack;
+    public GameObject LightRay;
+    public DemonTrapController demonTrapController;
 
     [Header("FollowVFXAttack")]
     [SerializeField] GameObject DemonEnegyStrike;
@@ -187,6 +192,8 @@ public class BossDemon_Animation : MonoBehaviour
         Instantiate(ShieldVFX, shield_Position.transform.position, shield_Position.transform.rotation);
     }
 
+//endregion 
+
     public void LockMovement()
     {
         //Debug.Log("Movement locked.");
@@ -255,7 +262,7 @@ public class BossDemon_Animation : MonoBehaviour
         Instantiate(OutMapCastEffect, this.transform.position, Quaternion.identity);
     }
 
-  private IEnumerator DashForward()
+    private IEnumerator DashForward()
     {
         isDashing = true;
 
@@ -295,7 +302,7 @@ public class BossDemon_Animation : MonoBehaviour
         }
         isDashing = false;
     }
-    public AudioSource attacksound;
+
     void EnableAttack(string Number)
     {
         if (!isDashing)
@@ -362,8 +369,6 @@ public class BossDemon_Animation : MonoBehaviour
     }
 }
 
-
-
     void DisableAttack(String Number)
     {
         //HideIndicator();
@@ -381,7 +386,14 @@ public class BossDemon_Animation : MonoBehaviour
     }
 
     void StartFrontAttack(){
-        Instantiate(frontattack, this.transform.position, this.transform.rotation);
+        float randomChance = UnityEngine.Random.value;
+        if(randomChance < 0.33f){
+            Instantiate(LightRay, this.transform.position, this.transform.rotation);
+        }else if(randomChance < 0.66f){
+            Instantiate(frontattack, this.transform.position, this.transform.rotation);
+        }else{
+            demonTrapController.SpawnDemonTrap();
+        }
     }
 
     void StartOffMapCast(int AttackTimeFrame){
@@ -408,6 +420,8 @@ public class BossDemon_Animation : MonoBehaviour
     {
         if(OffmapHitBox != null) OffmapHitBox.enabled = false;
     }
+
+//##endregion
 
     void ShowBombIndicator(int AttackTimeFrame){
         if (BombIndicatorController != null)

@@ -508,7 +508,6 @@ public class DemonKnightBoss : MonoBehaviour
                 break;
             case BossPhase.Phase2_Enraged:
                 EnableEnrage();
-                Aura02.SetActive(true);
                 BossAnimation.TransitionToPhase("Phase2_Enraged");
                 break;            
             case BossPhase.Dead:
