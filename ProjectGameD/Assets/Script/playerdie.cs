@@ -53,7 +53,7 @@ public class playerdie : MonoBehaviour
             gameObject.layer = default;
             hasDied = true;
 
-                        DisableAllScripts(); // Disable all scripts
+            DisableAllScripts(); // Disable all scripts
 
         }
         else if (hasDied && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
