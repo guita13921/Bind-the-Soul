@@ -13,23 +13,14 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField]
     public  float currentHealth;
     EnemyWeapon enemyWeapon1;
-    public Rigidbody rb;
 
     void Start()
     {
         enemyWeapon1 = GetComponentInChildren<EnemyWeapon>();
-        rb = GetComponent<Rigidbody>();
     }
     void Update()
     {
-        if (currentHealth <= 0)
-        {
-            if(rb != null){
-                rb.velocity = Vector3.zero;
-                rb.angularVelocity = Vector3.zero;
-                rb.isKinematic = true;
-            }
-        }
+
     }
 
 

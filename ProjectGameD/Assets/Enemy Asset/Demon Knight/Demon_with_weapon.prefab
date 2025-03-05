@@ -116,7 +116,7 @@ GameObject:
   - component: {fileID: 2977447423511510071}
   m_Layer: 0
   m_Name: Hitbox00
-  m_TagString: Untagged
+  m_TagString: EnemyWeapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -192,7 +192,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4989324776864787028
 Transform:
   m_ObjectHideFlags: 0
@@ -404,9 +404,10 @@ GameObject:
   - component: {fileID: 8858027579494378392}
   - component: {fileID: 6137025454253562656}
   - component: {fileID: 4782113197493908802}
+  - component: {fileID: 6018093263015834834}
   m_Layer: 0
   m_Name: Hitbox02
-  m_TagString: Untagged
+  m_TagString: EnemyWeapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -451,10 +452,28 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6018093263015834834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2379125011608229218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0571ab3c9c65bb42ae6230de4697814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  characterData: {fileID: 11400000, guid: e628f4ad3830604478a34deaa6dbc29e, type: 2}
+  playerCombat: {fileID: 0}
+  reduceDamageTimer: 0
+  reducedDamage: 0
+  isCurseAttack: 0
 --- !u!1 &2626767190300174356
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,7 +518,7 @@ GameObject:
   - component: {fileID: 7242991901961110090}
   m_Layer: 0
   m_Name: Hitbox01
-  m_TagString: Untagged
+  m_TagString: EnemyWeapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2617,15 +2636,16 @@ MonoBehaviour:
   rangeSensor: {fileID: 9085995161010727491}
   meleeSensor: {fileID: 7824022513960707463}
   DissolvingController: {fileID: 3686968551910895113}
+  attacksound: {fileID: 0}
   isAttacking: 0
   attackHitboxes:
   - {fileID: 702814505969132689}
   - {fileID: 8838136792357644572}
   - {fileID: 4782113197493908802}
   slashVFX:
-  - {fileID: 198393960337124616, guid: d812f8269a59db34d9f1ab119ba4a6c5, type: 3}
-  - {fileID: 198190562059387860, guid: 045b6662ee623884f93e9fd396f0629b, type: 3}
-  - {fileID: 198393960337124616, guid: d812f8269a59db34d9f1ab119ba4a6c5, type: 3}
+  - {fileID: 198393960337124616, guid: 045b6662ee623884f93e9fd396f0629b, type: 3}
+  - {fileID: 198190562059387860, guid: d812f8269a59db34d9f1ab119ba4a6c5, type: 3}
+  - {fileID: 198393960337124616, guid: 045b6662ee623884f93e9fd396f0629b, type: 3}
   slashVFX_Position:
   - {fileID: 4295662927286964586}
   - {fileID: 4313840477328165726}
@@ -2655,8 +2675,9 @@ MonoBehaviour:
   OffmapHitBox: {fileID: 248257139495063340}
   OutMapCastEffect: {fileID: 1230444927430528, guid: 01e916d9934715e488056b698fcb79cb, type: 3}
   frontattack: {fileID: 3340227068272008767, guid: a3fdb03ef7301e6418e7844f83647de2, type: 3}
-  DemonEnegyStrike: {fileID: 0}
-  attacksound: {fileID: 0}
+  LightRay: {fileID: 7486243598089064369, guid: a8ab7c089ee03b44bbae26a969e3a70b, type: 3}
+  demonTrapController: {fileID: 0}
+  DemonEnegyStrike: {fileID: 1989801033779156, guid: 084b6b2e1880b654a84ea1ccb61ae364, type: 3}
 --- !u!114 &1680197052648843516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2669,7 +2690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 192a82a4a6e93514ebbf68e9bc7d91e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 0
   stopDistance: 3
   rotationSpeed: 1.5
   rotationSpeed_laser: 1.5

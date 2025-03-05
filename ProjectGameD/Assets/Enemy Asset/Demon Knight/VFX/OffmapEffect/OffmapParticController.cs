@@ -1,36 +1,55 @@
 using UnityEngine;
 
-public class OffmapParticleController : MonoBehaviour
+public class ExpandingRingHitbox : MonoBehaviour
 {
-    public SphereCollider sphereCollider;
-    public ParticleSystem particleEffect; // Renamed from 'particleSystem' to avoid conflicts
-    public float growthSpeed = 1f; // Speed of radius growth
-    private float maxRadius;
-    
+    public SphereCollider hitboxCollider;
+    public ParticleSystem particleEffect;
+    public float growthSpeed = 1f; // Speed at which the ring expands
+    public float ringThickness = 0.5f; // How thick the damageable ring is
+    public float maxRadius = 5f; // Maximum expansion size
+
+    private float currentRadius = 0f;
+
     void Start()
     {
-        if (sphereCollider == null)
-            sphereCollider = GetComponent<SphereCollider>();
+        if (hitboxCollider == null)
+            hitboxCollider = GetComponent<SphereCollider>();
 
         if (particleEffect == null)
             particleEffect = GetComponent<ParticleSystem>();
 
-        if (sphereCollider == null || particleEffect == null)
+        if (hitboxCollider == null || particleEffect == null)
         {
-            Debug.LogError("Missing SphereCollider or ParticleSystem!");
+            Debug.LogError("Missing required components!");
             enabled = false;
             return;
         }
 
-        // Get the max possible radius from ParticleSystem bounds
-        maxRadius = particleEffect.main.startSize.constantMax * 2f;
+        hitboxCollider.isTrigger = true; // Ensure it's a trigger
+        hitboxCollider.radius = 0f; // Start at zero
     }
 
     void Update()
     {
         if (particleEffect.isPlaying)
         {
-            sphereCollider.radius = Mathf.MoveTowards(sphereCollider.radius, maxRadius, growthSpeed * Time.deltaTime);
+            currentRadius = Mathf.MoveTowards(currentRadius, maxRadius, growthSpeed * Time.deltaTime);
+            hitboxCollider.radius = currentRadius;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            float distance = Vector3.Distance(transform.position, other.transform.position);
+
+            // Player is inside the ring but not the center
+            if (distance >= currentRadius - ringThickness && distance <= currentRadius)
+            {
+                Debug.Log("Player hit by expanding ring!");
+                // Apply damage to the player here
+            }
         }
     }
 }

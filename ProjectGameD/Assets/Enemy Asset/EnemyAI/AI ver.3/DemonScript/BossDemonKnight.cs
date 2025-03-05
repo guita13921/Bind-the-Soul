@@ -31,7 +31,8 @@ public class DemonKnightBoss : MonoBehaviour
         Laser,
         OffmapCast01,
         FrontAttckCast,
-        ThreeDirectionCast
+        ThreeDirectionCast,
+        CallDemonTrap
     }
 
     //MALEE COMBO
@@ -64,6 +65,8 @@ public class DemonKnightBoss : MonoBehaviour
     private List<BossAction> SpecialCombo03 = new List<BossAction> { BossAction.OffmapCast01};  
     private List<BossAction> SpecialCombo04 = new List<BossAction> { BossAction.FrontAttckCast};  
     private List<BossAction> SpecialCombo05 = new List<BossAction> { BossAction.ThreeDirectionCast}; 
+    private List<BossAction> SpecialCombo06 = new List<BossAction> { BossAction.CallEnemy, BossAction.CallDemonTrap}; 
+    private List<BossAction> SpecialCombo07 = new List<BossAction> { BossAction.CallEnemy, BossAction.OffmapCast01}; 
 
 
     private List<BossAction> currentCombo = new List<BossAction>(); // Stores the current combo
@@ -161,7 +164,6 @@ public class DemonKnightBoss : MonoBehaviour
 
     private void StartCombo(List<BossAction> combo)
     {
-        //Debug.Log(combo);
         if (isExecutingCombo) return;
         currentCombo = combo;
         StartCoroutine(ExecuteCombo());
@@ -216,7 +218,7 @@ public class DemonKnightBoss : MonoBehaviour
 
                 case BossAction.OffmapCast01:
                     BossAnimation.PerformCast06(); 
-                    yield return new WaitForSeconds(6f);  
+                    yield return new WaitForSeconds(8f);  
                     break;
 
                 case BossAction.CallEnemy:
@@ -231,7 +233,7 @@ public class DemonKnightBoss : MonoBehaviour
                 
                 case BossAction.Dashing:
                     BossAnimation.StartDashing(); 
-                    yield return new WaitForSeconds(0.1f);  
+                    yield return new WaitForSeconds(0.01f);  
                     break;
         }
 
@@ -410,13 +412,20 @@ public class DemonKnightBoss : MonoBehaviour
         attackTimer += Time.deltaTime;
         if (attackTimer >= phase2AttackCooldown && !isExecutingCombo)
         {
-            if (comboCounter >= 4)
+            if (comboCounter >= 5)
             {
                 attackTimer = 0f;
                 float randomChance = Random.value;
 
+                if(randomChance < 0.25f){
                     StartCombo(SpecialCombo04);
+                }else if(randomChance < 0.5f){
                     StartCombo(SpecialCombo05);
+                }else if(randomChance < 0.75f){
+                    StartCombo(SpecialCombo06);
+                }else{
+                    StartCombo(SpecialCombo07);
+                }
 
                 comboCounter = 0;
                 return;
@@ -426,26 +435,44 @@ public class DemonKnightBoss : MonoBehaviour
             {
                 attackTimer = 0f;
                 float randomChance = Random.value;
+                
+                if(randomChance < 0.25f){
                     StartCombo(RangeCombo01);
+                }else if(randomChance < 0.5f){
                     StartCombo(RangeCombo04);
+                }else if(randomChance < 0.75f){
                     StartCombo(RangeCombo05);
+                }else{
                     StartCombo(RangeCombo06);
+                }
+
             }
             else if (meleeSensor.IsPlayerInRange() && meleeSensor.IsPlayerInFront()) //IN MELEE
             {
                 attackTimer = 0f;
                 float randomChance = Random.value;
+
+                if(randomChance < 0.33f){
                     StartCombo(MeleeCombo02);
+                }else if(randomChance < 0.66f){
                     StartCombo(MeleeCombo03);
+                }else{
                     StartCombo(MeleeCombo04);
+                }
             }
             else if (rangeSensor.IsPlayerOutOfRange() && rangeSensor.IsPlayerInFront()) //OUT RANGE
             {
                 attackTimer = 0f;
                 float randomChance = Random.value;
-                StartCombo(OutRangeCombo05);
-                StartCombo(OutRangeCombo06);
-                StartCombo(OutRangeCombo07);
+
+                if(randomChance < 0.33f){
+                    StartCombo(OutRangeCombo05);
+                }else if(randomChance < 0.66f){
+                    StartCombo(OutRangeCombo06);
+                }else{
+                    StartCombo(OutRangeCombo07);
+                }
+
             }else{
                 bossDemon_Rotation.RequestInsideLookAtPlayer();
             }
@@ -493,6 +520,7 @@ public class DemonKnightBoss : MonoBehaviour
     private void TransitionToPhase(BossPhase newPhase)
     {
         currentPhase = newPhase;
+        BossAnimation.UnlockMovement();
 
         switch (newPhase)
         {
@@ -508,7 +536,6 @@ public class DemonKnightBoss : MonoBehaviour
                 break;
             case BossPhase.Phase2_Enraged:
                 EnableEnrage();
-                Aura02.SetActive(true);
                 BossAnimation.TransitionToPhase("Phase2_Enraged");
                 break;            
             case BossPhase.Dead:

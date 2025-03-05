@@ -15,6 +15,7 @@ public class FrontAttackController : MonoBehaviour
     
     void Start()
     {
+        player = GameObject.FindWithTag("Player").transform;
         StartCoroutine(SpawnTrails());
     }
     
@@ -42,6 +43,5 @@ public class FrontAttackController : MonoBehaviour
     void SpawnVFX(Vector3 position)
     {
         GameObject vfx = Instantiate(trailPrefab, position, Quaternion.identity);
-        Destroy(vfx, 1f);
     }
 }

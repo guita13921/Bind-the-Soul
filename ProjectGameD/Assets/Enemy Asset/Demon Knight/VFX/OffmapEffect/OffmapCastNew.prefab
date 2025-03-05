@@ -44726,9 +44726,10 @@ GameObject:
   - component: {fileID: 34379268469106103}
   - component: {fileID: 1526911307790432848}
   - component: {fileID: 3612285350238110344}
+  - component: {fileID: 3431554549620578357}
   m_Layer: 0
   m_Name: OffmapCastNew
-  m_TagString: Untagged
+  m_TagString: EnemyWeapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44743,7 +44744,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4445473887699262}
@@ -49807,9 +49808,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 430ba1df3f2691d4fa1984791f2168d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sphereCollider: {fileID: 1526911307790432848}
+  hitboxCollider: {fileID: 1526911307790432848}
   particleEffect: {fileID: 198627698331739640}
-  growthSpeed: 1.3
+  growthSpeed: 1.35
+  ringThickness: 0.5
+  maxRadius: 5
 --- !u!135 &1526911307790432848
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -49844,6 +49847,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selfdestruct_in: 5
+--- !u!114 &3431554549620578357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823205763136166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0571ab3c9c65bb42ae6230de4697814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  characterData: {fileID: 11400000, guid: e628f4ad3830604478a34deaa6dbc29e, type: 2}
+  playerCombat: {fileID: 0}
+  reduceDamageTimer: 0
+  reducedDamage: 0
+  isCurseAttack: 0
 --- !u!1 &1873735158421174
 GameObject:
   m_ObjectHideFlags: 0
