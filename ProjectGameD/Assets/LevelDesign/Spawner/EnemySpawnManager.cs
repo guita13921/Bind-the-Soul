@@ -169,7 +169,6 @@ public class EnemySpawnManager : MonoBehaviour
         {
             obj.SetActive(true);
         }
-
         Debug.Log("All waves completed! Next stage is now active.");
     }
 

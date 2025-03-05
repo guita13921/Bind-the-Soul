@@ -66,7 +66,7 @@ public class DemonKnightBoss : MonoBehaviour
     private List<BossAction> SpecialCombo04 = new List<BossAction> { BossAction.FrontAttckCast};  
     private List<BossAction> SpecialCombo05 = new List<BossAction> { BossAction.ThreeDirectionCast}; 
     private List<BossAction> SpecialCombo06 = new List<BossAction> { BossAction.CallEnemy, BossAction.CallDemonTrap}; 
-    private List<BossAction> SpecialCombo07 = new List<BossAction> { BossAction.CallEnemy, BossAction.OffmapCast01}; 
+    //private List<BossAction> SpecialCombo07 = new List<BossAction> { BossAction.CallEnemy, BossAction.OffmapCast01}; 
 
 
     private List<BossAction> currentCombo = new List<BossAction>(); // Stores the current combo
@@ -424,7 +424,7 @@ public class DemonKnightBoss : MonoBehaviour
                 }else if(randomChance < 0.75f){
                     StartCombo(SpecialCombo06);
                 }else{
-                    StartCombo(SpecialCombo07);
+                    StartCombo(SpecialCombo03);
                 }
 
                 comboCounter = 0;
