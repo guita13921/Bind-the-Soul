@@ -18,7 +18,7 @@ public class BossDemon_Animation : MonoBehaviour
     [SerializeField] private DissolvingControllerTut DissolvingController;
 
     [Header("Audio")]
-    public AudioSource attacksound;
+    [SerializeField] public AudioSource attacksound;
 
     [Header("Malee")]
     [SerializeField] private bool isAttacking; // Reference to the flamethr
@@ -322,7 +322,7 @@ public class BossDemon_Animation : MonoBehaviour
                 Instantiate(slashVFX[x], slashVFX_Position[x].transform.position, slashVFX_Position[x].transform.rotation);
                 if(DemonBoss.GetBossPhase() == DemonKnightBoss.BossPhase.Phase2 
                 || DemonBoss.GetBossPhase() == DemonKnightBoss.BossPhase.Phase2_Enraged){
-                    attacksound.Play();
+                    if(attacksound != null) attacksound.Play();
                     Instantiate(DemonEnegyStrike, slashVFX_Position[x].transform.position, slashVFX_Position[x].transform.rotation);
                 }
             }
