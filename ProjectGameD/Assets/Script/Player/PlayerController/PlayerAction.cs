@@ -66,7 +66,7 @@ public partial class PlayerControl
         dashCheck.SetCollisionState(false);
         //Debug.Log(dashCheck.willCollide);
 
-            capsuleCollider.enabled = false;
+           // capsuleCollider.enabled = false;
 
 
         GameObject instantiatedObject = Instantiate(
@@ -99,7 +99,7 @@ public partial class PlayerControl
 
             yield return null;
         }
-            capsuleCollider.enabled = true;
+          //  capsuleCollider.enabled = true;
 
         Physics.IgnoreLayerCollision(7, 9, false);
         

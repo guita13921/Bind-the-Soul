@@ -33,7 +33,7 @@ public class NextStage : MonoBehaviour
     public void loadscene(string NextSceneName)
     {
         characterData.rerollpoint += 2;
-
+        CheckHPRestoreTHreshold();
         characterData.healthRatio = MChealth.currentHealth / MChealth.maxHealth;
 
         characterData.Health = MChealth.currentHealth;
@@ -44,5 +44,16 @@ public class NextStage : MonoBehaviour
     {
         if (other.tag == "Player" && upgradeCanvas == null)
             loadscene(NextSceneName);
+    }
+
+    void CheckHPRestoreTHreshold()
+    {
+        float threshold = 0.20f * characterData.healToThreshold;
+        if (characterData.Health < (characterData.maxHealth * threshold))
+        {
+            characterData.Health = characterData.maxHealth * threshold;
+            MChealth.currentHealth = characterData.Health;
+           // characterData.Health =   health.currentHealth;
+        }
     }
 }

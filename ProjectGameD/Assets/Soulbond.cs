@@ -171,7 +171,7 @@ public class Soulbond : MonoBehaviour
                 data => $"Iron Body (LV.{data.reduceIncomeDamage})",
                 data => data.reduceIncomeDamage != 0,
                 data => data.reduceIncomeDamage++,
-                data => $"Reduce incoming damage by {5 * (data.reduceIncomeDamage + 1)}%",
+                data => $"Reduce incoming damage by {5 * (data.reduceIncomeDamage)}%",
                 data => "Iron Body"
             ),
             new Buff(
@@ -186,7 +186,7 @@ public class Soulbond : MonoBehaviour
                 data => data.healToThreshold != 0,
                 data => data.healToThreshold++,
                 data =>
-                    $"Heal the player's health points to the health threshold of {20 * (data.healToThreshold + 1)}% after entering a new stage",
+                    $"Heal the player's health points to the health threshold of {20 * (data.healToThreshold)}% after entering a new stage",
                 data => "Threshold Revival"
             ),
             new Buff(
@@ -194,14 +194,14 @@ public class Soulbond : MonoBehaviour
                 data => data.QKReduceCooldown != 0,
                 data => data.QKReduceCooldown++,
                 data =>
-                    $"Reduce special attack and skill cooldown by {data.QKReduceCooldown + 1} second",
+                    $"Reduce special attack and skill cooldown by {data.QKReduceCooldown } second",
                 data => "Acceleration"
             ),
             new Buff(
                 data => $"Overgrowth (LV.{data.maxHPIncrease})",
                 data => data.maxHPIncrease != 0,
                 data => data.maxHPIncrease++,
-                data => $"Increase max health points by {1000 * (data.maxHPIncrease + 1)}",
+                data => $"Increase max health points by {1000 * (data.maxHPIncrease )}",
                 data => "Overgrowth"
             ),
             new Buff(
@@ -209,7 +209,7 @@ public class Soulbond : MonoBehaviour
                 data => data.normalAttackCrit != 0,
                 data => data.normalAttackCrit++,
                 data =>
-                    $"Normal attack now has a {10 * (data.normalAttackCrit + 1)}% chance to triple the damage",
+                    $"Normal attack now has a {10 * (data.normalAttackCrit )}% chance to triple the damage",
                 data => "Lethal Strike"
             ),
             /*
@@ -234,7 +234,7 @@ public class Soulbond : MonoBehaviour
                 data => $"Swift Step (LV.{data.ReduceDashCooldown} )",
                 data => data.ReduceDashCooldown != 0,
                 data => data.ReduceDashCooldown++,
-                data => $"Reduce dash cooldown by {15 * (data.ReduceDashCooldown + 1)}%",
+                data => $"Reduce dash cooldown by {15 * (data.ReduceDashCooldown )}%",
                 data => "Swift Step"
             ),
             new Buff(
@@ -242,7 +242,7 @@ public class Soulbond : MonoBehaviour
                 data => data.reduceIncomeDamageDependOnHP != 0,
                 data => data.reduceIncomeDamageDependOnHP++,
                 data =>
-                    $"If HP is less than 25%, reduce incoming damage by {15 * (data.reduceIncomeDamageDependOnHP + 1)}%",
+                    $"If HP is less than 25%, reduce incoming damage by {15 * (data.reduceIncomeDamageDependOnHP )}%",
                 data => "Unyielding spirit"
             ),
             new Buff(
@@ -250,7 +250,7 @@ public class Soulbond : MonoBehaviour
                 data => data.addDamageDependOnHP != 0,
                 data => data.addDamageDependOnHP++,
                 data =>
-                    $"If HP is less than 25%, increase damage by {15 * (data.addDamageDependOnHP + 1)}%",
+                    $"If HP is less than 25%, increase damage by {15 * (data.addDamageDependOnHP )}%",
                 data => "Last Stand"
             ),
             new Buff(
