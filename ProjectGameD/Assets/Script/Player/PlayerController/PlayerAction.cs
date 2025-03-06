@@ -47,7 +47,6 @@ public partial class PlayerControl
     public DashCheck dashCheck; // Assign in inspector
     public ControlPower controlPower;
     public float dashWaitTime = 0.75f;
-
     IEnumerator Dash()
     {
         if (!canDash)
@@ -66,6 +65,9 @@ public partial class PlayerControl
         bool CheckForCollision = false;
         dashCheck.SetCollisionState(false);
         //Debug.Log(dashCheck.willCollide);
+
+            capsuleCollider.enabled = false;
+
 
         GameObject instantiatedObject = Instantiate(
             prefabToInstantiate,
@@ -97,6 +99,7 @@ public partial class PlayerControl
 
             yield return null;
         }
+            capsuleCollider.enabled = true;
 
         Physics.IgnoreLayerCollision(7, 9, false);
         

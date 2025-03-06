@@ -261,10 +261,10 @@ public class Soulbond : MonoBehaviour
                 data => "Evolution: Red Blade"
             ),
             new Buff(
-                data => $"Evolution: Homing Bullet",
+                data => $"Evolution: Triple Bullet",
                 data => data.QSkillType == 2,
                 data => data.QSkillType = 2,
-                data => $"Change skill to a bullet that follows the enemy",
+                data => $"Triple the bullets that follow the enemy",
                 data => "Evolution: Homing Bullet"
             ),
             new Buff(

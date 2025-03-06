@@ -422,6 +422,7 @@ MonoBehaviour:
   - {fileID: 7619402489430806295, guid: 3d73279fc471a084b8d205c0bf283b36, type: 3}
   - {fileID: 3047134106514622967, guid: fc07697b695feac4fb8ec94a7f0c3d64, type: 3}
   playerCombat: {fileID: 6065301410070953268}
+  mchealth: {fileID: 327061196136792290}
   dashDistance: 5
   dashTime: 0.3
   prefabToInstantiate: {fileID: 2806017354847072920, guid: abf86c60216147d4bb2863c8b8ff98ea, type: 3}
@@ -464,7 +465,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 402067311283320090}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 0.0000001
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -476,12 +477,12 @@ Rigidbody:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 8
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_ImplicitCom: 0
+  m_ImplicitTensor: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 116
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!114 &8861962880128945078
 MonoBehaviour:
@@ -517,7 +518,7 @@ MonoBehaviour:
   - {fileID: 1130446560849736, guid: 28b3896ef934b3a42a09d0904ffe804f, type: 3}
   - {fileID: 4690713339754426470, guid: 4a6134b2716d1c44d9b29add43e11d29, type: 3}
   speicalVFX:
-  - {fileID: 2226270083186812446, guid: f3666e609322ca24089734ab68a12de6, type: 3}
+  - {fileID: 4771662488360507348, guid: c7d21c87bcbc63d43b9812fb5266f3f4, type: 3}
   health: {fileID: 327061196136792290}
   qSkill:
   - {fileID: 4771662488360507348, guid: c7d21c87bcbc63d43b9812fb5266f3f4, type: 3}
@@ -532,7 +533,6 @@ MonoBehaviour:
   boxCollider: {fileID: 1003628619869844919}
   parentObject: {fileID: 2815616981491428810}
   normalmode: 1
-  playerCD: {fileID: 0}
   controlPower: {fileID: 1300418467147365362}
   isShield1: 0
   isShield2: 0
@@ -572,7 +572,6 @@ MonoBehaviour:
   maxHealth: 1000
   currentHealth: 0
   characterData: {fileID: 11400000, guid: e628f4ad3830604478a34deaa6dbc29e, type: 2}
-  nextStage: {fileID: 0}
 --- !u!114 &5674700439624193831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -737,7 +736,7 @@ MonoBehaviour:
   - {fileID: 8871827822771423853, guid: 67e224406b0bdeb4db7e9cc59a13dc27, type: 3}
   - {fileID: 8871827822771423853, guid: 5b253db1f4fc6334189a4f401313b475, type: 3}
   qSkillVFX:
-  - {fileID: 2226270083186812446, guid: f3666e609322ca24089734ab68a12de6, type: 3}
+  - {fileID: 4771662488360507348, guid: 388a551a37d5099468818e9ea2caf76a, type: 3}
   - {fileID: 8998323707472471028, guid: be9b1812be7ac79449acabeedc9f40b5, type: 3}
   - {fileID: 4771662488360507348, guid: c7d21c87bcbc63d43b9812fb5266f3f4, type: 3}
   - {fileID: 7392211456925874761, guid: 0ac6a1b825a21cc43ab2907082fb4fcf, type: 3}
@@ -1226,6 +1225,7 @@ GameObject:
   - component: {fileID: 504128347082084475}
   - component: {fileID: 598910017074792273}
   - component: {fileID: 8636394098429754046}
+  - component: {fileID: 8148973214110415959}
   m_Layer: 5
   m_Name: ButtonToTitle
   m_TagString: Untagged
@@ -1364,6 +1364,19 @@ MonoBehaviour:
   Transitionsound: {fileID: 8300000, guid: 33c2a442efc083e4bbd4fb26da958458, type: 3}
   audioSource: {fileID: 4266446776978734904}
   currentSoundtrack: {fileID: 0}
+--- !u!114 &8148973214110415959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107287429743412505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71a469e61943ef544a50dc975a086f46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterData: {fileID: 0}
 --- !u!1 &1254148982498020260
 GameObject:
   m_ObjectHideFlags: 0

@@ -74,16 +74,19 @@ public class PlayerWeapon : MonoBehaviour
         {
             if (other.CompareTag("Enemy"))
             {
+                
+                enemy.CalculateDamage(damage, isQK, characterData.Q3_QKWeak);
+                if (hitDetection)
+                    hitDetection.SpanwDamageText(damage);
+
                 if (characterData.Q3_QKSlow && isQK)
                 {
-                    enemyai3.FixSpeed();
+                    if(enemyai3 != null)
+                        enemyai3.FixSpeed();
                 }
                 if (projectileAttack)
                     projectileAttack.SpwanBull();
 
-                enemy.CalculateDamage(damage, isQK, characterData.Q3_QKWeak);
-                if (hitDetection)
-                    hitDetection.SpanwDamageText(damage);
             }
         }
         damage = damageR;

@@ -47,7 +47,9 @@ public class playerdie : MonoBehaviour
             Instantiate(deathsound_BG);
 
             characterData.deathCount += 1;
-            animator.Play("die", 0, 0);
+
+    animator.SetBool("IsDying", true);
+            
 
             gameObject.tag = "Untagged";
             gameObject.layer = default;
@@ -60,6 +62,7 @@ public class playerdie : MonoBehaviour
         {
             // Lock the animation at the end
             animator.enabled = false;
+            DisableAllScripts();
         }
     }
 

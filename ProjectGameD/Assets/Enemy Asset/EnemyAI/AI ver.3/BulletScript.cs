@@ -116,6 +116,11 @@ public class BulletScript : MonoBehaviour
         {
             HitTarget();
         }
+        else if(other.tag == "Obstacle"){
+Instantiate(hit, transform.position, transform.rotation);
+    Invoke(nameof(HitTarget), 0.1f);
+
+        }
         else
         {
             FlashEffect();
@@ -172,4 +177,6 @@ public class BulletScript : MonoBehaviour
         }
         Destroy(gameObject);
     }
+
+    
 }

@@ -142,10 +142,10 @@ public class BuffReader : MonoBehaviour
                 data => "Evolution: Red Blade"
             ),
             new Buff(
-                data => $"Evolution: Homing Bullet",
+                data => $"Evolution: Tirple Bullet",
                 data => data.QSkillType == 0,
                 data => data.QSkillType = 2,
-                data => $"Change skill to a bullet that follows the enemy",
+                data => $"Triple the bullets that follow the enemy",
                 data => "Evolution: Homing Bullet"
             ),
             new Buff(

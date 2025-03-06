@@ -12,7 +12,7 @@ public partial class PlayerControl : MonoBehaviour
 
     [SerializeField]
     PlayerCombat playerCombat;
-
+    public Health mchealth;
     private void OnTriggerEnter(Collider Hit)
     {
         if (!playerCombat.isShield1 && !playerCombat.isShield2)
@@ -24,6 +24,9 @@ public partial class PlayerControl : MonoBehaviour
             )
             {
                 GotHit = true;
+                if(mchealth.currentHealth<=0){
+                    animator.Play("die",0,0);
+                }else
                 animator.Play("GotHit", 0, 0);
                 int randomIndex = Random.Range(0, hurtsound.Length);
                 GameObject humansfx = Instantiate(hurtsound[randomIndex]);

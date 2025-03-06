@@ -1,30 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class IntroManager : MonoBehaviour
+public class skipStage00 : MonoBehaviour
 {
-
-    public CharacterData characterData;
+        public CharacterData characterData;
     public GameObject Intro;
             public GameObject CamNormal;
             public GameObject CamIntro;
 
         public GameObject MCNormal;
     public GameObject BasicControl;
-    void Start()
+
+    public Intro intro;
+        void Update()
     {
-        if(characterData.deathCount ==0){
-            CamNormal.SetActive(false);
-            MCNormal.SetActive(false);
-            BasicControl.SetActive(false);
-            Intro.SetActive(true);
-            CamIntro.SetActive(true);
-
-
-        }else{
-            CamIntro.SetActive(false);
+                if (Input.GetKeyDown(KeyCode.Escape) && characterData.deathCount==0)
+        {
+            intro.SetDeactiveDOF();
+            intro.SetDeactiveEYE();
+        
+        CamIntro.SetActive(false);
 
             Intro.SetActive(false);
             BasicControl.SetActive(true);
@@ -32,8 +28,5 @@ public class IntroManager : MonoBehaviour
 
             MCNormal.SetActive(true);
         }
-        
     }
-
-
 }
