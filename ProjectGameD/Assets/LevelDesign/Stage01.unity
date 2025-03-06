@@ -911,6 +911,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5972737233958654249, guid: da7691b394829754cb789ddf972d5ee5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6608837985856686908, guid: da7691b394829754cb789ddf972d5ee5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.27
@@ -954,7 +958,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 638248061124628025, guid: da7691b394829754cb789ddf972d5ee5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 994249688}
   m_SourcePrefab: {fileID: 100100000, guid: da7691b394829754cb789ddf972d5ee5, type: 3}
 --- !u!1 &479290322 stripped
 GameObject:
@@ -1961,6 +1968,29 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 446987712, guid: a01382f4fef9dda44bfc417604e578b8, type: 3}
   m_PrefabInstance: {fileID: 1614194463}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &994249683 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 638248061124628025, guid: da7691b394829754cb789ddf972d5ee5, type: 3}
+  m_PrefabInstance: {fileID: 478730861}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &994249688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994249683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0571ab3c9c65bb42ae6230de4697814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 70
+  characterData: {fileID: 11400000, guid: e628f4ad3830604478a34deaa6dbc29e, type: 2}
+  playerCombat: {fileID: 1714660096}
+  reduceDamageTimer: 0
+  reducedDamage: 0
+  isCurseAttack: 0
 --- !u!4 &1003480098 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 27345962894834613, guid: 71382addb5f08ba41ae9c04deadd488c, type: 3}
@@ -3552,6 +3582,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6065301410070953268, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
+      propertyPath: castCooldown
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065301410070953268, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
+      propertyPath: specialAttackCooldown
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 7235355743056232594, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
       propertyPath: currentSoundtrack
       value: 
@@ -4488,6 +4526,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1714660096 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6065301410070953268, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
+  m_PrefabInstance: {fileID: 1379940920}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0c21ad9f2c48814ca932c3d0eac7cb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1715082763
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6474,7 +6523,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8527536116524559617, guid: 021d7a364347fc8418c658ee701af906, type: 3}
       propertyPath: enemyTypes.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8527536116524559617, guid: 021d7a364347fc8418c658ee701af906, type: 3}
       propertyPath: spawnPoints.Array.size
@@ -6569,6 +6618,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1375854284}
     - target: {fileID: 8527536116524559617, guid: 021d7a364347fc8418c658ee701af906, type: 3}
+      propertyPath: enemyTypes.Array.data[5].prefab
+      value: 
+      objectReference: {fileID: 1000014232435074, guid: 11cc9a8b034f5344981faea733b8cb27, type: 3}
+    - target: {fileID: 8527536116524559617, guid: 021d7a364347fc8418c658ee701af906, type: 3}
       propertyPath: enemyTypes.Array.data[0].spawnCost
       value: 10
       objectReference: {fileID: 0}
@@ -6586,6 +6639,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8527536116524559617, guid: 021d7a364347fc8418c658ee701af906, type: 3}
       propertyPath: enemyTypes.Array.data[4].spawnCost
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527536116524559617, guid: 021d7a364347fc8418c658ee701af906, type: 3}
+      propertyPath: enemyTypes.Array.data[5].spawnCost
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8751415785438950461, guid: 021d7a364347fc8418c658ee701af906, type: 3}

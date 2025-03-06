@@ -5187,6 +5187,7 @@ GameObject:
   - component: {fileID: 5820764458137486523}
   - component: {fileID: 5143579913044285221}
   - component: {fileID: 5201137802221409590}
+  - component: {fileID: 6022351224843897253}
   m_Layer: 0
   m_Name: warrior_using2
   m_TagString: Enemy
@@ -5326,7 +5327,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 0
   currentHealth: 0
-  rb: {fileID: 0}
 --- !u!114 &5820764458137486523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5402,7 +5402,7 @@ MonoBehaviour:
   IN_KnockBackTime: 1
   IN_CoolDownAttack: 5
   IN_numberOfRandomVariations: 3
-  IN_Health: 200
+  IN_Health: 150
   IN_Speed: 2
   IN_Damage: 10
   IN_range: 10
@@ -5430,6 +5430,19 @@ MonoBehaviour:
   dissolveRate: 0.0125
   refreshRate: 0.025
   skinnedMaterials: []
+--- !u!114 &6022351224843897253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6303357223316747678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3915b1a073180f2439b02451bf23ea65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &6368060211985198517
 GameObject:
   m_ObjectHideFlags: 0
@@ -6802,7 +6815,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0571ab3c9c65bb42ae6230de4697814, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
+  damage: 100
   characterData: {fileID: 11400000, guid: e628f4ad3830604478a34deaa6dbc29e, type: 2}
   playerCombat: {fileID: 0}
   reduceDamageTimer: 0

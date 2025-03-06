@@ -367,7 +367,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0571ab3c9c65bb42ae6230de4697814, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 100
+  damage: 50
   characterData: {fileID: 11400000, guid: e628f4ad3830604478a34deaa6dbc29e, type: 2}
   playerCombat: {fileID: 0}
   reduceDamageTimer: 0
@@ -2614,6 +2614,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1349150361055734, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2381312260619453194}
+    - targetCorrespondingSourceObject: {fileID: 1349150361055734, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3099251935345877156}
     - targetCorrespondingSourceObject: {fileID: 1115198303566222, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8455827951521649387}
@@ -2993,7 +2996,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   currentHealth: 0
-  rb: {fileID: 0}
 --- !u!114 &3043389129230454809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3063,7 +3065,7 @@ MonoBehaviour:
   IN_KnockBackTime: 3
   IN_CoolDownAttack: 3
   IN_numberOfRandomVariations: 1
-  IN_Health: 1
+  IN_Health: 100
   IN_Speed: 4
   IN_Damage: 10
   IN_range: 10
@@ -3203,6 +3205,19 @@ CapsuleCollider:
   m_Height: 8.426736
   m_Direction: 1
   m_Center: {x: 0, y: 2.513342, z: 0}
+--- !u!114 &3099251935345877156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8037888334414812160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3915b1a073180f2439b02451bf23ea65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &8038012762286839390 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1224667731866536, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}

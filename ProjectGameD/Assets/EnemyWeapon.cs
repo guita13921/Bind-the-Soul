@@ -60,7 +60,8 @@ public class EnemyWeapon : MonoBehaviour
                 float reducedDamageDependOnHP = damage * reducedDamageSecond;
                 player.currentHealth -= Mathf.Max(
                     0,
-                    damage - reducedDamage - reducedDamageDependOnHP
+    Mathf.RoundToInt(damage - reducedDamage - reducedDamageDependOnHP)
+                    
                 );
             }
         }
