@@ -21,19 +21,23 @@ public class SpikeTrap : MonoBehaviour
 
     [SerializeField]
     private bool autoReset = true; // If true, the trap resets automatically
+    public PlayerCombat playerCombat;
+    public CharacterData characterData;
+    private float reducedDamageSecond = 0; // if HP < 25% of maxHP
 
-    [Header("Damage Settings")]
-    [SerializeField]
-    private float spikeDamage = 10f; // Damage dealt by the spike trap
+    [Header("Trap Settings")]
+    [SerializeField] private float damage;
+    [SerializeField] private Health player;
 
     private Vector3 initialPosition; // Original position of the spikes
     private Vector3 activePosition; // Position when spikes are fully activated
     private bool isTriggered = false; // Prevent multiple triggers
-    private bool isActive = false; // Whether the spikes are currently active
+
+    [SerializeField] private bool isActive = false; // Whether the spikes are currently active
 
     private void Start()
     {
-        // Store the initial and active positions
+        playerCombat = FindObjectOfType<PlayerCombat>();
         initialPosition = spikes.transform.localPosition;
         activePosition = initialPosition + new Vector3(0, spikeHeight, 0);
     }
@@ -51,6 +55,15 @@ public class SpikeTrap : MonoBehaviour
         if (isActive)
         {
             ApplyDamage(other);
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (isActive)
+        {
+            ApplyDamage(other);
+            isActive = false;
         }
     }
 
@@ -97,15 +110,24 @@ public class SpikeTrap : MonoBehaviour
 
     private void ApplyDamage(Collider other)
     {
-        // Check if the object has the EnemyHealth script
-        EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
-        if (enemyHealth != null && isActive)
+        //Debug.Log("ApplyDamage");
+        player = other.gameObject.GetComponent<Health>();
+        if (player != null && other.CompareTag("Player"))
         {
-            // Apply damage to the enemy
-            enemyHealth.CalculateDamageOld(spikeDamage);
-            Debug.Log(
-                $"Spike Trap dealt {spikeDamage} damage to {other.name}. Current Health: {enemyHealth.GetCurrentHealth()}"
-            );
+            if (!playerCombat.isShield1 && !playerCombat.isShield2)
+            {
+                if (player.currentHealth < (player.maxHealth * 0.25f))
+                {
+                    reducedDamageSecond = characterData.reduceIncomeDamageDependOnHP * 0.15f; // 0.15f per level (15%, 30%, 45%)
+                }
+                float damageReductionPercentage = characterData.reduceIncomeDamage * 0.05f; // 0.05f per level (5%, 10%, 15%)
+                float reducedDamage = damage * damageReductionPercentage;
+                float reducedDamageDependOnHP = damage * reducedDamageSecond;
+                player.currentHealth -= Mathf.Max(
+                    0,
+                    damage - reducedDamage - reducedDamageDependOnHP
+                );
+            }
         }
     }
 
