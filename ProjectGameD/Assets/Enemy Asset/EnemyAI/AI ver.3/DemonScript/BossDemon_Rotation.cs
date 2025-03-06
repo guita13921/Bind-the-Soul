@@ -79,6 +79,14 @@ public class BossDemon_Rotation : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
     }
 
+    private void LookAtPlayer_w0Lock()
+    {
+        Vector3 direction = player.position - transform.position;
+        direction.y = 0; // Keep rotation level (prevent looking up/down)
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+    }
+
     private void LookAtPlayer_WhenLaser()
     {
         Vector3 direction = player.position - transform.position;
@@ -122,6 +130,7 @@ public class BossDemon_Rotation : MonoBehaviour
         LookAtPlayer_WhenLaser();
     }
 
+    /*
     public void RequestInsideLookAtPlayer()
     {
         if (player == null) return; // Ensure the player reference exists
@@ -133,5 +142,11 @@ public class BossDemon_Rotation : MonoBehaviour
         {
             transform.rotation = Quaternion.LookRotation(directionToPlayer); // Instantly face the player
         }
+    }
+    */
+
+    public void RequestLookAtPlayer_w0Lock()
+    {
+        LookAtPlayer_w0Lock();
     }
 }

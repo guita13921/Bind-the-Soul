@@ -257,7 +257,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3839183053684486290}
   - component: {fileID: 2033277698504713166}
-  - component: {fileID: 5508787883644328152}
   m_Layer: 0
   m_Name: laserHitbox
   m_TagString: Untagged
@@ -301,23 +300,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5508787883644328152
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2139189304407073074}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eef1258da75380049a2ce134006c1b24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damagePerSecond: 100
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  isActive: 0
 --- !u!1 &2322652956620001040
 GameObject:
   m_ObjectHideFlags: 0
@@ -781,7 +763,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8623566917650973786}
   - component: {fileID: 754400000076038262}
-  - component: {fileID: 587452057389829762}
   m_Layer: 0
   m_Name: laserHitbox
   m_TagString: Untagged
@@ -825,23 +806,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &587452057389829762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4154173479588001900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eef1258da75380049a2ce134006c1b24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damagePerSecond: 100
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  isActive: 0
 --- !u!1 &4188279459517714979
 GameObject:
   m_ObjectHideFlags: 0
@@ -984,7 +948,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6280362177648802518}
   - component: {fileID: 5698208878873062658}
-  - component: {fileID: 7253168492553347225}
   m_Layer: 0
   m_Name: laserHitbox
   m_TagString: Untagged
@@ -1028,23 +991,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7253168492553347225
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5019042088228647064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eef1258da75380049a2ce134006c1b24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damagePerSecond: 100
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  isActive: 0
 --- !u!1 &5268979419381748801
 GameObject:
   m_ObjectHideFlags: 0
@@ -2660,10 +2606,6 @@ MonoBehaviour:
   bulletDelay: 0.1
   BulletPrefab: {fileID: 1184375899483656, guid: 1a107335f480d544da03cb0267a5862e, type: 3}
   firePoint: {fileID: 7965230695930893278}
-  laserEffectHitboxes:
-  - {fileID: 7253168492553347225}
-  - {fileID: 587452057389829762}
-  - {fileID: 5508787883644328152}
   laserEffects:
   - {fileID: 6050863197240006051}
   - {fileID: 7622144860185988466}
@@ -2748,7 +2690,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 1000
   currentHealth: 1000
-  rb: {fileID: 0}
 --- !u!114 &3686968551910895113
 MonoBehaviour:
   m_ObjectHideFlags: 0
