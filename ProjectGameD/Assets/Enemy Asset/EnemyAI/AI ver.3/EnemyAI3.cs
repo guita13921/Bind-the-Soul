@@ -10,123 +10,67 @@ using UnityEngine.VFX;
 
 public class EnemyAI3 : MonoBehaviour
 {
-    [SerializeField]
-    protected GameObject player;
+    [Header("Reference")]
+    [SerializeField] protected GameObject player;
+    [SerializeField] protected NavMeshAgent agent;
+    [SerializeField] BoxCollider boxCollider;
+    [SerializeField] protected EnemyWeapon weapon;
+    [SerializeField] protected Animator animator;
+    [SerializeField] protected LayerMask groundLayer,playerLayer;
 
-    [SerializeField]
-    protected NavMeshAgent agent;
-
-    [SerializeField]
-    protected LayerMask groundLayer,
-        playerLayer;
-
-    [SerializeField]
-    Rigidbody rb;
-
-    //Walk Var
+    [Header("Movement Control")]
+    [SerializeField] Rigidbody rb;
+    [SerializeField] protected float speed;
     Vector3 destPoint;
     bool walkpointSet;
-
-    [SerializeField]
-    private protected float range;
-
-    [SerializeField]
-    private protected float sightRange,
-        attackRange;
-
-    [SerializeField]
-    private protected bool playerInsight,
-        PlayerInAttackrange;
-
-    //Animatotion var
-    protected Animator animator;
-
-    [SerializeField]
-    BoxCollider boxCollider;
-
-    [SerializeField]
-    protected EnemyWeapon weapon;
-
-    //Attack Forward
-    [SerializeField]
-    private float dashDistance;
-
-    [SerializeField]
-    private float dashSpeed;
+    [SerializeField] private protected float range;
+    [SerializeField] private protected float sightRange, attackRange;
+    [SerializeField] private protected bool playerInsight, PlayerInAttackrange;
+    [SerializeField] private float dashDistance;
+    [SerializeField] private float dashSpeed;
     private bool isDashing = false;
 
-    //State Var
-    public enum State
+
+    [SerializeField] public enum State
     {
         Ready,
         Cooldown,
         KnockBack,
         Dead,
     };
-
-    [SerializeField]
-    public State state;
-
-    [SerializeField]
-    protected float speed;
-
-    //CoolDown var
-    [SerializeField]
-    protected float timerCoolDownAttack = 0;
+    
+    [Header("StateManagement")]
+    [SerializeField] public State state;
+    [SerializeField] protected float timerCoolDownAttack = 0;
     bool timerReachedCoolDownAttack = false;
-
-    [SerializeField]
-    protected float timerCoolKnockBack = 0;
+    [SerializeField] protected float timerCoolKnockBack = 0;
     bool timerReachedCoolKnockBack = false;
     private protected float KnockBackTime;
     private protected float CoolDownAttack;
+    [SerializeField] private int numberOfRandomVariations;
+    private int currentBehaviorType = -1;
 
-    //Attack Aniamtion
-    [SerializeField]
-    private int numberOfRandomVariations;
-    private int currentBehaviorType = -1; // Default to -1 indicating no behavior set yet
-
-    // Spawn Effect Variables
     [Header("Spawn Settings")]
-    [SerializeField]
-    private float spawnDelay = 2f; // Freeze duration
+    [SerializeField] private float spawnDelay = 2f; // Freeze duration
+    [SerializeField] private GameObject spawnEffect; // VFX Graph effect
+    [SerializeField] protected bool isSpawning = true;
+    [SerializeField] private float effectSizeMultiplier = 2f; // Multiplier for size
 
-    [SerializeField]
-    private VisualEffect spawnEffect; // VFX Graph effect
+    [Header("VFX")]
+    [SerializeField] private GameObject hitEffectPrefab; // Prefab for the hit effect
+    [SerializeField] private Transform hitEffectSpawnPoint; // Where the effect spawns (optional)
+    [SerializeField] private float hitEffectDuration = 1f; // Time before destroying the prefab
 
-    [SerializeField]
-    protected bool isSpawning = true;
+    [Header("Heath/Canvas")]
+    [SerializeField] GameObject bar;
+    [SerializeField] protected EnemyHealth health;
+    [SerializeField] PlayerWeapon playerWeapon;
+    [SerializeField] Canvas attackIndicatorCanvas;
+    [SerializeField] AttackIndicatorController attackIndicatorController;
 
-    [SerializeField]
-    private float effectSizeMultiplier = 2f; // Multiplier for size
-
-    // Hit Effect
-    [SerializeField]
-    private GameObject hitEffectPrefab; // Prefab for the hit effect
-
-    [SerializeField]
-    private Transform hitEffectSpawnPoint; // Where the effect spawns (optional)
-
-    [SerializeField]
-    private float hitEffectDuration = 1f; // Time before destroying the prefab
-
-    //Heath and Canvas
-    [SerializeField]
-    Canvas bar;
-
-    [SerializeField]
-    protected EnemyHealth health;
-
-    [SerializeField]
-    PlayerWeapon playerWeapon;
-
-    [SerializeField]
-    Canvas attackIndicatorCanvas;
-
-    [SerializeField]
-    AttackIndicatorController attackIndicatorController;
+    //Temp
     private float originalSpeed = 0f;
-    private bool isSlowingDown = false; // Flag to check if already slowing down
+    private bool isSlowingDown = false; 
     private float slowTimer = 0f;
 
     public void FixSpeed()
@@ -177,21 +121,23 @@ public class EnemyAI3 : MonoBehaviour
         isSpawning = true;
         agent.enabled = false;
 
-        // Set the size of the VFX effect
         if (spawnEffect != null)
         {
-            spawnEffect.Play();
+            spawnEffect.SetActive(true);
         }
 
         yield return new WaitForSeconds(spawnDelay);
 
+        /*
         if (spawnEffect != null)
         {
-            spawnEffect.Stop();
+            spawnEffect.SetActive(false);
         }
+        */
 
         agent.enabled = true;
         isSpawning = false;
+        bar.SetActive(true);
     }
 
     public virtual void SetStat(
@@ -411,39 +357,36 @@ public class EnemyAI3 : MonoBehaviour
     public virtual void Dead()
     {
         playerWeapon.killEnemyTimerAdder();
-
         if (state == State.Dead)
         {
             return;
         }
-        else
+
+        state = State.Dead;
+        gameObject.tag = "DEAD"; 
+
+        foreach (Transform child in transform)
         {
-            state = State.Dead;
-
-            // Change the tag of the enemy and all its children to "DEAD"
-            gameObject.tag = "DEAD"; 
-
-            // Iterate over all children and set their tag to "DEAD"
-            foreach (Transform child in transform)
-            {
-                child.gameObject.tag = "DEAD";
-            }
-
-            if(bar != null){
-                Destroy(bar.gameObject);
-            }
-
-            // Disable NavMeshAgent
-            agent.enabled = false;
-
-            // Play death animation
-            animator.SetBool("Death", true);
-
-            // Deactivate the attack indicator canvas
-            attackIndicatorCanvas.gameObject.SetActive(false);
-            Destroy(this.gameObject);
+            child.gameObject.tag = "DEAD";
         }
+
+        if (bar != null)
+        {
+            Destroy(bar.gameObject);
+        }
+
+        agent.enabled = false;
+        animator.SetBool("Death", true);
+        attackIndicatorCanvas.gameObject.SetActive(false);
+        StartCoroutine(DestroyAfterDelay(5f));
     }
+
+    private IEnumerator DestroyAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Destroy(this.gameObject);
+    }
+
 
     protected virtual void Patrol()
     {
@@ -499,7 +442,6 @@ public class EnemyAI3 : MonoBehaviour
     {
         if (attackIndicatorController != null)
         {
-            //attackIndicatorCanvas.enabled = true;
             attackIndicatorController.ShowIndicator(AttackTimeFrame);
         }
     }
@@ -543,7 +485,7 @@ public class EnemyAI3 : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.isTrigger && other.gameObject.CompareTag("PlayerSword") && state != State.Dead)
+        if (other.isTrigger && other.gameObject.CompareTag("PlayerSword") && state != State.Dead && isSpawning)
         {
             PlayerWeapon playerWeapon = other.gameObject.GetComponent<PlayerWeapon>();
             //if (playerWeapon != null)

@@ -9,8 +9,8 @@ public class EnemyRange02 : MonoBehaviour
     [Header("Reference")]
     [SerializeField] public EnemyRange02_Animation enemyAnimation;
     [SerializeField] public EnemyHealth health;
-    [SerializeField] bool isDead = false;
-    [SerializeField] Canvas bar;
+    [SerializeField] protected bool isDead = false;
+    [SerializeField] GameObject bar;
 
     [Header("Movement")]
     public GameObject player;
@@ -34,17 +34,20 @@ public class EnemyRange02 : MonoBehaviour
 
     [Header("Spawn Settings")]
     [SerializeField] private float spawnDelay = 2f; // Freeze duration
+    [SerializeField] private GameObject spawnEffect; // VFX Graph effect
     protected bool isSpawning = true;
 
     [SerializeField] private NavMeshAgent agent;
-    [SerializeField] private float attackCooldownTimer = 0f;
-    private bool isStunned = false;
-    [SerializeField] private bool isOnAttackCooldown = false;
-    protected bool isShooting = false;
-    protected bool isHiding = false;
+    [SerializeField] protected float attackCooldownTimer = 0f;
+    [SerializeField] protected bool isStunned = false;
+    [SerializeField] protected bool isOnAttackCooldown = false;
+    [SerializeField] protected bool isShooting = false;
+    [SerializeField] protected bool isHiding = false;
 
     [SerializeField] private int numberOfBullets = 3;
     [SerializeField] private float bulletDelay = 0.5f;
+
+
 
     // Idle tracking
     private Vector3 previousPosition;
@@ -96,9 +99,13 @@ public class EnemyRange02 : MonoBehaviour
     {
         isSpawning = true;
         agent.enabled = false;
+        spawnEffect.SetActive(true);
+
         yield return new WaitForSeconds(spawnDelay);
+
         agent.enabled = true;
         isSpawning = false;
+        bar.SetActive(true);
     }
 
     protected virtual void Update()
@@ -136,7 +143,7 @@ public class EnemyRange02 : MonoBehaviour
         HandleIdleAnimation();
     }
 
-    void HandleIdleAnimation()
+    protected virtual void HandleIdleAnimation()
     {
         if (Vector3.Distance(transform.position, previousPosition) < idleThreshold)
         {
@@ -152,7 +159,7 @@ public class EnemyRange02 : MonoBehaviour
         previousPosition = transform.position; // Update position for next frame
     }
 
-    void PatrolToPlayer()
+    protected virtual void PatrolToPlayer()
     {
         if (!Physics.Linecast(transform.position, player.transform.position, obstacleMask) && isSpawning == false && isDead == false)
         {
@@ -163,7 +170,7 @@ public class EnemyRange02 : MonoBehaviour
         }
     }
 
-    IEnumerator ShootWithDelay(int numberOfBullets, float bulletDelay)
+    protected virtual IEnumerator ShootWithDelay(int numberOfBullets, float bulletDelay)
     {
         isShooting = true;
         for (int i = 0; i < numberOfBullets; i++)
@@ -177,7 +184,7 @@ public class EnemyRange02 : MonoBehaviour
         StartCoroutine(AttackCooldown());
     }
 
-    private void StartShoot()
+    protected void StartShoot()
     {
         if (!isShooting)
         {
@@ -185,13 +192,13 @@ public class EnemyRange02 : MonoBehaviour
         }
     }
 
-    private void ShootBullet()
+    protected virtual void ShootBullet()
     {
         GameObject projectile = Instantiate(BulletPrefab, firePoint.position, firePoint.rotation);
         projectile.GetComponent<BulletScript>().UpdateTarget(player, (Vector3)uiOffset);
     }
 
-    void FindHidingSpot()
+    protected virtual void FindHidingSpot()
     {
         Collider[] nearbySpots = Physics.OverlapSphere(transform.position, hideSearchRadius, obstacleMask);
 
@@ -225,13 +232,13 @@ public class EnemyRange02 : MonoBehaviour
         }
     }
 
-    public void GetHit()
+    protected virtual void GetHit()
     {
         if (isStunned) return;
         StartCoroutine(Stun());
     }
 
-    private IEnumerator Stun()
+    protected virtual IEnumerator Stun()
     {
         isStunned = true;
         if (agent != null && agent.isOnNavMesh)
@@ -250,7 +257,7 @@ public class EnemyRange02 : MonoBehaviour
         StartCoroutine(AttackCooldown());
     }
 
-    private IEnumerator AttackCooldown()
+    protected virtual IEnumerator AttackCooldown()
     {
         isOnAttackCooldown = true;
 
@@ -260,13 +267,13 @@ public class EnemyRange02 : MonoBehaviour
     }
 
     public bool GetIsShooting() => isShooting;
-    public bool GetIsSpawning() => isSpawning;
-    public bool GetIsOnAttackCooldown() => isOnAttackCooldown;
-    public bool GetIsStunned() => isStunned;
+    public virtual bool GetIsSpawning() => isSpawning;
+    public virtual bool GetIsOnAttackCooldown() => isOnAttackCooldown;
+    public virtual bool GetIsStunned() => isStunned;
 
-    public void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
-        if (other.isTrigger && other.gameObject.CompareTag("PlayerSword") && health != null && health.GetCurrentHealth() != 0)
+        if (other.isTrigger && other.gameObject.CompareTag("PlayerSword") && health != null && health.GetCurrentHealth() != 0 && !isSpawning)
         {
             PlayerWeapon playerWeapon = other.gameObject.GetComponent<PlayerWeapon>();
             if (playerWeapon != null)
@@ -299,7 +306,7 @@ public class EnemyRange02 : MonoBehaviour
         DisableAllScripts();
     }
 
-    void DisableAllScripts()
+    protected virtual void DisableAllScripts()
     {
         // Loop through all MonoBehaviour components and disable them
         MonoBehaviour[] scripts = GetComponents<MonoBehaviour>();
