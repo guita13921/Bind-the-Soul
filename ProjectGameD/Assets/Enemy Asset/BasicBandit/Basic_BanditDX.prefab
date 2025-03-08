@@ -2858,7 +2858,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 414befbd8ed24ce4798dce0ecac73b93, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -2921,7 +2921,7 @@ MonoBehaviour:
   enemyAnimation: {fileID: 0}
   health: {fileID: 8800747266632326803}
   isDead: 0
-  bar: {fileID: 8120760704629413446}
+  bar: {fileID: 2670155871431056465}
   player: {fileID: 402067311283320090, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
   patrolSpeed: 2
   detectionRange: 100
@@ -2938,6 +2938,7 @@ MonoBehaviour:
   stunDuration: 3
   spawnDelay: 2
   spawnEffect: {fileID: 2779733639923396887}
+  isSpawning: 1
   agent: {fileID: 7179604090332102533}
   attackCooldownTimer: 0
   isStunned: 0
@@ -2946,6 +2947,8 @@ MonoBehaviour:
   isHiding: 0
   numberOfBullets: 0
   bulletDelay: 0
+  previousPosition: {x: 0, y: 0, z: 0}
+  idleTimer: 0
   throwAngle: 45
   numberOfBombs: 1
   bombDelay: 0.5

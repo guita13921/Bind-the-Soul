@@ -107,6 +107,7 @@ public class DemonKnightBoss : MonoBehaviour
     
     void Start()
     {
+        if (!player) player = GameObject.FindWithTag("Player").transform; // Find player if not set
         enemyHealth = GetComponent<EnemyHealth>();
         agent = GetComponent<NavMeshAgent>();
     }
@@ -287,9 +288,11 @@ public class DemonKnightBoss : MonoBehaviour
                 if(randomChance < 0.33f){
                     StartCombo(SpecialCombo01);
                 }else if (randomChance < 0.66f){
-                    StartCombo(SpecialCombo02);
+                    //StartCombo(SpecialCombo02);
+                    StartCombo(SpecialCombo01);
                 }else{
-                    StartCombo(SpecialCombo03);
+                    //StartCombo(SpecialCombo03);
+                    StartCombo(SpecialCombo01);
                 }
                 comboCounter = 0;
                 return;

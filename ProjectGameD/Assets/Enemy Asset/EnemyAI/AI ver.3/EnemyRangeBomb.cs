@@ -8,11 +8,11 @@ public class EnemyRangeBomb02 : EnemyRange02
     [SerializeField] private int numberOfBombs = 1; // Number of bombs to throw
     [SerializeField] private float bombDelay = 0.5f; // Time delay between bombs
 
-    protected override void Start() {
+    public override void Start() {
         base.Start();
     }
     
-    protected override void Update()
+    public virtual void Update()
     {
         if(isDead || isSpawning) return;
 
@@ -44,7 +44,7 @@ public class EnemyRangeBomb02 : EnemyRange02
             attackCooldownTimer -= Time.deltaTime;
         }
 
-        HandleIdleAnimation();
+        //HandleIdleAnimation();
     }
 
     private void StartShoot()
@@ -106,5 +106,7 @@ public class EnemyRangeBomb02 : EnemyRange02
 
         return velocity;
     }
+
+    
 
 }
