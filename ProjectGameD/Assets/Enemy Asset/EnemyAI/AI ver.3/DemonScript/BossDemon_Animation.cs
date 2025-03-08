@@ -451,12 +451,6 @@ public class BossDemon_Animation : MonoBehaviour
             BombIndicatorController.HideIndicator();
         }
     }
-
-    void StartSpawning(){
-        if(bossSpawning != null){
-            bossSpawning.SpawnEenemy();
-        }
-    }
     
     void ShowAttackIndicator(int x)
     {

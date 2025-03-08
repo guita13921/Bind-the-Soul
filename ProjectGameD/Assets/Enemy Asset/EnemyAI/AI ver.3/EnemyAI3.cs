@@ -128,13 +128,6 @@ public class EnemyAI3 : MonoBehaviour
 
         yield return new WaitForSeconds(spawnDelay);
 
-        /*
-        if (spawnEffect != null)
-        {
-            spawnEffect.SetActive(false);
-        }
-        */
-
         agent.enabled = true;
         isSpawning = false;
         bar.SetActive(true);
