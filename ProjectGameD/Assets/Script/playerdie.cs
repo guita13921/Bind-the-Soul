@@ -28,10 +28,10 @@ public class playerdie : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            health.currentHealth = 0;
-        }
+        // if (Input.GetKeyDown(KeyCode.X))
+        // {
+        //     health.currentHealth = 0;
+        // }
         if (health.currentHealth <= 0 && !hasDied)
         {
             if (currentSoundtrack != null)
