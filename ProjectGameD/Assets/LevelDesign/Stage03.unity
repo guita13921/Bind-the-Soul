@@ -873,7 +873,7 @@ MonoBehaviour:
     meshQuery:
       layers: 33554440
       maskAndChannels: 8
-    surfaceParameter: 31784
+    surfaceParameter: 31802
     meshQueryIndex: 1
     subMeshQueryIndex: 0
     geometryHashValue: 5403244936828668264
@@ -2548,11 +2548,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da7691b394829754cb789ddf972d5ee5, type: 3}
---- !u!1 &538373485 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2743053519421347597, guid: da7691b394829754cb789ddf972d5ee5, type: 3}
-  m_PrefabInstance: {fileID: 538373484}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &538373486 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6608837985856686908, guid: da7691b394829754cb789ddf972d5ee5, type: 3}
@@ -3283,9 +3278,21 @@ PrefabInstance:
       value: GlobalSpawner (2)
       objectReference: {fileID: 0}
     - target: {fileID: 8527536116524559617, guid: 021d7a364347fc8418c658ee701af906, type: 3}
+      propertyPath: totalWaves
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527536116524559617, guid: 021d7a364347fc8418c658ee701af906, type: 3}
       propertyPath: upgradeShow
       value: 
       objectReference: {fileID: 1337885988}
+    - target: {fileID: 8527536116524559617, guid: 021d7a364347fc8418c658ee701af906, type: 3}
+      propertyPath: basePointsPerWave
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527536116524559617, guid: 021d7a364347fc8418c658ee701af906, type: 3}
+      propertyPath: enemyTypes.Array.size
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8527536116524559617, guid: 021d7a364347fc8418c658ee701af906, type: 3}
       propertyPath: spawnPoints.Array.size
       value: 18
@@ -3369,7 +3376,15 @@ PrefabInstance:
     - target: {fileID: 8527536116524559617, guid: 021d7a364347fc8418c658ee701af906, type: 3}
       propertyPath: enemyTypes.Array.data[4].prefab
       value: 
-      objectReference: {fileID: 538373485}
+      objectReference: {fileID: 1000014232435074, guid: 0a36d45e1b007e14b884de828f3b6938, type: 3}
+    - target: {fileID: 8527536116524559617, guid: 021d7a364347fc8418c658ee701af906, type: 3}
+      propertyPath: enemyTypes.Array.data[5].prefab
+      value: 
+      objectReference: {fileID: 2743053519421347597, guid: da7691b394829754cb789ddf972d5ee5, type: 3}
+    - target: {fileID: 8527536116524559617, guid: 021d7a364347fc8418c658ee701af906, type: 3}
+      propertyPath: enemyTypes.Array.data[5].spawnCost
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 9111614561732093340, guid: 021d7a364347fc8418c658ee701af906, type: 3}
       propertyPath: m_LocalPosition.x
       value: 12.817343
@@ -8851,7 +8866,7 @@ MonoBehaviour:
     meshQuery:
       layers: 33554440
       maskAndChannels: 8
-    surfaceParameter: 31784
+    surfaceParameter: 31802
     meshQueryIndex: 1
     subMeshQueryIndex: 0
     geometryHashValue: 5403244936828668264
@@ -10508,7 +10523,7 @@ MonoBehaviour:
     meshQuery:
       layers: 16777223
       maskAndChannels: 234881031
-    surfaceParameter: 32576
+    surfaceParameter: 32600
     meshQueryIndex: 5
     subMeshQueryIndex: 0
     geometryHashValue: -8989536414046734367
@@ -11967,7 +11982,7 @@ MonoBehaviour:
     meshQuery:
       layers: 16777223
       maskAndChannels: 234881031
-    surfaceParameter: 32106
+    surfaceParameter: 32130
     meshQueryIndex: 0
     subMeshQueryIndex: 0
     geometryHashValue: 2099235872413519200

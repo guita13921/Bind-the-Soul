@@ -95,7 +95,7 @@ public class Soulbond : MonoBehaviour
         Toggle currentToggle
     )
     {
-        maxSelectableBuffs = characterData.deathCount;
+        maxSelectableBuffs = characterData.deathCount*2;
         if (isOn)
         {
             if (currentSelectedBuffs < maxSelectableBuffs)
