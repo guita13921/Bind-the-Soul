@@ -107,7 +107,7 @@ public class CharacterData : ScriptableObject
      public void WaitDashtimeReduce()
     {
         controlPower = FindObjectOfType<ControlPower>();
-ReduceDashCooldown++;
+        ReduceDashCooldown++;
         controlPower.CheckWaitDashtime();
 
     }

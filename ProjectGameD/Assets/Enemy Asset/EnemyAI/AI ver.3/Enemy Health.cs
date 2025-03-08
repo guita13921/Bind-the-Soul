@@ -15,16 +15,38 @@ public class EnemyHealth : MonoBehaviour
 
     private bool NoDamage;
 
+    private bool death = false;
+    [SerializeField] GameObject  deathSound;
+    [SerializeField] bool warrior = false;
+    private bool secondDeath = false;
+
     void Start()
     {
         enemyAI3 = GetComponent<EnemyAI3>();
         enemyRange02 = GetComponent<EnemyRange02>();
         enemyWeapon1 = GetComponentInChildren<EnemyWeapon>();
     }
-    void Update()
+void Update()
+{
+    if (currentHealth <= 0)
     {
-
+        if (!death)
+        {
+            if (deathSound != null)
+                Instantiate(deathSound);
+            death = true;
+        }
+        else if (warrior) // Second phase logic
+        {
+            if (!secondDeath)
+            {
+                if (deathSound != null)
+                    Instantiate(deathSound);
+                secondDeath = true;
+            }
+        }
     }
+}
 
 
     public void SetState(float IN_Health)
