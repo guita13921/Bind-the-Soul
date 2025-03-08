@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DemonLightRay Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 1998893266685322, guid: 9b7a7119c7f8a614c88313a397cc032b, type: 3}
+      propertyPath: m_TagString
+      value: EnemyWeapon
+      objectReference: {fileID: 0}
     - target: {fileID: 4350105981126640, guid: 9b7a7119c7f8a614c88313a397cc032b, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -155,6 +159,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1998893266685322, guid: 9b7a7119c7f8a614c88313a397cc032b, type: 3}
       insertIndex: -1
       addedObject: {fileID: -4892791426094309481}
+    - targetCorrespondingSourceObject: {fileID: 1998893266685322, guid: 9b7a7119c7f8a614c88313a397cc032b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -189573799057935990}
+    - targetCorrespondingSourceObject: {fileID: 1998893266685322, guid: 9b7a7119c7f8a614c88313a397cc032b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7189695587417770504}
+    - targetCorrespondingSourceObject: {fileID: 1998893266685322, guid: 9b7a7119c7f8a614c88313a397cc032b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5478502911405780992}
     - targetCorrespondingSourceObject: {fileID: 1289093580422270, guid: 9b7a7119c7f8a614c88313a397cc032b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2305934663487472520}
@@ -177,6 +190,60 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selfdestruct_in: 2
+--- !u!114 &-189573799057935990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2719314709205661900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26a2d72b2d913a54a9dca3246d249bfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageWindowStart: 0.25
+  damageWindowDuration: 0.1
+  boxCollider: {fileID: 0}
+--- !u!114 &7189695587417770504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2719314709205661900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0571ab3c9c65bb42ae6230de4697814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  characterData: {fileID: 11400000, guid: e628f4ad3830604478a34deaa6dbc29e, type: 2}
+  playerCombat: {fileID: 0}
+  reduceDamageTimer: 0
+  reducedDamage: 0
+  isCurseAttack: 0
+--- !u!135 &5478502911405780992
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2719314709205661900}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 2.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2720033188022389048 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1289093580422270, guid: 9b7a7119c7f8a614c88313a397cc032b, type: 3}

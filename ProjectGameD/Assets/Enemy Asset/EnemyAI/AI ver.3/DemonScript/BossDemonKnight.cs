@@ -50,13 +50,13 @@ public class DemonKnightBoss : MonoBehaviour
     private List<BossAction> RangeCombo06 = new List<BossAction> { BossAction.Dashing,BossAction.Melee2Hit02, BossAction.OneHandCast01};
 
     //OUT-RANGE COMBO
-    private List<BossAction> OutRangeCombo01 = new List<BossAction> { BossAction.Dashing, BossAction.OneHandCast01}; 
-    private List<BossAction> OutRangeCombo02 = new List<BossAction> { BossAction.OneHandCast01, BossAction.OneHandCast01};
-    private List<BossAction> OutRangeCombo03 = new List<BossAction> { BossAction.KickAttack, BossAction.OneHandCast01}; 
-    private List<BossAction> OutRangeCombo04 = new List<BossAction> { BossAction.KickAttack, BossAction.Dashing, BossAction.Melee3Hit01 };
-    private List<BossAction> OutRangeCombo05 = new List<BossAction> { BossAction.Dashing, BossAction.Dashing, BossAction.Melee3Hit01 };
-    private List<BossAction> OutRangeCombo06 = new List<BossAction> { BossAction.Dashing, BossAction.Dashing, BossAction.MeleeRollAttack01 };
-    private List<BossAction> OutRangeCombo07 = new List<BossAction> { BossAction.OneHandCast01};
+    private List<BossAction> RangeCombo07 = new List<BossAction> { BossAction.Dashing, BossAction.OneHandCast01}; 
+    private List<BossAction> RangeCombo08 = new List<BossAction> { BossAction.OneHandCast01, BossAction.OneHandCast01};
+    //private List<BossAction> OutRangeCombo03 = new List<BossAction> { BossAction.KickAttack, BossAction.OneHandCast01}; 
+    //private List<BossAction> OutRangeCombo04 = new List<BossAction> { BossAction.KickAttack, BossAction.Dashing, BossAction.Melee3Hit01 };
+    private List<BossAction> RangeCombo09 = new List<BossAction> { BossAction.Dashing, BossAction.Dashing, BossAction.Melee3Hit01 };
+    private List<BossAction> RangeCombo10 = new List<BossAction> { BossAction.Dashing, BossAction.Dashing, BossAction.MeleeRollAttack01 };
+    private List<BossAction> RangeCombo11 = new List<BossAction> { BossAction.OneHandCast01};
 
 
     //SPECIAL COMBO
@@ -65,8 +65,8 @@ public class DemonKnightBoss : MonoBehaviour
     private List<BossAction> SpecialCombo03 = new List<BossAction> { BossAction.OffmapCast01};  
     private List<BossAction> SpecialCombo04 = new List<BossAction> { BossAction.FrontAttckCast};  
     private List<BossAction> SpecialCombo05 = new List<BossAction> { BossAction.ThreeDirectionCast}; 
-    private List<BossAction> SpecialCombo06 = new List<BossAction> { BossAction.CallEnemy, BossAction.CallDemonTrap}; 
-    //private List<BossAction> SpecialCombo07 = new List<BossAction> { BossAction.CallEnemy, BossAction.OffmapCast01}; 
+    private List<BossAction> SpecialCombo06 = new List<BossAction> { BossAction.CallEnemy, BossAction.OneHandCast01 ,BossAction.CallDemonTrap}; 
+    private List<BossAction> SpecialCombo07 = new List<BossAction> { BossAction.CallEnemy, BossAction.OneHandCast01 ,BossAction.OffmapCast01}; 
 
 
     private List<BossAction> currentCombo = new List<BossAction>(); // Stores the current combo
@@ -157,7 +157,8 @@ public class DemonKnightBoss : MonoBehaviour
                 break;
 
             case BossPhase.Phase2_Enraged:
-                HandlePhase2Enraged();
+                //HandlePhase2Enraged();
+                HandlePhase2();
                 break;
         }
     }
@@ -172,10 +173,10 @@ public class DemonKnightBoss : MonoBehaviour
     private IEnumerator ExecuteCombo()
     {
         isExecutingCombo = true;
-        BossAnimation.LockMovement();
 
         foreach (BossAction action in currentCombo)
         {
+            BossAnimation.LockMovement();
             Debug.Log("Executing action: " + action);
             switch (action)
             {
@@ -183,7 +184,7 @@ public class DemonKnightBoss : MonoBehaviour
                     BossAnimation.PerformAttack01();
                     yield return new WaitForSeconds(maleeTimeusing); //Time must == Animation Time
                     break;
-                
+
                 case BossAction.Melee3Hit01:
                     BossAnimation.PerformAttack02();
                     yield return new WaitForSeconds(maleeTimeusing);
@@ -232,17 +233,21 @@ public class DemonKnightBoss : MonoBehaviour
                     break;
                 
                 case BossAction.Dashing:
-                    BossAnimation.StartDashing(); 
-                    yield return new WaitForSeconds(0.01f);  
+                    if(meleeSensor.IsPlayerInRange() == false){
+                        BossAnimation.StartDashing(); 
+                    }else{
+                        yield return new WaitForSeconds(0.01f);  
+                    }
                     break;
-        }
+            }
 
             if(action != BossAction.Dashing){
                 comboCounter++;
-                isExecutingCombo = false;
                 BossAnimation.UnlockMovement();
             }
         }
+        isExecutingCombo = false;
+        BossAnimation.UnlockMovement();
     }
 
     private void HandlePhase1()
@@ -266,150 +271,143 @@ public class DemonKnightBoss : MonoBehaviour
     private void HandlePhase2Enraged()
     {
         if (player == null) return;
-        AttackPhase2_EnRage();
+        //AttackPhase2_EnRage();
     }
-
-    private void AttackPhase1()
-    {
+    
+    private void AttackPhase1(){
         attackTimer += Time.deltaTime;
 
-        // Perform an attack only after the cooldown
         if (attackTimer >= phase1AttackCooldown && !isExecutingCombo)
         {
-            
             if (comboCounter >= 5)
             {
                 attackTimer = 0f;
                 float randomChance = Random.value;
 
-                if(randomChance < 0.4f){
+                if(randomChance < 0.33f){
                     StartCombo(SpecialCombo01);
-                }else if (randomChance < 0.8f){
+                }else if (randomChance < 0.66f){
                     StartCombo(SpecialCombo02);
                 }else{
                     StartCombo(SpecialCombo03);
                 }
-
                 comboCounter = 0;
                 return;
             }
-            
-            // Decide which combo to execute based on player position
-            if (rangeSensor.IsPlayerInRange() && rangeSensor.IsPlayerInFront() && !meleeSensor.IsPlayerInRange()) //IN RANGE
-            {
-                attackTimer = 0f;
-                float randomChance = Random.value;
 
-                if(randomChance < 0.25f){
-                    StartCombo(RangeCombo02); 
-                }else if(randomChance < 0.5f){
-                    StartCombo(RangeCombo03);
-                }else{
-                    StartCombo(RangeCombo01);
+            if(rangeSensor.IsPlayerInFront() &&  meleeSensor.IsPlayerInFront()){
+                if (meleeSensor.IsPlayerInRange() && meleeSensor.IsPlayerInFront()) // IN MALEE (2/2)            
+                {
+                    attackTimer = 0f;
+                    float randomChance = Random.value;
+                    
+                    if(randomChance <= 0.15f){
+                        StartCombo(MeleeCombo01); 
+                    }else if(randomChance <= 0.3f){
+                        StartCombo(MeleeCombo03); 
+                    }else if(randomChance <= 0.45f){
+                        StartCombo(MeleeCombo04);     
+                    }else if(randomChance <= 0.6f){
+                        StartCombo(RangeCombo02);     
+                    }else if(randomChance <= 0.75f){
+                        StartCombo(RangeCombo03);     
+                    }else{
+                        StartCombo(RangeCombo01);     
+                    }
                 }
-            }
-            else if (meleeSensor.IsPlayerInRange() && meleeSensor.IsPlayerInFront()) //IN MELEE
-            {
-                attackTimer = 0f;
-                float randomChance = Random.value;
+                else // IN RANGE 1/2
+                {
+                    attackTimer = 0f;
+                    float randomChance = Random.value;
 
-                if(randomChance <= 0.5f){
-                    StartCombo(MeleeCombo01); 
-                }else if(randomChance <= 0.8f){
-                    StartCombo(MeleeCombo03); 
-                }else{
-                    StartCombo(MeleeCombo04);     
+                    if(randomChance <= 0.25f){
+                        StartCombo(RangeCombo02);  
+                    }else if(randomChance <= 0.5f){
+                        StartCombo(RangeCombo03);    
+                    }else{
+                        StartCombo(RangeCombo01);   
+                    }
+                    
                 }
-            }
-            else if (rangeSensor.IsPlayerOutOfRange() && rangeSensor.IsPlayerInFront()) //OUT RANGE
-            {
-                attackTimer = 0f;
-                float randomChance = Random.value;
-
-                if(randomChance <= 0.5f){
-                    StartCombo(OutRangeCombo01); 
-                }else{
-                    StartCombo(OutRangeCombo02); 
-                }
-
             }else{
-                bossDemon_Rotation.RequestInsideLookAtPlayer();
+                bossDemon_Rotation.RequestLookAtPlayer_w0Lock();
             }
         }
     }
 
-    private void AttackPhase1_EnRage()
-    {
+    private void AttackPhase1_EnRage(){
         attackTimer += Time.deltaTime;
 
-        // Perform an attack only after the cooldown
         if (attackTimer >= phase1AttackCooldown_Enrage && !isExecutingCombo)
         {
-            //attackTimer = 0f;
-            if (comboCounter >= 4)
+            if (comboCounter >= 5)
             {
                 attackTimer = 0f;
                 float randomChance = Random.value;
 
-                if(randomChance < 0.4f){
+                if(randomChance < 0.33f){
                     StartCombo(SpecialCombo01);
-                }else if (randomChance < 0.8f){
+                }else if (randomChance < 0.66f){
                     StartCombo(SpecialCombo02);
                 }else{
                     StartCombo(SpecialCombo03);
                 }
-
                 comboCounter = 0;
                 return;
             }
 
-            // Decide which combo to execute based on player position
-            if (rangeSensor.IsPlayerInRange() && rangeSensor.IsPlayerInFront() && !meleeSensor.IsPlayerInRange()) //IN RANGE
-            {
-                attackTimer = 0f;
-                float randomChance = Random.value;
+            if(rangeSensor.IsPlayerInFront() &&  meleeSensor.IsPlayerInFront()){
+                if (meleeSensor.IsPlayerInRange() && meleeSensor.IsPlayerInFront()) // IN MALEE (2/2)            
+                {
+                    attackTimer = 0f;
+                    float randomChance = Random.value;
 
-                if(randomChance < 0.50f){
-                    StartCombo(RangeCombo02); 
-                }else if(randomChance < 0.75f){
-                    StartCombo(RangeCombo03);
-                }else{
-                    StartCombo(RangeCombo01);
+                    if(randomChance <= 0.125f){
+                        StartCombo(RangeCombo01); 
+                    }else if(randomChance <= 0.25f){
+                        StartCombo(RangeCombo02); 
+                    }else if(randomChance <= 0.375f){
+                        StartCombo(RangeCombo03);     
+                    }else if(randomChance <= 0.5f){
+                        StartCombo(MeleeCombo02);     
+                    }else if(randomChance <= 0.625f){
+                        StartCombo(MeleeCombo03);     
+                    }else if(randomChance <= 0.75f){
+                        StartCombo(RangeCombo04);    
+                    }else if(randomChance <= 0.875f){
+                        StartCombo(RangeCombo07);
+                    }else{
+                        StartCombo(RangeCombo08);
+                    }
                 }
-            }
-            else if (meleeSensor.IsPlayerInRange() && meleeSensor.IsPlayerInFront()) //IN MELEE
-            {
-                attackTimer = 0f;
-                float randomChance = Random.value;
+                else // IN RANGE 1/2
+                {
+                    attackTimer = 0f;
+                    float randomChance = Random.value;
 
-                if(randomChance <= 0.2f){
-                    StartCombo(MeleeCombo02); 
-                }else if(randomChance < 0.5f){
-                    StartCombo(RangeCombo04);
-                }else{
-                    StartCombo(MeleeCombo03); 
+                    if(randomChance <= 0.2f){
+                        StartCombo(RangeCombo01); 
+                    }else if(randomChance <= 0.35f){
+                        StartCombo(RangeCombo02); 
+                    }else if(randomChance <= 0.5f){
+                        StartCombo(RangeCombo03);     
+                    }else if(randomChance <= 0.75f){
+                        StartCombo(RangeCombo04);    
+                    }else if(randomChance <= 0.875f){
+                        StartCombo(RangeCombo07);
+                    }else{
+                        StartCombo(RangeCombo08);
+                    }
                 }
-            }
-            else if (rangeSensor.IsPlayerOutOfRange() && rangeSensor.IsPlayerInFront()) //OUT RANGE
-            {
-                attackTimer = 0f;
-                float randomChance = Random.value;
-
-                if(randomChance <= 0.5f){
-                    StartCombo(OutRangeCombo01); 
-                }else{
-                    StartCombo(OutRangeCombo02); 
-                }
-
             }else{
-                bossDemon_Rotation.RequestInsideLookAtPlayer();
+                bossDemon_Rotation.RequestLookAtPlayer_w0Lock();
             }
         }
     }
 
-    private void AttackPhase2()
-    {
+    private void AttackPhase2(){
         attackTimer += Time.deltaTime;
+
         if (attackTimer >= phase2AttackCooldown && !isExecutingCombo)
         {
             if (comboCounter >= 5)
@@ -419,96 +417,67 @@ public class DemonKnightBoss : MonoBehaviour
 
                 if(randomChance < 0.25f){
                     StartCombo(SpecialCombo04);
-                }else if(randomChance < 0.5f){
+                }else if (randomChance < 0.5f){
                     StartCombo(SpecialCombo05);
-                }else if(randomChance < 0.75f){
+                }else if (randomChance < 0.75f){
                     StartCombo(SpecialCombo06);
                 }else{
-                    StartCombo(SpecialCombo03);
+                    StartCombo(SpecialCombo07);
                 }
-
-                comboCounter = 0;
-                return;
-            }
-
-            if (rangeSensor.IsPlayerInRange() && rangeSensor.IsPlayerInFront() && !meleeSensor.IsPlayerInRange()) //IN RANGE
-            {
-                attackTimer = 0f;
-                float randomChance = Random.value;
                 
-                if(randomChance < 0.25f){
-                    StartCombo(RangeCombo01);
-                }else if(randomChance < 0.5f){
-                    StartCombo(RangeCombo04);
-                }else if(randomChance < 0.75f){
-                    StartCombo(RangeCombo05);
-                }else{
-                    StartCombo(RangeCombo06);
-                }
-
-            }
-            else if (meleeSensor.IsPlayerInRange() && meleeSensor.IsPlayerInFront()) //IN MELEE
-            {
-                attackTimer = 0f;
-                float randomChance = Random.value;
-
-                if(randomChance < 0.33f){
-                    StartCombo(MeleeCombo02);
-                }else if(randomChance < 0.66f){
-                    StartCombo(MeleeCombo03);
-                }else{
-                    StartCombo(MeleeCombo04);
-                }
-            }
-            else if (rangeSensor.IsPlayerOutOfRange() && rangeSensor.IsPlayerInFront()) //OUT RANGE
-            {
-                attackTimer = 0f;
-                float randomChance = Random.value;
-
-                if(randomChance < 0.33f){
-                    StartCombo(OutRangeCombo05);
-                }else if(randomChance < 0.66f){
-                    StartCombo(OutRangeCombo06);
-                }else{
-                    StartCombo(OutRangeCombo07);
-                }
-
-            }else{
-                bossDemon_Rotation.RequestInsideLookAtPlayer();
-            }
-        }
-    }
-
-    private void AttackPhase2_EnRage()
-    {
-        attackTimer += Time.deltaTime;
-        if (attackTimer >= phase2AttackCooldown && !isExecutingCombo)
-        {
-            if (comboCounter >= 4)
-            {
-                attackTimer = 0f;
-                float randomChance = Random.value;
                 comboCounter = 0;
                 return;
             }
 
-            if (rangeSensor.IsPlayerInRange() && rangeSensor.IsPlayerInFront() && !meleeSensor.IsPlayerInRange()) //IN RANGE
-            {
-                attackTimer = 0f;
-                float randomChance = Random.value;
-            }
-            else if (meleeSensor.IsPlayerInRange() && meleeSensor.IsPlayerInFront()) //IN MELEE
-            {
-                attackTimer = 0f;
-                float randomChance = Random.value;
-            }
-            else if (rangeSensor.IsPlayerOutOfRange() && rangeSensor.IsPlayerInFront()) //OUT RANGE
-            {
-                attackTimer = 0f;
-                float randomChance = Random.value;
+            if(rangeSensor.IsPlayerInFront() &&  meleeSensor.IsPlayerInFront()){
+                if (meleeSensor.IsPlayerInRange() && meleeSensor.IsPlayerInFront()) // IN MALEE (2/2)            
+                {
+                    attackTimer = 0f;
+                    float randomChance = Random.value;
 
+                    if (randomChance <= 0.1f) {
+                        StartCombo(RangeCombo01);
+                    } else if (randomChance <= 0.2f) {
+                        StartCombo(RangeCombo04);
+                    } else if (randomChance <= 0.3f) {
+                        StartCombo(RangeCombo05);
+                    } else if (randomChance <= 0.4f) {
+                        StartCombo(RangeCombo06);
+                    } else if (randomChance <= 0.5f) {
+                        StartCombo(MeleeCombo02);
+                    } else if (randomChance <= 0.6f) {
+                        StartCombo(MeleeCombo03);
+                    } else if (randomChance <= 0.7f) {
+                        StartCombo(MeleeCombo04);
+                    } else if (randomChance <= 0.8f) {
+                        StartCombo(RangeCombo09);
+                    } else if (randomChance <= 0.9f) {
+                        StartCombo(RangeCombo10);
+                    } else {
+                        StartCombo(RangeCombo11);
+                    }
+                }
+                else // IN RANGE 1/2
+                {
+                    attackTimer = 0f;
+                    float randomChance = Random.value;
+
+                    if(randomChance <= 0.2f){
+                        StartCombo(RangeCombo01); 
+                    }else if(randomChance <= 0.35f){
+                        StartCombo(RangeCombo02); 
+                    }else if(randomChance <= 0.5f){
+                        StartCombo(RangeCombo03);     
+                    }else if(randomChance <= 0.75f){
+                        StartCombo(RangeCombo04);    
+                    }else if(randomChance <= 0.875f){
+                        StartCombo(RangeCombo07);
+                    }else{
+                        StartCombo(RangeCombo08);
+                    }
+                }
             }else{
-                bossDemon_Rotation.RequestInsideLookAtPlayer();
+                bossDemon_Rotation.RequestLookAtPlayer_w0Lock();
             }
         }
     }
@@ -565,7 +534,7 @@ public class DemonKnightBoss : MonoBehaviour
     {
         if (other.isTrigger && other.gameObject.CompareTag("PlayerSword"))
         {
-            Debug.Log("Hit");
+            //Debug.Log("Hit");
             attackTimer += 0.5f;
         }
     }

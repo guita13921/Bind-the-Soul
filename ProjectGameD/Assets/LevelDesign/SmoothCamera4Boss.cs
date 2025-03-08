@@ -87,22 +87,39 @@ public class SmoothCamera4Boss : MonoBehaviour
     {
         if (player == null) return;
 
-        // Direction from the camera to the player
         Vector3 directionToPlayer = player.position - transform.position;
+        float maxDistance = directionToPlayer.magnitude; // Raycast range
 
-        // Perform a raycast to detect obstacles between the camera and the player
-        if (Physics.Raycast(transform.position, directionToPlayer.normalized, out RaycastHit hit, directionToPlayer.magnitude))
+        // Perform a raycast that hits all obstacles between the camera and the player
+        RaycastHit[] hits = Physics.RaycastAll(transform.position, directionToPlayer.normalized, maxDistance);
+
+        foreach (RaycastHit hit in hits)
         {
             if (hit.collider != null && hit.collider.gameObject != player.gameObject)
             {
-                // If an obstacle is detected, try to apply fading
-                _fader = hit.collider.GetComponent<ObjFadeing>();
-                if (_fader != null)
+                ObjFadeing fader = hit.collider.GetComponent<ObjFadeing>();
+                if (fader != null)
                 {
-                    _fader.timeRemaining = 0.1f; // Set fade timer
-                    _fader.DoFade = true;       // Trigger fade
+                    fader.timeRemaining = 0.1f;
+                    fader.DoFade = true;
+                }
+            }
+        }
+
+        // Optional: Handle small objects near the player
+        Collider[] nearPlayerObjects = Physics.OverlapSphere(player.position, 1.0f); // Small range near the player
+        foreach (Collider col in nearPlayerObjects)
+        {
+            if (col.gameObject != player.gameObject)
+            {
+                ObjFadeing fader = col.GetComponent<ObjFadeing>();
+                if (fader != null)
+                {
+                    fader.timeRemaining = 0.1f;
+                    fader.DoFade = true;
                 }
             }
         }
     }
+
 }

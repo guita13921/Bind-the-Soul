@@ -121,14 +121,14 @@ public class kamikazeEnemy : MonoBehaviour
         if (other.gameObject.CompareTag("PlayerSword") && health.GetCurrentHealth() > 0f)
         {
             Debug.Log("Dog got hit");
-            health.CalculateDamageOld(10f);
+            //health.CalculateDamageOld(10f);
             agent.transform.LookAt(player.transform);
         }
     }
 
     public void TakeDamage(float damage)
     {
-        health.CalculateDamageOld(damage);
+        //health.CalculateDamageOld(damage);
         Vector3 knockBackDirection = transform.position - player.transform.position;
         KnockBack(knockBackDirection, 10f);
 

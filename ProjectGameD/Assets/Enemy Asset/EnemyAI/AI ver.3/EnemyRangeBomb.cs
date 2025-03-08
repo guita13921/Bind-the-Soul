@@ -11,8 +11,40 @@ public class EnemyRangeBomb02 : EnemyRange02
     protected override void Start() {
         base.Start();
     }
-    protected virtual void Update(){
-        base.Update();
+    
+    protected override void Update()
+    {
+        if(isDead || isSpawning) return;
+
+        if (health.GetCurrentHealth() == 0)
+        {   
+            Dead();
+        }
+
+        if (isStunned) return;
+
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+
+        if (distanceToPlayer < detectionRange && !isOnAttackCooldown && !isShooting)
+        {
+            PatrolToPlayer();
+
+            if (distanceToPlayer <= attackRange && attackCooldownTimer <= 0)
+            {
+                enemyAnimation?.PlayAttackAnimation();
+            }
+        }
+        else if (isOnAttackCooldown || isDead == false)
+        {
+            FindHidingSpot();
+        }
+
+        if (attackCooldownTimer > 0)
+        {
+            attackCooldownTimer -= Time.deltaTime;
+        }
+
+        HandleIdleAnimation();
     }
 
     private void StartShoot()
@@ -30,6 +62,10 @@ public class EnemyRangeBomb02 : EnemyRange02
             ThrowBombAtPlayer();
             yield return new WaitForSeconds(delay);
         }
+
+        isShooting = false;
+        attackCooldownTimer = attackCooldown;
+        StartCoroutine(AttackCooldown());
     }
 
     private void ThrowBombAtPlayer()

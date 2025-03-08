@@ -74,6 +74,7 @@ public class EnemyWeapon : MonoBehaviour
         }
         damage = damageR;
     }
+
 /*
     private void OnTriggerStay (Collider other)
     { 

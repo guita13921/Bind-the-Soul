@@ -33,12 +33,8 @@ public class SkullBomb : MonoBehaviour
     private Vector3 spawnPosition;
     private Rigidbody rb;
 
-    [SerializeField]Canvas bar;
-    [SerializeField]protected EnemyHealth health;
-
     void Start()
     {
-        health = GetComponent<EnemyHealth>();
         rb = GetComponent<Rigidbody>();
         if (rb == null)
         {
@@ -74,7 +70,6 @@ public class SkullBomb : MonoBehaviour
 
     void Update()
     {
-        CheckHealth();
         elapsedTime += Time.deltaTime;
         if (Vector3.Distance(spawnPosition, transform.position) > maxRange)
         {
@@ -122,13 +117,6 @@ public class SkullBomb : MonoBehaviour
         }
     }
 
-    public void CheckHealth()
-    {
-        if (health.GetCurrentHealth() <= 0)
-        {
-            Destroy(gameObject);
-        }
-    }
 
     bool alredyHit = false;
 
@@ -201,12 +189,12 @@ public class SkullBomb : MonoBehaviour
 
     void HitWall()
     {
-        Debug.Log("HitWall");
+        //Debug.Log("HitWall");
         alredyHit = true;
         if (newBulletPrefab != null)
         {
             Vector3 spawnPosition = transform.position;
-            Vector3 targetPosition = transform.position - transform.forward * 1.0f;
+            Vector3 targetPosition = transform.position - transform.forward * 10.0f;
 
             GameObject bomb2 = Instantiate(newBulletPrefab, spawnPosition, Quaternion.identity);
             SkullBomb02 skullbombScript = bomb2.GetComponent<SkullBomb02>();

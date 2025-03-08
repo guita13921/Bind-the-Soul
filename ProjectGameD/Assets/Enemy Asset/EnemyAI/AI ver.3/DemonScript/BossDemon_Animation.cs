@@ -47,7 +47,8 @@ public class BossDemon_Animation : MonoBehaviour
     private Vector2 uiOffset;
 
     [Header("Laser")]
-    [SerializeField] private List<FlamethrowerHitbox> laserEffectHitboxes; 
+    [SerializeField] private List<HitboxController> laserEffectHitboxes; 
+    [SerializeField] private List<EnemyWeapon> laserEffectHitboxesDMG; 
     [SerializeField] private List<VisualEffect> laserEffects;
     private bool isFiringLaser = false;
 
@@ -114,52 +115,51 @@ public class BossDemon_Animation : MonoBehaviour
         bossSpawning.SpawnEenemy();
     }
 
-    public void PerformAttack01()
-    {
+    public void PerformAttack01(){
         Debug.Log("PerformAttack01");
-        movementController.RequestInsideLookAtPlayer();
+        movementController.RequestLookAtPlayer_w0Lock();
         animator.SetTrigger("Attack01");
     }
 
     public void PerformAttack02()
     {
         Debug.Log("PerformAttack02");
-        movementController.RequestInsideLookAtPlayer();
+        movementController.RequestLookAtPlayer_w0Lock();
         animator.SetTrigger("Attack02");
     }
 
     public void PerformAttack03()
     {
         Debug.Log("PerformAttack03");
-        movementController.RequestInsideLookAtPlayer();
+        movementController.RequestLookAtPlayer_w0Lock();
         animator.SetTrigger("Attack03");
     }
 
     public void PerformAttack04()
     {
         Debug.Log("PerformAttack04");
-        //movementController.RequestInsideLookAtPlayer();
+        //movementController.RequestLookAtPlayer_w0Lock();
         animator.SetTrigger("Attack04");
     }
 
     public void PerformAttack05()
     {
         Debug.Log("PerformAttack05");
-        movementController.RequestInsideLookAtPlayer();
+        movementController.RequestLookAtPlayer_w0Lock();
         animator.SetTrigger("Attack05");
     }
 
     public void PerformCast01()
     {
         Debug.Log("PerformCast01");
-        movementController.RequestInsideLookAtPlayer();
+        movementController.RequestLookAtPlayer_w0Lock();
         animator.SetTrigger("Cast01");
     }
 
     public void PerformCast02()
     {
         Debug.Log("PerformCast02");
-        movementController.RequestInsideLookAtPlayer();
+        movementController.RequestLookAtPlayer_w0Lock();
         animator.SetTrigger("Cast02");
         Instantiate(ShieldVFX, shield_Position.transform.position, shield_Position.transform.rotation);
     }
@@ -173,21 +173,21 @@ public class BossDemon_Animation : MonoBehaviour
     public void PerformCast04()
     {
         Debug.Log("PerformCast04");
-        movementController.RequestInsideLookAtPlayer();
+        movementController.RequestLookAtPlayer_w0Lock();
         animator.SetTrigger("Cast04");
     }
 
     public void PerformCast05()
     {
         Debug.Log("PerformCast05");
-        movementController.RequestInsideLookAtPlayer();
+        movementController.RequestLookAtPlayer_w0Lock();
         animator.SetTrigger("Cast05");
     }
 
     public void PerformCast06()
     {
         Debug.Log("PerformCast06");
-        movementController.RequestInsideLookAtPlayer();
+        movementController.RequestLookAtPlayer_w0Lock();
         animator.SetTrigger("Cast06");
         Instantiate(ShieldVFX, shield_Position.transform.position, shield_Position.transform.rotation);
     }
@@ -209,7 +209,7 @@ public class BossDemon_Animation : MonoBehaviour
 
     public void StartDashing(){
         //Debug.Log("StartDashing");
-        movementController.RequestInsideLookAtPlayer();
+        movementController.RequestLookAtPlayer_w0Lock();
         animator.SetTrigger("Dash");
         Instantiate(Dash02VFX, Dash02spawnPosition.transform.position, Dash02spawnPosition.transform.rotation);
         StartCoroutine(DashForward02());
@@ -223,7 +223,11 @@ public class BossDemon_Animation : MonoBehaviour
             }
             foreach (var hitbox in laserEffectHitboxes)
             {
-                hitbox.ActivateHitbox();
+                hitbox.enabled = true;
+            }
+            foreach (var hitbox in laserEffectHitboxesDMG)
+            {
+                hitbox.enabled = true;
             }
         }
         else{
@@ -234,7 +238,11 @@ public class BossDemon_Animation : MonoBehaviour
             }
             if (laserEffectHitboxes.Count > 0)
             {
-                laserEffectHitboxes[0].ActivateHitbox();
+                laserEffectHitboxes[0].enabled = true;
+            }
+            if (laserEffectHitboxesDMG.Count > 0)
+            {
+                laserEffectHitboxesDMG[0].enabled = true;
             }
         }
 
@@ -246,7 +254,11 @@ public class BossDemon_Animation : MonoBehaviour
     {
         foreach (var hitbox in laserEffectHitboxes)
         {
-            hitbox.DeactivateHitbox();
+            hitbox.enabled = false;
+        }
+        foreach (var hitbox in laserEffectHitboxesDMG)
+        {
+            hitbox.enabled = false;
         }
         
         foreach (var laser in laserEffects)

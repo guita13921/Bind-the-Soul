@@ -10,8 +10,6 @@ public class SkullBomb02 : MonoBehaviour
     private float timer;
     private bool isCountingDown = false;
 
-    [Header("Indicator")]
-    [SerializeField] BombIndicator attackIndicatorController;
 
     [SerializeField]Canvas bar;
     [SerializeField]protected EnemyHealth health;
@@ -21,7 +19,6 @@ public class SkullBomb02 : MonoBehaviour
     void Start()
     {
         health = GetComponent<EnemyHealth>();
-        ShowIndicator(countdownTime);
         timer = countdownTime;
         isCountingDown = true;
     }
@@ -66,39 +63,20 @@ public class SkullBomb02 : MonoBehaviour
             Vector3 explosionPosition = new Vector3(transform.position.x, 0.13f, transform.position.z);
             Instantiate(explosionEffect, explosionPosition, Quaternion.identity);
         }
-        HideIndicator();
         Destroy(gameObject);
     }
 
-
-    void ShowIndicator(int AttackTimeFrame)
-    {
-        if (attackIndicatorController != null)
-        {
-            //attackIndicatorCanvas.enabled = true;
-            attackIndicatorController.ShowIndicator(AttackTimeFrame);
-        }
-    }
-
-    void HideIndicator()
-    {
-        if (attackIndicatorController != null)
-        {
-            attackIndicatorController.HideIndicator();
-        }
-    }
-
-    /*
+    
      public void OnTriggerEnter(Collider other)
     {
         if (other.isTrigger && other.gameObject.CompareTag("PlayerSword"))
         {
             PlayerWeapon playerWeapon = other.gameObject.GetComponent<PlayerWeapon>();
-            if (playerWeapon != null) health.CalculateDamage(playerWeapon.damage, characterData.Q3_QKWeak, characterData.);
+            if (playerWeapon != null) health.CalculateDamage(playerWeapon.damage, characterData.Q3_QKWeak, characterData);
 
         }
     }
-    */
+    
     public void Backward(Vector3 position)
     {
         StartCoroutine(MoveBackwards(gameObject, position, 1.0f)); // Move in 1 second
