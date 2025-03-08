@@ -17,11 +17,9 @@ public class BuffReader : MonoBehaviour
 
     public Animator animator;
     public EventSystem eventSystem;
-
     void Start()
     {
         eventSystem = FindObjectOfType<EventSystem>();
-
         if (eventSystem != null)
         {
             Debug.Log("EventSystem found: " + eventSystem.name);
@@ -80,7 +78,7 @@ public class BuffReader : MonoBehaviour
                 data =>
                     $"Acceleration (LV.{data.QKReduceCooldown} -> LV.{data.QKReduceCooldown + 1})",
                 data => data.QKReduceCooldown < 3,
-                data => data.QKReduceCooldown++,
+                data => data.QKCooldownReduce(),
                 data =>
                     $"Reduce special attack and skill cooldown by {data.QKReduceCooldown + 1} second",
                 data => "Acceleration"
@@ -104,7 +102,7 @@ public class BuffReader : MonoBehaviour
             new Buff(
                 data => $"Superspeed (LV.{data.moveFaster} -> LV.{data.moveFaster + 1})",
                 data => data.moveFaster < 3,
-                data => data.moveFaster++,
+                data => data.SpeedUpgrade(),
                 data => $"Move faster",
                 data => "Superspeed"
             ),
@@ -112,7 +110,7 @@ public class BuffReader : MonoBehaviour
                 data =>
                     $"Swift Step (LV.{data.ReduceDashCooldown} -> LV.{data.ReduceDashCooldown + 1})",
                 data => data.ReduceDashCooldown < 3,
-                data => data.ReduceDashCooldown++,
+                data => data.WaitDashtimeReduce(),
                 data => $"Reduce dash cooldown by {15 * (data.ReduceDashCooldown + 1)}%",
                 data => "Swift Step"
             ),

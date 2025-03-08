@@ -86,13 +86,13 @@ public class ControlPower : MonoBehaviour
         playerCombat.qSkill[0] = qSkillVFX[qSkillTpye];
     }
 
-    void CheckWaitDashtime()
+    public void CheckWaitDashtime()
     {
         playerControl.dashWaitTime =
             playerControl.dashWaitTime - (0.15f * characterData.ReduceDashCooldown);
     }
 
-    void CheckQKCooldown()
+    public void CheckQKCooldown()
     {
         playerCombat.castCooldown = playerCombat.castCooldown - characterData.QKReduceCooldown;
         playerCombat.specialAttackCooldown =

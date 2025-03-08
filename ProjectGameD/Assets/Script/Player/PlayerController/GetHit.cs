@@ -13,13 +13,35 @@ public partial class PlayerControl : MonoBehaviour
     [SerializeField]
     PlayerCombat playerCombat;
     public Health mchealth;
-    private void OnTriggerEnter(Collider Hit)
+    // private void OnTriggerEnter(Collider Hit)
+    // {
+    //     if (!playerCombat.isShield1 && !playerCombat.isShield2)
+    //     {
+    //         if (
+    //             Hit.gameObject.CompareTag("EnemyWeapon")
+    //             && !animator.GetCurrentAnimatorStateInfo(0).IsName("GotHit")
+    //             && !animator.GetCurrentAnimatorStateInfo(0).IsName("die")
+    //         )
+    //         {
+    //             GotHit = true;
+    //             if(mchealth.currentHealth<=0){
+    //                 animator.Play("die",0,0);
+    //             }else
+    //             animator.Play("GotHit", 0, 0);
+    //             int randomIndex = Random.Range(0, hurtsound.Length);
+    //             GameObject humansfx = Instantiate(hurtsound[randomIndex]);
+    //         }
+    //     }
+    // }
+
+
+
+    public void GetHit()
     {
         if (!playerCombat.isShield1 && !playerCombat.isShield2)
         {
             if (
-                Hit.gameObject.CompareTag("EnemyWeapon")
-                && !animator.GetCurrentAnimatorStateInfo(0).IsName("GotHit")
+                !animator.GetCurrentAnimatorStateInfo(0).IsName("GotHit")
                 && !animator.GetCurrentAnimatorStateInfo(0).IsName("die")
             )
             {

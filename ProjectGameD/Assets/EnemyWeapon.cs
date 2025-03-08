@@ -12,11 +12,16 @@ public class EnemyWeapon : MonoBehaviour
     public float reduceDamageTimer = 0f;
     public bool reducedDamage = false;
     float damageR = 0f;
+
+    public PlayerControl playerControl;
+
     [SerializeField]bool isCurseAttack = false;
     void Start()
     {
         // Find the first active PlayerCombat in the scene
         playerCombat = FindObjectOfType<PlayerCombat>();
+        playerControl = FindObjectOfType<PlayerControl>();
+
     }
 
     void Update()
@@ -49,6 +54,8 @@ public class EnemyWeapon : MonoBehaviour
         Health player = other.gameObject.GetComponent<Health>();
         if (player != null && other.CompareTag("Player"))
         {
+            if(playerCombat != null)
+                playerControl.GetHit();
             if (!playerCombat.isShield1 && !playerCombat.isShield2)
             {
                 if (player.currentHealth < (player.maxHealth * 0.25f))
@@ -60,7 +67,7 @@ public class EnemyWeapon : MonoBehaviour
                 float reducedDamageDependOnHP = damage * reducedDamageSecond;
                 player.currentHealth -= Mathf.Max(
                     0,
-    Mathf.RoundToInt(damage - reducedDamage - reducedDamageDependOnHP)
+                    Mathf.RoundToInt(damage - reducedDamage - reducedDamageDependOnHP)
                     
                 );
             }
