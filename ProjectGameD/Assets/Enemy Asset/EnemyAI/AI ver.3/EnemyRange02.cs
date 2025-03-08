@@ -9,7 +9,7 @@ public class EnemyRange02 : MonoBehaviour
     [Header("Reference")]
     [SerializeField] public EnemyRange02_Animation enemyAnimation;
     [SerializeField] public EnemyHealth health;
-    [SerializeField] protected bool isDead = false;
+    [SerializeField] public bool isDead = false;
     [SerializeField] GameObject bar;
 
     [Header("Movement")]
@@ -33,28 +33,28 @@ public class EnemyRange02 : MonoBehaviour
     [SerializeField] public float stunDuration; 
 
     [Header("Spawn Settings")]
-    [SerializeField] private float spawnDelay = 2f; // Freeze duration
-    [SerializeField] private GameObject spawnEffect; // VFX Graph effect
-    protected bool isSpawning = true;
+    [SerializeField] public float spawnDelay = 2f; // Freeze duration
+    [SerializeField] public GameObject spawnEffect; // VFX Graph effect
+    public bool isSpawning = true;
 
-    [SerializeField] private NavMeshAgent agent;
-    [SerializeField] protected float attackCooldownTimer = 0f;
-    [SerializeField] protected bool isStunned = false;
-    [SerializeField] protected bool isOnAttackCooldown = false;
-    [SerializeField] protected bool isShooting = false;
-    [SerializeField] protected bool isHiding = false;
+    [SerializeField] public NavMeshAgent agent;
+    [SerializeField] public float attackCooldownTimer = 0f;
+    [SerializeField] public bool isStunned = false;
+    [SerializeField] public bool isOnAttackCooldown = false;
+    [SerializeField] public bool isShooting = false;
+    [SerializeField] public bool isHiding = false;
 
-    [SerializeField] private int numberOfBullets = 3;
-    [SerializeField] private float bulletDelay = 0.5f;
+    [SerializeField] public int numberOfBullets = 3;
+    [SerializeField] public float bulletDelay = 0.5f;
 
 
 
     // Idle tracking
-    private Vector3 previousPosition;
-    private float idleTimer = 0f;
-    private const float idleThreshold = 0.01f; // Movement threshold
+    public Vector3 previousPosition;
+    public float idleTimer = 0f;
+    public const float idleThreshold = 0.001f; // Movement threshold
 
-    protected virtual void Start()
+    public virtual void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
 
@@ -108,7 +108,7 @@ public class EnemyRange02 : MonoBehaviour
         bar.SetActive(true);
     }
 
-    protected virtual void Update()
+    public virtual void Update()
     {
         if(isDead || isSpawning) return;
 
@@ -140,12 +140,13 @@ public class EnemyRange02 : MonoBehaviour
             attackCooldownTimer -= Time.deltaTime;
         }
 
-        HandleIdleAnimation();
+        //HandleIdleAnimation();
     }
 
-    protected virtual void HandleIdleAnimation()
+    /*
+    public virtual void HandleIdleAnimation()
     {
-        if (Vector3.Distance(transform.position, previousPosition) < idleThreshold)
+        if (Vector3.Distance(transform.position, previousPosition) < idleThreshold && !isSpawning)
         {
             idleTimer += Time.deltaTime;
             enemyAnimation?.PlayIdleAnimation();
@@ -158,8 +159,9 @@ public class EnemyRange02 : MonoBehaviour
 
         previousPosition = transform.position; // Update position for next frame
     }
+    */
 
-    protected virtual void PatrolToPlayer()
+    public virtual void PatrolToPlayer()
     {
         if (!Physics.Linecast(transform.position, player.transform.position, obstacleMask) && isSpawning == false && isDead == false)
         {
@@ -170,7 +172,7 @@ public class EnemyRange02 : MonoBehaviour
         }
     }
 
-    protected virtual IEnumerator ShootWithDelay(int numberOfBullets, float bulletDelay)
+    public virtual IEnumerator ShootWithDelay(int numberOfBullets, float bulletDelay)
     {
         isShooting = true;
         for (int i = 0; i < numberOfBullets; i++)
@@ -184,7 +186,7 @@ public class EnemyRange02 : MonoBehaviour
         StartCoroutine(AttackCooldown());
     }
 
-    protected void StartShoot()
+    public void StartShoot()
     {
         if (!isShooting)
         {
@@ -192,14 +194,15 @@ public class EnemyRange02 : MonoBehaviour
         }
     }
 
-    protected virtual void ShootBullet()
+    public virtual void ShootBullet()
     {
         GameObject projectile = Instantiate(BulletPrefab, firePoint.position, firePoint.rotation);
         projectile.GetComponent<BulletScript>().UpdateTarget(player, (Vector3)uiOffset);
     }
 
-    protected virtual void FindHidingSpot()
+    public virtual void FindHidingSpot()
     {
+        Debug.Log("FindHidingSpot");
         Collider[] nearbySpots = Physics.OverlapSphere(transform.position, hideSearchRadius, obstacleMask);
 
         Transform bestSpot = null;
@@ -232,13 +235,13 @@ public class EnemyRange02 : MonoBehaviour
         }
     }
 
-    protected virtual void GetHit()
+    public virtual void GetHit()
     {
         if (isStunned) return;
         StartCoroutine(Stun());
     }
 
-    protected virtual IEnumerator Stun()
+    public virtual IEnumerator Stun()
     {
         isStunned = true;
         if (agent != null && agent.isOnNavMesh)
@@ -257,7 +260,7 @@ public class EnemyRange02 : MonoBehaviour
         StartCoroutine(AttackCooldown());
     }
 
-    protected virtual IEnumerator AttackCooldown()
+    public virtual IEnumerator AttackCooldown()
     {
         isOnAttackCooldown = true;
 
@@ -271,7 +274,7 @@ public class EnemyRange02 : MonoBehaviour
     public virtual bool GetIsOnAttackCooldown() => isOnAttackCooldown;
     public virtual bool GetIsStunned() => isStunned;
 
-    protected virtual void OnTriggerEnter(Collider other)
+    public virtual void OnTriggerEnter(Collider other)
     {
         if (other.isTrigger && other.gameObject.CompareTag("PlayerSword") && health != null && health.GetCurrentHealth() != 0 && !isSpawning)
         {
@@ -306,7 +309,7 @@ public class EnemyRange02 : MonoBehaviour
         DisableAllScripts();
     }
 
-    protected virtual void DisableAllScripts()
+    public virtual void DisableAllScripts()
     {
         // Loop through all MonoBehaviour components and disable them
         MonoBehaviour[] scripts = GetComponents<MonoBehaviour>();
