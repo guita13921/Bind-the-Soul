@@ -5188,6 +5188,7 @@ GameObject:
   - component: {fileID: 5820764458137486523}
   - component: {fileID: 5143579913044285221}
   - component: {fileID: 5201137802221409590}
+  - component: {fileID: 7626311215878533340}
   m_Layer: 0
   m_Name: warrior_using2
   m_TagString: Enemy
@@ -5229,11 +5230,11 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6303357223316747678}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: e5e8a07286add7f4ababe15d60fb8012, type: 3}
+  m_Avatar: {fileID: 9000000, guid: ec4f2e8c9fd62754d88e1b121b9daa6f, type: 3}
   m_Controller: {fileID: 9100000, guid: f3e01bb8b435a104395b779539aabd33, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -5364,13 +5365,13 @@ MonoBehaviour:
   timerCoolKnockBack: 0
   numberOfRandomVariations: 0
   spawnDelay: 2
-  spawnEffect: {fileID: 0}
+  spawnEffect: {fileID: 8116946890791298519, guid: 50f1f31b7ad8fcf41a19abeaf79c53f1, type: 3}
   isSpawning: 1
   effectSizeMultiplier: 2
   hitEffectPrefab: {fileID: 3075193710951670847, guid: 587c2fafec06b9a4bb80dc03d36677cc, type: 3}
   hitEffectSpawnPoint: {fileID: 9037436494803577750}
   hitEffectDuration: 1
-  bar: {fileID: 996348294455449736}
+  bar: {fileID: 4246581544843123792}
   health: {fileID: 0}
   playerWeapon: {fileID: 0}
   attackIndicatorCanvas: {fileID: 548427023136858590}
@@ -5401,7 +5402,7 @@ MonoBehaviour:
   Health_Bar_Erase: {fileID: 8197130336429368565}
   Health_Bar: {fileID: 8197130336429368565}
   IN_KnockBackTime: 1
-  IN_CoolDownAttack: 5
+  IN_CoolDownAttack: 2
   IN_numberOfRandomVariations: 3
   IN_Health: 200
   IN_Speed: 2
@@ -5409,8 +5410,8 @@ MonoBehaviour:
   IN_range: 10
   IN_sightRange: 100
   IN_attackRange: 2
-  IN_dashDistance: 2
-  IN_dashSpeed: 10
+  IN_dashDistance: 5
+  IN_dashSpeed: 15
   IN_stoprange: 2
   IN_hideDistance: 0
   IN_hideSearchRadius: 0
@@ -5431,6 +5432,19 @@ MonoBehaviour:
   dissolveRate: 0.0125
   refreshRate: 0.025
   skinnedMaterials: []
+--- !u!114 &7626311215878533340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6303357223316747678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3915b1a073180f2439b02451bf23ea65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &6368060211985198517
 GameObject:
   m_ObjectHideFlags: 0
@@ -6788,7 +6802,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.54776996, y: 0.5915125, z: 1.2999911}
   m_Center: {x: 0.020596428, y: -0.20424452, z: 0.14999457}

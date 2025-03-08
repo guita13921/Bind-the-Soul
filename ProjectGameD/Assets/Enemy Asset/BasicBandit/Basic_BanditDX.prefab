@@ -2813,6 +2813,7 @@ GameObject:
   - component: {fileID: 3846275510198179108}
   - component: {fileID: 7018664163177508373}
   - component: {fileID: 175897029764009971}
+  - component: {fileID: 5647188636534740958}
   m_Layer: 0
   m_Name: Basic_BanditDX
   m_TagString: Enemy
@@ -2935,7 +2936,10 @@ MonoBehaviour:
   spawnEffect: {fileID: 2779733639923396887}
   agent: {fileID: 7179604090332102533}
   attackCooldownTimer: 0
+  isStunned: 0
   isOnAttackCooldown: 0
+  isShooting: 0
+  isHiding: 0
   numberOfBullets: 0
   bulletDelay: 0
   throwAngle: 45
@@ -3026,6 +3030,19 @@ CapsuleCollider:
   m_Height: 2.09594
   m_Direction: 1
   m_Center: {x: 0, y: 0.94011855, z: 0}
+--- !u!114 &5647188636534740958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000014232435074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3915b1a073180f2439b02451bf23ea65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &653148508848415194
 GameObject:
   m_ObjectHideFlags: 0
