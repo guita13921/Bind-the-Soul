@@ -49,6 +49,7 @@ public class BossDemon_Animation : MonoBehaviour
     [Header("Laser")]
     [SerializeField] private List<HitboxController> laserEffectHitboxes; 
     [SerializeField] private List<EnemyWeapon> laserEffectHitboxesDMG; 
+    [SerializeField] private List<BoxCollider> laserHitboxesCollider; 
     [SerializeField] private List<VisualEffect> laserEffects;
     private bool isFiringLaser = false;
 
@@ -59,7 +60,6 @@ public class BossDemon_Animation : MonoBehaviour
     [Header("Indicator")]
     [SerializeField] GameObject attackIndicator;
     [SerializeField] BombIndicator BombIndicatorController;
-    [SerializeField] SphereCollider OffmapHitBox;
 
     [Header("OffMapCast")]
     public GameObject OutMapCastEffect;
@@ -229,6 +229,10 @@ public class BossDemon_Animation : MonoBehaviour
             {
                 hitbox.enabled = true;
             }
+            foreach (var hitbox in laserHitboxesCollider)
+            {
+                hitbox.enabled = true;
+            }
         }
         else{
 
@@ -244,6 +248,10 @@ public class BossDemon_Animation : MonoBehaviour
             {
                 laserEffectHitboxesDMG[0].enabled = true;
             }
+            if (laserHitboxesCollider.Count > 0)
+            {
+                laserHitboxesCollider[0].enabled = true;
+            }
         }
 
         isFiringLaser = true;
@@ -257,6 +265,10 @@ public class BossDemon_Animation : MonoBehaviour
             hitbox.enabled = false;
         }
         foreach (var hitbox in laserEffectHitboxesDMG)
+        {
+            hitbox.enabled = false;
+        }
+        foreach (var hitbox in laserHitboxesCollider)
         {
             hitbox.enabled = false;
         }
@@ -414,24 +426,15 @@ public class BossDemon_Animation : MonoBehaviour
     }
 
     void EnableOffMapCast(){
-        EnableOffMapHitBox();
+        //EnableOffMapHitBox();
         PlayOutMapCast();
     }
 
     void EndOffMapCast(){
         HideBombIndicator();
-        DisableOffMapHitBox();
+        //DisableOffMapHitBox();
     }
 
-    void EnableOffMapHitBox()
-    {
-        if(OffmapHitBox != null) OffmapHitBox.enabled = true;
-    }
-
-    void DisableOffMapHitBox()
-    {
-        if(OffmapHitBox != null) OffmapHitBox.enabled = false;
-    }
 
 //##endregion
 

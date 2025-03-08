@@ -107,6 +107,7 @@ public class DemonKnightBoss : MonoBehaviour
     
     void Start()
     {
+        if (!player) player = GameObject.FindWithTag("Player").transform; // Find player if not set
         enemyHealth = GetComponent<EnemyHealth>();
         agent = GetComponent<NavMeshAgent>();
     }
