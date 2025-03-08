@@ -42,9 +42,6 @@ public class EnemyWeapon : MonoBehaviour
         damageR = damage;
         if (playerCombat != null){
             if(playerCombat.gotCurse) damage *= 2;}
-     if(isCurseAttack){
-            playerCombat.GotCurse();
-        }
 
         if (reducedDamage)
         {
@@ -54,6 +51,9 @@ public class EnemyWeapon : MonoBehaviour
         Health player = other.gameObject.GetComponent<Health>();
         if (player != null && other.CompareTag("Player"))
         {
+            if(isCurseAttack){
+                playerCombat.GotCurse();
+            }
             if(playerCombat != null)
                 playerControl.GetHit();
             if (!playerCombat.isShield1 && !playerCombat.isShield2)

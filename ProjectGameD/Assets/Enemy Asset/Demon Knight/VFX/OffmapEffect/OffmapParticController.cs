@@ -5,7 +5,7 @@ public class ExpandingRingHitbox : MonoBehaviour
     public SphereCollider hitboxCollider;
     public ParticleSystem particleEffect;
     public float growthSpeed = 1f; // Speed at which the ring expands
-    public float ringThickness = 0.5f; // How thick the damageable ring is
+    public float ringThickness; // How thick the damageable ring is
     public float maxRadius = 5f; // Maximum expansion size
 
     private float currentRadius = 0f;
