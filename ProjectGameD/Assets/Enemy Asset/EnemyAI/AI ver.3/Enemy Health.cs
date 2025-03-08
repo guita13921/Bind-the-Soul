@@ -4,18 +4,21 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    //[SerializeField]
-    //private float Health;
+    [Header("Ref.")]
+    [SerializeField] EnemyAI3 enemyAI3;
+    [SerializeField] EnemyRange02 enemyRange02;
 
-    [SerializeField]
-    public float maxHealth;
-
-    [SerializeField]
-    public  float currentHealth;
+    [Header("HealthSetting")]
+    [SerializeField] public float maxHealth;
+    [SerializeField] public  float currentHealth;
     EnemyWeapon enemyWeapon1;
+
+    private bool NoDamage;
 
     void Start()
     {
+        enemyAI3 = GetComponent<EnemyAI3>();
+        enemyRange02 = GetComponent<EnemyRange02>();
         enemyWeapon1 = GetComponentInChildren<EnemyWeapon>();
     }
     void Update()
@@ -33,16 +36,26 @@ public class EnemyHealth : MonoBehaviour
 
     public void CalculateDamage(float playerWeaponDamage, bool isQK, bool Q3_reduceDamage)
     {
-        currentHealth -= playerWeaponDamage;
-        if (Q3_reduceDamage && isQK)
-        {
-            enemyWeapon1.reduceDamageTimer = 5f;
-            enemyWeapon1.reducedDamage = true;
+        if(enemyAI3 != null){
+            NoDamage = enemyAI3.GetIsSpawning();
         }
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Ensure health doesn't go below 0
+
+        if(enemyRange02 != null){
+            NoDamage = enemyRange02.GetIsSpawning();
+        }
+
+        if(!NoDamage){
+            currentHealth -= playerWeaponDamage;
+            if (Q3_reduceDamage && isQK)
+            {
+                enemyWeapon1.reduceDamageTimer = 5f;
+                enemyWeapon1.reducedDamage = true;
+            }
+            currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Ensure health doesn't go below 0
+        }
     }
 
-    public void CalculateDamageOld(float playerWeaponDamage)
+    public void CalculateDamageTrap(float playerWeaponDamage)
     {
         currentHealth -= playerWeaponDamage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Ensure health doesn't go below 0

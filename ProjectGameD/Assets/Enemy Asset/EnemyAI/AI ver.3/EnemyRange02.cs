@@ -315,4 +315,5 @@ public class EnemyRange02 : MonoBehaviour
             script.enabled = false;
         }
     }
+
 }

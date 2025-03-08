@@ -485,7 +485,7 @@ public class EnemyAI3 : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.isTrigger && other.gameObject.CompareTag("PlayerSword") && state != State.Dead && isSpawning)
+        if (other.isTrigger && other.gameObject.CompareTag("PlayerSword") && state != State.Dead && !isSpawning)
         {
             PlayerWeapon playerWeapon = other.gameObject.GetComponent<PlayerWeapon>();
             //if (playerWeapon != null)
@@ -551,5 +551,9 @@ public class EnemyAI3 : MonoBehaviour
     void ResetAttackBehavior()
     {
         currentBehaviorType = -1; // Reset to allow for a new random behavior in the next attack
+    }
+
+    public bool GetIsSpawning(){
+        return isSpawning;
     }
 }

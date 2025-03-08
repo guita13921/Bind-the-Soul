@@ -9,19 +9,13 @@ public class ArrowCollision : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Check if the arrow hits an object with the "Player" or "Enemy" tag
         if (other.CompareTag("Player") || other.CompareTag("Enemy"))
         {
-
-            // Attempt to get the EnemyHealth component from the collided object
             EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
             if (enemyHealth != null)
             {
-                // Calculate damage on the enemy
-                enemyHealth.CalculateDamageOld(arrowDamageEnemy);
+                enemyHealth.CalculateDamageTrap(arrowDamageEnemy);
             }
-
-            // Destroy the arrow after collision
             Destroy(gameObject);
         }
     }

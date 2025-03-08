@@ -157,20 +157,23 @@ public class EnemySpawnManager : MonoBehaviour
 
     private void InitializeNextStageObjects()
     {
-        foreach (var obj in nextStageObjects)
-        {
-            obj.SetActive(false);
+        if(nextStageObjects != null){
+            foreach (var obj in nextStageObjects)
+            {
+                obj.SetActive(false);
+            }
         }
     }
 
     private void EnableNextStageObjects()
     {
-        foreach (var obj in nextStageObjects)
-        {
-            obj.SetActive(true);
+        if(nextStageObjects != null){
+            foreach (var obj in nextStageObjects)
+            {
+                obj.SetActive(true);
+            }
         }
 
-        Debug.Log("All waves completed! Next stage is now active.");
     }
 
     private void UpdateUI()
