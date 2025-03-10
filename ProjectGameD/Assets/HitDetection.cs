@@ -22,7 +22,7 @@ public class HitDetection : MonoBehaviour
             if (characterData.vampirism > 0)
                 health.currentHealth = health.currentHealth + 2;
 
-            Instantiate(hitVFX, gameObject.transform.position, Quaternion.identity);
+            Instantiate(hitVFX, other.bounds.center, Quaternion.identity);
 
             PlayerWeapon playerWeapon = other.GetComponent<PlayerWeapon>();
             if (sound != null && sound.Length > 0)

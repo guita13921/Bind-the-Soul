@@ -56,6 +56,10 @@ public class EnemySpawnManager : MonoBehaviour
 
     private void Start()
     {
+            if (upgradeShow == null)
+    {
+        upgradeShow = FindObjectOfType<UpgradeShow>();
+    }
         InitializeNextStageObjects();
         StartNextWave();
     }

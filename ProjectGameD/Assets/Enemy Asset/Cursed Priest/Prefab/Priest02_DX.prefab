@@ -308,6 +308,7 @@ MonoBehaviour:
   stunDuration: 0
   spawnDelay: 2
   spawnEffect: {fileID: 9038019232429543521}
+  isSpawning: 1
   agent: {fileID: 5383863655765455190}
   attackCooldownTimer: 0
   isStunned: 0
@@ -316,6 +317,8 @@ MonoBehaviour:
   isHiding: 0
   numberOfBullets: 1
   bulletDelay: 0
+  previousPosition: {x: 0, y: 0, z: 0}
+  idleTimer: 0
 --- !u!114 &3150468642410045088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,7 +343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3915b1a073180f2439b02451bf23ea65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetOffset: {x: 0, y: 0, z: 0}
+  targetOffset: {x: 0, y: 1, z: 0}
 --- !u!114 &8664605819523835065 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2942239798854768490, guid: 1cf4757a09044ab41b7f9efddf2c9892, type: 3}

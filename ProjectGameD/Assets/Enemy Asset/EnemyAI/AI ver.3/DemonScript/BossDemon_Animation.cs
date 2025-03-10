@@ -343,10 +343,11 @@ public class BossDemon_Animation : MonoBehaviour
             if (slashVFX != null)
             {
                 //slashVFX[x].Play();
+                                    if(attacksound != null) attacksound.Play();
+
                 Instantiate(slashVFX[x], slashVFX_Position[x].transform.position, slashVFX_Position[x].transform.rotation);
                 if(DemonBoss.GetBossPhase() == DemonKnightBoss.BossPhase.Phase2 
                 || DemonBoss.GetBossPhase() == DemonKnightBoss.BossPhase.Phase2_Enraged){
-                    if(attacksound != null) attacksound.Play();
                     Instantiate(DemonEnegyStrike, slashVFX_Position[x].transform.position, slashVFX_Position[x].transform.rotation);
                 }
             }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7926930987436946664}
   - component: {fileID: 7631756790416369293}
   - component: {fileID: 8470312971343406349}
+  - component: {fileID: 2005980500475140228}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: EnemyWeapon
@@ -122,6 +123,91 @@ MonoBehaviour:
   loop: 0
   looptime: 0
   destroyTime: 0
+--- !u!114 &2005980500475140228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4757181865360388674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0571ab3c9c65bb42ae6230de4697814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 200
+  characterData: {fileID: 11400000, guid: e628f4ad3830604478a34deaa6dbc29e, type: 2}
+  playerCombat: {fileID: 0}
+  reduceDamageTimer: 0
+  reducedDamage: 0
+  playerControl: {fileID: 0}
+  isCurseAttack: 0
+--- !u!1001 &3366677211760160410
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8300956421593271965}
+    m_Modifications:
+    - target: {fileID: 426746110267307788, guid: 40725744d3c047744b688c1c455b138f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 426746110267307788, guid: 40725744d3c047744b688c1c455b138f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 426746110267307788, guid: 40725744d3c047744b688c1c455b138f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 426746110267307788, guid: 40725744d3c047744b688c1c455b138f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 426746110267307788, guid: 40725744d3c047744b688c1c455b138f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 426746110267307788, guid: 40725744d3c047744b688c1c455b138f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 426746110267307788, guid: 40725744d3c047744b688c1c455b138f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 426746110267307788, guid: 40725744d3c047744b688c1c455b138f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 426746110267307788, guid: 40725744d3c047744b688c1c455b138f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 426746110267307788, guid: 40725744d3c047744b688c1c455b138f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5905528536371869933, guid: 40725744d3c047744b688c1c455b138f, type: 3}
+      propertyPath: m_Name
+      value: BombSound
+      objectReference: {fileID: 0}
+    - target: {fileID: 8319295202723068859, guid: 40725744d3c047744b688c1c455b138f, type: 3}
+      propertyPath: m_Volume
+      value: 0.7
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 40725744d3c047744b688c1c455b138f, type: 3}
+--- !u!4 &3122345041480046998 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 426746110267307788, guid: 40725744d3c047744b688c1c455b138f, type: 3}
+  m_PrefabInstance: {fileID: 3366677211760160410}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8303957022525054761
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -264,6 +350,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4361801158873524, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 111459087244144362}
+    - targetCorrespondingSourceObject: {fileID: 4361801158873524, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3122345041480046998}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
 --- !u!4 &8300956421593271965 stripped
