@@ -1137,7 +1137,6 @@ GameObject:
   - component: {fileID: 1960206458618235070}
   - component: {fileID: 5583982720740475003}
   - component: {fileID: 4486582181581405687}
-  - component: {fileID: 2005579638478929687}
   - component: {fileID: 215803233127994440}
   - component: {fileID: 1917799007981703690}
   m_Layer: 0
@@ -1204,8 +1203,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3719ca31e16b674fb994790c13bd0dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyAI3: {fileID: 0}
+  enemyRange02: {fileID: 0}
   maxHealth: 10
   currentHealth: 0
+  deathSound: {fileID: 0}
+  warrior: 0
 --- !u!114 &5148806254483019899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1229,7 +1232,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
-  rb: {fileID: 2005579638478929687}
+  rb: {fileID: 0}
   speed: 0
   range: 0
   sightRange: 0
@@ -1299,10 +1302,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8cc951a695c4fc4686681b0d3b60890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VFXgraph: {fileID: 6282372764779279462}
-  skinnedMesh: {fileID: 137112428768987920}
-  dissolveRate: 0.0125
-  refreshRate: 0.025
   skinnedMaterials: []
 --- !u!195 &5583982720740475003
 NavMeshAgent:
@@ -1366,33 +1365,6 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!54 &2005579638478929687
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1349150361055734}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 0
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
 --- !u!136 &215803233127994440
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3357,6 +3329,7 @@ MonoBehaviour:
   playerCombat: {fileID: 0}
   reduceDamageTimer: 0
   reducedDamage: 0
+  playerControl: {fileID: 0}
   isCurseAttack: 0
 --- !u!1 &1922643155838178570
 GameObject:

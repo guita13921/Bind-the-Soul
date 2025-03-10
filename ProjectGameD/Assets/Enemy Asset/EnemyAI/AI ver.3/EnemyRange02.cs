@@ -143,6 +143,13 @@ public class EnemyRange02 : MonoBehaviour
         //HandleIdleAnimation();
     }
 
+    
+    private IEnumerator DestroyAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Destroy(this.gameObject);
+    }
+
     /*
     public virtual void HandleIdleAnimation()
     {
@@ -305,18 +312,8 @@ public class EnemyRange02 : MonoBehaviour
 
         Destroy(bar.gameObject);
         enemyAnimation?.PlayDeadAniamtion();
-        Destroy(this.gameObject);
-        DisableAllScripts();
+        StartCoroutine(DestroyAfterDelay(5f));
     }
 
-    public virtual void DisableAllScripts()
-    {
-        // Loop through all MonoBehaviour components and disable them
-        MonoBehaviour[] scripts = GetComponents<MonoBehaviour>();
-        foreach (MonoBehaviour script in scripts)
-        {
-            script.enabled = false;
-        }
-    }
 
 }

@@ -72,6 +72,11 @@ public class BossDemon_Animation : MonoBehaviour
     [Header("FollowVFXAttack")]
     [SerializeField] GameObject DemonEnegyStrike;
 
+    [Header("Sound VFX")]
+    [SerializeField] GameObject demonDeadSound;
+    [SerializeField] AudioSource laserSound;
+    [SerializeField] GameObject BombSound;
+
     private void Update()
     {
         if ((isFiringLaser == true) && player.transform.position != null)
@@ -256,6 +261,7 @@ public class BossDemon_Animation : MonoBehaviour
 
         isFiringLaser = true;
         animator.SetBool("IsLaser", true);
+        StartLaserSound();
     }
 
     public void StopLaser()
@@ -280,9 +286,11 @@ public class BossDemon_Animation : MonoBehaviour
         
         isFiringLaser = false;
         animator.SetBool("IsLaser", false);
+        StopLaserSound();
     }
 
     public void PlayOutMapCast(){
+        playBombSound();
         Instantiate(OutMapCastEffect, this.transform.position, Quaternion.identity);
     }
 
@@ -427,7 +435,6 @@ public class BossDemon_Animation : MonoBehaviour
     }
 
     void EnableOffMapCast(){
-        //EnableOffMapHitBox();
         PlayOutMapCast();
     }
 
@@ -511,6 +518,23 @@ public class BossDemon_Animation : MonoBehaviour
         }else{
             Debug.LogError("TransitionToPhase_Bug");
         }
+    }
+
+    public void PlayDeadAnimation(){
+        animator.SetBool("IsDead", true);
+        Instantiate(demonDeadSound, this.transform.position, this.transform.rotation);
+    }
+
+    public void StartLaserSound(){
+        laserSound.Play();
+    }
+
+    public void StopLaserSound(){
+        laserSound.Stop();
+    }
+
+    public void playBombSound(){
+        Instantiate(BombSound, this.transform.position, this.transform.rotation);
     }
 
 }

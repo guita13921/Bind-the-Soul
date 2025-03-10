@@ -34,9 +34,7 @@ public class Chaos_warriors : EnemyAI3
         base.Update(); // Retain the base functionality
     }
 
-    /// <summary>
-    /// Check if the enemy should enter berserk mode after dying the first time.
-    /// </summary>
+
     protected override void CheckHealth()
     {
         if (health.GetCurrentHealth() <= 0 && !hasDiedOnce)
@@ -49,9 +47,7 @@ public class Chaos_warriors : EnemyAI3
         }
     }
 
-    /// <summary>
-    /// Set the animation speed based on a multiplier.
-    /// </summary>
+
     private void SetAnimationSpeed(float speedMultiplier)
     {
         if (animator != null)
@@ -60,9 +56,6 @@ public class Chaos_warriors : EnemyAI3
         }
     }
 
-    /// <summary>
-    /// Trigger the berserk mode after the first death.
-    /// </summary>
     private void EnterBerserkMode()
     {
         state = State.Cooldown;

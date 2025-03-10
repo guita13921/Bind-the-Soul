@@ -912,9 +912,6 @@ PrefabInstance:
       addedObject: {fileID: 2740631648438540679}
     - targetCorrespondingSourceObject: {fileID: 100082, guid: 24c4300f68c986241af51004b72b03f2, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8965566667855400599}
-    - targetCorrespondingSourceObject: {fileID: 100082, guid: 24c4300f68c986241af51004b72b03f2, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 5513474585220894855}
     - targetCorrespondingSourceObject: {fileID: 100082, guid: 24c4300f68c986241af51004b72b03f2, type: 3}
       insertIndex: -1
@@ -976,14 +973,14 @@ MonoBehaviour:
   agent: {fileID: 0}
   boxCollider: {fileID: 6479103234984666817}
   weapon: {fileID: 0}
-  animator: {fileID: 0}
+  animator: {fileID: 3708884496528323418}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
-  rb: {fileID: 8965566667855400599}
+  rb: {fileID: 0}
   speed: 1
   range: 10
   sightRange: 10
@@ -1007,7 +1004,7 @@ MonoBehaviour:
   health: {fileID: 903323441945195272}
   playerWeapon: {fileID: 0}
   attackIndicatorCanvas: {fileID: 3721247322941245363}
-  attackIndicatorController: {fileID: 0}
+  attackIndicatorController: {fileID: 8636887239174214672}
 --- !u!114 &903323441945195272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1050,7 +1047,7 @@ MonoBehaviour:
   IN_numberOfRandomVariations: 1
   IN_Health: 250
   IN_Speed: 2
-  IN_Damage: 10
+  IN_Damage: 150
   IN_range: 10
   IN_sightRange: 50
   IN_attackRange: 4
@@ -1059,33 +1056,6 @@ MonoBehaviour:
   IN_stoprange: 3
   IN_hideDistance: 0
   IN_hideSearchRadius: 0
---- !u!54 &8965566667855400599
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3708884496521052360}
-  serializedVersion: 4
-  m_Mass: 0.0000001
-  m_Drag: 100
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 0
-  m_ImplicitTensor: 0
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 116
-  m_CollisionDetection: 0
 --- !u!114 &5513474585220894855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1098,7 +1068,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8cc951a695c4fc4686681b0d3b60890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skinnedMaterials: []
+  VFXgraph: {fileID: 7482133690391619989}
+  skinnedMaterials:
+  - {fileID: 2100000, guid: 75de6da0c2dcc6248846e06666573229, type: 2}
 --- !u!65 &8501818341458837508
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1133,6 +1105,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetOffset: {x: 0, y: 0, z: 0}
+--- !u!95 &3708884496528323418 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 9500000, guid: 24c4300f68c986241af51004b72b03f2, type: 3}
+  m_PrefabInstance: {fileID: 3708884496521020986}
+  m_PrefabAsset: {fileID: 0}
 --- !u!137 &3708884496532622746 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 13700000, guid: 24c4300f68c986241af51004b72b03f2, type: 3}

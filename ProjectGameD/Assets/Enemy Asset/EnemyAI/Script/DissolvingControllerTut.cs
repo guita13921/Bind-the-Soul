@@ -5,7 +5,7 @@ using UnityEngine.VFX;
 
 public class DissolvingControllerTut : MonoBehaviour
 {
-    private VisualEffect VFXgraph;
+    [SerializeField] private VisualEffect VFXgraph;
     private SkinnedMeshRenderer skinnedMesh;
     private float dissolveRate = 0.0125f;
     private float refreshRate = 0.0125f;
@@ -23,16 +23,18 @@ public class DissolvingControllerTut : MonoBehaviour
 
     void StartDeadAnimation()
     {
-        StartCoroutine(DissolveCo());
+        if(skinnedMaterials != null) StartCoroutine(DissolveCo());
     }
 
     public void StartDissolve(){
-        StartCoroutine(DissolveCo());
+       if(skinnedMaterials != null) StartCoroutine(DissolveCo());
     }
 
     public void EndDissolve(String enable){
-        if(enable == "1"){
-            StartCoroutine(ReverseDissolveCo());
+        if(skinnedMaterials != null){
+            if(enable == "1"){
+                StartCoroutine(ReverseDissolveCo());
+            }
         }
     }
 

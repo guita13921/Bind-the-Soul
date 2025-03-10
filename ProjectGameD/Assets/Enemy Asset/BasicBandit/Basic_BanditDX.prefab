@@ -2811,9 +2811,9 @@ GameObject:
   - component: {fileID: 11140574849626408}
   - component: {fileID: 8270334925870449663}
   - component: {fileID: 3846275510198179108}
-  - component: {fileID: 7018664163177508373}
   - component: {fileID: 175897029764009971}
   - component: {fileID: 5647188636534740958}
+  - component: {fileID: 2234649437120629630}
   m_Layer: 0
   m_Name: Basic_BanditDX
   m_TagString: Enemy
@@ -2989,27 +2989,14 @@ MonoBehaviour:
   IN_Health: 150
   IN_Speed: 1
   IN_Damage: 10
-  IN_range: 3
-  IN_sightRange: 20
+  IN_range: 50
+  IN_sightRange: 50
   IN_attackRange: 10
   IN_dashDistance: 2
   IN_dashSpeed: 0
   IN_stoprange: 0
   IN_hideDistance: 10
   IN_hideSearchRadius: 100
---- !u!114 &7018664163177508373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000014232435074}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8cc951a695c4fc4686681b0d3b60890, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skinnedMaterials: []
 --- !u!136 &175897029764009971
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3046,6 +3033,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetOffset: {x: 0, y: 0, z: 0}
+--- !u!114 &2234649437120629630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000014232435074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8cc951a695c4fc4686681b0d3b60890, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VFXgraph: {fileID: 3426997474569139800}
+  skinnedMaterials:
+  - {fileID: 2100000, guid: af7ee246303972a4e970cde0512e99f9, type: 2}
 --- !u!1 &653148508848415194
 GameObject:
   m_ObjectHideFlags: 0

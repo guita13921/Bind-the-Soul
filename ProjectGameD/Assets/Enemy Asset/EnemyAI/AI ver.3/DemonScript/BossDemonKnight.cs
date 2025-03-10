@@ -31,7 +31,6 @@ public class DemonKnightBoss : MonoBehaviour
         Laser,
         OffmapCast01,
         FrontAttckCast,
-        ThreeDirectionCast,
         CallDemonTrap
     }
 
@@ -64,7 +63,6 @@ public class DemonKnightBoss : MonoBehaviour
     private List<BossAction> SpecialCombo02 = new List<BossAction> { BossAction.Laser};      
     private List<BossAction> SpecialCombo03 = new List<BossAction> { BossAction.OffmapCast01};  
     private List<BossAction> SpecialCombo04 = new List<BossAction> { BossAction.FrontAttckCast};  
-    private List<BossAction> SpecialCombo05 = new List<BossAction> { BossAction.ThreeDirectionCast}; 
     private List<BossAction> SpecialCombo06 = new List<BossAction> { BossAction.CallEnemy, BossAction.OneHandCast01 ,BossAction.CallDemonTrap}; 
     private List<BossAction> SpecialCombo07 = new List<BossAction> { BossAction.CallEnemy, BossAction.OneHandCast01 ,BossAction.OffmapCast01}; 
 
@@ -421,7 +419,7 @@ public class DemonKnightBoss : MonoBehaviour
                 if(randomChance < 0.25f){
                     StartCombo(SpecialCombo04);
                 }else if (randomChance < 0.5f){
-                    StartCombo(SpecialCombo05);
+                    StartCombo(SpecialCombo02);
                 }else if (randomChance < 0.75f){
                     StartCombo(SpecialCombo06);
                 }else{
@@ -511,6 +509,7 @@ public class DemonKnightBoss : MonoBehaviour
                 BossAnimation.TransitionToPhase("Phase2_Enraged");
                 break;            
             case BossPhase.Dead:
+                agent.enabled = false;
                 HandleDeath();
                 break;
         }
@@ -528,8 +527,7 @@ public class DemonKnightBoss : MonoBehaviour
 
     private void HandleDeath()
     {
-        Debug.Log("Boss has been defeated!");
-        enabled = false;
+        BossAnimation.PlayDeadAnimation();
         Destroy(gameObject, 5f);
     }
 

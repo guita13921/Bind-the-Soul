@@ -114,7 +114,9 @@ public class SpikeTrap : MonoBehaviour
      
         //Debug.Log("ApplyDamage");
         player = other.gameObject.GetComponent<Health>();
-           if(playerControl != null){
+        playerCombat = other.gameObject.GetComponent<PlayerCombat>();
+
+        if(playerControl != null){
             playerControl.GetHit();
         }
         if (player != null && other.CompareTag("Player"))

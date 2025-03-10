@@ -32,7 +32,7 @@ public class BossDemon_Rotation : MonoBehaviour
 
         Vector3 directionToPlayer = (player.position - transform.position).normalized;
         float angleToPlayer = Vector3.SignedAngle(transform.forward, directionToPlayer, Vector3.up);
-        HandleRotationAndMovement(angleToPlayer, directionToPlayer);
+       if(agent.enabled) HandleRotationAndMovement(angleToPlayer, directionToPlayer);
     }
 
     private void HandleRotationAndMovement(float angleToPlayer, Vector3 directionToPlayer)
@@ -115,7 +115,7 @@ public class BossDemon_Rotation : MonoBehaviour
 
     public void UnlockMovement()
     {
-        if (agent)
+        if (agent && agent.enabled)
         {   
             isLock = false;
             agent.isStopped = false; // Resume NavMeshAgent movement

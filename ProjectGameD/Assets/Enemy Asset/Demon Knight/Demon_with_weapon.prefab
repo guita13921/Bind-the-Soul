@@ -2663,6 +2663,7 @@ MonoBehaviour:
   - {fileID: 6729215714324824486}
   - {fileID: 9145660073372239083}
   - {fileID: 3943476525479884065}
+  laserHitboxesCollider: []
   laserEffects:
   - {fileID: 6050863197240006051}
   - {fileID: 7622144860185988466}
@@ -2748,6 +2749,8 @@ MonoBehaviour:
   enemyRange02: {fileID: 0}
   maxHealth: 2000
   currentHealth: 2000
+  deathSound: {fileID: 0}
+  warrior: 0
 --- !u!114 &3686968551910895113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2761,9 +2764,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VFXgraph: {fileID: 0}
-  skinnedMesh: {fileID: 9060374005572953013}
-  dissolveRate: 0.0125
-  refreshRate: 0.0125
   skinnedMaterials: []
 --- !u!136 &9218219645432870287
 CapsuleCollider:
@@ -2828,11 +2828,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 4
   m_CollisionDetection: 0
---- !u!137 &9060374005572953013 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -304944261669037034, guid: 7c30fb6be0705a24cb0ce5e53b0a36a8, type: 3}
-  m_PrefabInstance: {fileID: 466251102031429539}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &738153495505995701
 PrefabInstance:
   m_ObjectHideFlags: 0

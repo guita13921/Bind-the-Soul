@@ -5181,7 +5181,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4892953014701035687}
   - component: {fileID: 4628610080495677124}
-  - component: {fileID: 7241465012920539977}
   - component: {fileID: 361796165723220287}
   - component: {fileID: 3481787142124511902}
   - component: {fileID: 8227437000429398839}
@@ -5242,33 +5241,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!54 &7241465012920539977
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6303357223316747678}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 128
-  m_ImplicitCom: 0
-  m_ImplicitTensor: 0
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 116
-  m_CollisionDetection: 0
 --- !u!195 &361796165723220287
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -5355,7 +5327,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
-  rb: {fileID: 7241465012920539977}
+  rb: {fileID: 0}
   speed: 0
   range: 0
   sightRange: 0
@@ -5382,10 +5354,10 @@ MonoBehaviour:
   attackIndicatorController: {fileID: 1164283308556864933}
   isBerserk: 0
   hasDiedOnce: 0
-  berserkSpeedMultiplier: 1
+  berserkSpeedMultiplier: 2
   berserkDamageBoost: 10
-  berserkAttackCooldownMultiplier: 0.1
-  animationSpeedMultiplier: 1
+  berserkAttackCooldownMultiplier: 0.75
+  animationSpeedMultiplier: 1.25
 --- !u!114 &5143579913044285221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5408,9 +5380,9 @@ MonoBehaviour:
   IN_KnockBackTime: 1
   IN_CoolDownAttack: 2
   IN_numberOfRandomVariations: 3
-  IN_Health: 200
+  IN_Health: 150
   IN_Speed: 2
-  IN_Damage: 10
+  IN_Damage: 100
   IN_range: 10
   IN_sightRange: 100
   IN_attackRange: 2
@@ -5432,10 +5404,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VFXgraph: {fileID: 6338206513090201314}
-  skinnedMesh: {fileID: 5198604218175482047}
-  dissolveRate: 0.0125
-  refreshRate: 0.025
-  skinnedMaterials: []
+  skinnedMaterials:
+  - {fileID: 2100000, guid: af7ee246303972a4e970cde0512e99f9, type: 2}
 --- !u!114 &7626311215878533340
 MonoBehaviour:
   m_ObjectHideFlags: 0
