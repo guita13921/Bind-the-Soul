@@ -8,7 +8,7 @@ public CharacterData characterData;
 
     void Start()
     {
-        if(characterData.deathCount ==6 ){
+        if(characterData.deathCount ==5 ){
             gameObject.SetActive(false);
         }
     }
