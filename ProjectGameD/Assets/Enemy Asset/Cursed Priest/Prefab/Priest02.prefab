@@ -1777,7 +1777,6 @@ GameObject:
   - component: {fileID: 4924355293669243938}
   - component: {fileID: 6264644386883689429}
   - component: {fileID: 4557427396945878400}
-  - component: {fileID: 6326996756796907906}
   m_Layer: 0
   m_Name: Priest02
   m_TagString: Enemy
@@ -1861,8 +1860,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3719ca31e16b674fb994790c13bd0dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyAI3: {fileID: 0}
+  enemyRange02: {fileID: 0}
   maxHealth: 0
   currentHealth: 0
+  deathSound: {fileID: 0}
+  warrior: 0
 --- !u!114 &1899218892632170403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1875,9 +1878,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb28514f45a88a24fa5b7f91ab9dda43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 1899782299097514629}
   scriptToAccessEnemyAI3: {fileID: 0}
   scriptToAccesskamikazeEnemy: {fileID: 0}
+  scriptToEnemyRange02: {fileID: 0}
+  agent: {fileID: 1899782299097514629}
   Health: {fileID: 2942239798854768490}
   Health_Bar_Erase: {fileID: 8130130787802302565}
   Health_Bar: {fileID: 7133774943143730233}
@@ -1893,6 +1897,8 @@ MonoBehaviour:
   IN_dashDistance: 2
   IN_dashSpeed: 0
   IN_stoprange: 0
+  IN_hideDistance: 0
+  IN_hideSearchRadius: 0
 --- !u!114 &4924355293669243938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1906,9 +1912,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VFXgraph: {fileID: 8360586715131886337}
-  skinnedMesh: {fileID: 3180543455974065772}
-  dissolveRate: 0.0125
-  refreshRate: 0.025
   skinnedMaterials: []
 --- !u!114 &6264644386883689429
 MonoBehaviour:
@@ -1953,19 +1956,6 @@ CapsuleCollider:
   m_Height: 2.757171
   m_Direction: 1
   m_Center: {x: 0, y: 0.87858546, z: 0}
---- !u!114 &6326996756796907906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4363578991983522480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3915b1a073180f2439b02451bf23ea65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetOffset: {x: 0, y: 1.12, z: 0}
 --- !u!1 &4514782077138980834
 GameObject:
   m_ObjectHideFlags: 0

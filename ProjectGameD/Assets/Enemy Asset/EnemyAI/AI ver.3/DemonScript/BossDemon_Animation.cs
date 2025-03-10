@@ -16,6 +16,7 @@ public class BossDemon_Animation : MonoBehaviour
     [SerializeField] public RangeSensor rangeSensor;
     [SerializeField] public MeleeSensor meleeSensor;
     [SerializeField] private DissolvingControllerTut DissolvingController;
+    [SerializeField] private GameObject NextStage;
 
     [Header("Audio")]
     [SerializeField] public AudioSource attacksound;
@@ -76,6 +77,8 @@ public class BossDemon_Animation : MonoBehaviour
     [SerializeField] GameObject demonDeadSound;
     [SerializeField] AudioSource laserSound;
     [SerializeField] GameObject BombSound;
+    [SerializeField] AudioSource currentSoundtrack;
+    [SerializeField] AudioSource soundtrackOutro;
 
     private void Update()
     {
@@ -522,8 +525,22 @@ public class BossDemon_Animation : MonoBehaviour
 
     public void PlayDeadAnimation(){
         animator.SetBool("IsDead", true);
+
+        if (currentSoundtrack != null)
+            {
+                AudioSource audioSource = currentSoundtrack.GetComponent<AudioSource>();
+                if (audioSource != null)
+                {
+                    audioSource.volume = 0f; // Set volume to zero
+                }
+            }
+            if (soundtrackOutro != null)
+        Instantiate(soundtrackOutro);
+
         Instantiate(demonDeadSound, this.transform.position, this.transform.rotation);
+        NextStage.SetActive(true);
     }
+    
 
     public void StartLaserSound(){
         laserSound.Play();

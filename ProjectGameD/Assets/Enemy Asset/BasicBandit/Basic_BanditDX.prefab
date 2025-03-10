@@ -2814,6 +2814,7 @@ GameObject:
   - component: {fileID: 175897029764009971}
   - component: {fileID: 5647188636534740958}
   - component: {fileID: 2234649437120629630}
+  - component: {fileID: 2171323930221760961}
   m_Layer: 0
   m_Name: Basic_BanditDX
   m_TagString: Enemy
@@ -2990,7 +2991,7 @@ MonoBehaviour:
   IN_Speed: 1
   IN_Damage: 10
   IN_range: 50
-  IN_sightRange: 50
+  IN_sightRange: 100
   IN_attackRange: 10
   IN_dashDistance: 2
   IN_dashSpeed: 0
@@ -3048,6 +3049,26 @@ MonoBehaviour:
   VFXgraph: {fileID: 3426997474569139800}
   skinnedMaterials:
   - {fileID: 2100000, guid: af7ee246303972a4e970cde0512e99f9, type: 2}
+--- !u!114 &2171323930221760961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000014232435074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0eaff8a5bf9bf843bf35b91419ff83f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitVFX: {fileID: 5738661500007511725, guid: 58d8526b8eefac74ca3c39f9f7abb8f9, type: 3}
+  dmgtext: {fileID: 693769129120289603, guid: 4795ff2b90e7ba846ab6791295f49d65, type: 3}
+  sound:
+  - {fileID: 4399829981604430862, guid: 66694a1d2fd71694c96122a55f5121cf, type: 3}
+  - {fileID: 5357182591586133925, guid: 3d8ef8ab70a0ed0489ccd4356f5e6265, type: 3}
+  - {fileID: 6269816721746788171, guid: 2aa8bb578d888fd4d81a22c1a23a11cd, type: 3}
+  health: {fileID: 0}
+  characterData: {fileID: 11400000, guid: e628f4ad3830604478a34deaa6dbc29e, type: 2}
 --- !u!1 &653148508848415194
 GameObject:
   m_ObjectHideFlags: 0

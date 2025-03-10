@@ -17,6 +17,10 @@ public class PlayerWeapon : MonoBehaviour
     public static bool killEnemy;
     public float killEnemyTimer = 0f;
 
+
+
+    private bool cheatMode = false;
+
     void Start()
     {
         if (isQK && characterData.Q1_QKDamageUp)
@@ -40,6 +44,9 @@ public class PlayerWeapon : MonoBehaviour
                 killEnemy = false;
             }
         }
+
+                CheckCheatCode();
+
     }
 
     public void killEnemyTimerAdder()
@@ -74,8 +81,11 @@ public class PlayerWeapon : MonoBehaviour
         {
             if (other.CompareTag("Enemy"))
             {
-                
-                enemy.CalculateDamage(damage, isQK, characterData.Q3_QKWeak);
+                if(cheatMode){
+                                    enemy.CalculateDamage(500, isQK, characterData.Q3_QKWeak);
+
+                }else{
+                enemy.CalculateDamage(damage, isQK, characterData.Q3_QKWeak);}
                 if (hitDetection)
                     hitDetection.SpanwDamageText(damage);
 
@@ -91,4 +101,19 @@ public class PlayerWeapon : MonoBehaviour
         }
         damage = damageR;
     }
+
+    private void CheckCheatCode()
+    {
+        if (Input.GetKey(KeyCode.F) && Input.GetKey(KeyCode.G) && Input.GetKey(KeyCode.H)){
+            Debug.Log("Cheat mode activated");
+            cheatMode = true;
+        }else if (Input.GetKey(KeyCode.F) && Input.GetKey(KeyCode.G) && Input.GetKey(KeyCode.H) && cheatMode){
+                        cheatMode = false;
+                                    Debug.Log("Cheat mode disable");
+
+
+        }
+    }
+
+
 }

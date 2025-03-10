@@ -110,34 +110,36 @@ public class EnemyRange02 : MonoBehaviour
 
     public virtual void Update()
     {
-        if(isDead || isSpawning) return;
+        if(player != null){
+            if(isDead || isSpawning) return;
 
-        if (health.GetCurrentHealth() == 0)
-        {   
-            Dead();
-        }
-
-        if (isStunned) return;
-
-        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-
-        if (distanceToPlayer < detectionRange && !isOnAttackCooldown && !isShooting)
-        {
-            PatrolToPlayer();
-
-            if (distanceToPlayer <= attackRange && attackCooldownTimer <= 0)
-            {
-                enemyAnimation?.PlayAttackAnimation();
+            if (health.GetCurrentHealth() == 0)
+            {   
+                Dead();
             }
-        }
-        else if (isOnAttackCooldown || isDead == false)
-        {
-            FindHidingSpot();
-        }
 
-        if (attackCooldownTimer > 0)
-        {
-            attackCooldownTimer -= Time.deltaTime;
+            if (isStunned) return;
+
+            float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+
+            if (distanceToPlayer < detectionRange && !isOnAttackCooldown && !isShooting)
+            {
+                PatrolToPlayer();
+
+                if (distanceToPlayer <= attackRange && attackCooldownTimer <= 0)
+                {
+                    enemyAnimation?.PlayAttackAnimation();
+                }
+            }
+            else if (isOnAttackCooldown || isDead == false)
+            {
+                FindHidingSpot();
+            }
+
+            if (attackCooldownTimer > 0)
+            {
+                attackCooldownTimer -= Time.deltaTime;
+            }
         }
 
         //HandleIdleAnimation();
@@ -197,6 +199,7 @@ public class EnemyRange02 : MonoBehaviour
     {
         if (!isShooting)
         {
+            RequestInsideLookAtPlayer();
             StartCoroutine(ShootWithDelay(numberOfBullets, bulletDelay));
         }
     }
@@ -313,6 +316,20 @@ public class EnemyRange02 : MonoBehaviour
         Destroy(bar.gameObject);
         enemyAnimation?.PlayDeadAniamtion();
         StartCoroutine(DestroyAfterDelay(5f));
+    }
+
+    
+    public void RequestInsideLookAtPlayer()
+    {
+        if (player == null) return; // Ensure the player reference exists
+
+        Vector3 directionToPlayer = player.transform.position - transform.position;
+        directionToPlayer.y = 0; // Keep rotation only on the Y-axis
+
+        if (directionToPlayer != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(directionToPlayer); // Instantly face the player
+        }
     }
 
 

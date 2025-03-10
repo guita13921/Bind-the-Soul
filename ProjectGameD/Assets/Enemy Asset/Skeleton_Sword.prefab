@@ -116,6 +116,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8134920667482105856, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
+      propertyPath: damage
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8673449048225945005, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
       propertyPath: deathSound
       value: 
@@ -150,9 +154,13 @@ PrefabInstance:
     - {fileID: 6558932900485140263, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
     - {fileID: 8514626155898471951, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
     - {fileID: 7518941265990528676, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1268295225274370951, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1349150361055734, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3564844822544488060}
     - targetCorrespondingSourceObject: {fileID: 9196178426872350718, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6242090006310131631}
@@ -191,3 +199,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5982065193208894625, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
   m_PrefabInstance: {fileID: 8036844857144763894}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8037888334414812160 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1349150361055734, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
+  m_PrefabInstance: {fileID: 8036844857144763894}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3564844822544488060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8037888334414812160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0eaff8a5bf9bf843bf35b91419ff83f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitVFX: {fileID: 5738661500007511725, guid: 58d8526b8eefac74ca3c39f9f7abb8f9, type: 3}
+  dmgtext: {fileID: 693769129120289603, guid: 4795ff2b90e7ba846ab6791295f49d65, type: 3}
+  sound:
+  - {fileID: 4399829981604430862, guid: 66694a1d2fd71694c96122a55f5121cf, type: 3}
+  - {fileID: 5357182591586133925, guid: 3d8ef8ab70a0ed0489ccd4356f5e6265, type: 3}
+  - {fileID: 6269816721746788171, guid: 2aa8bb578d888fd4d81a22c1a23a11cd, type: 3}
+  health: {fileID: 0}
+  characterData: {fileID: 11400000, guid: e628f4ad3830604478a34deaa6dbc29e, type: 2}

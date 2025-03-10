@@ -23,7 +23,11 @@ public class DissolvingControllerTut : MonoBehaviour
 
     void StartDeadAnimation()
     {
-        if(skinnedMaterials != null) StartCoroutine(DissolveCo());
+        //if(skinnedMaterials != null) StartCoroutine(DissolveCo());
+        if(VFXgraph != null)
+        {
+            VFXgraph.Play();
+        }
     }
 
     public void StartDissolve(){
