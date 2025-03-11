@@ -9,6 +9,7 @@ public class EnemyRangeBomb02 : EnemyRange02
     [SerializeField] private float bombDelay = 0.5f; // Time delay between bombs
 
     public override void Start() {
+        player = GameObject.FindGameObjectWithTag("Player");
         base.Start();
     }
     
@@ -51,6 +52,7 @@ public class EnemyRangeBomb02 : EnemyRange02
     {
         if (!isShooting)
         {
+            RequestInsideLookAtPlayer();
             StartCoroutine(ThrowBombsWithDelay(numberOfBombs, bombDelay));
         }
     }

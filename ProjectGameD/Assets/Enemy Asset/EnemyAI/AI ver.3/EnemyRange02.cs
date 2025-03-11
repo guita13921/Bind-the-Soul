@@ -319,7 +319,7 @@ public class EnemyRange02 : MonoBehaviour
     }
 
     
-    public void RequestInsideLookAtPlayer()
+    public virtual void RequestInsideLookAtPlayer()
     {
         if (player == null) return; // Ensure the player reference exists
 
