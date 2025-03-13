@@ -3,8 +3,8 @@ using UnityEngine;
 
 public partial class PlayerControl
 {
-    private bool isAttack = false;
-    private bool isDashing = false;
+    [SerializeField] private bool isAttack = false;
+    [SerializeField] private bool isDashing = false;
 
     private float movewhenATK = 0.185f;
 
@@ -38,8 +38,8 @@ public partial class PlayerControl
         }
     }
 
-    [SerializeField]private float dashDistance = 2f; // Total distance to dash
-    [SerializeField]private float dashTime = 0.5f;
+    [SerializeField] private float dashDistance = 2f; // Total distance to dash
+    [SerializeField] private float dashTime = 0.5f;
 
     public GameObject prefabToInstantiate; // Assign your prefab in the inspector
     private Vector3 spawnPosition; // Set this to the desired spawn position
@@ -47,33 +47,39 @@ public partial class PlayerControl
     public DashCheck dashCheck; // Assign in inspector
     public ControlPower controlPower;
     public float dashWaitTime = 0.75f;
+
     IEnumerator Dash()
     {
         if (!canDash)
         {
             yield break; // Exit if the cooldown is active
         }
+
         isAttack = false;
         controlPower.DashVFX();
 
         canDash = false; // Prevent dashing again immediately
         isDashing = true;
         Vector3 dashDirection = transform.forward.normalized;
+
         float distanceTraveled = 0f;
+
         animator.Play("Dash");
         spawnPosition = transform.position + dashDirection * dashDistance;
+
         bool CheckForCollision = false;
         dashCheck.SetCollisionState(false);
         //Debug.Log(dashCheck.willCollide);
 
-           capsuleCollider.enabled = false;
+        //capsuleCollider.enabled = false;
 
-
+        /*
         GameObject instantiatedObject = Instantiate(
             prefabToInstantiate,
             spawnPosition,
             Quaternion.identity
         );
+        */
 
         yield return null; // Allows one frame to pass
         //Debug.Log(dashCheck.willCollide);
@@ -90,19 +96,27 @@ public partial class PlayerControl
             float dashStep = (dashDistance / dashTime) * Time.deltaTime;
             Vector3 dashMovement = dashDirection * dashStep;
 
+            if (CheckForCollisions())
+            {
+                //transform.position = transform.position;
+                break;
+            }
+
             if (!CheckForCollision || !dashCheck.willCollide)
             {
                 transform.position += dashMovement;
+                distanceTraveled += dashStep;
             }
 
-            distanceTraveled += dashStep;
+
 
             yield return null;
         }
-          capsuleCollider.enabled = true;
+
+        //capsuleCollider.enabled = true;
 
         Physics.IgnoreLayerCollision(7, 9, false);
-        
+
         // Ensure the dash animation ends
         animator.Play("Idle");
         isDashing = false;
@@ -114,18 +128,28 @@ public partial class PlayerControl
 
     private bool CheckForCollisions()
     {
-        // Example: Use a sphere overlap check or a raycast to check for collisions
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 1f);
+        float checkRadius = 1.5f;
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, checkRadius);
 
         foreach (var hitCollider in hitColliders)
         {
-            if (hitCollider.CompareTag("DD"))
+            Vector3 directionToCollider = (hitCollider.transform.position - transform.position).normalized;
+
+            if (Vector3.Dot(transform.forward, directionToCollider) > 0)
             {
-                Debug.Log("Collided during dash");
-                return true; // Collision detected
+                if (hitCollider.CompareTag("CantDash"))
+                {
+                    return true; // Collision detected in the front area
+                }
             }
         }
 
-        return false; // No collision detected
+        return false; // No collision detected in the front
     }
+
+    public bool GetisDash()
+    {
+        return isDashing;
+    }
+
 }

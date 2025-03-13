@@ -58,13 +58,14 @@ public class PlayerCombat : MonoBehaviour
     // Update is called once per frame
     {
 
-        
-        if(gotCurse){
+
+        if (gotCurse)
+        {
             timeSinceGotCurse += Time.deltaTime;
             if (timeSinceGotCurse > CurseDuration)
             {
                 timeSinceGotCurse = 0;
-flameCanvas.SetActive(false);
+                flameCanvas.SetActive(false);
 
                 gotCurse = false;
             }
@@ -352,16 +353,17 @@ flameCanvas.SetActive(false);
         boxCollider.enabled = false;
     }
 
-    public bool gotCurse =false;
+    public bool gotCurse = false;
 
 
-    public float CurseDuration =3f;
+    public float CurseDuration = 3f;
 
     public float timeSinceGotCurse = 0f;
     public GameObject flameCanvas;
 
-    public void GotCurse(){
-gotCurse =true;
-flameCanvas.SetActive(true);
+    public void GotCurse()
+    {
+        gotCurse = true;
+        flameCanvas.SetActive(true);
     }
 }
