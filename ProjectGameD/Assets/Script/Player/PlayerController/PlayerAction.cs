@@ -98,18 +98,13 @@ public partial class PlayerControl
 
             if (CheckForCollisions())
             {
-                //transform.position = transform.position;
                 break;
             }
-
             if (!CheckForCollision || !dashCheck.willCollide)
             {
                 transform.position += dashMovement;
                 distanceTraveled += dashStep;
             }
-
-
-
             yield return null;
         }
 
@@ -137,7 +132,7 @@ public partial class PlayerControl
 
             if (Vector3.Dot(transform.forward, directionToCollider) > 0)
             {
-                if (hitCollider.CompareTag("CantDash"))
+                if (hitCollider.CompareTag("CantDash") || hitCollider.CompareTag("Void"))
                 {
                     return true; // Collision detected in the front area
                 }

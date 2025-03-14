@@ -23,12 +23,12 @@ public class BossDemon_Animation : MonoBehaviour
 
     [Header("Malee")]
     [SerializeField] private bool isAttacking; // Reference to the flamethr
-    [SerializeField] private List<BoxCollider> attackHitboxes = new List<BoxCollider>(); 
+    [SerializeField] private List<BoxCollider> attackHitboxes = new List<BoxCollider>();
 
     [Header("MaleeVFX")]
-    [SerializeField] private List<ParticleSystem> slashVFX = new List<ParticleSystem>(); 
+    [SerializeField] private List<ParticleSystem> slashVFX = new List<ParticleSystem>();
     [SerializeField] private List<GameObject> slashVFX_Position = new List<GameObject>();
-    
+
     [Header("Dashing")]
     [SerializeField] private bool isDashing = false;
     [SerializeField] private float dashDistance;
@@ -48,9 +48,9 @@ public class BossDemon_Animation : MonoBehaviour
     private Vector2 uiOffset;
 
     [Header("Laser")]
-    [SerializeField] private List<HitboxController> laserEffectHitboxes; 
-    [SerializeField] private List<EnemyWeapon> laserEffectHitboxesDMG; 
-    [SerializeField] private List<BoxCollider> laserHitboxesCollider; 
+    [SerializeField] private List<HitboxController> laserEffectHitboxes;
+    [SerializeField] private List<EnemyWeapon> laserEffectHitboxesDMG;
+    [SerializeField] private List<BoxCollider> laserHitboxesCollider;
     [SerializeField] private List<VisualEffect> laserEffects;
     private bool isFiringLaser = false;
 
@@ -85,16 +85,22 @@ public class BossDemon_Animation : MonoBehaviour
         if ((isFiringLaser == true) && player.transform.position != null)
         {
             movementController.RequestLookAtplayer_laser();
-        }else{
+        }
+        else
+        {
             return;
         }
-        
+
     }
 
-    void StartShoot(){
-        if(DemonBoss.GetisEnrage() == true){
-            StartCoroutine(ShootWithDelay(numberOfBullets+1, bulletDelay));
-        }else{
+    void StartShoot()
+    {
+        if (DemonBoss.GetisEnrage() == true)
+        {
+            StartCoroutine(ShootWithDelay(numberOfBullets + 1, bulletDelay));
+        }
+        else
+        {
             StartCoroutine(ShootWithDelay(numberOfBullets, bulletDelay));
         }
     }
@@ -104,8 +110,8 @@ public class BossDemon_Animation : MonoBehaviour
         // Prevent starting multiple shooting coroutines
         for (int i = 0; i < numberOfBullets; i++)
         {
-                ShootBullet(); // Fire a bullet
-                yield return new WaitForSeconds(bulletDelay); // Wait before firing the next
+            ShootBullet(); // Fire a bullet
+            yield return new WaitForSeconds(bulletDelay); // Wait before firing the next
         }
     }
 
@@ -123,7 +129,8 @@ public class BossDemon_Animation : MonoBehaviour
         bossSpawning.SpawnEenemy();
     }
 
-    public void PerformAttack01(){
+    public void PerformAttack01()
+    {
         Debug.Log("PerformAttack01");
         movementController.RequestLookAtPlayer_w0Lock();
         animator.SetTrigger("Attack01");
@@ -200,7 +207,7 @@ public class BossDemon_Animation : MonoBehaviour
         Instantiate(ShieldVFX, shield_Position.transform.position, shield_Position.transform.rotation);
     }
 
-//endregion 
+    //endregion 
 
     public void LockMovement()
     {
@@ -215,7 +222,8 @@ public class BossDemon_Animation : MonoBehaviour
         if (movementController) movementController.UnlockMovement(); // Call UnlockMovement from BossRotationWithAnimation
     }
 
-    public void StartDashing(){
+    public void StartDashing()
+    {
         //Debug.Log("StartDashing");
         movementController.RequestLookAtPlayer_w0Lock();
         animator.SetTrigger("Dash");
@@ -225,8 +233,10 @@ public class BossDemon_Animation : MonoBehaviour
 
     public void StartLaser()
     {
-        if(DemonBoss.GetisEnrage() == true){
-            foreach (var laser in laserEffects){
+        if (DemonBoss.GetisEnrage() == true)
+        {
+            foreach (var laser in laserEffects)
+            {
                 laser.Play();
             }
             foreach (var hitbox in laserEffectHitboxes)
@@ -242,7 +252,8 @@ public class BossDemon_Animation : MonoBehaviour
                 hitbox.enabled = true;
             }
         }
-        else{
+        else
+        {
 
             if (laserEffects.Count > 0)
             {
@@ -281,18 +292,19 @@ public class BossDemon_Animation : MonoBehaviour
         {
             hitbox.enabled = false;
         }
-        
+
         foreach (var laser in laserEffects)
         {
             laser.Stop();
         }
-        
+
         isFiringLaser = false;
         animator.SetBool("IsLaser", false);
         StopLaserSound();
     }
 
-    public void PlayOutMapCast(){
+    public void PlayOutMapCast()
+    {
         playBombSound();
         Instantiate(OutMapCastEffect, this.transform.position, Quaternion.identity);
     }
@@ -354,11 +366,12 @@ public class BossDemon_Animation : MonoBehaviour
             if (slashVFX != null)
             {
                 //slashVFX[x].Play();
-                                    if(attacksound != null) attacksound.Play();
+                if (attacksound != null) attacksound.Play();
 
                 Instantiate(slashVFX[x], slashVFX_Position[x].transform.position, slashVFX_Position[x].transform.rotation);
-                if(DemonBoss.GetBossPhase() == DemonKnightBoss.BossPhase.Phase2 
-                || DemonBoss.GetBossPhase() == DemonKnightBoss.BossPhase.Phase2_Enraged){
+                if (DemonBoss.GetBossPhase() == DemonKnightBoss.BossPhase.Phase2
+                || DemonBoss.GetBossPhase() == DemonKnightBoss.BossPhase.Phase2_Enraged)
+                {
                     Instantiate(DemonEnegyStrike, slashVFX_Position[x].transform.position, slashVFX_Position[x].transform.rotation);
                 }
             }
@@ -367,43 +380,43 @@ public class BossDemon_Animation : MonoBehaviour
 
     private IEnumerator DashForward02()
     {
-    isDashing = true;
+        isDashing = true;
 
-    Vector3 dashDirection = transform.forward;
+        Vector3 dashDirection = transform.forward;
 
-    // Calculate distance to player, clamping it to a max of 8
-    float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-    float temp = Mathf.Min(distanceToPlayer-2, 8f);
-    float reducedDashDistance = Mathf.Max(temp, 0f);
+        // Calculate distance to player, clamping it to a max of 8
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        float temp = Mathf.Min(distanceToPlayer - 2, 8f);
+        float reducedDashDistance = Mathf.Max(temp, 0f);
 
-    Vector3 potentialTargetPosition = transform.position + dashDirection * reducedDashDistance;
+        Vector3 potentialTargetPosition = transform.position + dashDirection * reducedDashDistance;
 
-    // Project the target position onto the NavMesh
-    if (
-        NavMesh.SamplePosition(
-            potentialTargetPosition,
-            out NavMeshHit hit,
-            reducedDashDistance,
-            NavMesh.AllAreas
+        // Project the target position onto the NavMesh
+        if (
+            NavMesh.SamplePosition(
+                potentialTargetPosition,
+                out NavMeshHit hit,
+                reducedDashDistance,
+                NavMesh.AllAreas
+            )
         )
-    )
-    {
-        Vector3 targetPosition = hit.position; // Use the position on the NavMesh
-        float dashTime = Vector3.Distance(transform.position, targetPosition) / dash02Speed; // Adjust dash time
-        float startTime = Time.time;
-
-        while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
         {
-            float journeyProgress = (Time.time - startTime) / dashTime;
-            transform.position = Vector3.Lerp(
-                transform.position,
-                targetPosition,
-                journeyProgress
-            );
-            yield return null;
+            Vector3 targetPosition = hit.position; // Use the position on the NavMesh
+            float dashTime = Vector3.Distance(transform.position, targetPosition) / dash02Speed; // Adjust dash time
+            float startTime = Time.time;
+
+            while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
+            {
+                float journeyProgress = (Time.time - startTime) / dashTime;
+                transform.position = Vector3.Lerp(
+                    transform.position,
+                    targetPosition,
+                    journeyProgress
+                );
+                yield return null;
+            }
         }
     }
-}
 
     void DisableAttack(String Number)
     {
@@ -411,58 +424,69 @@ public class BossDemon_Animation : MonoBehaviour
 
         int x = 0;
         Int32.TryParse(Number, out x);
-            
+
         //Debug.Log("DisableAttack");
         attackHitboxes[x].enabled = false;
         //if (AttackTimeFrame != 0)
         //{
         //    ShowIndicator(AttackTimeFrame);
         //}
-        
+
     }
 
-    void StartFrontAttack(){
+    void StartFrontAttack()
+    {
         float randomChance = UnityEngine.Random.value;
-        if(randomChance < 0.33f){
+        if (randomChance < 0.33f)
+        {
             Instantiate(LightRay, this.transform.position, this.transform.rotation);
-        }else if(randomChance < 0.66f){
+        }
+        else if (randomChance < 0.66f)
+        {
             Instantiate(frontattack, this.transform.position, this.transform.rotation);
-        }else{
+        }
+        else
+        {
             demonTrapController.SpawnDemonTrap();
         }
     }
 
-    void StartOffMapCast(int AttackTimeFrame){
+    void StartOffMapCast(int AttackTimeFrame)
+    {
         DissolvingController.StartDissolve();
         ShowBombIndicator(AttackTimeFrame * 4);
     }
 
-    void EnableOffMapCast(){
+    void EnableOffMapCast()
+    {
         PlayOutMapCast();
     }
 
-    void EndOffMapCast(){
+    void EndOffMapCast()
+    {
         HideBombIndicator();
         //DisableOffMapHitBox();
     }
 
 
-//##endregion
+    //##endregion
 
-    void ShowBombIndicator(int AttackTimeFrame){
+    void ShowBombIndicator(int AttackTimeFrame)
+    {
         if (BombIndicatorController != null)
         {
             BombIndicatorController.ShowIndicator(AttackTimeFrame);
         }
     }
 
-    void HideBombIndicator(){
+    void HideBombIndicator()
+    {
         if (BombIndicatorController != null)
         {
             BombIndicatorController.HideIndicator();
         }
     }
-    
+
     void ShowAttackIndicator(int x)
     {
         if (attackIndicator != null)
@@ -474,18 +498,19 @@ public class BossDemon_Animation : MonoBehaviour
         }
     }
 
-/*
-    void HideIndicator()
-    {
-        if (attackIndicatorController != null)
+    /*
+        void HideIndicator()
         {
-            attackIndicatorController.HideIndicator();
+            if (attackIndicatorController != null)
+            {
+                attackIndicatorController.HideIndicator();
+            }
         }
-    }
-*/  
+    */
 
 
-    public void StartKnockBack(){
+    public void StartKnockBack()
+    {
         if (player != null)
         {
             Rigidbody playerRb = player.GetComponent<Rigidbody>();
@@ -499,58 +524,70 @@ public class BossDemon_Animation : MonoBehaviour
         }
     }
 
-    public void TransitionToPhase(String newPhase){
-        if(newPhase == "Phase1_Enraged"){
-            animator.SetBool("Phase01",false);
-            animator.SetBool("Phase01_Enrage",true);
-            animator.SetBool("Phase02",false);
-            animator.SetBool("Phase02_Enrage",false);
+    public void TransitionToPhase(String newPhase)
+    {
+        if (newPhase == "Phase1_Enraged")
+        {
+            animator.SetBool("Phase01", false);
+            animator.SetBool("Phase01_Enrage", true);
+            animator.SetBool("Phase02", false);
+            animator.SetBool("Phase02_Enrage", false);
 
-        }else if(newPhase == "Phase2"){
-            animator.SetBool("Phase01",false);
-            animator.SetBool("Phase01_Enrage",false);
-            animator.SetBool("Phase02",true);
-            animator.SetBool("Phase02_Enrage",false);
+        }
+        else if (newPhase == "Phase2")
+        {
+            animator.SetBool("Phase01", false);
+            animator.SetBool("Phase01_Enrage", false);
+            animator.SetBool("Phase02", true);
+            animator.SetBool("Phase02_Enrage", false);
 
-        }else if(newPhase == "Phase2_Enraged"){
-            animator.SetBool("Phase01",false);
-            animator.SetBool("Phase01_Enrage",false);
-            animator.SetBool("Phase02",false);
-            animator.SetBool("Phase02_Enrage",true);
+        }
+        else if (newPhase == "Phase2_Enraged")
+        {
+            animator.SetBool("Phase01", false);
+            animator.SetBool("Phase01_Enrage", false);
+            animator.SetBool("Phase02", false);
+            animator.SetBool("Phase02_Enrage", true);
 
-        }else{
+        }
+        else
+        {
             Debug.LogError("TransitionToPhase_Bug");
         }
     }
 
-    public void PlayDeadAnimation(){
+    public void PlayDeadAnimation()
+    {
         animator.SetBool("IsDead", true);
 
         if (currentSoundtrack != null)
+        {
+            AudioSource audioSource = currentSoundtrack.GetComponent<AudioSource>();
+            if (audioSource != null)
             {
-                AudioSource audioSource = currentSoundtrack.GetComponent<AudioSource>();
-                if (audioSource != null)
-                {
-                    audioSource.volume = 0f; // Set volume to zero
-                }
+                audioSource.volume = 0f; // Set volume to zero
             }
-            if (soundtrackOutro != null)
-        Instantiate(soundtrackOutro);
+        }
+        if (soundtrackOutro != null)
+            Instantiate(soundtrackOutro);
 
         Instantiate(demonDeadSound, this.transform.position, this.transform.rotation);
         NextStage.SetActive(true);
     }
-    
 
-    public void StartLaserSound(){
+
+    public void StartLaserSound()
+    {
         laserSound.Play();
     }
 
-    public void StopLaserSound(){
+    public void StopLaserSound()
+    {
         laserSound.Stop();
     }
 
-    public void playBombSound(){
+    public void playBombSound()
+    {
         Instantiate(BombSound, this.transform.position, this.transform.rotation);
     }
 
