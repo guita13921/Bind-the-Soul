@@ -7,6 +7,9 @@ public class RoomInfo : MonoBehaviour
     [SerializeField] private int sizeX;
     [SerializeField] private int sizeZ;
     [SerializeField] private int tileSize;
+    [SerializeField] private float shift;
+
+
 
     public string Get_type()
     {
@@ -31,5 +34,10 @@ public class RoomInfo : MonoBehaviour
     public int Get_tileSize()
     {
         return tileSize;
+    }
+
+    public float Get_shift()
+    {
+        return shift;
     }
 }

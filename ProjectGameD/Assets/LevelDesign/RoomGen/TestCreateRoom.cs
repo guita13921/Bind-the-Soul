@@ -5,9 +5,11 @@ public class TestCreateRoom : MonoBehaviour
 {
     [SerializeField] private GameObject roomPrefab; // Assign your Room Prefab in the Inspector
     [SerializeField] private Vector3 spawnPosition;// Default spawn position
+
     [SerializeField] private float axisX;
     [SerializeField] private float axisZ;
-    [SerializeField] private int tileSize;
+    [SerializeField] private float temp_rotation;// transform.rotation.eulerAngles.y;
+
     [SerializeField] private bool CanSpawn = true;
 
     private RoomInfo roomInfo;
@@ -35,8 +37,11 @@ public class TestCreateRoom : MonoBehaviour
             CanSpawn = false;
             roomInfo = roomPrefab.GetComponent<RoomInfo>();
             CalculateAxis();
+            CalculateRotation();
+            CalculateShift();
+            Quaternion rotation = Quaternion.Euler(0, temp_rotation, 0); // Example rotation
             Vector3 spawnPosition = transform.position + new Vector3(axisX, 0, axisZ);
-            Instantiate(roomPrefab, spawnPosition, Quaternion.identity);
+            Instantiate(roomPrefab, spawnPosition, rotation);
         }
         else
         {
@@ -47,8 +52,6 @@ public class TestCreateRoom : MonoBehaviour
     void CalculateAxis()
     {
         float rotationY = this.transform.rotation.eulerAngles.y;
-        Debug.Log(rotationY);
-
         if (Mathf.Abs(rotationY - 0f) < tolerance || Mathf.Abs(rotationY - 360f) < tolerance)
         {
             // Facing Forward (Z+)
@@ -75,10 +78,70 @@ public class TestCreateRoom : MonoBehaviour
         }
         else
         {
-            Debug.Log("FUCK IT ALL WRONG");
+            Debug.Log("IT ALL WRONG");
         }
-        //Debug.Log("CalculateAxis" + axisX + " : " + axisZ);
     }
 
+    void CalculateRotation()
+    {
+        float rotationY = this.transform.rotation.eulerAngles.y;
+        if (Mathf.Abs(rotationY - 0f) < tolerance || Mathf.Abs(rotationY - 360f) < tolerance)
+        {
+            // Facing Forward (Z+)
+            temp_rotation = 180f;
 
+        }
+        else if (Mathf.Abs(rotationY - 90f) < tolerance)
+        {
+            // Facing Right (X+)
+            temp_rotation = -90f;
+
+        }
+        else if (Mathf.Abs(rotationY - 180f) < tolerance)
+        {
+            // Facing Backward (Z-)
+            temp_rotation = 0;
+
+        }
+        else if (Mathf.Abs(rotationY - 270f) < tolerance)
+        {
+            // Facing Left (X-)
+            temp_rotation = 90f;
+
+        }
+        else
+        {
+            Debug.Log("IT ALL WRONG");
+        }
+    }
+
+    void CalculateShift()
+    {
+        float rotationY = this.transform.rotation.eulerAngles.y;
+        if (Mathf.Abs(rotationY - 0f) < tolerance || Mathf.Abs(rotationY - 360f) < tolerance)
+        {
+            // Facing Forward (Z+)
+            axisX += roomInfo.Get_shift();
+
+        }
+        else if (Mathf.Abs(rotationY - 90f) < tolerance)
+        {
+            // Facing Right (X+)
+            axisZ -= roomInfo.Get_shift();
+        }
+        else if (Mathf.Abs(rotationY - 180f) < tolerance)
+        {
+            // Facing Backward (Z-)
+            axisX -= roomInfo.Get_shift();
+        }
+        else if (Mathf.Abs(rotationY - 270f) < tolerance)
+        {
+            // Facing Left (X-)
+            axisZ += roomInfo.Get_shift();
+        }
+        else
+        {
+            Debug.Log("IT ALL WRONG");
+        }
+    }
 }
