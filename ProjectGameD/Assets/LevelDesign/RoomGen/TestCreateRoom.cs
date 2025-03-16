@@ -14,11 +14,14 @@ public class TestCreateRoom : MonoBehaviour
 
     private RoomInfo roomInfo;
     private float tolerance = 0.1f;
+    public RuntimeNavMeshBaker runtimeNavMeshBaker;
 
 
     void Start()
     {
+        CreateRoom();
         spawnPosition = this.transform.position;
+        //runtimeNavMeshBaker.Start();
     }
 
     void Update()
