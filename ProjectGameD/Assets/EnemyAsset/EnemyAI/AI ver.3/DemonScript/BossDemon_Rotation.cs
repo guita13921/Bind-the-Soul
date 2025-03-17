@@ -32,7 +32,7 @@ public class BossDemon_Rotation : MonoBehaviour
 
         Vector3 directionToPlayer = (player.position - transform.position).normalized;
         float angleToPlayer = Vector3.SignedAngle(transform.forward, directionToPlayer, Vector3.up);
-       if(agent.enabled) HandleRotationAndMovement(angleToPlayer, directionToPlayer);
+        if (agent.enabled) HandleRotationAndMovement(angleToPlayer, directionToPlayer);
     }
 
     private void HandleRotationAndMovement(float angleToPlayer, Vector3 directionToPlayer)
@@ -46,7 +46,7 @@ public class BossDemon_Rotation : MonoBehaviour
             StopMovement();
             return;
         }
-        
+
         MoveForward(directionToPlayer);
     }
 
@@ -72,7 +72,7 @@ public class BossDemon_Rotation : MonoBehaviour
 
     private void LookAtPlayer()
     {
-        if(isLock == true) return;
+        if (isLock == true) return;
         Vector3 direction = player.position - transform.position;
         direction.y = 0; // Keep rotation level (prevent looking up/down)
         Quaternion targetRotation = Quaternion.LookRotation(direction);
@@ -111,22 +111,24 @@ public class BossDemon_Rotation : MonoBehaviour
             StopMovement();
         }
     }
-    
+
 
     public void UnlockMovement()
     {
         if (agent && agent.enabled)
-        {   
+        {
             isLock = false;
             agent.isStopped = false; // Resume NavMeshAgent movement
         }
     }
 
-    public void RequestLookAtplayer(){
+    public void RequestLookAtplayer()
+    {
         LookAtPlayer();
     }
-    
-    public void RequestLookAtplayer_laser(){
+
+    public void RequestLookAtplayer_laser()
+    {
         LookAtPlayer_WhenLaser();
     }
 
@@ -148,5 +150,10 @@ public class BossDemon_Rotation : MonoBehaviour
     public void RequestLookAtPlayer_w0Lock()
     {
         LookAtPlayer_w0Lock();
+    }
+
+    public void MultiSpeed(float multiple)
+    {
+        this.moveSpeed *= multiple;
     }
 }

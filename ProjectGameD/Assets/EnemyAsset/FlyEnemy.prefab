@@ -738,9 +738,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1722132045171226830}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 527, y: -158.29999, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3097007316549746177}
@@ -1156,13 +1156,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6608837985856686908}
+  - component: {fileID: 4512664990492518422}
   - component: {fileID: 4607653439044737700}
   - component: {fileID: 2441151469220666269}
   - component: {fileID: 2546439544071394836}
-  - component: {fileID: 3961182582828273980}
   - component: {fileID: 1232108641795058789}
   - component: {fileID: 3225150654092274984}
-  - component: {fileID: 4512664990492518422}
+  - component: {fileID: 3961182582828273980}
   - component: {fileID: 2137614156979279730}
   - component: {fileID: 8381273448160483038}
   m_Layer: 0
@@ -1192,6 +1192,21 @@ Transform:
   - {fileID: 6181315593222344846}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4512664990492518422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2743053519421347597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8cc951a695c4fc4686681b0d3b60890, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VFXgraph: {fileID: 4750035795730099608}
+  skinnedMaterials:
+  - {fileID: 2100000, guid: 7638395d42b294844b09e389f431b5cc, type: 2}
 --- !u!95 &4607653439044737700
 Animator:
   serializedVersion: 5
@@ -1258,54 +1273,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &3961182582828273980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2743053519421347597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d88f85331f9625a41b6ccc8a7b250518, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 402067311283320090, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
-  agent: {fileID: 2441151469220666269}
-  boxCollider: {fileID: 3627160038888458581}
-  weapon: {fileID: 1812757829439670158}
-  animator: {fileID: 4607653439044737700}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  rb: {fileID: 0}
-  speed: 0
-  range: 0
-  sightRange: 0
-  attackRange: 0
-  playerInsight: 0
-  PlayerInAttackrange: 0
-  dashDistance: 0
-  dashSpeed: 0
-  state: 0
-  timerCoolDownAttack: 0
-  timerCoolKnockBack: 0
-  numberOfRandomVariations: 0
-  spawnDelay: 2
-  spawnEffect: {fileID: 6094505213221290299}
-  isSpawning: 1
-  effectSizeMultiplier: 2
-  hitEffectPrefab: {fileID: 3075193710951670847, guid: 587c2fafec06b9a4bb80dc03d36677cc, type: 3}
-  hitEffectSpawnPoint: {fileID: 2532304088060389135}
-  hitEffectDuration: 1
-  bar: {fileID: 5874412152051292642}
-  health: {fileID: 1232108641795058789}
-  playerWeapon: {fileID: 0}
-  attackIndicatorCanvas: {fileID: 658855824263513206}
-  attackIndicatorController: {fileID: 6932089838465747289}
 --- !u!114 &1232108641795058789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1357,7 +1324,7 @@ MonoBehaviour:
   IN_stoprange: 3
   IN_hideDistance: 0
   IN_hideSearchRadius: 0
---- !u!114 &4512664990492518422
+--- !u!114 &3961182582828273980
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1366,12 +1333,47 @@ MonoBehaviour:
   m_GameObject: {fileID: 2743053519421347597}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8cc951a695c4fc4686681b0d3b60890, type: 3}
+  m_Script: {fileID: 11500000, guid: d88f85331f9625a41b6ccc8a7b250518, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VFXgraph: {fileID: 0}
-  skinnedMaterials:
-  - {fileID: 2100000, guid: 7638395d42b294844b09e389f431b5cc, type: 2}
+  player: {fileID: 402067311283320090, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
+  agent: {fileID: 2441151469220666269}
+  boxCollider: {fileID: 3627160038888458581}
+  weapon: {fileID: 1812757829439670158}
+  animator: {fileID: 4607653439044737700}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  dissolvingControllerTut: {fileID: 0}
+  rb: {fileID: 0}
+  speed: 0
+  range: 0
+  sightRange: 0
+  attackRange: 0
+  playerInsight: 0
+  PlayerInAttackrange: 0
+  dashDistance: 0
+  dashSpeed: 0
+  state: 0
+  timerCoolDownAttack: 0
+  timerCoolKnockBack: 0
+  numberOfRandomVariations: 0
+  spawnDelay: 2
+  spawnEffect: {fileID: 6094505213221290299}
+  isSpawning: 1
+  effectSizeMultiplier: 2
+  hitEffectPrefab: {fileID: 3075193710951670847, guid: 587c2fafec06b9a4bb80dc03d36677cc, type: 3}
+  hitEffectSpawnPoint: {fileID: 2532304088060389135}
+  hitEffectDuration: 1
+  bar: {fileID: 5874412152051292642}
+  health: {fileID: 1232108641795058789}
+  playerWeapon: {fileID: 0}
+  attackIndicatorCanvas: {fileID: 658855824263513206}
+  attackIndicatorController: {fileID: 6932089838465747289}
+  originalSpeed: 0
 --- !u!114 &2137614156979279730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2004,7 +2006,7 @@ RectTransform:
   m_GameObject: {fileID: 4687174430872085537}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 1.8599999}
-  m_LocalScale: {x: 0.5, y: 0.74, z: -0.47000003}
+  m_LocalScale: {x: 0.5, y: 0, z: -0.47000003}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1944037461134461175}

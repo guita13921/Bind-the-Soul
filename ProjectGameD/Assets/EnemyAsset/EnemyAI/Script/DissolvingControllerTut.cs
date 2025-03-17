@@ -15,28 +15,33 @@ public class DissolvingControllerTut : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        skinnedMesh = GetComponent<SkinnedMeshRenderer>();
-        if(skinnedMesh != null){
-            skinnedMaterials = skinnedMesh.materials;
+        if (skinnedMaterials == null)
+        {
+            skinnedMesh = GetComponentInChildren<SkinnedMeshRenderer>();
+            if (skinnedMesh != null)
+            {
+                skinnedMaterials = skinnedMesh.materials;
+            }
         }
     }
 
     void StartDeadAnimation()
     {
-        //if(skinnedMaterials != null) StartCoroutine(DissolveCo());
-        if(VFXgraph != null)
+        //if (skinnedMaterials != null) StartCoroutine(DissolveCo());
+        if (VFXgraph != null) VFXgraph.Play();
+    }
+
+    public void StartDissolve()
+    {
+        if (skinnedMaterials != null) StartCoroutine(DissolveCo());
+    }
+
+    public void EndDissolve(String enable)
+    {
+        if (skinnedMaterials != null)
         {
-            VFXgraph.Play();
-        }
-    }
-
-    public void StartDissolve(){
-       if(skinnedMaterials != null) StartCoroutine(DissolveCo());
-    }
-
-    public void EndDissolve(String enable){
-        if(skinnedMaterials != null){
-            if(enable == "1"){
+            if (enable == "1")
+            {
                 StartCoroutine(ReverseDissolveCo());
             }
         }
@@ -44,34 +49,55 @@ public class DissolvingControllerTut : MonoBehaviour
 
     IEnumerator DissolveCo()
     {
-        //Debug.Log(skinnedMaterials[0].GetFloat("_DissolveAmount"));
-        if(skinnedMaterials[0].GetFloat("_DissolveAmount") <= 0){
-            if(VFXgraph != null)
+        // Ensure skinnedMaterials is not null and has at least one element
+        if (skinnedMaterials == null || skinnedMaterials.Length == 0)
+        {
+            Debug.LogWarning("skinnedMaterials is null or empty. Dissolve effect skipped.");
+            yield break; // Exit the coroutine
+        }
+
+        // Check if the material has the _DissolveAmount property
+        if (!skinnedMaterials[0].HasProperty("_DissolveAmount"))
+        {
+            Debug.LogWarning("Material does not have _DissolveAmount property. Dissolve effect skipped.");
+            yield break; // Exit the coroutine
+        }
+
+        if (skinnedMaterials[0].GetFloat("_DissolveAmount") <= 0)
+        {
+            if (VFXgraph != null)
             {
                 VFXgraph.Play();
             }
-            if(skinnedMaterials.Length > 0)
+            float counter = 0;
+            while (skinnedMaterials[0].GetFloat("_DissolveAmount") < 1)
             {
-                float counter = 0;
-                while(skinnedMaterials[0].GetFloat("_DissolveAmount") < 1)
+                counter += dissolveRate;
+                for (int i = 0; i < skinnedMaterials.Length; i++)
                 {
-                    counter += dissolveRate;
-                    for(int i=0; i<skinnedMaterials.Length; i++)
-                    {
-                        skinnedMaterials[i].SetFloat("_DissolveAmount", counter);
-                    }
-                    yield return new WaitForSeconds(refreshRate);
+                    skinnedMaterials[i].SetFloat("_DissolveAmount", counter);
                 }
+                yield return new WaitForSeconds(refreshRate);
             }
         }
     }
 
+
+
     IEnumerator ReverseDissolveCo()
     {
+        // First, check if skinnedMaterials is null or empty
         if (skinnedMaterials == null || skinnedMaterials.Length == 0)
         {
-            Debug.LogError("skinnedMaterials is null or empty!");
-            yield break;
+            Debug.LogWarning("skinnedMaterials is null or empty! Reverse dissolve skipped.");
+            yield break; // Exit coroutine
+        }
+
+        // Check if the material has the _DissolveAmount property
+        if (!skinnedMaterials[0].HasProperty("_DissolveAmount"))
+        {
+            Debug.LogWarning("Material does not have _DissolveAmount property. Dissolve effect skipped.");
+            yield break; // Exit coroutine
         }
 
         if (skinnedMaterials[0].GetFloat("_DissolveAmount") != 0)
@@ -88,5 +114,6 @@ public class DissolvingControllerTut : MonoBehaviour
             }
         }
     }
+
 
 }

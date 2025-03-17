@@ -2808,13 +2808,14 @@ GameObject:
   - component: {fileID: 95000011610634314}
   - component: {fileID: 7179604090332102533}
   - component: {fileID: 8800747266632326803}
-  - component: {fileID: 11140574849626408}
-  - component: {fileID: 8270334925870449663}
   - component: {fileID: 3846275510198179108}
   - component: {fileID: 175897029764009971}
   - component: {fileID: 5647188636534740958}
   - component: {fileID: 2234649437120629630}
+  - component: {fileID: 8270334925870449663}
+  - component: {fileID: 11140574849626408}
   - component: {fileID: 2171323930221760961}
+  - component: {fileID: 251804118792404230}
   m_Layer: 0
   m_Name: Basic_BanditDX
   m_TagString: Enemy
@@ -2907,64 +2908,6 @@ MonoBehaviour:
   currentHealth: 0
   deathSound: {fileID: 182128578801670934, guid: bcb3a0020449d6b48a97c2f9f92513ef, type: 3}
   warrior: 0
---- !u!114 &11140574849626408
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000014232435074}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b4f55e6d5bf3a84bb5b4ade9c788482, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyAnimation: {fileID: 0}
-  health: {fileID: 8800747266632326803}
-  isDead: 0
-  bar: {fileID: 2670155871431056465}
-  player: {fileID: 402067311283320090, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
-  patrolSpeed: 2
-  detectionRange: 100
-  attackRange: 10
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 512
-  BulletPrefab: {fileID: 1553276295976632, guid: b50558dfa7d69be4089acab47987bc0e, type: 3}
-  firePoint: {fileID: 5961963791923948495}
-  attackCooldown: 5
-  uiOffset: {x: 0, y: 0}
-  hideDistance: 10
-  hideSearchRadius: 15
-  stunDuration: 3
-  spawnDelay: 2
-  spawnEffect: {fileID: 2779733639923396887}
-  isSpawning: 1
-  agent: {fileID: 7179604090332102533}
-  attackCooldownTimer: 0
-  isStunned: 0
-  isOnAttackCooldown: 0
-  isShooting: 0
-  isHiding: 0
-  numberOfBullets: 0
-  bulletDelay: 0
-  previousPosition: {x: 0, y: 0, z: 0}
-  idleTimer: 0
-  throwAngle: 45
-  numberOfBombs: 1
-  bombDelay: 0.5
---- !u!114 &8270334925870449663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000014232435074}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22a66029f8d5f7d4fbd1b7ecb21066bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3846275510198179108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3049,6 +2992,64 @@ MonoBehaviour:
   VFXgraph: {fileID: 3426997474569139800}
   skinnedMaterials:
   - {fileID: 2100000, guid: af7ee246303972a4e970cde0512e99f9, type: 2}
+--- !u!114 &8270334925870449663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000014232435074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22a66029f8d5f7d4fbd1b7ecb21066bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11140574849626408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000014232435074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b4f55e6d5bf3a84bb5b4ade9c788482, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyAnimation: {fileID: 0}
+  health: {fileID: 8800747266632326803}
+  isDead: 0
+  bar: {fileID: 2670155871431056465}
+  player: {fileID: 402067311283320090, guid: 0824599232bd2ac479be46c4cf8cd8c9, type: 3}
+  patrolSpeed: 2
+  detectionRange: 100
+  attackRange: 10
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 512
+  BulletPrefab: {fileID: 1553276295976632, guid: b50558dfa7d69be4089acab47987bc0e, type: 3}
+  firePoint: {fileID: 5961963791923948495}
+  attackCooldown: 5
+  uiOffset: {x: 0, y: 0}
+  hideDistance: 10
+  hideSearchRadius: 15
+  stunDuration: 3
+  spawnDelay: 2
+  spawnEffect: {fileID: 2779733639923396887}
+  isSpawning: 1
+  agent: {fileID: 7179604090332102533}
+  attackCooldownTimer: 0
+  isStunned: 0
+  isOnAttackCooldown: 0
+  isShooting: 0
+  isHiding: 0
+  numberOfBullets: 0
+  bulletDelay: 0
+  previousPosition: {x: 0, y: 0, z: 0}
+  idleTimer: 0
+  throwAngle: 45
+  numberOfBombs: 1
+  bombDelay: 0.5
 --- !u!114 &2171323930221760961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3069,6 +3070,33 @@ MonoBehaviour:
   - {fileID: 6269816721746788171, guid: 2aa8bb578d888fd4d81a22c1a23a11cd, type: 3}
   health: {fileID: 0}
   characterData: {fileID: 11400000, guid: e628f4ad3830604478a34deaa6dbc29e, type: 2}
+--- !u!54 &251804118792404230
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000014232435074}
+  serializedVersion: 4
+  m_Mass: 5
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 116
+  m_CollisionDetection: 0
 --- !u!1 &653148508848415194
 GameObject:
   m_ObjectHideFlags: 0

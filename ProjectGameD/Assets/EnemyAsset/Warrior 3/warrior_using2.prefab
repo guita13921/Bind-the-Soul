@@ -5184,11 +5184,12 @@ GameObject:
   - component: {fileID: 361796165723220287}
   - component: {fileID: 3481787142124511902}
   - component: {fileID: 8227437000429398839}
-  - component: {fileID: 5820764458137486523}
   - component: {fileID: 5143579913044285221}
   - component: {fileID: 5201137802221409590}
+  - component: {fileID: 5820764458137486523}
   - component: {fileID: 7626311215878533340}
   - component: {fileID: 1557565528095868889}
+  - component: {fileID: 6032972450851003311}
   m_Layer: 0
   m_Name: warrior_using2
   m_TagString: Enemy
@@ -5283,9 +5284,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 2
+  m_Height: 1.5437763
   m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 1.2281122, z: 0}
 --- !u!114 &8227437000429398839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5304,60 +5305,6 @@ MonoBehaviour:
   currentHealth: 0
   deathSound: {fileID: 1163677383593576773, guid: 1aaeeededcb263642b0cee5d16a26b90, type: 3}
   warrior: 1
---- !u!114 &5820764458137486523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6303357223316747678}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbba61ebd1d45f047ad1c50a33853c9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  agent: {fileID: 361796165723220287}
-  boxCollider: {fileID: 7482736096561109444}
-  weapon: {fileID: 0}
-  animator: {fileID: 0}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  rb: {fileID: 0}
-  speed: 0
-  range: 0
-  sightRange: 0
-  attackRange: 0
-  playerInsight: 0
-  PlayerInAttackrange: 0
-  dashDistance: 0
-  dashSpeed: 0
-  state: 0
-  timerCoolDownAttack: 0
-  timerCoolKnockBack: 0
-  numberOfRandomVariations: 0
-  spawnDelay: 2
-  spawnEffect: {fileID: 8116946890791298519, guid: 50f1f31b7ad8fcf41a19abeaf79c53f1, type: 3}
-  isSpawning: 1
-  effectSizeMultiplier: 2
-  hitEffectPrefab: {fileID: 3075193710951670847, guid: 587c2fafec06b9a4bb80dc03d36677cc, type: 3}
-  hitEffectSpawnPoint: {fileID: 9037436494803577750}
-  hitEffectDuration: 1
-  bar: {fileID: 4246581544843123792}
-  health: {fileID: 0}
-  playerWeapon: {fileID: 0}
-  attackIndicatorCanvas: {fileID: 548427023136858590}
-  attackIndicatorController: {fileID: 1164283308556864933}
-  isBerserk: 0
-  hasDiedOnce: 0
-  berserkSpeedMultiplier: 2
-  berserkDamageBoost: 10
-  berserkAttackCooldownMultiplier: 0.75
-  animationSpeedMultiplier: 1.25
 --- !u!114 &5143579913044285221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5404,8 +5351,62 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VFXgraph: {fileID: 6338206513090201314}
-  skinnedMaterials:
-  - {fileID: 2100000, guid: af7ee246303972a4e970cde0512e99f9, type: 2}
+  skinnedMaterials: []
+--- !u!114 &5820764458137486523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6303357223316747678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbba61ebd1d45f047ad1c50a33853c9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  agent: {fileID: 361796165723220287}
+  boxCollider: {fileID: 7482736096561109444}
+  weapon: {fileID: 0}
+  animator: {fileID: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  dissolvingControllerTut: {fileID: 0}
+  rb: {fileID: 0}
+  speed: 0
+  range: 0
+  sightRange: 0
+  attackRange: 0
+  playerInsight: 0
+  PlayerInAttackrange: 0
+  dashDistance: 0
+  dashSpeed: 0
+  state: 0
+  timerCoolDownAttack: 0
+  timerCoolKnockBack: 0
+  numberOfRandomVariations: 0
+  spawnDelay: 2
+  spawnEffect: {fileID: 8116946890791298519, guid: 50f1f31b7ad8fcf41a19abeaf79c53f1, type: 3}
+  isSpawning: 1
+  effectSizeMultiplier: 2
+  hitEffectPrefab: {fileID: 3075193710951670847, guid: 587c2fafec06b9a4bb80dc03d36677cc, type: 3}
+  hitEffectSpawnPoint: {fileID: 9037436494803577750}
+  hitEffectDuration: 1
+  bar: {fileID: 4246581544843123792}
+  health: {fileID: 0}
+  playerWeapon: {fileID: 0}
+  attackIndicatorCanvas: {fileID: 548427023136858590}
+  attackIndicatorController: {fileID: 1164283308556864933}
+  isBerserk: 0
+  hasDiedOnce: 0
+  berserkSpeedMultiplier: 2
+  berserkDamageBoost: 10
+  berserkAttackCooldownMultiplier: 0.75
+  animationSpeedMultiplier: 1.25
 --- !u!114 &7626311215878533340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5439,6 +5440,33 @@ MonoBehaviour:
   - {fileID: 6269816721746788171, guid: 2aa8bb578d888fd4d81a22c1a23a11cd, type: 3}
   health: {fileID: 0}
   characterData: {fileID: 11400000, guid: e628f4ad3830604478a34deaa6dbc29e, type: 2}
+--- !u!54 &6032972450851003311
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6303357223316747678}
+  serializedVersion: 4
+  m_Mass: 10
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 116
+  m_CollisionDetection: 0
 --- !u!1 &6368060211985198517
 GameObject:
   m_ObjectHideFlags: 0

@@ -62,6 +62,7 @@ public class Chaos_warriors : EnemyAI3
 
         // Boost stats in berserk mode
         speed *= berserkSpeedMultiplier;
+        originalSpeed *= berserkSpeedMultiplier;
         //agent.speed = speed;
         weapon.damage += berserkDamageBoost;
         CoolDownAttack *= berserkAttackCooldownMultiplier; // Reduce attack cooldown for faster attacks
@@ -91,5 +92,5 @@ public class Chaos_warriors : EnemyAI3
         base.Dead();
     }
 
-    
+
 }

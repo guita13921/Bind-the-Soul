@@ -30,7 +30,7 @@ public class EnemyRange02 : MonoBehaviour
     public float hideSearchRadius;
 
     [Header("Stun")]
-    [SerializeField] public float stunDuration; 
+    [SerializeField] public float stunDuration;
 
     [Header("Spawn Settings")]
     [SerializeField] public float spawnDelay = 2f; // Freeze duration
@@ -58,7 +58,8 @@ public class EnemyRange02 : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
 
-        if(player == null){
+        if (player == null)
+        {
             player = GameObject.FindGameObjectWithTag("Dummy");
         }
 
@@ -83,7 +84,8 @@ public class EnemyRange02 : MonoBehaviour
         NavMeshAgent IN_agent,
         int IN_hideDistance,
         int IN_hideSearchRadius
-    ){
+    )
+    {
         stunDuration = IN_knockBackTime;
         attackCooldown = IN_attackCooldown;
         patrolSpeed = IN_Speed;
@@ -110,11 +112,12 @@ public class EnemyRange02 : MonoBehaviour
 
     public virtual void Update()
     {
-        if(player != null){
-            if(isDead || isSpawning) return;
+        if (player != null)
+        {
+            if (isDead || isSpawning) return;
 
             if (health.GetCurrentHealth() == 0)
-            {   
+            {
                 Dead();
             }
 
@@ -122,7 +125,7 @@ public class EnemyRange02 : MonoBehaviour
 
             float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
-            if (distanceToPlayer < detectionRange && !isOnAttackCooldown && !isShooting)
+            if (distanceToPlayer < detectionRange && !isOnAttackCooldown && !isShooting || isDead == false)
             {
                 PatrolToPlayer();
 
@@ -145,7 +148,7 @@ public class EnemyRange02 : MonoBehaviour
         //HandleIdleAnimation();
     }
 
-    
+
     private IEnumerator DestroyAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -174,7 +177,8 @@ public class EnemyRange02 : MonoBehaviour
     {
         if (!Physics.Linecast(transform.position, player.transform.position, obstacleMask) && isSpawning == false && isDead == false)
         {
-            if(agent != null){
+            if (agent != null)
+            {
                 agent.speed = patrolSpeed;
                 agent.SetDestination(player.transform.position);
             }
@@ -212,7 +216,7 @@ public class EnemyRange02 : MonoBehaviour
 
     public virtual void FindHidingSpot()
     {
-        Debug.Log("FindHidingSpot");
+        //Debug.Log("FindHidingSpot");
         Collider[] nearbySpots = Physics.OverlapSphere(transform.position, hideSearchRadius, obstacleMask);
 
         Transform bestSpot = null;
@@ -291,7 +295,7 @@ public class EnemyRange02 : MonoBehaviour
             PlayerWeapon playerWeapon = other.gameObject.GetComponent<PlayerWeapon>();
             if (playerWeapon != null)
                 GetHit();
-                //health.CalculateDamage(playerWeapon.damage);
+            //health.CalculateDamage(playerWeapon.damage);
 
             agent.transform.LookAt(player.transform);
             enemyAnimation?.PlayStunAnimation();
@@ -300,7 +304,7 @@ public class EnemyRange02 : MonoBehaviour
 
     public virtual void Dead()
     {
-        gameObject.tag = "DEAD"; 
+        gameObject.tag = "DEAD";
         isDead = true;
 
         if (agent != null && agent.isOnNavMesh)
@@ -318,7 +322,7 @@ public class EnemyRange02 : MonoBehaviour
         StartCoroutine(DestroyAfterDelay(5f));
     }
 
-    
+
     public virtual void RequestInsideLookAtPlayer()
     {
         if (player == null) return; // Ensure the player reference exists

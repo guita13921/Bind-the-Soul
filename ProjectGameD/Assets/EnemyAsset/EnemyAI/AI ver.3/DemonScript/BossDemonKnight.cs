@@ -118,6 +118,7 @@ public class DemonKnightBoss : MonoBehaviour
             {
                 // First-time death: Revive and transition to Phase 2
                 hasRevived = true;
+                bossDemon_Rotation.MultiSpeed(2f);
                 TransitionToPhase(BossPhase.Phase2);
                 enemyHealth.RestoreFullHealth(); // Assuming you have a function to restore health
                 return;

@@ -45,7 +45,7 @@ public class PlayerWeapon : MonoBehaviour
             }
         }
 
-                CheckCheatCode();
+        CheckCheatCode();
 
     }
 
@@ -81,21 +81,24 @@ public class PlayerWeapon : MonoBehaviour
         {
             if (other.CompareTag("Enemy"))
             {
-                if(cheatMode){
-                                    enemy.CalculateDamage(500, isQK, characterData.Q3_QKWeak);
+                if (cheatMode)
+                {
+                    enemy.CalculateDamage(500, isQK, characterData.Q3_QKWeak);
 
-                }else{
-                enemy.CalculateDamage(damage, isQK, characterData.Q3_QKWeak);}
-                if (hitDetection)
-                    hitDetection.SpanwDamageText(damage);
+                }
+                else
+                {
+                    enemy.CalculateDamage(damage, isQK, characterData.Q3_QKWeak);
+                }
+
+                if (hitDetection) hitDetection.SpanwDamageText(damage);
 
                 if (characterData.Q3_QKSlow && isQK)
                 {
-                    if(enemyai3 != null)
-                        enemyai3.FixSpeed();
+                    if (enemyai3 != null) enemyai3.FixSpeed();
                 }
-                if (projectileAttack)
-                    projectileAttack.SpwanBull();
+
+                if (projectileAttack) projectileAttack.SpwanBull();
 
             }
         }
@@ -104,12 +107,15 @@ public class PlayerWeapon : MonoBehaviour
 
     private void CheckCheatCode()
     {
-        if (Input.GetKey(KeyCode.F) && Input.GetKey(KeyCode.G) && Input.GetKey(KeyCode.H)){
+        if (Input.GetKey(KeyCode.F) && Input.GetKey(KeyCode.G) && Input.GetKey(KeyCode.H))
+        {
             Debug.Log("Cheat mode activated");
             cheatMode = true;
-        }else if (Input.GetKey(KeyCode.F) && Input.GetKey(KeyCode.G) && Input.GetKey(KeyCode.H) && cheatMode){
-                        cheatMode = false;
-                                    Debug.Log("Cheat mode disable");
+        }
+        else if (Input.GetKey(KeyCode.F) && Input.GetKey(KeyCode.G) && Input.GetKey(KeyCode.H) && cheatMode)
+        {
+            cheatMode = false;
+            Debug.Log("Cheat mode disable");
 
 
         }

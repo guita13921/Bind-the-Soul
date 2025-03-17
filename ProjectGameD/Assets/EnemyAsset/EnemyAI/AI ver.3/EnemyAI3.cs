@@ -10,7 +10,8 @@ public class EnemyAI3 : MonoBehaviour
     [SerializeField] BoxCollider boxCollider;
     [SerializeField] protected EnemyWeapon weapon;
     [SerializeField] protected Animator animator;
-    [SerializeField] protected LayerMask groundLayer,playerLayer;
+    [SerializeField] protected LayerMask groundLayer, playerLayer;
+    [SerializeField] protected DissolvingControllerTut dissolvingControllerTut;
 
     [Header("Movement Control")]
     [SerializeField] Rigidbody rb;
@@ -25,14 +26,15 @@ public class EnemyAI3 : MonoBehaviour
     private bool isDashing = false;
 
 
-    [SerializeField] public enum State
+    [SerializeField]
+    public enum State
     {
         Ready,
         Cooldown,
         KnockBack,
         Dead,
     };
-    
+
     [Header("StateManagement")]
     [SerializeField] public State state;
     [SerializeField] protected float timerCoolDownAttack = 0;
@@ -63,8 +65,8 @@ public class EnemyAI3 : MonoBehaviour
     [SerializeField] AttackIndicatorController attackIndicatorController;
 
     //Temp
-    private float originalSpeed = 0f;
-    private bool isSlowingDown = false; 
+    [SerializeField] protected float originalSpeed = 0f;
+    private bool isSlowingDown = false;
     private float slowTimer = 0f;
 
     public void FixSpeed()
@@ -88,6 +90,7 @@ public class EnemyAI3 : MonoBehaviour
 
     private void InitializeComponents()
     {
+        dissolvingControllerTut = GetComponent<DissolvingControllerTut>();
         playerWeapon = GameObject.Find("PlayerSwordHitbox").GetComponent<PlayerWeapon>();
         state = State.Ready;
         agent = GetComponent<NavMeshAgent>();
@@ -106,14 +109,15 @@ public class EnemyAI3 : MonoBehaviour
                     break;
                 }
             }
-        }    
-            rb = GetComponent<Rigidbody>();
+        }
+        rb = GetComponent<Rigidbody>();
     }
 
     private IEnumerator HandleSpawn()
     {
         isSpawning = true;
         agent.enabled = false;
+        dissolvingControllerTut.EndDissolve("1");
 
         if (spawnEffect != null)
         {
@@ -140,13 +144,13 @@ public class EnemyAI3 : MonoBehaviour
         float IN_dashSpeed,
         int IN_stoprange,
         NavMeshAgent IN_agent
-    ){
+    )
+    {
         KnockBackTime = IN_knockBackTime;
         CoolDownAttack = IN_coolDownAttack;
         numberOfRandomVariations = IN_randomVariations;
         speed = IN_Speed;
         IN_agent.speed = speed;
-        //weapon.damage = IN_Damage;
         range = IN_range;
         sightRange = IN_sightRange;
         attackRange = IN_attackRange;
@@ -350,7 +354,7 @@ public class EnemyAI3 : MonoBehaviour
         }
 
         state = State.Dead;
-        gameObject.tag = "DEAD"; 
+        gameObject.tag = "DEAD";
 
         foreach (Transform child in transform)
         {
@@ -475,72 +479,19 @@ public class EnemyAI3 : MonoBehaviour
         if (other.isTrigger && other.gameObject.CompareTag("PlayerSword") && state != State.Dead && !isSpawning)
         {
             PlayerWeapon playerWeapon = other.gameObject.GetComponent<PlayerWeapon>();
-            //if (playerWeapon != null)
-            //health.CalculateDamage(playerWeapon.damage);
-
             agent.transform.LookAt(player.transform);
             Vector3 knockBackDirection = transform.position - player.transform.position;
             KnockBack(knockBackDirection, 10f);
-            //PlayHitEffect();
         }
     }
-
-    //public GameObject[] sound;
-    //public GameObject dmgtext;
-    /*
-        public void PlayHitEffect()
-        {
-            if (hitEffectPrefab != null)
-            {
-                // Determine the spawn position (use spawn point or fallback to the enemy's position)
-                Vector3 spawnPosition =
-                    (hitEffectSpawnPoint != null) ? hitEffectSpawnPoint.position : transform.position;
-    
-                // Instantiate the hit effect prefab
-                GameObject hitEffectInstance = Instantiate(
-                    hitEffectPrefab,
-                    spawnPosition,
-                    Quaternion.identity
-                );
-                if (sound != null && sound.Length > 0)
-                {
-                    int randomIndex = UnityEngine.Random.Range(0, sound.Length);
-                    GameObject soundObject = sound[randomIndex];
-                    GameObject swordhit = Instantiate(soundObject);
-                    AudioSource audioSource = soundObject.GetComponent<AudioSource>();
-                    if (audioSource != null)
-                    {
-                        audioSource.Play();
-                    }
-                }
-                if (playerWeapon != null)
-                {
-                    float damage = playerWeapon.damage;
-                    Debug.Log(damage);
-                    Vector3 newPosition = this.transform.position;
-                    newPosition.y += 1;
-                    GameObject dmg = Instantiate(dmgtext, newPosition, Quaternion.Euler(0, 60, 0));
-    
-                    damageShow damageTextComponent = dmg.GetComponent<damageShow>();
-                    if (damageTextComponent != null)
-                    {
-                        damageTextComponent.SetDamage(damage);
-                    }
-                }
-                // Optionally, parent it to the enemy (useful for effects like blood dripping)
-                hitEffectInstance.transform.SetParent(transform);
-    
-                // Destroy the effect after a set duration
-                Destroy(hitEffectInstance, hitEffectDuration);
-            }
-        }*/
 
     void ResetAttackBehavior()
     {
         currentBehaviorType = -1; // Reset to allow for a new random behavior in the next attack
     }
 
-    public bool GetIsSpawning(){
+    public bool GetIsSpawning()
+    {
         return isSpawning;
     }
 }
