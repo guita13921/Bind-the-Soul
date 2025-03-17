@@ -95,7 +95,7 @@ public class Soulbond : MonoBehaviour
         Toggle currentToggle
     )
     {
-        maxSelectableBuffs = characterData.deathCount*2;
+        maxSelectableBuffs = characterData.deathCount * 2;
         if (isOn)
         {
             if (currentSelectedBuffs < maxSelectableBuffs)
@@ -200,7 +200,7 @@ public class Soulbond : MonoBehaviour
             new Buff(
                 data => $"Overgrowth (LV.{data.maxHPIncrease})",
                 data => data.maxHPIncrease != 0,
-                data => data.maxHPIncrease++,
+                data => data.HpCalculation(),
                 data => $"Increase max health points by {1000 * (data.maxHPIncrease )}",
                 data => "Overgrowth"
             ),

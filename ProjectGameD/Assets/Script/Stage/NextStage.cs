@@ -22,10 +22,10 @@ public class NextStage : MonoBehaviour
     public float loaddelay;
 
     [SerializeField]
-    String currentScene;
+    public String currentScene;
 
     [SerializeField]
-    String NextSceneName;
+    public String NextSceneName;
 
     private float healthRatio = 1f;
 
@@ -53,7 +53,7 @@ public class NextStage : MonoBehaviour
         {
             characterData.Health = characterData.maxHealth * threshold;
             MChealth.currentHealth = characterData.Health;
-           // characterData.Health =   health.currentHealth;
+            // characterData.Health =   health.currentHealth;
         }
     }
 }

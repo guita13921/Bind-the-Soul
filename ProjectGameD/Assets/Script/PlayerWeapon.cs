@@ -17,6 +17,9 @@ public class PlayerWeapon : MonoBehaviour
     public static bool killEnemy;
     public float killEnemyTimer = 0f;
 
+    [SerializeField] public string nextStage;
+    [SerializeField] public AudioSource audioSource;
+
 
 
     private bool cheatMode = false;
@@ -105,19 +108,20 @@ public class PlayerWeapon : MonoBehaviour
         damage = damageR;
     }
 
-    private void CheckCheatCode()
+    void CheckCheatCode()
     {
-        if (Input.GetKey(KeyCode.F) && Input.GetKey(KeyCode.G) && Input.GetKey(KeyCode.H))
+        if (Input.GetKey(KeyCode.M))
         {
-            Debug.Log("Cheat mode activated");
-            cheatMode = true;
-        }
-        else if (Input.GetKey(KeyCode.F) && Input.GetKey(KeyCode.G) && Input.GetKey(KeyCode.H) && cheatMode)
-        {
-            cheatMode = false;
-            Debug.Log("Cheat mode disable");
-
-
+            if (nextStage != "Nope")
+            {
+                Debug.Log("Cheat mode activated");
+                cheatMode = true;
+            }
+            else
+            {
+                audioSource.enabled = true;
+                Debug.Log("Nope");
+            }
         }
     }
 
