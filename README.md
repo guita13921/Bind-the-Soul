@@ -4,3 +4,5 @@
 
 #Milanote
 https://app.milanote.com/1Reo1K1KDeNX2P/gameplay
+# V2.0
+https://app.milanote.com/1TUo8y1fUxVhb0?p=RkK1MlIgNsC
