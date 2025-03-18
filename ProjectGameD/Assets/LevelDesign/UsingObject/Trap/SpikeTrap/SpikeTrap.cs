@@ -34,9 +34,10 @@ public class SpikeTrap : MonoBehaviour
     private bool isTriggered = false; // Prevent multiple triggers
 
     [SerializeField] private bool isActive = false; // Whether the spikes are currently active
-
+    PlayerControl playerControl;
     private void Start()
     {
+        playerControl = FindObjectOfType<PlayerControl>();
         playerCombat = FindObjectOfType<PlayerCombat>();
         initialPosition = spikes.transform.localPosition;
         activePosition = initialPosition + new Vector3(0, spikeHeight, 0);
@@ -110,8 +111,14 @@ public class SpikeTrap : MonoBehaviour
 
     private void ApplyDamage(Collider other)
     {
+     
         //Debug.Log("ApplyDamage");
         player = other.gameObject.GetComponent<Health>();
+        playerCombat = other.gameObject.GetComponent<PlayerCombat>();
+
+        if(playerControl != null){
+            playerControl.GetHit();
+        }
         if (player != null && other.CompareTag("Player"))
         {
             if (!playerCombat.isShield1 && !playerCombat.isShield2)

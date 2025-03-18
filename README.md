@@ -4,7 +4,5 @@
 
 #Milanote
 https://app.milanote.com/1Reo1K1KDeNX2P/gameplay
-
-#GAME DESIGN 
-“The Door Problem” https://lizengland.com/blog/2014/04/the-door-problem/
-
+# V2.0
+https://app.milanote.com/1TUo8y1fUxVhb0?p=RkK1MlIgNsC

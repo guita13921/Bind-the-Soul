@@ -72,11 +72,46 @@ public class CharacterData : ScriptableObject
     public bool Q3_QKSlow = false;
     public bool Q3_Barrier = false;
 
+    public Health MC_health;
+        public ControlPower controlPower;  
+
     public void HpCalculation()
     {
+        MC_health = FindObjectOfType<Health>();
         maxHPIncrease++;
+
         maxHealth += 1000 * maxHPIncrease;
+        MC_health.maxHealth = maxHealth;
+        MC_health.currentHealth = maxHealth * healthRatio;
     }
+
+        public void SpeedUpgrade()
+    {
+        controlPower = FindObjectOfType<ControlPower>();
+
+        moveFaster++;
+        controlPower.CheckSpeed();
+    }
+
+        public void QKCooldownReduce()
+    {
+        controlPower = FindObjectOfType<ControlPower>();
+        
+        QKReduceCooldown++;
+        controlPower.CheckQKCooldown();
+
+    }
+
+
+
+     public void WaitDashtimeReduce()
+    {
+        controlPower = FindObjectOfType<ControlPower>();
+        ReduceDashCooldown++;
+        controlPower.CheckWaitDashtime();
+
+    }
+
 
     public void ResetToDefault()
     {
@@ -108,4 +143,6 @@ public class CharacterData : ScriptableObject
         rerollpoint = 1;
         healthRatio = 1;
     }
+
+
 }

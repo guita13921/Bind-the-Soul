@@ -23,6 +23,7 @@ public class BossSpawning : MonoBehaviour
 
     public void SpawnEenemy()
     {
+        pointsToSpend = 5;
         usedSpawnPoints = new List<Transform>(); // Reset the used spawn points for the new wave
         StartCoroutine(SpawnWaveEnemies());
     }

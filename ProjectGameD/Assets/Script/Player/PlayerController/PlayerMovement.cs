@@ -22,7 +22,9 @@ public partial class PlayerControl : MonoBehaviour
     private void Move(float speed)
     {
         Vector3 movement = transform.forward * _input.normalized.magnitude * speed * Time.deltaTime;
-        _rb.MovePosition(_rb.position + movement);
+           // transform.position += movement;
+
+         _rb.MovePosition(_rb.position + movement);
     }
 
     private void MoveWhenATK()

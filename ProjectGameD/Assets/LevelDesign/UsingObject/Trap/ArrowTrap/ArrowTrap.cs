@@ -63,7 +63,7 @@ public class ArrowTrap : MonoBehaviour
         direction = direction.normalized;
 
         // Introduce random error in the direction's Z-axis
-        float error = Random.Range(-0.05f, 0.05f); // Adjust the range for more or less error
+        float error = Random.Range(-0.01f, 0.01f); // Adjust the range for more or less error
         direction = Quaternion.Euler(0, error * 360f, 0) * direction;
 
         // Set the arrow's rotation to face the (slightly adjusted) target direction
