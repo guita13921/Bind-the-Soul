@@ -1,6 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityMovementAI;
+using System.Collections.Generic;
+
 
 public class MeleeEnemy : EnemyBase
 {
@@ -27,7 +28,11 @@ public class MeleeEnemy : EnemyBase
     {
         if (target != null)
         {
-            transform.position = Vector3.MoveTowards(transform.position, target.position, 2f * Time.deltaTime);
+            Vector3 accel = collisionAvoidance.GetSteering(nearbyObstacles);
+            accel += wallAvoidance.GetSteering();
+
+            steeringBasics.Steer(accel);
+            steeringBasics.LookWhereYoureGoing();
         }
     }
 
@@ -56,6 +61,24 @@ public class MeleeEnemy : EnemyBase
         if (health <= 0)
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        MovementAIRigidbody obstacle = other.GetComponent<MovementAIRigidbody>();
+        if (obstacle != null && !nearbyObstacles.Contains(obstacle))
+        {
+            nearbyObstacles.Add(obstacle);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        MovementAIRigidbody obstacle = other.GetComponent<MovementAIRigidbody>();
+        if (obstacle != null && nearbyObstacles.Contains(obstacle))
+        {
+            nearbyObstacles.Remove(obstacle);
         }
     }
 }

@@ -126,7 +126,8 @@ namespace UnityMovementAI
                 if (rb.is3D)
                 {
                     /* Mulitply by -1 because counter clockwise on the y-axis is in the negative direction */
-                    float toRotation = -1 * (Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg);
+                    //float toRotation = -1 * (Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg);
+                    float toRotation = -1 * (Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg) + 90f;
                     float rotation = Mathf.LerpAngle(rb.Rotation.eulerAngles.y, toRotation, Time.deltaTime * turnSpeed);
 
                     rb.Rotation = Quaternion.Euler(0, rotation, 0);
@@ -247,7 +248,7 @@ namespace UnityMovementAI
         /// </summary>
         public bool IsInFront(Vector3 target)
         {
-            return IsFacing(target, 0);
+            return IsFacing(target, 90f);
         }
 
         public bool IsFacing(Vector3 target, float cosineValue)
