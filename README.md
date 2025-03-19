@@ -11,11 +11,14 @@
 3. **เปิดเกม**  
    - เข้าไปที่โฟลเดอร์ **Bind the Soul** แล้วดับเบิลคลิกที่ **Bind the Soul.exe** เพื่อเริ่มเล่นเกม
 
+![Installation guide]([https://github.com/user-attachments/assets/1b8a1af9-5f67-44f5-b907-34e3d92f7b36](https://github.com/guita13921/Bind-the-Soul/blob/main/installation%20guide.png
+))  
+
 ---
 
-## แหล่งข้อมูลเกม
+## Milanote
 
-🔗 **คู่มือการเล่น:** [Milanote](https://app.milanote.com/1Reo1K1KDeNX2P/gameplay)  
+🔗 **เวอร์ชัน 1.0(Deprecated):** [Milanote](https://app.milanote.com/1Reo1K1KDeNX2P/gameplay)  
 🔗 **อัปเดตเวอร์ชัน 2.0:** [Milanote](https://app.milanote.com/1TUo8y1fUxVhb0?p=RkK1MlIgNsC)  
 
 ![Bind the Soul](https://github.com/user-attachments/assets/1b8a1af9-5f67-44f5-b907-34e3d92f7b36)  
