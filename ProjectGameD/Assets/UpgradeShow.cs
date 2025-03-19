@@ -34,15 +34,17 @@ public class UpgradeShow : MonoBehaviour
                 AudioSource audioSource = currentSoundtrack.GetComponent<AudioSource>();
                 if (audioSource != null)
                 {
-                    audioSource.volume = 0f; // Set volume to zero
-                    // audioSource.Stop(); // Uncomment if you want to stop the sound instead
+                    //audioSource.volume = 0f; // Set volume to zero
+                     audioSource.Stop(); // Uncomment if you want to stop the sound instead
                 }
             }
 
             GameObject vfx = Instantiate(upgradePanel);
 
             show = false;
-                                    Instantiate(soundtrackOutro);
+            if (soundtrackOutro != null)
+
+            Instantiate(soundtrackOutro);
 
         }
     }

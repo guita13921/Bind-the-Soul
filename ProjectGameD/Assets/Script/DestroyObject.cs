@@ -1,16 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class DestroyObject : MonoBehaviour
 {
     [SerializeField]
-    EventSystem eventSystem;
+    private EventSystem eventSystem;
+
+    void Start()
+    {
+        // Automatically find the EventSystem in the scene if it's not already assigned
+        if (eventSystem == null)
+        {
+            eventSystem = FindObjectOfType<EventSystem>();
+        }
+    }
 
     public void DestroyGameObject()
-    {
+    {        if (eventSystem != null)
+        {
+            eventSystem.enabled = true;
+        }
         Destroy(gameObject);
-        eventSystem.enabled = true;
+
     }
 }

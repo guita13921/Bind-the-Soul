@@ -15,9 +15,9 @@ public class DashFlag : MonoBehaviour
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
         foreach (Collider collider in hitColliders)
         {
-            if (collider.CompareTag("DD")) // Check for the tag "DD"
+            if (collider.CompareTag("CantDash")) // Check for the tag "DD"
             {
-                Debug.Log(" 'DD'.");
+                //Debug.Log(" 'DD'.");
                 dashCheck.SetCollisionState(true);
                 break;
             }

@@ -36,7 +36,6 @@ public class ControlPower : MonoBehaviour
         CheckSpeed();
         CheckQKCooldown();
         CheckWaitDashtime();
-        CheckHPRestoreTHreshold();
     }
 
     void Update()
@@ -60,8 +59,6 @@ public class ControlPower : MonoBehaviour
     public void DashVFX()
     {
         Instantiate(dashVFX[0], parentObject);
-        //if (characterData.dashExplode > 0)
-            Instantiate(dashVFX[1], parentObject);
     }
 
     public void CheckSpeed()
@@ -89,25 +86,18 @@ public class ControlPower : MonoBehaviour
         playerCombat.qSkill[0] = qSkillVFX[qSkillTpye];
     }
 
-    void CheckWaitDashtime()
+    public void CheckWaitDashtime()
     {
         playerControl.dashWaitTime =
             playerControl.dashWaitTime - (0.15f * characterData.ReduceDashCooldown);
     }
 
-    void CheckQKCooldown()
+    public void CheckQKCooldown()
     {
         playerCombat.castCooldown = playerCombat.castCooldown - characterData.QKReduceCooldown;
         playerCombat.specialAttackCooldown =
             playerCombat.specialAttackCooldown - characterData.QKReduceCooldown;
     }
 
-    void CheckHPRestoreTHreshold()
-    {
-        float threshold = 0.20f * characterData.healToThreshold;
-        if (health.currentHealth < (health.currentHealth * threshold))
-        {
-            health.currentHealth = health.currentHealth * threshold;
-        }
-    }
+    
 }

@@ -56,6 +56,10 @@ public class EnemySpawnManager : MonoBehaviour
 
     private void Start()
     {
+            if (upgradeShow == null)
+    {
+        upgradeShow = FindObjectOfType<UpgradeShow>();
+    }
         InitializeNextStageObjects();
         StartNextWave();
     }
@@ -73,13 +77,16 @@ public class EnemySpawnManager : MonoBehaviour
             }
             else
             {
-                upgradeShow.ShowUpgradeUI();
+                if(upgradeShow != null){
+                    upgradeShow.ShowUpgradeUI();
+                }
                 EnableNextStageObjects();
             }
         }
 
-        // Update the UI
-        UpdateUI();
+        if(upgradeShow != null){
+            UpdateUI();
+        }
     }
 
     private void StartNextWave()
@@ -124,9 +131,15 @@ public class EnemySpawnManager : MonoBehaviour
 
     private void SpawnEnemyAtPoint(Transform spawnPoint, EnemyType enemyType)
     {
+<<<<<<< HEAD
         GameObject instantiatedObject = Instantiate(enemyType.prefab, spawnPoint.position, Quaternion.identity);
         instantiatedObject.SetActive(true); // Ensure the instantiated object is active
 
+=======
+        
+        GameObject monster = Instantiate(enemyType.prefab, spawnPoint.position, Quaternion.identity);
+        monster.SetActive(true);
+>>>>>>> main
         Debug.Log($"Spawned {enemyType.prefab.name} at {spawnPoint.position}");
         usedSpawnPoints.Add(spawnPoint); // Mark this spawn point as used
     }
@@ -154,20 +167,23 @@ public class EnemySpawnManager : MonoBehaviour
 
     private void InitializeNextStageObjects()
     {
-        foreach (var obj in nextStageObjects)
-        {
-            obj.SetActive(false);
+        if(nextStageObjects != null){
+            foreach (var obj in nextStageObjects)
+            {
+                obj.SetActive(false);
+            }
         }
     }
 
     private void EnableNextStageObjects()
     {
-        foreach (var obj in nextStageObjects)
-        {
-            obj.SetActive(true);
+        if(nextStageObjects != null){
+            foreach (var obj in nextStageObjects)
+            {
+                obj.SetActive(true);
+            }
         }
 
-        Debug.Log("All waves completed! Next stage is now active.");
     }
 
     private void UpdateUI()

@@ -17,6 +17,13 @@ public class PlayerWeapon : MonoBehaviour
     public static bool killEnemy;
     public float killEnemyTimer = 0f;
 
+    [SerializeField] public string nextStage;
+    [SerializeField] public AudioSource audioSource;
+
+
+
+    private bool cheatMode = false;
+
     void Start()
     {
         if (isQK && characterData.Q1_QKDamageUp)
@@ -40,6 +47,9 @@ public class PlayerWeapon : MonoBehaviour
                 killEnemy = false;
             }
         }
+
+        CheckCheatCode();
+
     }
 
     public void killEnemyTimerAdder()
@@ -74,18 +84,46 @@ public class PlayerWeapon : MonoBehaviour
         {
             if (other.CompareTag("Enemy"))
             {
+                if (cheatMode)
+                {
+                    enemy.CalculateDamage(500, isQK, characterData.Q3_QKWeak);
+
+                }
+                else
+                {
+                    enemy.CalculateDamage(damage, isQK, characterData.Q3_QKWeak);
+                }
+
+                if (hitDetection) hitDetection.SpanwDamageText(damage);
+
                 if (characterData.Q3_QKSlow && isQK)
                 {
-                    enemyai3.FixSpeed();
+                    if (enemyai3 != null) enemyai3.FixSpeed();
                 }
-                if (projectileAttack)
-                    projectileAttack.SpwanBull();
 
-                enemy.CalculateDamage(damage, isQK, characterData.Q3_QKWeak);
-                if (hitDetection)
-                    hitDetection.SpanwDamageText(damage);
+                if (projectileAttack) projectileAttack.SpwanBull();
+
             }
         }
         damage = damageR;
     }
+
+    void CheckCheatCode()
+    {
+        if (Input.GetKey(KeyCode.M))
+        {
+            if (nextStage != "Nope")
+            {
+                Debug.Log("Cheat mode activated");
+                cheatMode = true;
+            }
+            else
+            {
+                audioSource.enabled = true;
+                Debug.Log("Nope");
+            }
+        }
+    }
+
+
 }

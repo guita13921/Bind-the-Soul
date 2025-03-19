@@ -28,10 +28,10 @@ public class playerdie : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            health.currentHealth = 0;
-        }
+        // if (Input.GetKeyDown(KeyCode.X))
+        // {
+        //     health.currentHealth = 0;
+        // }
         if (health.currentHealth <= 0 && !hasDied)
         {
             if (currentSoundtrack != null)
@@ -47,16 +47,32 @@ public class playerdie : MonoBehaviour
             Instantiate(deathsound_BG);
 
             characterData.deathCount += 1;
-            animator.Play("die", 0, 0);
+
+    animator.SetBool("IsDying", true);
+            
 
             gameObject.tag = "Untagged";
             gameObject.layer = default;
             hasDied = true;
+
+            DisableAllScripts(); // Disable all scripts
+
         }
         else if (hasDied && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
         {
             // Lock the animation at the end
             animator.enabled = false;
+            DisableAllScripts();
+        }
+    }
+
+        void DisableAllScripts()
+    {
+        // Loop through all MonoBehaviour components and disable them
+        MonoBehaviour[] scripts = GetComponents<MonoBehaviour>();
+        foreach (MonoBehaviour script in scripts)
+        {
+            script.enabled = false;
         }
     }
 }

@@ -6,7 +6,6 @@ public class Health : MonoBehaviour
     public float maxHealth;
     public float currentHealth;
     public CharacterData characterData;
-    public NextStage nextStage;
 
     void Start()
     {
