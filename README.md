@@ -11,8 +11,8 @@
 3. **เปิดเกม**  
    - เข้าไปที่โฟลเดอร์ **Bind the Soul** แล้วดับเบิลคลิกที่ **Bind the Soul.exe** เพื่อเริ่มเล่นเกม
 
-![Installation guide]([https://github.com/user-attachments/assets/1b8a1af9-5f67-44f5-b907-34e3d92f7b36](https://github.com/guita13921/Bind-the-Soul/blob/main/installation%20guide.png
-))  
+![Installation guide](https://github.com/user-attachments/assets/1b8a1af9-5f67-44f5-b907-34e3d92f7b36](https://github.com/guita13921/Bind-the-Soul/blob/main/installation%20guide.png](https://github.com/guita13921/Bind-the-Soul/blob/d57f2d2d77247df3d670cc2244b6e71191eeb5a1/installation%20guide.png)
+) 
 
 ---
 
