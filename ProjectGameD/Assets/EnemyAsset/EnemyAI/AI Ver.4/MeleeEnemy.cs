@@ -1,17 +1,40 @@
 using UnityEngine;
-using UnityMovementAI;
-using System.Collections.Generic;
-
 
 public class MeleeEnemy : EnemyBase
 {
-    public float attackRange = 2f;
+    public float attackRange;
     public float attackCooldown = 1.5f;
     private float lastAttackTime;
+    private EnemyMovement enemyMovement;
+    [SerializeField] float distanceToTarget;
+    [SerializeField] private float stoppingDistance;
+    [SerializeField] private float ShieldDistance;
 
     protected override void Start()
     {
         base.Start();
+        enemyMovement = GetComponent<EnemyMovement>();
+    }
+
+    private void Update()
+    {
+        if (target != null)
+        {
+            distanceToTarget = Vector3.Distance(transform.position, target.transform.position);
+            enemyMovement.CheckDistance(stoppingDistance, distanceToTarget);
+            if (distanceToTarget <= ShieldDistance)
+            {
+                Defend();
+            }
+            else if (distanceToTarget <= attackRange)
+            {
+                Attack(); // Attack if within range
+            }
+            else
+            {
+                Chase(); // Otherwise, chase the target
+            }
+        }
     }
 
     public override void Attack()
@@ -26,14 +49,7 @@ public class MeleeEnemy : EnemyBase
 
     public override void Chase()
     {
-        if (target != null)
-        {
-            Vector3 accel = collisionAvoidance.GetSteering(nearbyObstacles);
-            accel += wallAvoidance.GetSteering();
-
-            steeringBasics.Steer(accel);
-            steeringBasics.LookWhereYoureGoing();
-        }
+        enemyMovement.Chase(); // Delegate movement to EnemyMovement script
     }
 
     public override void Defend()
@@ -61,24 +77,6 @@ public class MeleeEnemy : EnemyBase
         if (health <= 0)
         {
             Destroy(gameObject);
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        MovementAIRigidbody obstacle = other.GetComponent<MovementAIRigidbody>();
-        if (obstacle != null && !nearbyObstacles.Contains(obstacle))
-        {
-            nearbyObstacles.Add(obstacle);
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        MovementAIRigidbody obstacle = other.GetComponent<MovementAIRigidbody>();
-        if (obstacle != null && nearbyObstacles.Contains(obstacle))
-        {
-            nearbyObstacles.Remove(obstacle);
         }
     }
 }
