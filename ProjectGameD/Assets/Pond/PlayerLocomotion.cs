@@ -44,6 +44,8 @@ public class PlayerLocomotion : MonoBehaviour
             Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection,normalVector);
             rigidbody.velocity=projectedVelocity;
 
+            animatorHander.UpdateAnimatorValues(inputHander.moveAmount,0);
+
             if (animatorHander.canRotate)
             {
                HandleRotation(delta);
