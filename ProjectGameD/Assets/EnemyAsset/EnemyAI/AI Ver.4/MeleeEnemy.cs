@@ -30,7 +30,7 @@ public class MeleeEnemy : EnemyBase
             {
                 Attack(); // Attack if within range
             }
-            else
+            else if (distanceToTarget > stoppingDistance)
             {
                 Chase(); // Otherwise, chase the target
             }

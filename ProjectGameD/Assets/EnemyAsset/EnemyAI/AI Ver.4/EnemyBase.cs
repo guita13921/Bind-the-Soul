@@ -18,6 +18,7 @@ public abstract class EnemyBase : MonoBehaviour
     [SerializeField] protected CollisionAvoidance collisionAvoidance; // AI avoids obstacles
     [SerializeField] protected WallAvoidance wallAvoidance; // AI avoids walls
     [SerializeField] protected List<MovementAIRigidbody> nearbyObstacles; // List of detected obstacles
+    [SerializeField] protected MeleeSensor meleeSensor;
 
     protected virtual void Start()
     {
@@ -28,6 +29,7 @@ public abstract class EnemyBase : MonoBehaviour
         collisionAvoidance = GetComponent<CollisionAvoidance>();
         wallAvoidance = GetComponent<WallAvoidance>();
         nearbyObstacles = new List<MovementAIRigidbody>();
+        meleeSensor = GetComponent<MeleeSensor>();
     }
 
     // Abstract methods to be implemented by subclasses

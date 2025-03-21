@@ -21,6 +21,7 @@ public class EnemyMovement : MonoBehaviour
         nearbyObstacles = new List<MovementAIRigidbody>();
     }
 
+
     public void CheckDistance(float stoppingDistance, float distanceToTarget)
     {
         if (stoppingDistance >= distanceToTarget)
@@ -78,5 +79,15 @@ public class EnemyMovement : MonoBehaviour
         steeringBasics.Steer(accel);
         steeringBasics.LookWhereYoureGoing();
         enemyAnimation.CalculateVelocity();
+
     }
+
+    public void LookAtPlayer()
+    {
+        Vector3 direction = target.position - transform.position;
+        direction.y = 0; // Keep rotation level (prevent looking up/down)
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * steeringBasics.turnSpeed);
+    }
+
 }
