@@ -1,18 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
 namespace SG
 {
 public class AnimatorHander : MonoBehaviour
 {
     public Animator anim;
+    public InputHander inputHander;
+    public PlayerLocomotion playerLocomotion;
     int vertical;
     int horizontal;
     public bool canRotate;
     public void Initialize()
     {
         anim =GetComponent<Animator>();
+        inputHander =GetComponentInParent<InputHander>();
+        playerLocomotion= GetComponentInParent<PlayerLocomotion>();
         vertical = Animator.StringToHash("Vertical");
         horizontal = Animator.StringToHash("Horizontal");
     }
@@ -71,6 +76,12 @@ public class AnimatorHander : MonoBehaviour
          anim.SetFloat(vertical,v,0.1f,Time.deltaTime);
          anim.SetFloat(horizontal,h,0.1f,Time.deltaTime);
     }
+    public void PlayTargetAnimation(string targetAnim,bool isInteracting)
+    {
+        anim.applyRootMotion = isInteracting;
+        anim.SetBool("isInteracting",isInteracting);
+        anim.CrossFade(targetAnim,0.2f);
+    }
     public void CanRotate()
     {
         canRotate = true;
@@ -80,5 +91,16 @@ public class AnimatorHander : MonoBehaviour
     {
         canRotate = false;
     }
-} 
+        private void OnAnimatorMove()
+        {
+            if(inputHander.isInteracting == false)
+            return;
+            float delta = Time.deltaTime;
+            playerLocomotion.rigidbody.drag=0;
+            Vector3 deltaPosition = anim.deltaPosition;
+            deltaPosition.y =0 ;
+            Vector3 velocity = deltaPosition/delta;
+            playerLocomotion.rigidbody.velocity=velocity;
+        }
+    } 
 }
