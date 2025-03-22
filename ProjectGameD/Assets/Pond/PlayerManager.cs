@@ -2,34 +2,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SG 
-{ 
-public class PlayerManager : MonoBehaviour
+namespace SG
 {
-    InputHander inputHander;
-    Animator anim;
+    public class PlayerManager : MonoBehaviour
+    {
+        InputHander inputHander;
+        Animator anim;
+        CameraHandler cameraHandler;
+        PlayerLocomotion playerLocomotion;
         public bool isInteracting;
 
-    void Start()
-    {
-        inputHander = GetComponent<InputHander>();
-        anim = GetComponentInChildren<Animator>();
-    }
+        [Header("Player Flges")]
+        public bool isSprinting;
 
-    // Update is called once per frame
-    void Update()
-    {
-        isInteracting = anim.GetBool("isInteracting");
-        inputHander.rollFlag = false;
-    }
-
-    
-       /*float delta = Time.fixedDeltaTime;
-        if (cameraHandler != null)
+        private void Awake()
         {
-            cameraHandler.FollowTarget(delta);
-            cameraHandler.HandleCameraRotation(delta,mouseX,mouseY);
-        }*/
-    
-}
+            cameraHandler = CameraHandler.singleton;
+        }
+
+        void Start()
+        {
+            inputHander = GetComponent<InputHander>();
+            anim = GetComponentInChildren<Animator>();
+            playerLocomotion = GetComponent<PlayerLocomotion>();
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            float delta = Time.deltaTime;
+            isInteracting = anim.GetBool("isInteracting");
+
+            inputHander.TickInput(delta);
+            playerLocomotion.HandleMovement(delta);
+            playerLocomotion.HandleRollingAndSprinting(delta);
+
+        }
+        private void FixedUpdate()
+        {
+            float delta = Time.fixedDeltaTime;
+            if (cameraHandler != null)
+            {
+                cameraHandler.FollowTarget(delta);
+                cameraHandler.HandleCameraRotation(delta, inputHander.mouseX, inputHander.mouseY);
+            }
+        }
+        private void LateUpdate()
+        {
+            inputHander.rollFlag = false;
+            inputHander.sprintFlag = false;
+            isSprinting = inputHander.b_Input;
+            //Debug.Log(inputHander.b_Input);
+        }
+
+    }
 }

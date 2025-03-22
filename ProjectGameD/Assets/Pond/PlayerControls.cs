@@ -116,31 +116,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Tap"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Sprint"",
+                    ""type"": ""Button"",
+                    ""id"": ""e7af48b4-92bc-496e-b95a-8c67bb7423dc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""f605b9de-403d-4f64-a5d9-5a5bcef234ca"",
-                    ""path"": ""<Keyboard>/leftShift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Roll"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""abef4fab-5d8d-436a-a3a3-cc69308acfae"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Roll"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": """",
                     ""id"": ""add92f2b-aed8-481b-8ee6-0fa90fd89422"",
@@ -149,6 +136,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Roll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""47c280df-5d5b-4cca-8594-778e6577932c"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -164,6 +162,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         // PlayerAction
         m_PlayerAction = asset.FindActionMap("PlayerAction", throwIfNotFound: true);
         m_PlayerAction_Roll = m_PlayerAction.FindAction("Roll", throwIfNotFound: true);
+        m_PlayerAction_Sprint = m_PlayerAction.FindAction("Sprint", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -280,11 +279,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerAction;
     private List<IPlayerActionActions> m_PlayerActionActionsCallbackInterfaces = new List<IPlayerActionActions>();
     private readonly InputAction m_PlayerAction_Roll;
+    private readonly InputAction m_PlayerAction_Sprint;
     public struct PlayerActionActions
     {
         private @PlayerControls m_Wrapper;
         public PlayerActionActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Roll => m_Wrapper.m_PlayerAction_Roll;
+        public InputAction @Sprint => m_Wrapper.m_PlayerAction_Sprint;
         public InputActionMap Get() { return m_Wrapper.m_PlayerAction; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -297,6 +298,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Roll.started += instance.OnRoll;
             @Roll.performed += instance.OnRoll;
             @Roll.canceled += instance.OnRoll;
+            @Sprint.started += instance.OnSprint;
+            @Sprint.performed += instance.OnSprint;
+            @Sprint.canceled += instance.OnSprint;
         }
 
         private void UnregisterCallbacks(IPlayerActionActions instance)
@@ -304,6 +308,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Roll.started -= instance.OnRoll;
             @Roll.performed -= instance.OnRoll;
             @Roll.canceled -= instance.OnRoll;
+            @Sprint.started -= instance.OnSprint;
+            @Sprint.performed -= instance.OnSprint;
+            @Sprint.canceled -= instance.OnSprint;
         }
 
         public void RemoveCallbacks(IPlayerActionActions instance)
@@ -329,5 +336,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     public interface IPlayerActionActions
     {
         void OnRoll(InputAction.CallbackContext context);
+        void OnSprint(InputAction.CallbackContext context);
     }
 }
