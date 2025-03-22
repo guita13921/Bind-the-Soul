@@ -6,44 +6,153 @@ namespace SG
 {
     public class EnemyManager : MonoBehaviour
     {
-        EnemyLocomotionManager enemyLocomotionManager;
+        [SerializeField] EnemyLocomotionManager enemyLocomotionManager;
+        [SerializeField] EnemyAnimatorManager enemyAnimationManager;
+        EnemyStat enemyStat;
+
+        public State currentState;
+        public CharacterStat curretTarget;
+
         public bool isPerformingAction;
 
         [Header("A.I Setting")]
         public float detectionRadius = 20f;
-
         //The Higher, and lower
         public float minimumDetectionAngle;
         public float maximumDetectionAngle;
 
+        public float currentRecoveryTime = 0;
+
         private void Awake()
         {
             enemyLocomotionManager = GetComponent<EnemyLocomotionManager>();
+            enemyAnimationManager = GetComponentInChildren<EnemyAnimatorManager>();
+            enemyStat = GetComponent<EnemyStat>();
         }
 
         private void Update()
         {
-
+            HandleRecoveryTimer();
         }
 
         private void FixedUpdate()
         {
-            HandleCurrentAction();
+            HandleStateMachine();
         }
 
-        private void HandleCurrentAction()
+        private void HandleStateMachine()
         {
-            if (enemyLocomotionManager.curretTarget == null)
+            if (currentState != null)
             {
-                enemyLocomotionManager.HandleDetection();
+                State nextState = currentState.Tick(this, enemyStat, enemyAnimationManager);
+
+                if (nextState != null)
+                {
+                    SwitchToNextState(nextState);
+                }
+            }
+
+        }
+
+        private void SwitchToNextState(State state)
+        {
+            currentState = state;
+        }
+
+        private void HandleRecoveryTimer()
+        {
+            if (currentRecoveryTime > 0)
+            {
+                currentRecoveryTime -= Time.deltaTime;
+            }
+
+            if (isPerformingAction)
+            {
+                if (currentRecoveryTime <= 0)
+                {
+                    isPerformingAction = false;
+                }
+            }
+        }
+
+        #region  Attacks
+
+        private void AttackTarget()
+        {
+            /*
+            if (isPerformingAction)
+            {
+                return;
+            }
+
+            if (currentAttack == null)
+            {
+                GetNewAttack();
             }
             else
             {
-                enemyLocomotionManager.HandleMoveToTarget();
+                isPerformingAction = true;
+                currentRecoveryTime = currentAttack.recoveryTime;
+                enemyAnimationManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
+                currentAttack = null;
+            }
+            */
+        }
+
+        private void GetNewAttack()
+        {
+            /*
+            Vector3 targetDirection = enemyLocomotionManager.curretTarget.transform.position - transform.position;
+            float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
+            enemyLocomotionManager.distanceFromTarget = Vector3.Distance(enemyLocomotionManager.curretTarget.transform.position, transform.position);
+
+            int maxScore = 0;
+
+            for (int i = 0; i < enemyAttacks.Length; i++)
+            {
+                EnemyAttackAction enemyAttackAction = enemyAttacks[i];
+
+                if (enemyLocomotionManager.distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack
+                        && enemyLocomotionManager.distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack)
+                {
+                    if (viewableAngle <= enemyAttackAction.maximumAttackAngle
+                    && viewableAngle >= enemyAttackAction.minimumAttackAngle)
+                    {
+                        maxScore += enemyAttackAction.attackScore;
+                    }
+                }
             }
 
+            int rendomValue = Random.Range(0, maxScore);
+            int temporaryScore = 0;
+
+            for (int i = 0; i < enemyAttacks.Length; i++)
+            {
+                EnemyAttackAction enemyAttackAction = enemyAttacks[i];
+
+                if (enemyLocomotionManager.distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack
+                        && enemyLocomotionManager.distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack)
+                {
+                    if (viewableAngle <= enemyAttackAction.maximumAttackAngle
+                    && viewableAngle >= enemyAttackAction.minimumAttackAngle)
+                    {
+                        if (currentAttack != null) return;
+
+                        temporaryScore += enemyAttackAction.attackScore;
+
+                        if (temporaryScore > rendomValue)
+                        {
+                            currentAttack = enemyAttackAction;
+                        }
+                    }
+                }
+
+            }
+            */
 
         }
+
+        #endregion
 
         private void OnDrawGizmosSelected()
         {

@@ -13,9 +13,6 @@ namespace SG
         NavMeshAgent navMeshAgent;
         public Rigidbody enemyRigidbody;
 
-        public CharacterStat curretTarget;
-        public LayerMask detectionLayer;
-
         public float distanceFromTarget;
         public float stoppingDistance = 1f;
 
@@ -24,7 +21,7 @@ namespace SG
         private void Awake()
         {
             enemyManager = GetComponent<EnemyManager>();
-            enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
+            enemyAnimatorManager = GetComponentInChildren<EnemyAnimatorManager>();
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
             enemyRigidbody = GetComponent<Rigidbody>();
         }
@@ -35,32 +32,13 @@ namespace SG
             enemyRigidbody.isKinematic = false;
         }
 
-        public void HandleDetection()
-        {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, enemyManager.detectionRadius, detectionLayer);
-
-            for (int i = 0; i < colliders.Length; i++)
-            {
-                CharacterStat characterStat = colliders[i].transform.GetComponent<CharacterStat>();
-
-                if (characterStat != null)
-                {
-                    //Check for team id
-                    Vector3 targetDirection = characterStat.transform.position - transform.position;
-                    float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
-
-                    if (viewableAngle > enemyManager.minimumDetectionAngle && viewableAngle < enemyManager.maximumDetectionAngle)
-                    {
-                        curretTarget = characterStat;
-                    }
-                }
-            }
-        }
 
         public void HandleMoveToTarget()
         {
-            Vector3 targetDirection = curretTarget.transform.position - transform.position;
-            distanceFromTarget = Vector3.Distance(curretTarget.transform.position, transform.position);
+            if (enemyManager.isPerformingAction) return;
+
+            Vector3 targetDirection = enemyManager.curretTarget.transform.position - transform.position;
+            distanceFromTarget = Vector3.Distance(enemyManager.curretTarget.transform.position, transform.position);
             float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
 
             //When perform action -> Stop movement
@@ -91,7 +69,7 @@ namespace SG
             //Rotate manually
             if (enemyManager.isPerformingAction)
             {
-                Vector3 direction = curretTarget.transform.position - transform.position;
+                Vector3 direction = enemyManager.curretTarget.transform.position - transform.position;
                 direction.y = 0;
                 direction.Normalize();
 
@@ -110,7 +88,7 @@ namespace SG
                 Vector3 targetVelocity = enemyRigidbody.velocity;
 
                 navMeshAgent.enabled = true;
-                navMeshAgent.SetDestination(curretTarget.transform.position);
+                navMeshAgent.SetDestination(enemyManager.curretTarget.transform.position);
                 enemyRigidbody.velocity = targetVelocity;
                 transform.rotation = Quaternion.Slerp(transform.rotation, navMeshAgent.transform.rotation, rotationSpeed / Time.deltaTime);
             }
