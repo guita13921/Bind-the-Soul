@@ -98,7 +98,7 @@ public class InputHander : MonoBehaviour
     private void HandleSprintinput()
     {
         b_Input = inputAction.PlayerAction.Sprint.phase == InputActionPhase.Performed; // Use Performed for better control
-        Debug.Log("Sprint Input: " + b_Input);
+        //Debug.Log("Sprint Input: " + b_Input);
 
         if (b_Input)
         {
