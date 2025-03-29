@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1249410}
   - component: {fileID: 1249411}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ambush State
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +173,7 @@ MonoBehaviour:
   wakeAnimation: GetUp01
   detectionLayer:
     serializedVersion: 2
-    m_Bits: 1032
+    m_Bits: 64
   pursueTargetState: {fileID: 1156212865}
 --- !u!1001 &215998229
 PrefabInstance:
@@ -858,6 +858,14 @@ PrefabInstance:
     - target: {fileID: 2597023138279274590, guid: ced25e6fd8255d34aa994a56aa9a4283, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0.2486966
+      objectReference: {fileID: 0}
+    - target: {fileID: 2711096695123645588, guid: ced25e6fd8255d34aa994a56aa9a4283, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2711096695123645588, guid: ced25e6fd8255d34aa994a56aa9a4283, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2745855640194385481, guid: ced25e6fd8255d34aa994a56aa9a4283, type: 3}
       propertyPath: m_Layer
@@ -2553,7 +2561,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 341897391}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Combat Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2585,7 +2593,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 549814875}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Enemy States
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2628,7 +2636,7 @@ GameObject:
   - component: {fileID: 568265081}
   - component: {fileID: 568265080}
   - component: {fileID: 568265087}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Player
   m_TagString: Hittable
   m_Icon: {fileID: 0}
@@ -2684,6 +2692,8 @@ MonoBehaviour:
   movementSpeed: 5
   sprintSpeed: 7
   rotationSpeed: 10
+  CharacterCollider: {fileID: 568265085}
+  CharacterCollisiomBlockerCollider: {fileID: 805184068}
 --- !u!114 &568265083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2781,10 +2791,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 568265079}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81f088811b2dabb44a404bba50c9234c, type: 3}
+  m_Script: {fileID: 11500000, guid: d7ade623c82bd364696112ff731e970f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthLevel: 0
+  healthLevel: 10
   maxHealth: 0
   currentHealth: 0
 --- !u!1 &602539203
@@ -2964,7 +2974,7 @@ GameObject:
   m_Component:
   - component: {fileID: 897458740}
   - component: {fileID: 897458741}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Attack State
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3013,7 +3023,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1156212864}
   - component: {fileID: 1156212865}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Pursue Target State
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3151,7 +3161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1214036332}
   - component: {fileID: 1214036333}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Idle State
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3187,7 +3197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detectionLayer:
     serializedVersion: 2
-    m_Bits: 1032
+    m_Bits: 64
   pursueTargetState: {fileID: 1156212865}
 --- !u!1001 &1253723282
 PrefabInstance:
@@ -3905,7 +3915,9 @@ PrefabInstance:
       value: -90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1239292414419848, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
+    - {fileID: 1443982407616232, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1349150361055734, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
@@ -3914,6 +3926,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1349150361055734, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1687792877}
+    - targetCorrespondingSourceObject: {fileID: 1349150361055734, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1687792879}
   m_SourcePrefab: {fileID: 100100000, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
 --- !u!1 &1687792871 stripped
 GameObject:
@@ -3959,6 +3974,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1687792879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687792871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfb678f269817bf48a1d467cd9354f1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rightHandWeapon: {fileID: 11400000, guid: 301004f2ea88aa74aa7e5b498bcdd4fc, type: 2}
+  leftHandWeapon: {fileID: 11400000, guid: f583d625035e8444da434173857f6d42, type: 2}
+  rightHandSlot: {fileID: 0}
+  leftHandSlot: {fileID: 0}
 --- !u!1 &1742061041
 GameObject:
   m_ObjectHideFlags: 0
@@ -4055,7 +4086,8 @@ GameObject:
   - component: {fileID: 1743302381}
   - component: {fileID: 1743302384}
   - component: {fileID: 1743302382}
-  m_Layer: 0
+  - component: {fileID: 1743302385}
+  m_Layer: 3
   m_Name: Skeleton_Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -4145,7 +4177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyLocomotionManager: {fileID: 0}
   enemyAnimationManager: {fileID: 0}
-  currentState: {fileID: 1249411}
+  currentState: {fileID: 1214036333}
   curretTarget: {fileID: 0}
   navMeshAgent: {fileID: 0}
   enemyRigidBody: {fileID: 0}
@@ -4172,6 +4204,20 @@ MonoBehaviour:
   healthLevel: 1
   maxHealth: 0
   currentHealth: 0
+--- !u!114 &1743302385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1743302378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fc81e665a700304fb3c63492173b509, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CharacterCollider: {fileID: 1743302381}
+  CharacterCollisiomBlockerCollider: {fileID: 1742061043}
 --- !u!1 &2007661814
 GameObject:
   m_ObjectHideFlags: 0
@@ -4182,7 +4228,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2007661815}
   - component: {fileID: 2007661816}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Combat Stance State
   m_TagString: Untagged
   m_Icon: {fileID: 0}

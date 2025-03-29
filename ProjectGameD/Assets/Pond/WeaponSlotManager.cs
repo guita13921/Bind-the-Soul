@@ -13,6 +13,7 @@ namespace SG
 
         WeaponHolderSlot leftHandSlot;
         WeaponHolderSlot rightHandSlot;
+        WeaponHolderSlot backSlot;
 
         DamageCollider leftHandDamgeCollider;
         DamageCollider righthandDamgeCollider;
@@ -21,6 +22,7 @@ namespace SG
         {
             playerManager = GetComponentInParent<PlayerManager>();
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
+
             foreach (WeaponHolderSlot weponslot in weaponHolderSlots)
             {
                 if (weponslot.isLeftHandSlot)
@@ -61,24 +63,23 @@ namespace SG
             righthandDamgeCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
         }
 
-        public void OpenRightHandDamageCollider()
+        public void OpenDamageCollider()
         {
-            righthandDamgeCollider.EnableDamageCollider();
+            if (playerManager.isUsingLefthand)
+            {
+                leftHandDamgeCollider.EnableDamageCollider();
+            }
+            else if (playerManager.isUsingRightHand)
+            {
+                righthandDamgeCollider.EnableDamageCollider();
+            }
         }
 
-        public void OpenLeftHandDamageCollider()
-        {
-            leftHandDamgeCollider.EnableDamageCollider();
-        }
 
-        public void CloseRightHandDamageCollider()
-        {
-            righthandDamgeCollider.DisableDamageCollider();
-        }
-
-        public void CloseLeftHandDamageCollider()
+        public void CloseDamageCollider()
         {
             leftHandDamgeCollider.DisableDamageCollider();
+            righthandDamgeCollider.DisableDamageCollider();
         }
 
         #endregion

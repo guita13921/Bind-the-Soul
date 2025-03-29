@@ -26,6 +26,9 @@ namespace SG
         [SerializeField]
         float rotationSpeed = 10;
 
+        public CapsuleCollider CharacterCollider;
+        public CapsuleCollider CharacterCollisiomBlockerCollider;
+
         void Start()
         {
             playerManager = GetComponent<PlayerManager>();
@@ -35,6 +38,8 @@ namespace SG
             cameraObject = normalCameral.transform;
             myTransform = transform;
             animatorHander.Initialize();
+
+            Physics.IgnoreCollision(CharacterCollider, CharacterCollisiomBlockerCollider, true);
         }
 
 

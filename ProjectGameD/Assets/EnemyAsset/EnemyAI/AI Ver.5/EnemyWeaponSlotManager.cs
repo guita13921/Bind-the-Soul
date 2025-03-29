@@ -7,24 +7,62 @@ namespace SG
 {
     public class EnemyWeaponSlotManager : MonoBehaviour
     {
-        WeaponHolderSlot rightHandslot;
-        WeaponHolderSlot leftHandslot;
+        public WeaponItem rightHandWeapon;
+        public WeaponItem leftHandWeapon;
+
+        [SerializeField] WeaponHolderSlot rightHandSlot;
+        [SerializeField] WeaponHolderSlot leftHandSlot;
 
         DamageCollider leftHandDamageCollider;
         DamageCollider rightHandDamageCollider;
+
+        private void Awake()
+        {
+            WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
+            foreach (WeaponHolderSlot weponslot in weaponHolderSlots)
+            {
+                if (weponslot.isLeftHandSlot)
+                {
+                    leftHandSlot = weponslot;
+                }
+                else if (weponslot.isRightHandSlot)
+                {
+                    rightHandSlot = weponslot;
+                }
+
+            }
+        }
+
+        private void Start()
+        {
+            LoadWeaponOnBothHand();
+        }
 
 
         public void LoadWeaponOnSlot(WeaponItem weapon, bool isLeft)
         {
             if (isLeft)
             {
-                //leftHandslot.currentWeaponModel = weapon;
-                leftHandslot.LoadWeaponModel(weapon);
+                leftHandSlot.LoadWeaponModel(weapon);
+                LoadWeaponDamageCollider(isLeft);
             }
             else
             {
-                //rightHandslot.currentWeaponModel = weapon;
-                leftHandslot.LoadWeaponModel(weapon);
+                rightHandSlot.LoadWeaponModel(weapon);
+                LoadWeaponDamageCollider(isLeft);
+            }
+        }
+
+        public void LoadWeaponOnBothHand()
+        {
+            if (rightHandWeapon != null)
+            {
+                LoadWeaponOnSlot(rightHandWeapon, false);
+            }
+
+            if (leftHandWeapon != null)
+            {
+                LoadWeaponOnSlot(leftHandWeapon, true);
             }
         }
 
@@ -32,11 +70,11 @@ namespace SG
         {
             if (isLeft)
             {
-                leftHandDamageCollider = leftHandslot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+                leftHandDamageCollider = leftHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
             }
             else
             {
-                rightHandDamageCollider = rightHandslot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+                rightHandDamageCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
             }
 
         }
