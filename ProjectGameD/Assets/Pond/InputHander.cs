@@ -13,6 +13,8 @@ public class InputHander : MonoBehaviour
     public float mouseY;
 
     public bool b_Input;
+    public bool Al_Input;
+    public bool Ah_Input;
 
     public bool rollFlag;
     public bool sprintFlag;
@@ -20,12 +22,18 @@ public class InputHander : MonoBehaviour
 
 
     PlayerControls inputAction;
+    PlayerAttack playerAttack;
+    PlayerInventory playerInventory;
 
 
     Vector3 movementInput;
     Vector3 cameraInput;
 
-
+    private void Awake()
+    {
+        playerAttack = GetComponent<PlayerAttack>();
+        playerInventory = GetComponent<PlayerInventory>();
+    }
 
     public void OnEnable()
     {
@@ -46,7 +54,7 @@ public class InputHander : MonoBehaviour
         MoveInput(delta);
         HandleRollinput(delta);
         HandleSprintinput();
-
+        HandleAttackInput(delta);
     }
     private void MoveInput(float delta)
     {
@@ -98,7 +106,7 @@ public class InputHander : MonoBehaviour
     private void HandleSprintinput()
     {
         b_Input = inputAction.PlayerAction.Sprint.phase == InputActionPhase.Performed; // Use Performed for better control
-        Debug.Log("Sprint Input: " + b_Input);
+                                                                                       // Debug.Log("Sprint Input: " + b_Input);
 
         if (b_Input)
         {
@@ -107,6 +115,20 @@ public class InputHander : MonoBehaviour
         else
         {
             sprintFlag = false; // Reset flag when input is released
+        }
+    }
+    private void HandleAttackInput(float delta)
+    {
+        inputAction.PlayerAction.AttackL.performed += i => Al_Input = true;
+        inputAction.PlayerAction.AttackH.performed += i => Ah_Input = true;
+
+        if (Al_Input)
+        {
+            playerAttack.HandleLightAttack(playerInventory.rightWeapon);
+        }
+        if (Ah_Input)
+        {
+            playerAttack.HandleHeavyAttack(playerInventory.rightWeapon);
         }
     }
 

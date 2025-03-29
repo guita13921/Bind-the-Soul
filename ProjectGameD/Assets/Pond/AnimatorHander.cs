@@ -7,73 +7,37 @@ namespace SG
 {
     public class AnimatorHander : MonoBehaviour
     {
-        PlayerManager playerManager;
+        private PlayerManager playerManager;
         public Animator anim;
-        InputHander inputHander;
-        PlayerLocomotion playerLocomotion;
-        int vertical;
-        int horizontal;
+        private InputHander inputHander;
+        private PlayerLocomotion playerLocomotion;
+        private int vertical;
+        private int horizontal;
         public bool canRotate;
+
         public void Initialize()
         {
             playerManager = GetComponentInParent<PlayerManager>();
             anim = GetComponent<Animator>();
-            inputHander = GetComponentInParent<InputHander>();
+            inputHander = GetComponentInParent<InputHander>(); // แก้ไขชื่อคลาส
             playerLocomotion = GetComponentInParent<PlayerLocomotion>();
+
             vertical = Animator.StringToHash("Vertical");
             horizontal = Animator.StringToHash("Horizontal");
+
+            // ตรวจสอบว่า Animator มีอยู่หรือไม่
+            if (anim == null)
+            {
+                Debug.LogError("❌ Animator ไม่พบใน " + gameObject.name);
+            }
         }
 
         public void UpdateAnimatorValues(float verticalMovement, float horizontalMovement, bool isSprinting)
         {
-            #region Vertical
-            float v = 0;
-            if (verticalMovement > 0 && verticalMovement < 0.55f)
-            {
-                v = 0.5f;
-            }
-            else if (verticalMovement > 0.55f)
-            {
-                v = 1;
-            }
-            else if (verticalMovement < 0 && verticalMovement > -0.55f)
-            {
-                v = -0.55f;
-            }
-            else if (verticalMovement < -0.55f)
-            {
-                v = -1;
-            }
-            else
-            {
-                v = 0;
-            }
-            #endregion
+            if (anim == null) return; // ป้องกันข้อผิดพลาด
 
-            #region Horizontal
-            float h = 0;
-
-            if (horizontalMovement > 0 && horizontalMovement < 0.55f)
-            {
-                h = 0.5f;
-            }
-            else if (horizontalMovement > 0.55f)
-            {
-                h = 1;
-            }
-            else if (horizontalMovement < 0 && horizontalMovement > -0.55f)
-            {
-                h = -0.5f;
-            }
-            else if (horizontalMovement < -0.55f)
-            {
-                h = -1;
-            }
-            else
-            {
-                h = 0;
-            }
-            #endregion
+            float v = verticalMovement > 0.55f ? 1 : verticalMovement > 0 ? 0.5f : verticalMovement < -0.55f ? -1 : verticalMovement < 0 ? -0.5f : 0;
+            float h = horizontalMovement > 0.55f ? 1 : horizontalMovement > 0 ? 0.5f : horizontalMovement < -0.55f ? -1 : horizontalMovement < 0 ? -0.5f : 0;
 
             if (isSprinting)
             {
@@ -84,31 +48,41 @@ namespace SG
             anim.SetFloat(vertical, v, 0.1f, Time.deltaTime);
             anim.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
         }
+
         public void PlayTargetAnimation(string targetAnim, bool isInteracting)
         {
+            if (anim == null) return;
+
             anim.applyRootMotion = isInteracting;
             anim.SetBool("isInteracting", isInteracting);
             anim.CrossFade(targetAnim, 0.2f);
         }
-        public void CanRotate()
-        {
-            canRotate = true;
-        }
 
-        public void StopRotation()
-        {
-            canRotate = false;
-        }
+        public void CanRotate() => canRotate = true;
+        public void StopRotation() => canRotate = false;
+
         private void OnAnimatorMove()
         {
-            if (playerManager.isInteracting == false)
+            if (playerManager == null || playerManager.isInteracting == false) return;
+            if (playerLocomotion == null)
+            {
+                Debug.LogWarning("⚠️ PlayerLocomotion เป็นค่า null ใน AnimatorHandler");
                 return;
-            float delta = Time.deltaTime;
-            playerLocomotion.rigidbody.drag = 0;
-            Vector3 deltaPosition = anim.deltaPosition;
-            deltaPosition.y = 0;
-            Vector3 velocity = deltaPosition / delta;
-            playerLocomotion.rigidbody.velocity = velocity;
+            }
+
+            if (playerLocomotion.TryGetComponent(out Rigidbody rb))
+            {
+                float delta = Time.deltaTime;
+                rb.drag = 0;
+                Vector3 deltaPosition = anim.deltaPosition;
+                deltaPosition.y = 0;
+                Vector3 velocity = deltaPosition / delta;
+                rb.velocity = velocity;
+            }
+            else
+            {
+                Debug.LogWarning("⚠️ Rigidbody ไม่พบใน PlayerLocomotion");
+            }
         }
     }
 }

@@ -125,6 +125,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AttackL"",
+                    ""type"": ""Button"",
+                    ""id"": ""902f3bcb-36cd-43b4-9206-0e028cb6a248"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AttackH"",
+                    ""type"": ""Button"",
+                    ""id"": ""3272179e-5be0-4b92-8cd9-84233e2123e4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -149,6 +167,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2f1521eb-53d3-4dee-ab06-b5fa0b53c3eb"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AttackL"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cf5ecdae-6c97-46ed-87fd-ed9503bc180c"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AttackH"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -163,6 +203,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerAction = asset.FindActionMap("PlayerAction", throwIfNotFound: true);
         m_PlayerAction_Roll = m_PlayerAction.FindAction("Roll", throwIfNotFound: true);
         m_PlayerAction_Sprint = m_PlayerAction.FindAction("Sprint", throwIfNotFound: true);
+        m_PlayerAction_AttackL = m_PlayerAction.FindAction("AttackL", throwIfNotFound: true);
+        m_PlayerAction_AttackH = m_PlayerAction.FindAction("AttackH", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -280,12 +322,16 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private List<IPlayerActionActions> m_PlayerActionActionsCallbackInterfaces = new List<IPlayerActionActions>();
     private readonly InputAction m_PlayerAction_Roll;
     private readonly InputAction m_PlayerAction_Sprint;
+    private readonly InputAction m_PlayerAction_AttackL;
+    private readonly InputAction m_PlayerAction_AttackH;
     public struct PlayerActionActions
     {
         private @PlayerControls m_Wrapper;
         public PlayerActionActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Roll => m_Wrapper.m_PlayerAction_Roll;
         public InputAction @Sprint => m_Wrapper.m_PlayerAction_Sprint;
+        public InputAction @AttackL => m_Wrapper.m_PlayerAction_AttackL;
+        public InputAction @AttackH => m_Wrapper.m_PlayerAction_AttackH;
         public InputActionMap Get() { return m_Wrapper.m_PlayerAction; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -301,6 +347,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
+            @AttackL.started += instance.OnAttackL;
+            @AttackL.performed += instance.OnAttackL;
+            @AttackL.canceled += instance.OnAttackL;
+            @AttackH.started += instance.OnAttackH;
+            @AttackH.performed += instance.OnAttackH;
+            @AttackH.canceled += instance.OnAttackH;
         }
 
         private void UnregisterCallbacks(IPlayerActionActions instance)
@@ -311,6 +363,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
+            @AttackL.started -= instance.OnAttackL;
+            @AttackL.performed -= instance.OnAttackL;
+            @AttackL.canceled -= instance.OnAttackL;
+            @AttackH.started -= instance.OnAttackH;
+            @AttackH.performed -= instance.OnAttackH;
+            @AttackH.canceled -= instance.OnAttackH;
         }
 
         public void RemoveCallbacks(IPlayerActionActions instance)
@@ -337,5 +395,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     {
         void OnRoll(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
+        void OnAttackL(InputAction.CallbackContext context);
+        void OnAttackH(InputAction.CallbackContext context);
     }
 }

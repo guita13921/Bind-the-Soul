@@ -52,6 +52,8 @@ namespace SG
             inputHander.rollFlag = false;
             inputHander.sprintFlag = false;
             isSprinting = inputHander.b_Input;
+            inputHander.Al_Input = false;
+            inputHander.Ah_Input = false;
             //Debug.Log(inputHander.b_Input);
         }
 
