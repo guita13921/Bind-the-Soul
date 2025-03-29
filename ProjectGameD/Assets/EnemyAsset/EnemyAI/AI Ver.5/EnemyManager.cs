@@ -17,16 +17,15 @@ namespace SG
         public Rigidbody enemyRigidBody;
 
         public bool isPerformingAction;
-        public float distanceFromTarget;
+        public bool isInterActing;
         public float rotationSpeed = 15f;
-        public float maximumAttackRange = 1.5f;
+        public float maximumAttackRange = 2f;
 
         [Header("A.I Setting")]
         public float detectionRadius = 20f;
         //The Higher, and lower
         public float minimumDetectionAngle;
         public float maximumDetectionAngle;
-        public float viewableAngle;
 
         public float currentRecoveryTime = 0;
 
@@ -48,6 +47,8 @@ namespace SG
         private void Update()
         {
             HandleRecoveryTimer();
+
+            isInterActing = enemyAnimationManager.animator.GetBool("isInteracting");
         }
 
         private void FixedUpdate()
