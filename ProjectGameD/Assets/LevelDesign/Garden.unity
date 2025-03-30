@@ -822,6 +822,59 @@ Transform:
   - {fileID: 2125363915}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &632850532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 632850533}
+  - component: {fileID: 632850534}
+  m_Layer: 3
+  m_Name: Blocking Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &632850533
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 632850532}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.35, y: 0.94, z: 0}
+  m_LocalScale: {x: 0.14, y: 1.9123199, z: 1.1504}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1743302379}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &632850534
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 632850532}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &805184066
 GameObject:
   m_ObjectHideFlags: 0
@@ -930,6 +983,7 @@ MonoBehaviour:
   parentOverride: {fileID: 813061889}
   isLeftHandSlot: 1
   isRightHandSlot: 0
+  isShield: 0
   currentWeaponModel: {fileID: 0}
 --- !u!1 &856181029 stripped
 GameObject:
@@ -956,6 +1010,7 @@ MonoBehaviour:
   parentOverride: {fileID: 856181030}
   isLeftHandSlot: 0
   isRightHandSlot: 1
+  isShield: 0
   currentWeaponModel: {fileID: 0}
 --- !u!1001 &1175043968
 PrefabInstance:
@@ -1450,6 +1505,11 @@ Transform:
   - {fileID: 805184067}
   m_Father: {fileID: 568265086}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1743302379 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7358879665906382748, guid: aad96640689906642b8276934e5ccc49, type: 3}
+  m_PrefabInstance: {fileID: 9032302176150622908}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2125363914
 GameObject:
   m_ObjectHideFlags: 0
@@ -1598,6 +1658,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skeleton_Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 3639402565411875918, guid: aad96640689906642b8276934e5ccc49, type: 3}
+      propertyPath: m_TagString
+      value: Hittable
+      objectReference: {fileID: 0}
+    - target: {fileID: 6673933004026940837, guid: aad96640689906642b8276934e5ccc49, type: 3}
+      propertyPath: hasShield
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7358879665906382748, guid: aad96640689906642b8276934e5ccc49, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.71
@@ -1640,7 +1708,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7358879665906382748, guid: aad96640689906642b8276934e5ccc49, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 632850533}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aad96640689906642b8276934e5ccc49, type: 3}
 --- !u!1660057539 &9223372036854775807

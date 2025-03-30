@@ -9,6 +9,7 @@ namespace SG
     {
         [SerializeField] EnemyLocomotionManager enemyLocomotionManager;
         [SerializeField] EnemyAnimatorManager enemyAnimationManager;
+        [SerializeField] EnemyWeaponSlotManager enemyWeaponSlotManager;
         EnemyStat enemyStat;
 
         [Header("State")]
@@ -41,11 +42,13 @@ namespace SG
             enemyStat = GetComponent<EnemyStat>();
             enemyRigidBody = GetComponent<Rigidbody>();
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
+            enemyWeaponSlotManager = GetComponentInChildren<EnemyWeaponSlotManager>();
             navMeshAgent.enabled = false;
         }
 
         private void Start()
         {
+            hasShield = enemyWeaponSlotManager.LoadShield();
             enemyRigidBody.isKinematic = false;
         }
 

@@ -11,6 +11,9 @@ namespace SG
         public bool isUnarmed;
         public bool isShield;
 
+        [Header("Absorption")]
+        public float physicalDamageAbsorption;
+
     }
 }
 

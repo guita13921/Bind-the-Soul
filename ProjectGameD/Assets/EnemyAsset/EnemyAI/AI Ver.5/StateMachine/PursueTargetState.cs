@@ -18,8 +18,13 @@ namespace SG
 
             if (enemyManager.isInterActing) return this;
 
+            if (enemyManager.hasShield && enemyManager.isBlocking == false)
+            {
+                enemyAnimatorManager.PlayTargetAnimation("StartBlock", false);
+                enemyManager.isBlocking = true;
+            }
 
-            if (enemyManager.isPerformingAction || enemyManager.currentRecoveryTime > 0f)
+            if (enemyManager.isPerformingAction)
             {
                 enemyAnimatorManager.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
                 return this;

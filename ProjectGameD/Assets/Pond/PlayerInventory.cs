@@ -15,6 +15,7 @@ namespace SG
         {
             weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
         }
+
         private void Start()
         {
             weaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
