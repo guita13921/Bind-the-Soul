@@ -7,6 +7,10 @@ namespace SG
     [CreateAssetMenu(menuName = "A.I/Enemy Actions/Attack Action")]
     public class EnemyAttackAction : EnemyAction
     {
+        public bool cancombo;
+
+        public EnemyAttackAction comboAction;
+
         public int attackScore = 3;
         public float recoveryTime = 2;
 

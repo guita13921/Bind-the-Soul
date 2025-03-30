@@ -9,6 +9,7 @@ namespace SG
     {
         public GameObject modelPrefab;
         public bool isUnarmed;
+        public bool isShield;
 
         [Header("One Handed Attack Animations")]
         public string OH_Light_Attack_1;

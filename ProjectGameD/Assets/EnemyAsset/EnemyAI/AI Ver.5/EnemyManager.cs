@@ -11,13 +11,18 @@ namespace SG
         [SerializeField] EnemyAnimatorManager enemyAnimationManager;
         EnemyStat enemyStat;
 
+        [Header("State")]
         public State currentState;
         public CharacterStat curretTarget;
         public NavMeshAgent navMeshAgent;
         public Rigidbody enemyRigidBody;
 
+        [Header("Enemy Flags")]
         public bool isPerformingAction;
         public bool isInterActing;
+        public bool isBlocking;
+
+        public bool hasShield;
         public float rotationSpeed = 15f;
         public float maximumAttackRange = 2f;
 
@@ -47,13 +52,18 @@ namespace SG
         private void Update()
         {
             HandleRecoveryTimer();
+            HandleStateMachine();
 
             isInterActing = enemyAnimationManager.animator.GetBool("isInteracting");
+            enemyAnimationManager.animator.SetBool("isDead", enemyStat.isDead);
+            enemyAnimationManager.animator.SetBool("isBlocking", isBlocking);
+
         }
 
-        private void FixedUpdate()
+        private void LateUpdate()
         {
-            HandleStateMachine();
+            navMeshAgent.transform.localPosition = Vector3.zero;
+            navMeshAgent.transform.localRotation = Quaternion.identity;
         }
 
         private void HandleStateMachine()

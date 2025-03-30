@@ -20,11 +20,13 @@ namespace SG
             //set our recovery timer to the attacks recovery time
             // return the combat stance state
 
-            //HandleRotationToTarget(enemyManager);
+            if (enemyManager.isInterActing) return this;
 
             Vector3 targetDirection = enemyManager.curretTarget.transform.position - transform.position;
             float distanceFromTarget = Vector3.Distance(enemyManager.curretTarget.transform.position, enemyManager.transform.position);
             float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
+
+            HandleRotationToTarget(enemyManager);
 
             if (enemyManager.isPerformingAction) return combatStanceState;
 
@@ -48,6 +50,13 @@ namespace SG
                             enemyAnimator.animator.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
                             enemyAnimator.PlayTargetAnimation(currentAttack.actionAnimation, true);
                             enemyManager.isPerformingAction = true;
+
+                            if (currentAttack.cancombo)
+                            {
+                                currentAttack = currentAttack.comboAction;
+                                return this;
+                            }
+
                             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
                             currentAttack = null;
                             return combatStanceState;

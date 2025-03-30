@@ -18,9 +18,11 @@ namespace SG
             //if we are in a cool down after attack, return this state and continue circling player
             //if the player runs out of range return the pursuetarget state
 
+            if (enemyManager.isInterActing) return this;
+
             float distanceFromTarget = Vector3.Distance(enemyManager.curretTarget.transform.position, enemyManager.transform.position);
 
-            //HandleRotationToTarget(enemyManager);
+            HandleRotationToTarget(enemyManager);
 
             if (enemyManager.isPerformingAction)
             {
