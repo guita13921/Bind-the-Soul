@@ -181,6 +181,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""d7a8a60b-0f54-414a-88d3-df2292a7ec02"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AttackL"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""cf5ecdae-6c97-46ed-87fd-ed9503bc180c"",
                     ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",

@@ -39,14 +39,11 @@ namespace SG
                     playerStats.TakeDamage(currentDamageWeapon);
                 }
 
-                if (collider.tag == "Enemy")
-                {
-                    EnemyStat enemyStat = collider.GetComponent<EnemyStat>();
+                EnemyStat enemyStat = collider.GetComponent<EnemyStat>();
 
-                    if (enemyStat != null)
-                    {
-                        enemyStat.TakeDamage(currentDamageWeapon);
-                    }
+                if (enemyStat != null)
+                {
+                    enemyStat.TakeDamage(currentDamageWeapon);
                 }
             }
         }

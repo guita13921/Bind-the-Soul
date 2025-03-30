@@ -63,24 +63,41 @@ namespace SG
             righthandDamgeCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
         }
 
-        public void OpenDamageCollider()
+        public void OpenRightDamageCollider()
         {
-            if (playerManager.isUsingLefthand)
-            {
-                leftHandDamgeCollider.EnableDamageCollider();
-            }
-            else if (playerManager.isUsingRightHand)
-            {
-                righthandDamgeCollider.EnableDamageCollider();
-            }
+            righthandDamgeCollider.EnableDamageCollider();
+        }
+        public void OpenLeftDamageCollider()
+        {
+            leftHandDamgeCollider.EnableDamageCollider();
         }
 
-
-        public void CloseDamageCollider()
+        public void CloseRightHandDamgeCollider()
         {
-            leftHandDamgeCollider.DisableDamageCollider();
             righthandDamgeCollider.DisableDamageCollider();
         }
+        public void CloseLeftHandDamgeCollider()
+        {
+            leftHandDamgeCollider.DisableDamageCollider();
+        }
+        /* public void OpenDamageCollider()
+         {
+             if (playerManager.isUsingLefthand)
+             {
+                 leftHandDamgeCollider.EnableDamageCollider();
+             }
+             else if (playerManager.isUsingRightHand)
+             {
+                 righthandDamgeCollider.EnableDamageCollider();
+             }
+         }
+
+
+         public void CloseDamageCollider()
+         {
+             leftHandDamgeCollider.DisableDamageCollider();
+             righthandDamgeCollider.DisableDamageCollider();
+         }*/
 
         #endregion
     }
