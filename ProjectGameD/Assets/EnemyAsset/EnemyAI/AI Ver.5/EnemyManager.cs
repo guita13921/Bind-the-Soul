@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 namespace SG
 {
-    public class EnemyManager : MonoBehaviour
+    public class EnemyManager : CharacterManager
     {
         [SerializeField] EnemyLocomotionManager enemyLocomotionManager;
         [SerializeField] EnemyAnimatorManager enemyAnimationManager;
@@ -14,14 +14,13 @@ namespace SG
 
         [Header("State")]
         public State currentState;
-        public CharacterStat curretTarget;
+        public CharacterStats curretTarget;
         public NavMeshAgent navMeshAgent;
         public Rigidbody enemyRigidBody;
 
         [Header("Enemy Flags")]
         public bool isPerformingAction;
         public bool isInterActing;
-        public bool isBlocking;
 
         public bool hasShield;
         public float rotationSpeed = 15f;

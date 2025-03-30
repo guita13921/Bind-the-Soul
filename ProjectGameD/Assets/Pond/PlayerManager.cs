@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SG
 {
-    public class PlayerManager : MonoBehaviour
+    public class PlayerManager : CharacterManager
     {
         InputHander inputHander;
         Animator anim;

@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace SG
 {
-    public class EnemyStat : CharacterStat
+    public class EnemyStat : CharacterStats
     {
 
-        Animator animator;
+        EnemyAnimatorManager enemyAnimatorManager;
 
         private void Awake()
         {
-            animator = GetComponentInChildren<Animator>();
+            enemyAnimatorManager = GetComponentInChildren<EnemyAnimatorManager>();
         }
 
         void Start()
@@ -26,19 +26,14 @@ namespace SG
             return maxHealth;
         }
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(int damage, string damageAinmation = "Damage01")
         {
-            if (isDead) return;
-
             currentHealth -= damage;
-            animator.Play("Damage01");
 
             if (currentHealth <= 0)
             {
                 currentHealth = 0;
-                animator.Play("Dead01");
-                isDead = true;
-                //Handle Dead
+                enemyAnimatorManager.PlayTargetAnimation("Dead01", true);
             }
         }
 

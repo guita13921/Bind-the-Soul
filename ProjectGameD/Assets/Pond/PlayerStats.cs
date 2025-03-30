@@ -5,7 +5,7 @@ using UnityEngine.WSA;
 
 namespace SG
 {
-    public class PlayerStats : CharacterStat
+    public class PlayerStats : CharacterStats
     {
         public int healthlevel = 10;
         public HealthBar healthBar;
@@ -30,11 +30,11 @@ namespace SG
             return healthlevel * 10; // คืนค่า maxHealth
         }
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(int damage, string damageAinmation = "Damage_01")
         {
             currentHealth -= damage; // ลดค่าพลังชีวิต
             healthBar.SetCurrentHealth(currentHealth); // อัปเดต Health Bar
-            animatorHander.PlayTargetAnimation("Damage_01", true);
+            animatorHander.PlayTargetAnimation(damageAinmation, true);
 
             if (currentHealth <= 0)
             {
