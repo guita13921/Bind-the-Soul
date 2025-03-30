@@ -32,11 +32,11 @@ namespace SG
         {
             if (collider.tag == "Hittable")
             {
-                PlayerStat playerStat = collider.GetComponent<PlayerStat>();
+                PlayerStats playerStats = collider.GetComponent<PlayerStats>();
 
-                if (playerStat != null)
+                if (playerStats != null)
                 {
-                    playerStat.TakeDamage(currentDamageWeapon);
+                    playerStats.TakeDamage(currentDamageWeapon);
                 }
 
                 if (collider.tag == "Enemy")

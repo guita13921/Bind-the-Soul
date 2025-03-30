@@ -5,12 +5,9 @@ using UnityEngine.WSA;
 
 namespace SG
 {
-    public class PlayerStats : MonoBehaviour
+    public class PlayerStats : CharacterStat
     {
         public int healthlevel = 10;
-        public int maxHealth;
-        public int currentHealth;
-
         public HealthBar healthBar;
 
         AnimatorHander animatorHander;
