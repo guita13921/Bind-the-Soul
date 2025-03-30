@@ -17,10 +17,11 @@ namespace SG
         public NavMeshAgent navMeshAgent;
         public Rigidbody enemyRigidBody;
 
-        [Header("Actiob")]
+        [Header("Enemy Flags")]
         public bool isPerformingAction;
         public bool isInterActing;
-        public bool isPerformingShield;
+        public bool isBlocking;
+
         public bool hasShield;
         public float rotationSpeed = 15f;
         public float maximumAttackRange = 2f;
@@ -55,6 +56,8 @@ namespace SG
 
             isInterActing = enemyAnimationManager.animator.GetBool("isInteracting");
             enemyAnimationManager.animator.SetBool("isDead", enemyStat.isDead);
+            enemyAnimationManager.animator.SetBool("isBlocking", isBlocking);
+
         }
 
         private void LateUpdate()

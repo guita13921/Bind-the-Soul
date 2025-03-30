@@ -18,6 +18,7 @@ namespace SG
 
             if (enemyManager.isInterActing) return this;
 
+
             if (enemyManager.isPerformingAction || enemyManager.currentRecoveryTime > 0f)
             {
                 enemyAnimatorManager.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
