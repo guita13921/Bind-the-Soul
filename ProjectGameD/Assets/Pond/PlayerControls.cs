@@ -200,6 +200,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""AttackH"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ff706b9a-4a19-497a-9e71-cbb20bf22487"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AttackH"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
