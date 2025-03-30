@@ -6,43 +6,33 @@ namespace SG
 {
     public class EnemyStat : CharacterStat
     {
-
-        Animator animator;
-
-        private void Awake()
-        {
-            animator = GetComponentInChildren<Animator>();
-        }
-
         void Start()
         {
-            maxHealth = SetMaxHealthFromHealthLevel();
+            InitializeHealth();
+        }
+
+        void InitializeHealth()
+        {
+            maxHealth = healthLevel * 50; // Example: Each level adds 50 health
             currentHealth = maxHealth;
         }
 
-        private int SetMaxHealthFromHealthLevel()
+        public void TakeDamage(float damage)
         {
-            maxHealth = healthLevel * 10;
-            return maxHealth;
-        }
-
-        public void TakeDamage(int damage)
-        {
-            if (isDead) return;
-
             currentHealth -= damage;
-            animator.Play("Damage01");
+            currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
             if (currentHealth <= 0)
             {
-                currentHealth = 0;
-                animator.Play("Dead01");
-                isDead = true;
-                //Handle Dead
+                Die();
             }
         }
 
-
+        void Die()
+        {
+            Debug.Log("Enemy died!");
+            Destroy(gameObject); // Example behavior when the enemy dies
+        }
     }
 
 }

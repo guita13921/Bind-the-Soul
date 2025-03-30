@@ -14,8 +14,6 @@ namespace SG
 
         [Header("Player Flges")]
         public bool isSprinting;
-        public bool isUsingRightHand;
-        public bool isUsingLefthand;
 
         private void Awake()
         {
@@ -38,8 +36,6 @@ namespace SG
             inputHander.TickInput(delta);
             playerLocomotion.HandleMovement(delta);
             playerLocomotion.HandleRollingAndSprinting(delta);
-            isUsingLefthand = anim.GetBool("isUsingLefthand");
-            isUsingRightHand = anim.GetBool("isUsingRightHand");
 
         }
         private void FixedUpdate()

@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class BossHP : MonoBehaviour
 {
 
-    /*
+
     [SerializeField]
     private Image hpBarFill; // Drag the HPBar image here in the Inspector.
 
     [SerializeField]
-    //private EnemyHealth enemyHealth;
+    private EnemyHealth enemyHealth;
 
     private void Start() { }
 
@@ -20,16 +20,15 @@ public class BossHP : MonoBehaviour
     {
         UpdateHealthBar();
     }
-    
+
     private void UpdateHealthBar()
     {
         hpBarFill.fillAmount = Mathf.Lerp(
             hpBarFill.fillAmount,
-            //enemyHealth.currentHealth / enemyHealth.maxHealth,
+            enemyHealth.currentHealth / enemyHealth.maxHealth,
             Time.deltaTime * 5
         );
     }
-    */
 }
 
 

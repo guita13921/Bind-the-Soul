@@ -10,9 +10,8 @@ public class HealthBar : MonoBehaviour
     public float maxHealth;
     public float health;
     private float lerpSpeed = 5f;
-    //EnemyHealth PaHP;
+    EnemyHealth PaHP;
 
-    /*
     // Start is called before the first frame update
     void Start()
     {
@@ -45,5 +44,4 @@ public class HealthBar : MonoBehaviour
             );
         }
     }
-    */
 }

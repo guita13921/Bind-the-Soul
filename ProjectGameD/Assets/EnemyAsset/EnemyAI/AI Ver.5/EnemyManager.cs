@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace SG
 {
@@ -13,13 +12,8 @@ namespace SG
 
         public State currentState;
         public CharacterStat curretTarget;
-        public NavMeshAgent navMeshAgent;
-        public Rigidbody enemyRigidBody;
 
         public bool isPerformingAction;
-        public bool isInterActing;
-        public float rotationSpeed = 15f;
-        public float maximumAttackRange = 2f;
 
         [Header("A.I Setting")]
         public float detectionRadius = 20f;
@@ -34,21 +28,11 @@ namespace SG
             enemyLocomotionManager = GetComponent<EnemyLocomotionManager>();
             enemyAnimationManager = GetComponentInChildren<EnemyAnimatorManager>();
             enemyStat = GetComponent<EnemyStat>();
-            enemyRigidBody = GetComponent<Rigidbody>();
-            navMeshAgent = GetComponentInChildren<NavMeshAgent>();
-            navMeshAgent.enabled = false;
-        }
-
-        private void Start()
-        {
-            enemyRigidBody.isKinematic = false;
         }
 
         private void Update()
         {
             HandleRecoveryTimer();
-
-            isInterActing = enemyAnimationManager.animator.GetBool("isInteracting");
         }
 
         private void FixedUpdate()
@@ -90,6 +74,85 @@ namespace SG
                 }
             }
         }
+
+        #region  Attacks
+
+        private void AttackTarget()
+        {
+            /*
+            if (isPerformingAction)
+            {
+                return;
+            }
+
+            if (currentAttack == null)
+            {
+                GetNewAttack();
+            }
+            else
+            {
+                isPerformingAction = true;
+                currentRecoveryTime = currentAttack.recoveryTime;
+                enemyAnimationManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
+                currentAttack = null;
+            }
+            */
+        }
+
+        private void GetNewAttack()
+        {
+            /*
+            Vector3 targetDirection = enemyLocomotionManager.curretTarget.transform.position - transform.position;
+            float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
+            enemyLocomotionManager.distanceFromTarget = Vector3.Distance(enemyLocomotionManager.curretTarget.transform.position, transform.position);
+
+            int maxScore = 0;
+
+            for (int i = 0; i < enemyAttacks.Length; i++)
+            {
+                EnemyAttackAction enemyAttackAction = enemyAttacks[i];
+
+                if (enemyLocomotionManager.distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack
+                        && enemyLocomotionManager.distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack)
+                {
+                    if (viewableAngle <= enemyAttackAction.maximumAttackAngle
+                    && viewableAngle >= enemyAttackAction.minimumAttackAngle)
+                    {
+                        maxScore += enemyAttackAction.attackScore;
+                    }
+                }
+            }
+
+            int rendomValue = Random.Range(0, maxScore);
+            int temporaryScore = 0;
+
+            for (int i = 0; i < enemyAttacks.Length; i++)
+            {
+                EnemyAttackAction enemyAttackAction = enemyAttacks[i];
+
+                if (enemyLocomotionManager.distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack
+                        && enemyLocomotionManager.distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack)
+                {
+                    if (viewableAngle <= enemyAttackAction.maximumAttackAngle
+                    && viewableAngle >= enemyAttackAction.minimumAttackAngle)
+                    {
+                        if (currentAttack != null) return;
+
+                        temporaryScore += enemyAttackAction.attackScore;
+
+                        if (temporaryScore > rendomValue)
+                        {
+                            currentAttack = enemyAttackAction;
+                        }
+                    }
+                }
+
+            }
+            */
+
+        }
+
+        #endregion
 
         private void OnDrawGizmosSelected()
         {

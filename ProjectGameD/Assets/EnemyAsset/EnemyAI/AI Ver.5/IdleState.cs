@@ -9,7 +9,7 @@ namespace SG
         [SerializeField] public LayerMask detectionLayer;
         public PursueTargetState pursueTargetState;
 
-        public override State Tick(EnemyManager enemyManager, EnemyStat enemyStat, EnemyAnimatorManager enemyAnimatorManager)
+        public override State Tick(EnemyManager enemyManager, EnemyStat enemyStat, EnemyAnimatorManager enemyAnimator)
         {
             #region Handle Enemy Target Detection
             //Look for a potential target
@@ -32,7 +32,6 @@ namespace SG
                     }
                 }
             }
-
             #endregion
 
             #region Handle Switch State To Next State

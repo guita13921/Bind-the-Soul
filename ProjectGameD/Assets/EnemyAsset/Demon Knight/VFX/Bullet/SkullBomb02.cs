@@ -3,23 +3,22 @@ using UnityEngine;
 
 public class SkullBomb02 : MonoBehaviour
 {
-    /*
     public float rotationSpeed = 100f; // Speed of rotation
     public int countdownTime = 5; // Time before explosion
     public GameObject explosionEffect; // Assign a particle system for explosion
-
+    
     private float timer;
     private bool isCountingDown = false;
 
 
-    [SerializeField] Canvas bar;
-    //[SerializeField]protected EnemyHealth health;
-    [SerializeField] CharacterData characterData;
+    [SerializeField]Canvas bar;
+    [SerializeField]protected EnemyHealth health;
+    [SerializeField]CharacterData characterData;
 
 
     void Start()
     {
-        //health = GetComponent<EnemyHealth>();
+        health = GetComponent<EnemyHealth>();
         timer = countdownTime;
         isCountingDown = true;
     }
@@ -33,7 +32,7 @@ public class SkullBomb02 : MonoBehaviour
             Countdown();
         }
     }
-
+    
     public void CheckHealth()
     {
         if (health.GetCurrentHealth() <= 0)
@@ -41,7 +40,7 @@ public class SkullBomb02 : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    
 
     void RotateSkull()
     {
@@ -67,8 +66,8 @@ public class SkullBomb02 : MonoBehaviour
         Destroy(gameObject);
     }
 
-
-    public void OnTriggerEnter(Collider other)
+    
+     public void OnTriggerEnter(Collider other)
     {
         if (other.isTrigger && other.gameObject.CompareTag("PlayerSword"))
         {
@@ -77,7 +76,7 @@ public class SkullBomb02 : MonoBehaviour
 
         }
     }
-
+    
     public void Backward(Vector3 position)
     {
         StartCoroutine(MoveBackwards(gameObject, position, 1.0f)); // Move in 1 second
@@ -97,8 +96,7 @@ public class SkullBomb02 : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-
+        
         obj.transform.position = targetPos;
     }
-    */
 }

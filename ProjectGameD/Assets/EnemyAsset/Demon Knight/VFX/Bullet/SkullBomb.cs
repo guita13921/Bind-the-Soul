@@ -42,7 +42,7 @@ public class SkullBomb : MonoBehaviour
             rb.useGravity = false;
             rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
         }
-
+        
         FlashEffect();
         newRandom();
         spawnPosition = transform.position;
@@ -122,19 +122,14 @@ public class SkullBomb : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
-        {
+        if (other.tag == "Player"){
             HitTarget();
-        }
-        else if (other.isTrigger && other.gameObject.CompareTag("PlayerSword"))
-        {
+        }else if (other.isTrigger && other.gameObject.CompareTag("PlayerSword")){
             PlayerWeapon playerWeapon = other.gameObject.GetComponent<PlayerWeapon>();
             //if (playerWeapon != null) health.CalculateDamage(playerWeapon.damage);
-        }
-        else if (other.tag == "Wall")
-        {
-            //if (!alredyHit)
-            //HitWall();
+        }else if (other.tag == "Wall"){
+            if(!alredyHit)
+                HitWall();
         }
     }
 
@@ -191,7 +186,7 @@ public class SkullBomb : MonoBehaviour
         Destroy(gameObject);
     }
 
-    /*
+
     void HitWall()
     {
         //Debug.Log("HitWall");
@@ -208,7 +203,6 @@ public class SkullBomb : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    */
 
 
 }
