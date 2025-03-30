@@ -18,12 +18,14 @@ public class InputHander : MonoBehaviour
 
     public bool rollFlag;
     public bool sprintFlag;
+    public bool comboflang;
     public float rollInputTimer;
 
 
     PlayerControls inputAction;
     PlayerAttack playerAttack;
     PlayerInventory playerInventory;
+    PlayerManager playerManager;
 
 
     Vector3 movementInput;
@@ -33,6 +35,7 @@ public class InputHander : MonoBehaviour
     {
         playerAttack = GetComponent<PlayerAttack>();
         playerInventory = GetComponent<PlayerInventory>();
+        playerManager = GetComponent<PlayerManager>();
     }
 
     public void OnEnable()
@@ -124,7 +127,21 @@ public class InputHander : MonoBehaviour
 
         if (Al_Input)
         {
-            playerAttack.HandleLightAttack(playerInventory.rightWeapon);
+            if (playerManager.CanDoCombo)
+            {
+                comboflang = true;
+                playerAttack.HandleWeaponCombo(playerInventory.rightWeapon);
+                comboflang = false;
+            }
+            else
+            {
+                if (playerManager.isInteracting)
+                    return;
+                if (playerManager.CanDoCombo)
+                    return;
+                playerAttack.HandleLightAttack(playerInventory.rightWeapon);
+            }
+
         }
         if (Ah_Input)
         {
