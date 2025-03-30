@@ -7,12 +7,22 @@ namespace SG
 {
     public class WeaponSlotManager : MonoBehaviour
     {
+
+        PlayerManager playerManager;
+        public WeaponItem attackingWeapon;
+
         WeaponHolderSlot leftHandSlot;
         WeaponHolderSlot rightHandSlot;
+        WeaponHolderSlot backSlot;
+
+        DamageCollider leftHandDamgeCollider;
+        DamageCollider righthandDamgeCollider;
 
         private void Awake()
         {
+            playerManager = GetComponentInParent<PlayerManager>();
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
+
             foreach (WeaponHolderSlot weponslot in weaponHolderSlots)
             {
                 if (weponslot.isLeftHandSlot)
@@ -26,17 +36,53 @@ namespace SG
 
             }
         }
+
         public void LoadWeaponOnSlot(WeaponItem weaponItem, bool isLeft)
         {
             if (isLeft)
             {
                 leftHandSlot.LoadWeaponModel(weaponItem);
+                LoadLeftWeaponDamageCollider();
             }
             else
             {
                 rightHandSlot.LoadWeaponModel(weaponItem);
+                LoadRightWeaponDamageCollider();
             }
         }
+
+        #region Handle Weapon's Damage Colldier
+
+        private void LoadLeftWeaponDamageCollider()
+        {
+            leftHandDamgeCollider = leftHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+        }
+
+        private void LoadRightWeaponDamageCollider()
+        {
+            righthandDamgeCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+        }
+
+        public void OpenDamageCollider()
+        {
+            if (playerManager.isUsingLefthand)
+            {
+                leftHandDamgeCollider.EnableDamageCollider();
+            }
+            else if (playerManager.isUsingRightHand)
+            {
+                righthandDamgeCollider.EnableDamageCollider();
+            }
+        }
+
+
+        public void CloseDamageCollider()
+        {
+            leftHandDamgeCollider.DisableDamageCollider();
+            righthandDamgeCollider.DisableDamageCollider();
+        }
+
+        #endregion
     }
 }
 
