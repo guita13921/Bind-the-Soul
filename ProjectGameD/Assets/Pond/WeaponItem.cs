@@ -11,8 +11,14 @@ namespace SG
         public bool isUnarmed;
         public bool isShield;
 
+<<<<<<< HEAD
         [Header("Absorption")]
         public float physicalDamageAbsorption;
+=======
+        [Header("One Handed Attack Animations")]
+        public string OH_Light_Attack_1;
+        public string OH_Heavy_Attack_1;
+>>>>>>> CharacterDevelopment
 
     }
 }
