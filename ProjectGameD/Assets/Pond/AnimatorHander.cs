@@ -14,6 +14,7 @@ namespace SG
         int vertical;
         int horizontal;
         public bool canRotate;
+
         public void Initialize()
         {
             playerManager = GetComponentInParent<PlayerManager>();
@@ -27,6 +28,7 @@ namespace SG
         public void UpdateAnimatorValues(float verticalMovement, float horizontalMovement, bool isSprinting)
         {
             #region Vertical
+
             float v = 0;
             if (verticalMovement > 0 && verticalMovement < 0.55f)
             {
@@ -90,6 +92,7 @@ namespace SG
             anim.SetBool("isInteracting", isInteracting);
             anim.CrossFade(targetAnim, 0.2f);
         }
+
         public void CanRotate()
         {
             canRotate = true;
@@ -99,6 +102,7 @@ namespace SG
         {
             canRotate = false;
         }
+
         private void OnAnimatorMove()
         {
             if (playerManager.isInteracting == false)
@@ -110,5 +114,6 @@ namespace SG
             Vector3 velocity = deltaPosition / delta;
             playerLocomotion.rigidbody.velocity = velocity;
         }
+
     }
 }

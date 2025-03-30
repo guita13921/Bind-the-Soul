@@ -40,7 +40,7 @@ namespace SG
                 return;
             }
 
-            GameObject model = Instantiate(weaponItem.modelPrefab) as GameObject;
+            GameObject model = Instantiate(weaponItem.modelPrefab);
             if (model != null)
             {
                 if (parentOverride != null)
@@ -53,8 +53,14 @@ namespace SG
                 }
 
                 model.transform.localPosition = Vector3.zero;
-                model.transform.localRotation = quaternion.identity;
+                model.transform.localRotation = Quaternion.identity;
                 model.transform.localScale = Vector3.one;
+
+                // Fix the left-hand weapon orientation
+                if (isLeftHandSlot)
+                {
+                    model.transform.localRotation = Quaternion.Euler(180, 0, 0);
+                }
             }
 
             currentWeaponModel = model;
