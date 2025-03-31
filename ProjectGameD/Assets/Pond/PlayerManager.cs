@@ -16,6 +16,7 @@ namespace SG
         public bool isSprinting;
         public bool isUsingRightHand;
         public bool isUsingLefthand;
+        public bool CanDoCombo;
 
         private void Awake()
         {
@@ -34,6 +35,7 @@ namespace SG
         {
             float delta = Time.deltaTime;
             isInteracting = anim.GetBool("isInteracting");
+            CanDoCombo = anim.GetBool("CanDoCombo");
 
             inputHander.TickInput(delta);
             playerLocomotion.HandleMovement(delta);

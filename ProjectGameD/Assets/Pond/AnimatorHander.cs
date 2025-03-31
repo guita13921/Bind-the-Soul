@@ -60,6 +60,14 @@ namespace SG
 
         public void CanRotate() => canRotate = true;
         public void StopRotation() => canRotate = false;
+        public void EnableCombo()
+        {
+            anim.SetBool("CanDoCombo", true);
+        }
+        public void DisableCombo()
+        {
+            anim.SetBool("CanDoCombo", false);
+        }
 
         private void OnAnimatorMove()
         {
