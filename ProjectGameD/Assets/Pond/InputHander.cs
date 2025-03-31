@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using SG;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,6 +16,10 @@ public class InputHander : MonoBehaviour
     public bool b_Input;
     public bool Al_Input;
     public bool Ah_Input;
+    public bool k_Up;
+    public bool k_Down;
+    public bool k_Left;
+    public bool k_Right;
 
     public bool rollFlag;
     public bool sprintFlag;
@@ -58,6 +63,7 @@ public class InputHander : MonoBehaviour
         HandleRollinput(delta);
         HandleSprintinput();
         HandleAttackInput(delta);
+        HandleQuickSlotsInput();
     }
     private void MoveInput(float delta)
     {
@@ -146,6 +152,19 @@ public class InputHander : MonoBehaviour
         if (Ah_Input)
         {
             playerAttack.HandleHeavyAttack(playerInventory.rightWeapon);
+        }
+    }
+    private void HandleQuickSlotsInput()
+    {
+        inputAction.PlayerQuickSlots.Right.performed += i => k_Right = true;
+        inputAction.PlayerQuickSlots.Left.performed += i => k_Left = true;
+        if (k_Right)
+        {
+            playerInventory.ChangeRightWeapon();
+        }
+        else if (k_Left)
+        {
+            playerInventory.ChangeLeftWeapon();
         }
     }
 

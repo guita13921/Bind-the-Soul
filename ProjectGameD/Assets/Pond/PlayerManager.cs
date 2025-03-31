@@ -60,6 +60,10 @@ namespace SG
             isSprinting = inputHander.b_Input;
             inputHander.Al_Input = false;
             inputHander.Ah_Input = false;
+            inputHander.k_Up = false;
+            inputHander.k_Down = false;
+            inputHander.k_Right = false;
+            inputHander.k_Left = false;
             //Debug.Log(inputHander.b_Input);
         }
 
