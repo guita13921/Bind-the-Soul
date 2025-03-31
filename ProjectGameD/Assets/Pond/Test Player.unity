@@ -148,6 +148,7 @@ MonoBehaviour:
   parentOverride: {fileID: 350083897}
   isLeftHandSlot: 1
   isRightHandSlot: 0
+  isShield: 0
   currentWeaponModel: {fileID: 0}
 --- !u!1001 &109499557
 PrefabInstance:
@@ -523,6 +524,7 @@ MonoBehaviour:
   Ah_Input: 0
   rollFlag: 0
   sprintFlag: 1
+  comboflang: 0
   rollInputTimer: 0
 --- !u!114 &439884933
 MonoBehaviour:
@@ -536,6 +538,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f53c2ad71177e147bc58baf5858f4fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lockOnTransform: {fileID: 0}
+  CanDoCombo: 0
+  canBeRiposted: 0
+  canBeParried: 0
+  isParrying: 0
+  isBlocking: 0
+  pendingCriticalDamage: 0
   isInteracting: 0
   isSprinting: 0
   isUsingRightHand: 0
@@ -566,6 +575,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 503e546ea693c4542b1c90d4352e5ebe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastAttack: 
+  lastAttack2: 
 --- !u!114 &439884936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -700,7 +711,7 @@ GameObject:
   - component: {fileID: 756678193}
   - component: {fileID: 756678192}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Player UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -814,6 +825,7 @@ MonoBehaviour:
   parentOverride: {fileID: 1860621002}
   isLeftHandSlot: 0
   isRightHandSlot: 1
+  isShield: 0
   currentWeaponModel: {fileID: 0}
 --- !u!1001 &954811985
 PrefabInstance:

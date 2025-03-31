@@ -8,6 +8,8 @@ namespace SG
     {
 
         EnemyAnimatorManager enemyAnimatorManager;
+        public UIEnemyHealthBar enemyHealthBar;
+        public int coinAwardOnDeath = 10;
 
         private void Awake()
         {
@@ -18,6 +20,7 @@ namespace SG
         {
             maxHealth = SetMaxHealthFromHealthLevel();
             currentHealth = maxHealth;
+            enemyHealthBar.SetMaxHealth(maxHealth);
         }
 
         private int SetMaxHealthFromHealthLevel()
@@ -26,14 +29,27 @@ namespace SG
             return maxHealth;
         }
 
-        public void TakeDamage(int damage, string damageAinmation = "Damage01")
+        public void TakeDamageNoAnimation(int damage)
         {
             currentHealth -= damage;
+            enemyHealthBar.SetHealth(currentHealth);
 
             if (currentHealth <= 0)
             {
                 currentHealth = 0;
-                enemyAnimatorManager.PlayTargetAnimation("Dead01", true);
+                isDead = true;
+            }
+        }
+
+        public void TakeDamage(int damage, string damageAinmation = "Damage01")
+        {
+            currentHealth -= damage;
+            enemyHealthBar.SetHealth(currentHealth);
+            //Debug.Log(currentHealth);
+
+            if (currentHealth >= 0)
+            {
+                enemyAnimatorManager.PlayTargetAnimation(damageAinmation, true);
             }
         }
 

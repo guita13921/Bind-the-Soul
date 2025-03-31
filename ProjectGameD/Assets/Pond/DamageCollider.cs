@@ -70,6 +70,7 @@ namespace SG
 
             if (collider.tag == "Enemy")
             {
+                //Debug.Log("Enemy");
                 EnemyStat enemyStat = collider.GetComponent<EnemyStat>();
                 EnemyManager enemyCharacterManager = collider.GetComponent<EnemyManager>();
                 BlockingCollider shield = collider.transform.GetComponentInChildren<BlockingCollider>();
@@ -80,6 +81,7 @@ namespace SG
                     //Shielded Damage
                     if (shield != null && enemyCharacterManager.isBlocking)
                     {
+                        Debug.Log("Shielded");
                         float physicalDamageAfterBlock =
                             currentDamageWeapon - (currentDamageWeapon * shield.blockingColliderDamageAbsorption) / 100;
 

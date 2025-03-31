@@ -16,7 +16,6 @@ namespace SG
         public bool isSprinting;
         public bool isUsingRightHand;
         public bool isUsingLefthand;
-        public bool CanDoCombo;
 
         private void Awake()
         {

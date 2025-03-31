@@ -31,8 +31,11 @@ namespace SG
         //The Higher, and lower
         public float minimumDetectionAngle;
         public float maximumDetectionAngle;
-
         public float currentRecoveryTime = 0;
+
+        [Header("A.I Combat Setting")]
+        public bool allowAiToPerformCombo;
+        public float comboLikelyHood;
 
         private void Awake()
         {

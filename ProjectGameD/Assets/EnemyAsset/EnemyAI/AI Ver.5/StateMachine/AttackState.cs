@@ -8,9 +8,10 @@ namespace SG
     {
 
         public CombatStanceState combatStanceState;
-
         public EnemyAttackAction[] enemyAttacks;
         public EnemyAttackAction currentAttack;
+
+        bool willDoComboOnNextAttack = false;
 
         public override State Tick(EnemyManager enemyManager, EnemyStat enemyStat, EnemyAnimatorManager enemyAnimator)
         {
@@ -20,7 +21,18 @@ namespace SG
             //set our recovery timer to the attacks recovery time
             // return the combat stance state
 
-            if (enemyManager.isInterActing) return this;
+            if (enemyManager.isInterActing && enemyManager.CanDoCombo == false)
+            {
+                return this;
+            }
+            else if (enemyManager.isInterActing && enemyManager.CanDoCombo)
+            {
+                if (willDoComboOnNextAttack)
+                {
+                    willDoComboOnNextAttack = false;
+                    enemyAnimator.PlayTargetAnimation(currentAttack.actionAnimation, true);
+                }
+            }
 
             Vector3 targetDirection = enemyManager.curretTarget.transform.position - transform.position;
             float distanceFromTarget = Vector3.Distance(enemyManager.curretTarget.transform.position, enemyManager.transform.position);
@@ -50,8 +62,9 @@ namespace SG
                             enemyAnimator.animator.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
                             enemyAnimator.PlayTargetAnimation(currentAttack.actionAnimation, true);
                             enemyManager.isPerformingAction = true;
+                            RollForComboChance(enemyManager);
 
-                            if (currentAttack.cancombo)
+                            if (currentAttack.cancombo && willDoComboOnNextAttack)
                             {
                                 currentAttack = currentAttack.comboAction;
                                 return this;
@@ -150,6 +163,16 @@ namespace SG
                 enemyManager.navMeshAgent.SetDestination(enemyManager.curretTarget.transform.position);
                 enemyManager.enemyRigidBody.velocity = targetVelocity;
                 enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, enemyManager.navMeshAgent.transform.rotation, enemyManager.rotationSpeed / Time.deltaTime);
+            }
+        }
+
+        private void RollForComboChance(EnemyManager enemyManagers)
+        {
+            float comboChance = Random.Range(0, 100);
+
+            if (enemyManagers.allowAiToPerformCombo && comboChance <= enemyManagers.comboLikelyHood)
+            {
+                willDoComboOnNextAttack = true;
             }
         }
     }
