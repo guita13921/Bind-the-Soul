@@ -7,7 +7,7 @@ namespace SG
     public class RotateTowardTargetState : State
     {
 
-        CombatStanceState combatStanceState;
+        public CombatStanceState combatStanceState;
 
         public override State Tick(EnemyManager enemyManager, EnemyStat enemyStat, EnemyAnimatorManager enemyAnimatorManager)
         {
@@ -17,32 +17,33 @@ namespace SG
             Vector3 targetDirection = enemyManager.curretTarget.transform.position - enemyManager.transform.position;
             float viewableAngle = Vector3.SignedAngle(targetDirection, enemyManager.transform.forward, Vector3.up) + (-45);
 
-
+            if (enemyManager.isInterActing)
+            {
+                return this;
+            }
 
             if (viewableAngle >= 100 && viewableAngle <= 180 && !enemyManager.isInterActing)
             {
                 enemyAnimatorManager.PlayTargetAnimationWithRootRotation("Turn Behide", true);
-                return this;
+                return combatStanceState;
             }
             else if (viewableAngle <= -101 && viewableAngle >= -180 && !enemyManager.isInterActing)
             {
                 enemyAnimatorManager.PlayTargetAnimationWithRootRotation("Turn Behide", true);
-                return this;
+                return combatStanceState;
             }
             else if (viewableAngle <= -45 && viewableAngle <= -100 && !enemyManager.isInterActing)
             {
                 enemyAnimatorManager.PlayTargetAnimationWithRootRotation("Turn Right", true);
-                return this;
+                return combatStanceState;
             }
             else if (viewableAngle >= 45 && viewableAngle <= 100 && !enemyManager.isInterActing)
             {
                 enemyAnimatorManager.PlayTargetAnimationWithRootRotation("Turn Left", true);
-                return this;
+                return combatStanceState;
             }
 
-
-
-            return this;
+            return combatStanceState;
         }
     }
 }

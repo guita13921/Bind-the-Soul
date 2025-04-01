@@ -11,10 +11,16 @@ namespace SG
         //If target is out of range, return this state and continue to chase target\
 
         public CombatStanceState combatStanceState;
+        public RotateTowardTargetState rotateTowardTargetState;
 
 
         public override State Tick(EnemyManager enemyManager, EnemyStat enemyStat, EnemyAnimatorManager enemyAnimatorManager)
         {
+            Vector3 targetDirection = enemyManager.curretTarget.transform.position - enemyManager.transform.position;
+            float distanceFromTarget = Vector3.Distance(enemyManager.curretTarget.transform.position, enemyManager.transform.position);
+            float viewableAngle = Vector3.SignedAngle(targetDirection, enemyManager.transform.forward, Vector3.up);
+
+            HandleRotationToTarget(enemyManager);
 
             if (enemyManager.isInterActing) return this;
 
@@ -30,16 +36,11 @@ namespace SG
                 return this;
             }
 
-            Vector3 targetDirection = enemyManager.curretTarget.transform.position - enemyManager.transform.position;
-            float distanceFromTarget = Vector3.Distance(enemyManager.curretTarget.transform.position, enemyManager.transform.position);
-            float viewableAngle = Vector3.Angle(targetDirection, enemyManager.transform.forward);
-
             if (distanceFromTarget > enemyManager.maximumAttackRange)
             {
                 enemyAnimatorManager.animator.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
             }
 
-            HandleRotationToTarget(enemyManager);
 
             if (distanceFromTarget <= enemyManager.maximumAttackRange)
             {

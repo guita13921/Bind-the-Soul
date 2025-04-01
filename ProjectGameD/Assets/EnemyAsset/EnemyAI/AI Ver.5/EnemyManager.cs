@@ -61,6 +61,8 @@ namespace SG
 
             isRotatingWithRootMotion = enemyAnimationManager.animator.GetBool("isRotatingWithRootMotion");
             isInterActing = enemyAnimationManager.animator.GetBool("isInteracting");
+            CanDoCombo = enemyAnimationManager.animator.GetBool("canDoCombo");
+            canRotate = enemyAnimationManager.animator.GetBool("canRotate");
             enemyAnimationManager.animator.SetBool("isDead", enemyStat.isDead);
             enemyAnimationManager.animator.SetBool("isBlocking", isBlocking);
 

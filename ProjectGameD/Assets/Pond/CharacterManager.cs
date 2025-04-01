@@ -19,6 +19,7 @@ namespace SG
 
         [Header("Movement Flags")]
         public bool isRotatingWithRootMotion;
+        public bool canRotate;
 
 
         //Damage will be inflicted during an animation event
