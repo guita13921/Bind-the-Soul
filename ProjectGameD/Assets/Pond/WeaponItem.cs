@@ -11,7 +11,6 @@ namespace SG
                 public bool isUnarmed;
                 public bool isShield;
 
-
                 [Header("One Handed Attack Animations")]
                 public string OH_Light_Attack_1;
                 public string OH_Light_Attack_2;
@@ -21,7 +20,6 @@ namespace SG
 
                 [Header("Absorption")]
                 public float physicalDamageAbsorption;
-
 
         }
 }

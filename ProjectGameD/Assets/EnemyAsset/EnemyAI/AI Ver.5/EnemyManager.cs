@@ -59,6 +59,7 @@ namespace SG
             HandleRecoveryTimer();
             HandleStateMachine();
 
+            isRotatingWithRootMotion = enemyAnimationManager.animator.GetBool("isRotatingWithRootMotion");
             isInterActing = enemyAnimationManager.animator.GetBool("isInteracting");
             enemyAnimationManager.animator.SetBool("isDead", enemyStat.isDead);
             enemyAnimationManager.animator.SetBool("isBlocking", isBlocking);
