@@ -22,6 +22,14 @@ namespace SG
         public string OH_Light_Attack_4;
         public string OH_Heavy_Attack_1;
 
+        [Header("stamina Costs")]
+        public int baseStamina;
+        public float lightAttackMultiplier;
+        public float heavyAttackMultiplier;
+
+        [Header("Absorption")]
+        public float physicalDamageAbsorption;
+
     }
 }
 
