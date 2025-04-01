@@ -29,6 +29,11 @@ namespace SG
                 enemyAnimatorManager.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
             }
 
+            if (enemyManager.hasShield && enemyManager.isBlocking == true)
+            {
+                enemyAnimatorManager.PlayTargetAnimation("EndBlock01", false);
+                enemyManager.isBlocking = false;
+            }
 
             if (enemyManager.currentRecoveryTime <= 0 && distanceFromTarget <= enemyManager.maximumAttackRange)
             {

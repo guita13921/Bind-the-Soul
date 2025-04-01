@@ -23,6 +23,7 @@ namespace SG
         {
             weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
         }
+
         private void Start()
         {
             rightWeapon = unarmedWeapon;

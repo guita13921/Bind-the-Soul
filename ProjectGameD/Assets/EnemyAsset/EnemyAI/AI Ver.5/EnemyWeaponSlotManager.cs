@@ -19,6 +19,7 @@ namespace SG
         private void Awake()
         {
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
+
             foreach (WeaponHolderSlot weponslot in weaponHolderSlots)
             {
                 if (weponslot.isLeftHandSlot)
@@ -38,6 +39,17 @@ namespace SG
             LoadWeaponOnBothHand();
         }
 
+        public void CheckShieldWeapon(WeaponItem weapon, bool isLeft)
+        {
+            if (isLeft)
+            {
+                leftHandSlot.isShield = weapon.isShield;
+            }
+            else
+            {
+                rightHandSlot.isShield = weapon.isShield;
+            }
+        }
 
         public void LoadWeaponOnSlot(WeaponItem weapon, bool isLeft)
         {
@@ -58,11 +70,14 @@ namespace SG
             if (rightHandWeapon != null)
             {
                 LoadWeaponOnSlot(rightHandWeapon, false);
+                CheckShieldWeapon(rightHandWeapon, false);
             }
 
             if (leftHandWeapon != null)
             {
                 LoadWeaponOnSlot(leftHandWeapon, true);
+                CheckShieldWeapon(leftHandWeapon, true);
+
             }
         }
 
@@ -89,6 +104,10 @@ namespace SG
             rightHandDamageCollider.DisableDamageCollider();
         }
 
+        public bool LoadShield()
+        {
+            return leftHandSlot.isShield || rightHandSlot.isShield;
+        }
     }
 
 }

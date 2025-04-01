@@ -5,22 +5,22 @@ using UnityEngine.AI;
 
 namespace SG
 {
-    public class EnemyManager : MonoBehaviour
+    public class EnemyManager : CharacterManager
     {
         [SerializeField] EnemyLocomotionManager enemyLocomotionManager;
         [SerializeField] EnemyAnimatorManager enemyAnimationManager;
+        [SerializeField] EnemyWeaponSlotManager enemyWeaponSlotManager;
         EnemyStat enemyStat;
 
         [Header("State")]
         public State currentState;
-        public CharacterStat curretTarget;
+        public CharacterStats curretTarget;
         public NavMeshAgent navMeshAgent;
         public Rigidbody enemyRigidBody;
 
         [Header("Enemy Flags")]
         public bool isPerformingAction;
         public bool isInterActing;
-        public bool isBlocking;
 
         public bool hasShield;
         public float rotationSpeed = 15f;
@@ -31,8 +31,11 @@ namespace SG
         //The Higher, and lower
         public float minimumDetectionAngle;
         public float maximumDetectionAngle;
-
         public float currentRecoveryTime = 0;
+
+        [Header("A.I Combat Setting")]
+        public bool allowAiToPerformCombo;
+        public float comboLikelyHood;
 
         private void Awake()
         {
@@ -41,11 +44,13 @@ namespace SG
             enemyStat = GetComponent<EnemyStat>();
             enemyRigidBody = GetComponent<Rigidbody>();
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
+            enemyWeaponSlotManager = GetComponentInChildren<EnemyWeaponSlotManager>();
             navMeshAgent.enabled = false;
         }
 
         private void Start()
         {
+            hasShield = enemyWeaponSlotManager.LoadShield();
             enemyRigidBody.isKinematic = false;
         }
 

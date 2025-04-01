@@ -11,6 +11,7 @@ namespace SG
         public Transform parentOverride;
         public bool isLeftHandSlot;
         public bool isRightHandSlot;
+        public bool isShield;
 
         public GameObject currentWeaponModel;
 

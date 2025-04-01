@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SG
 {
-    public class PlayerManager : MonoBehaviour
+    public class PlayerManager : CharacterManager
     {
         InputHander inputHander;
         Animator anim;
@@ -16,7 +16,6 @@ namespace SG
         public bool isSprinting;
         public bool isUsingRightHand;
         public bool isUsingLefthand;
-        public bool CanDoCombo;
 
         private void Awake()
         {
