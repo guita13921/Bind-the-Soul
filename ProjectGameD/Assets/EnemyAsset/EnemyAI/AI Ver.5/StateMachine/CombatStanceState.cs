@@ -8,7 +8,12 @@ namespace SG
     {
 
         public AttackState attackState;
+        public EnemyAttackAction[] enemyAttacks;
         public PursueTargetState pursueTargetState;
+
+        bool randomDestinationSet = false;
+        float vertcalMovementValue = 0;
+        float HorizontalMovementValue = 0;
 
         public override State Tick(EnemyManager enemyManager, EnemyStat enemyStat, EnemyAnimatorManager enemyAnimatorManager)
         {
@@ -17,16 +22,34 @@ namespace SG
             //if in attack range return Attack State
             //if we are in a cool down after attack, return this state and continue circling player
             //if the player runs out of range return the pursuetarget state
-
-            if (enemyManager.isInterActing) return this;
-
             float distanceFromTarget = Vector3.Distance(enemyManager.curretTarget.transform.position, enemyManager.transform.position);
+            enemyAnimatorManager.animator.SetFloat("Vertical", vertcalMovementValue, 0.2f, Time.deltaTime);
+            enemyAnimatorManager.animator.SetFloat("Horizontal", HorizontalMovementValue, 0.2f, Time.deltaTime);
+            attackState.hasPerformAttack = false;
 
-            HandleRotationToTarget(enemyManager);
-
-            if (enemyManager.isPerformingAction)
+            if (enemyManager.isInterActing)
             {
-                enemyAnimatorManager.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
+                enemyAnimatorManager.animator.SetFloat("Vertical", 0);
+                enemyAnimatorManager.animator.SetFloat("Horizontal", 0);
+                return this;
+            }
+
+
+            if (enemyManager.isInterActing)
+            {
+                return this;
+            }
+
+            if (distanceFromTarget > enemyManager.maximumAttackRange)
+            {
+                return pursueTargetState;
+            }
+
+            if (!randomDestinationSet)
+            {
+                randomDestinationSet = true;
+                DecideCirclingAction(enemyAnimatorManager);
+                //DECIDE CIRCLE ACTION
             }
 
             if (enemyManager.hasShield && enemyManager.isBlocking == true)
@@ -35,18 +58,19 @@ namespace SG
                 enemyManager.isBlocking = false;
             }
 
-            if (enemyManager.currentRecoveryTime <= 0 && distanceFromTarget <= enemyManager.maximumAttackRange)
+            HandleRotationToTarget(enemyManager);
+
+            if (enemyManager.currentRecoveryTime <= 0 && attackState.currentAttack != null)
             {
+                randomDestinationSet = false;
                 return attackState;
-            }
-            else if (distanceFromTarget > enemyManager.maximumAttackRange)
-            {
-                return pursueTargetState;
             }
             else
             {
-                return this;
+                GetNewAttack(enemyManager);
             }
+
+            return this;
         }
 
         private void HandleRotationToTarget(EnemyManager enemyManager)
@@ -76,6 +100,79 @@ namespace SG
                 enemyManager.navMeshAgent.SetDestination(enemyManager.curretTarget.transform.position);
                 enemyManager.enemyRigidBody.velocity = targetVelocity;
                 enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, enemyManager.navMeshAgent.transform.rotation, enemyManager.rotationSpeed / Time.deltaTime);
+            }
+        }
+
+        private void DecideCirclingAction(EnemyAnimatorManager enemyAnimatorManager)
+        {
+            //Circle with only forward vertical movement
+            //Circle with running
+            WalkAroundTarget(enemyAnimatorManager);
+        }
+
+        private void WalkAroundTarget(EnemyAnimatorManager enemyAnimatorManager)
+        {
+            vertcalMovementValue = 0.5f;
+            HorizontalMovementValue = vertcalMovementValue = Random.Range(-1, 1);
+
+            if (vertcalMovementValue <= 1 && vertcalMovementValue >= 0)
+            {
+                vertcalMovementValue = 0.5f;
+            }
+            else if (vertcalMovementValue >= -1 && vertcalMovementValue < 0)
+            {
+                vertcalMovementValue = -0.5f;
+            }
+        }
+
+        private void GetNewAttack(EnemyManager enemyManager)
+        {
+
+            Vector3 targetDirection = enemyManager.curretTarget.transform.position - transform.position;
+            float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
+            float distanceFromTarget = Vector3.Distance(enemyManager.curretTarget.transform.position, transform.position);
+
+            int maxScore = 0;
+
+            for (int i = 0; i < enemyAttacks.Length; i++)
+            {
+                EnemyAttackAction enemyAttackAction = enemyAttacks[i];
+
+                if (distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack
+                        && distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack)
+                {
+                    if (viewableAngle <= enemyAttackAction.maximumAttackAngle
+                    && viewableAngle >= enemyAttackAction.minimumAttackAngle)
+                    {
+                        maxScore += enemyAttackAction.attackScore;
+                    }
+                }
+            }
+
+            int rendomValue = Random.Range(0, maxScore);
+            int temporaryScore = 0;
+
+            for (int i = 0; i < enemyAttacks.Length; i++)
+            {
+                EnemyAttackAction enemyAttackAction = enemyAttacks[i];
+
+                if (distanceFromTarget <= enemyAttackAction.maximumDistanceNeededToAttack
+                        && distanceFromTarget >= enemyAttackAction.minimumDistanceNeededToAttack)
+                {
+                    if (viewableAngle <= enemyAttackAction.maximumAttackAngle
+                    && viewableAngle >= enemyAttackAction.minimumAttackAngle)
+                    {
+                        if (attackState.currentAttack != null) return;
+
+                        temporaryScore += enemyAttackAction.attackScore;
+
+                        if (temporaryScore > rendomValue)
+                        {
+                            attackState.currentAttack = enemyAttackAction;
+                        }
+                    }
+                }
+
             }
         }
     }
