@@ -12,7 +12,7 @@ namespace SG
         public EnemyAttackAction currentAttack;
         public RotateTowardTargetState rotateTowardTargetState;
 
-        bool willDoComboOnNextAttack = false;
+        [SerializeField] bool willDoComboOnNextAttack = false;
         public bool hasPerformAttack = false;
 
         public override State Tick(EnemyManager enemyManager, EnemyStat enemyStat, EnemyAnimatorManager enemyAnimator)
@@ -27,15 +27,35 @@ namespace SG
 
             RotateTowardTargetWhileAttacking(enemyManager);
 
+
+            if (enemyManager.isInterActing)
+            {
+                return this;
+            }
+
+
+            if (enemyManager.hasShield && enemyManager.isBlocking == true)
+            {
+                enemyAnimator.PlayTargetAnimation("EndBlock01", false);
+                enemyManager.isBlocking = false;
+            }
+
+            if (distanceFromTarget > enemyManager.maximumAttackRange)
+            {
+                return pursueTargetState;
+            }
+
             if (willDoComboOnNextAttack && enemyManager.CanDoCombo)
             {
+                //Debug.Log("AttackTargetWithCombo");
                 AttackTargetWithCombo(enemyAnimator, enemyManager);
             }
 
             if (!hasPerformAttack)
             {
+                RollForComboChance(enemyManager, enemyAnimator);
+                //Debug.Log("AttackTarget");
                 AttackTarget(enemyAnimator, enemyManager);
-                RollForComboChance(enemyManager);
             }
 
             if (willDoComboOnNextAttack && hasPerformAttack)
@@ -48,6 +68,11 @@ namespace SG
 
         private void AttackTarget(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager)
         {
+            if (currentAttack == null)
+            {
+                return;
+            }
+
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
             hasPerformAttack = true;
@@ -80,24 +105,31 @@ namespace SG
             }
         }
 
-        private void RollForComboChance(EnemyManager enemyManagers)
+        private void RollForComboChance(EnemyManager enemyManagers, EnemyAnimatorManager enemyAnimatorManager)
         {
+            if (enemyManagers == null)
+            {
+                Debug.LogError("EnemyManager is null in RollForComboChance!");
+                return;
+            }
+
+            if (!enemyManagers.allowAiToPerformCombo) return;
+
             float comboChance = Random.Range(0, 100);
 
-            if (enemyManagers.allowAiToPerformCombo && comboChance <= enemyManagers.comboLikelyHood)
-            {
-                if (currentAttack.comboAction != null)
-                {
-                    willDoComboOnNextAttack = true;
-                    currentAttack = currentAttack.comboAction;
-                }
-                else
-                {
-                    willDoComboOnNextAttack = false;
-                    currentAttack = null;
-                }
+            if (comboChance > enemyManagers.comboLikelyHood) return;
 
+            if (currentAttack != null && currentAttack.comboAction != null)
+            {
+                willDoComboOnNextAttack = true;
+                currentAttack = currentAttack.comboAction;
+            }
+            else
+            {
+                willDoComboOnNextAttack = false;
+                currentAttack = null;
             }
         }
+
     }
 }

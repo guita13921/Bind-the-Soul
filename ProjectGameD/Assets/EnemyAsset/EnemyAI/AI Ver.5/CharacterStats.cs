@@ -14,5 +14,6 @@ namespace SG
         public int currentStamina;
 
         public bool isDead;
+
     }
 }

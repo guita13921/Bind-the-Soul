@@ -81,7 +81,7 @@ namespace SG
                     //Shielded Damage
                     if (shield != null && enemyCharacterManager.isBlocking)
                     {
-                        Debug.Log("Shielded");
+                        //Debug.Log("Shielded");
                         float physicalDamageAfterBlock =
                             currentDamageWeapon - (currentDamageWeapon * shield.blockingColliderDamageAbsorption) / 100;
 
@@ -96,7 +96,15 @@ namespace SG
                 //Normal Damage
                 if (enemyStat != null)
                 {
-                    enemyStat.TakeDamage(currentDamageWeapon);
+                    if (enemyStat.isBoss)
+                    {
+                        enemyStat.TakeDamageNoAnimation(currentDamageWeapon);
+                    }
+                    else
+                    {
+                        enemyStat.TakeDamage(currentDamageWeapon);
+
+                    }
                 }
 
             }

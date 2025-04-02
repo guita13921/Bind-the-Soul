@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class ResetAnimatorBool : StateMachineBehaviour
 {
+    public string isInvulnerable = "isInvulnerable";
+    public bool isInvulnerableStatus = false;
+
     public string isInterActingBool = "isInteracting";
     public bool isInterActingStatue = false;
 
@@ -19,5 +22,6 @@ public class ResetAnimatorBool : StateMachineBehaviour
         animator.SetBool(isInterActingBool, isInterActingStatue);
         animator.SetBool(isRotatingWithRootMotion, isRotatingWithRootMotionStatus);
         animator.SetBool(canRotateBool, canRotateStatue);
+        animator.SetBool(isInvulnerable, isInvulnerableStatus);
     }
 }

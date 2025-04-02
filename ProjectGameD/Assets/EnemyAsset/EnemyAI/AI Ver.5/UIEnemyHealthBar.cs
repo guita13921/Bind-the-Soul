@@ -7,7 +7,7 @@ namespace SG
 {
     public class UIEnemyHealthBar : MonoBehaviour
     {
-        [SerializeField] Slider slider;
+        [SerializeField] private Slider slider;
         float timeUntillBarHidden = 0;
         public Transform mainCamera;
 
@@ -25,6 +25,12 @@ namespace SG
 
         public void SetMaxHealth(int maxHealth)
         {
+            if (slider == null)
+            {
+                Debug.LogError("Slider is null in SetMaxHealth!");
+                return;
+            }
+
             slider.maxValue = maxHealth;
             slider.value = maxHealth;
         }
@@ -45,7 +51,7 @@ namespace SG
                 if (timeUntillBarHidden <= 0)
                 {
                     timeUntillBarHidden = 0;
-                    //slider.gameObject.SetActive(false);
+                    slider.gameObject.SetActive(false);
                 }
                 else
                 {

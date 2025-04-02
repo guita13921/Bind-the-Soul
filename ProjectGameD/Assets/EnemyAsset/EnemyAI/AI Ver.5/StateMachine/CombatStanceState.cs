@@ -11,9 +11,9 @@ namespace SG
         public EnemyAttackAction[] enemyAttacks;
         public PursueTargetState pursueTargetState;
 
-        bool randomDestinationSet = false;
-        float vertcalMovementValue = 0;
-        float HorizontalMovementValue = 0;
+        protected bool randomDestinationSet = false;
+        protected float vertcalMovementValue = 0;
+        protected float HorizontalMovementValue = 0;
 
         public override State Tick(EnemyManager enemyManager, EnemyStat enemyStat, EnemyAnimatorManager enemyAnimatorManager)
         {
@@ -34,6 +34,12 @@ namespace SG
                 return this;
             }
 
+            if (enemyManager.hasShield && enemyManager.isBlocking == false)
+            {
+                enemyAnimatorManager.PlayTargetAnimation("StartBlock", false);
+                enemyManager.isBlocking = true;
+            }
+
 
             if (enemyManager.isInterActing)
             {
@@ -52,12 +58,6 @@ namespace SG
                 //DECIDE CIRCLE ACTION
             }
 
-            if (enemyManager.hasShield && enemyManager.isBlocking == true)
-            {
-                enemyAnimatorManager.PlayTargetAnimation("EndBlock01", false);
-                enemyManager.isBlocking = false;
-            }
-
             HandleRotationToTarget(enemyManager);
 
             if (enemyManager.currentRecoveryTime <= 0 && attackState.currentAttack != null)
@@ -73,7 +73,7 @@ namespace SG
             return this;
         }
 
-        private void HandleRotationToTarget(EnemyManager enemyManager)
+        protected void HandleRotationToTarget(EnemyManager enemyManager)
         {
             //Rotate manually
             if (enemyManager.isPerformingAction)
@@ -103,14 +103,14 @@ namespace SG
             }
         }
 
-        private void DecideCirclingAction(EnemyAnimatorManager enemyAnimatorManager)
+        protected void DecideCirclingAction(EnemyAnimatorManager enemyAnimatorManager)
         {
             //Circle with only forward vertical movement
             //Circle with running
             WalkAroundTarget(enemyAnimatorManager);
         }
 
-        private void WalkAroundTarget(EnemyAnimatorManager enemyAnimatorManager)
+        protected void WalkAroundTarget(EnemyAnimatorManager enemyAnimatorManager)
         {
             vertcalMovementValue = 0.5f;
             HorizontalMovementValue = vertcalMovementValue = Random.Range(-1, 1);
@@ -125,9 +125,8 @@ namespace SG
             }
         }
 
-        private void GetNewAttack(EnemyManager enemyManager)
+        protected virtual void GetNewAttack(EnemyManager enemyManager)
         {
-
             Vector3 targetDirection = enemyManager.curretTarget.transform.position - transform.position;
             float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
             float distanceFromTarget = Vector3.Distance(enemyManager.curretTarget.transform.position, transform.position);

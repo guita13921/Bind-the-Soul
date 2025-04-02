@@ -36,6 +36,7 @@ namespace SG
         [Header("A.I Combat Setting")]
         public bool allowAiToPerformCombo;
         public float comboLikelyHood;
+        public bool isPhaseShifting;
 
         private void Awake()
         {
@@ -59,10 +60,12 @@ namespace SG
             HandleRecoveryTimer();
             HandleStateMachine();
 
+            isPhaseShifting = enemyAnimationManager.animator.GetBool("isPhaseShifting");
             isRotatingWithRootMotion = enemyAnimationManager.animator.GetBool("isRotatingWithRootMotion");
             isInterActing = enemyAnimationManager.animator.GetBool("isInteracting");
-            CanDoCombo = enemyAnimationManager.animator.GetBool("canDoCombo");
+            isInvulnerable = enemyAnimationManager.animator.GetBool("isInvulnerable");
             canRotate = enemyAnimationManager.animator.GetBool("canRotate");
+            CanDoCombo = enemyAnimationManager.animator.GetBool("canDoCombo");
             enemyAnimationManager.animator.SetBool("isDead", enemyStat.isDead);
             enemyAnimationManager.animator.SetBool("isBlocking", isBlocking);
 
