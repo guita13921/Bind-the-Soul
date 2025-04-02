@@ -10,7 +10,6 @@ namespace SG
 
         public void PlayTargetAnimation(string targetAnim, bool isInteracting, bool canRotate = false)
         {
-            Debug.Log(targetAnim);
             animator.applyRootMotion = isInteracting;
             animator.SetBool("canRotate", canRotate);
             animator.SetBool("isInteracting", isInteracting);

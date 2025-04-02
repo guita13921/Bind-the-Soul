@@ -25,7 +25,6 @@ namespace SG
             float distanceFromTarget = Vector3.Distance(enemyManager.curretTarget.transform.position, enemyManager.transform.position);
             enemyAnimatorManager.animator.SetFloat("Vertical", vertcalMovementValue, 0.2f, Time.deltaTime);
             enemyAnimatorManager.animator.SetFloat("Horizontal", HorizontalMovementValue, 0.2f, Time.deltaTime);
-            attackState.hasPerformAttack = false;
 
             if (enemyManager.isInterActing)
             {
@@ -40,23 +39,18 @@ namespace SG
                 enemyManager.isBlocking = true;
             }
 
-
-            if (enemyManager.isInterActing)
-            {
-                return this;
-            }
-
             if (distanceFromTarget > enemyManager.maximumAttackRange)
             {
                 return pursueTargetState;
             }
 
+            /*
             if (!randomDestinationSet)
             {
                 randomDestinationSet = true;
                 DecideCirclingAction(enemyAnimatorManager);
-                //DECIDE CIRCLE ACTION
             }
+            */
 
             HandleRotationToTarget(enemyManager);
 
@@ -90,7 +84,6 @@ namespace SG
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
                 enemyManager.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, enemyManager.rotationSpeed / Time.deltaTime);
             }
-            //Rotate with pathfinding
             else
             {
                 Vector3 relativeDirection = transform.InverseTransformDirection(enemyManager.navMeshAgent.desiredVelocity);

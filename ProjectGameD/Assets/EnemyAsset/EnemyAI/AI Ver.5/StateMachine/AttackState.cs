@@ -27,12 +27,7 @@ namespace SG
 
             RotateTowardTargetWhileAttacking(enemyManager);
 
-
-            if (enemyManager.isInterActing)
-            {
-                return this;
-            }
-
+            if (enemyManager.isInterActing) return this;
 
             if (enemyManager.hasShield && enemyManager.isBlocking == true)
             {
@@ -45,20 +40,20 @@ namespace SG
                 return pursueTargetState;
             }
 
-            if (willDoComboOnNextAttack && enemyManager.CanDoCombo)
+            if (willDoComboOnNextAttack)
             {
-                //Debug.Log("AttackTargetWithCombo");
+                Debug.Log("AttackTargetWithCombo");
                 AttackTargetWithCombo(enemyAnimator, enemyManager);
             }
 
             if (!hasPerformAttack)
             {
-                RollForComboChance(enemyManager, enemyAnimator);
-                //Debug.Log("AttackTarget");
+                Debug.Log("AttackTarget");
                 AttackTarget(enemyAnimator, enemyManager);
+                RollForComboChance(enemyManager, enemyAnimator);
             }
 
-            if (willDoComboOnNextAttack && hasPerformAttack)
+            if (willDoComboOnNextAttack)
             {
                 return this;
             }
@@ -72,10 +67,9 @@ namespace SG
             {
                 return;
             }
-
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
-            hasPerformAttack = true;
+
         }
 
         private void AttackTargetWithCombo(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager)
@@ -107,13 +101,6 @@ namespace SG
 
         private void RollForComboChance(EnemyManager enemyManagers, EnemyAnimatorManager enemyAnimatorManager)
         {
-            if (enemyManagers == null)
-            {
-                Debug.LogError("EnemyManager is null in RollForComboChance!");
-                return;
-            }
-
-            if (!enemyManagers.allowAiToPerformCombo) return;
 
             float comboChance = Random.Range(0, 100);
 
