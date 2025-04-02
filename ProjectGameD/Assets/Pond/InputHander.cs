@@ -14,6 +14,7 @@ public class InputHander : MonoBehaviour
     public float mouseY;
 
     public bool b_Input;
+    public bool a_Input;
     public bool Al_Input;
     public bool Ah_Input;
     public bool k_Up;
@@ -64,6 +65,7 @@ public class InputHander : MonoBehaviour
         HandleSprintinput();
         HandleAttackInput(delta);
         HandleQuickSlotsInput();
+        HandleInteractingButtonInput();
     }
     private void MoveInput(float delta)
     {
@@ -167,6 +169,9 @@ public class InputHander : MonoBehaviour
             playerInventory.ChangeLeftWeapon();
         }
     }
-
+    private void HandleInteractingButtonInput()
+    {
+        inputAction.PlayerAction.A.performed += i => a_Input = true;
+    }
 
 }

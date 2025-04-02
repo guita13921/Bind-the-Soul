@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace SG
@@ -42,6 +43,8 @@ namespace SG
             isUsingLefthand = anim.GetBool("isUsingLefthand");
             isUsingRightHand = anim.GetBool("isUsingRightHand");
 
+            CheckForInteractableObjiect();
+
         }
         private void FixedUpdate()
         {
@@ -63,7 +66,28 @@ namespace SG
             inputHander.k_Down = false;
             inputHander.k_Right = false;
             inputHander.k_Left = false;
+            inputHander.a_Input = false;
             //Debug.Log(inputHander.b_Input);
+        }
+
+        public void CheckForInteractableObjiect()
+        {
+            RaycastHit hit;
+            if (Physics.SphereCast(transform.position, 0.3f, transform.forward, out hit, 1f, cameraHandler.ignoreLayers))
+            {
+                if (hit.collider.tag == "Interactable")
+                {
+                    interactable interactableObject = hit.collider.GetComponent<interactable>();
+                    if (interactableObject != null)
+                    {
+                        string interactableText = interactableObject.interactableText;
+                    }
+                    if (inputHander.a_Input)
+                    {
+                        hit.collider.GetComponent<Interactable>().Interact(this);
+                    }
+                }
+            }
         }
 
     }

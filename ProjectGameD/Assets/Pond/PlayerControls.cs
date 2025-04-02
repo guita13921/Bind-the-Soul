@@ -143,6 +143,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""A"",
+                    ""type"": ""Button"",
+                    ""id"": ""48d50901-4c42-48a2-9f01-dfa3d9b47522"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -209,6 +218,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""AttackH"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cde8ec42-0b1b-4024-9437-049716c969f6"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""A"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -315,6 +335,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerAction_Sprint = m_PlayerAction.FindAction("Sprint", throwIfNotFound: true);
         m_PlayerAction_AttackL = m_PlayerAction.FindAction("AttackL", throwIfNotFound: true);
         m_PlayerAction_AttackH = m_PlayerAction.FindAction("AttackH", throwIfNotFound: true);
+        m_PlayerAction_A = m_PlayerAction.FindAction("A", throwIfNotFound: true);
         // PlayerQuickSlots
         m_PlayerQuickSlots = asset.FindActionMap("PlayerQuickSlots", throwIfNotFound: true);
         m_PlayerQuickSlots_Up = m_PlayerQuickSlots.FindAction("Up", throwIfNotFound: true);
@@ -440,6 +461,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerAction_Sprint;
     private readonly InputAction m_PlayerAction_AttackL;
     private readonly InputAction m_PlayerAction_AttackH;
+    private readonly InputAction m_PlayerAction_A;
     public struct PlayerActionActions
     {
         private @PlayerControls m_Wrapper;
@@ -448,6 +470,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_PlayerAction_Sprint;
         public InputAction @AttackL => m_Wrapper.m_PlayerAction_AttackL;
         public InputAction @AttackH => m_Wrapper.m_PlayerAction_AttackH;
+        public InputAction @A => m_Wrapper.m_PlayerAction_A;
         public InputActionMap Get() { return m_Wrapper.m_PlayerAction; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -469,6 +492,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @AttackH.started += instance.OnAttackH;
             @AttackH.performed += instance.OnAttackH;
             @AttackH.canceled += instance.OnAttackH;
+            @A.started += instance.OnA;
+            @A.performed += instance.OnA;
+            @A.canceled += instance.OnA;
         }
 
         private void UnregisterCallbacks(IPlayerActionActions instance)
@@ -485,6 +511,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @AttackH.started -= instance.OnAttackH;
             @AttackH.performed -= instance.OnAttackH;
             @AttackH.canceled -= instance.OnAttackH;
+            @A.started -= instance.OnA;
+            @A.performed -= instance.OnA;
+            @A.canceled -= instance.OnA;
         }
 
         public void RemoveCallbacks(IPlayerActionActions instance)
@@ -583,6 +612,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnAttackL(InputAction.CallbackContext context);
         void OnAttackH(InputAction.CallbackContext context);
+        void OnA(InputAction.CallbackContext context);
     }
     public interface IPlayerQuickSlotsActions
     {

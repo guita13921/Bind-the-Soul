@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.WSA;
 
 namespace SG
 {
     public class PlayerStats : CharacterStats
     {
-        public int healthlevel = 10;
+        public int healthLevel = 10; // ✅ แก้ชื่อให้ตรงกับที่ใช้
         public int maxHealth;
         public int currentHealth;
 
@@ -36,27 +35,25 @@ namespace SG
             maxStamina = SetMaxStaminaFromStaminaLevel();
             currentStamina = maxStamina;
             staminaBar.SetMaxStamina(maxStamina);
-            staminaBar.SetcurrentStamina(currentStamina);
-
+            staminaBar.SetcurrentStamina(currentStamina); // ✅ แก้ชื่อฟังก์ชันให้ถูกต้อง
         }
 
-        // เปลี่ยน void เป็น int
+        // ✅ คืนค่าโดยตรง ไม่ต้องเซ็ตค่าให้ maxHealth หรือ maxStamina ก่อน
         private int SetMaxHealthFromHealthLevel()
         {
-            maxHealth = healthLevel * 10;
-            return maxHealth; // คืนค่า maxHealth
-        }
-        private int SetMaxStaminaFromStaminaLevel()
-        {
-            maxStamina = staminaLevel * 100;
-            return maxStamina; // คืนค่า maxHealth
+            return healthLevel * 10;
         }
 
-        public void TakeDamage(int damage, string damageAinmation = "Damage_01")
+        private int SetMaxStaminaFromStaminaLevel()
         {
-            currentHealth -= damage; // ลดค่าพลังชีวิต
-            healthBar.SetCurrentHealth(currentHealth); // อัปเดต Health Bar
-            animatorHander.PlayTargetAnimation(damageAinmation, true);
+            return staminaLevel * 100;
+        }
+
+        public void TakeDamage(int damage, string damageAnimation = "Damage_01") // ✅ แก้ชื่อให้ตรง
+        {
+            currentHealth -= damage;
+            healthBar.SetCurrentHealth(currentHealth);
+            animatorHander.PlayTargetAnimation(damageAnimation, true);
 
             if (currentHealth <= 0)
             {
@@ -64,11 +61,11 @@ namespace SG
                 animatorHander.PlayTargetAnimation("Dead_01", true);
             }
         }
+
         public void TakeStaminaDamage(int damage)
         {
-            currentStamina = currentStamina - damage;
-            staminaBar.SetcurrentStamina(currentStamina);
-
+            currentStamina -= damage;
+            staminaBar.SetcurrentStamina(currentStamina); // ✅ แก้ชื่อฟังก์ชันให้ถูกต้อง
         }
     }
 }
