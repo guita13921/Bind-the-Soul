@@ -42,13 +42,13 @@ namespace SG
 
             if (willDoComboOnNextAttack)
             {
-                Debug.Log("AttackTargetWithCombo");
+                //Debug.Log("AttackTargetWithCombo");
                 AttackTargetWithCombo(enemyAnimator, enemyManager);
             }
 
             if (!hasPerformAttack)
             {
-                Debug.Log("AttackTarget");
+                //Debug.Log("AttackTarget");
                 AttackTarget(enemyAnimator, enemyManager);
                 RollForComboChance(enemyManager, enemyAnimator);
             }

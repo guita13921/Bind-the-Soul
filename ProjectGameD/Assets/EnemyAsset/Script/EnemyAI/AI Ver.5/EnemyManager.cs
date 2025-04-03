@@ -67,7 +67,6 @@ namespace SG
             CanDoCombo = enemyAnimationManager.animator.GetBool("canDoCombo");
             enemyAnimationManager.animator.SetBool("isDead", enemyStat.isDead);
             enemyAnimationManager.animator.SetBool("isBlocking", isBlocking);
-
         }
 
         private void LateUpdate()

@@ -36,6 +36,7 @@ namespace SG
         {
             maxHealth = healthLevel * 10;
             enemyHealthBar.SetMaxHealth(maxHealth);
+
             return maxHealth;
         }
 

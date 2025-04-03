@@ -19,7 +19,7 @@ namespace SG
             enemyBossManager = GetComponentInParent<EnemyBossManager>();
             enemyStat = GetComponentInParent<EnemyStat>();
             enemyEffectManager = GetComponentInParent<EnemyEffectManager>();
-            enemyWeaponSlotManager = GetComponentInParent<EnemyWeaponSlotManager>();
+            enemyWeaponSlotManager = GetComponent<EnemyWeaponSlotManager>();
         }
 
         private void OnAnimatorMove()

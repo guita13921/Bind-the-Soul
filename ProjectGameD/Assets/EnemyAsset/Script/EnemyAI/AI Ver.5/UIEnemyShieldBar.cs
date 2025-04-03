@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace SG
 {
-    public class UIEnemyHealthBar : MonoBehaviour
+
+    public class UIEnemyShieldBar : MonoBehaviour
     {
         [SerializeField] private Slider slider;
         float timeUntillBarHidden = 0;
@@ -18,33 +18,37 @@ namespace SG
             mainCamera = Camera.main.transform; // Get the main camera
         }
 
-        public void SetHealth(int health)
+        public void SetShield(int ShieldPoint)
         {
-            slider.value = health;
+            slider.value = ShieldPoint;
             timeUntillBarHidden = 5;
         }
 
-        public void SetMaxHealth(int maxHealth)
+        public void SetCurrentShield(int currentShieldPoint)
+        {
+            slider.value = currentShieldPoint;
+        }
+
+        public void SetMaxShield(int maxShieldPoint)
         {
             if (slider == null)
             {
-                Debug.LogError("Slider is null in SetMaxHealth!");
+                Debug.LogError("Slider is null in SetMaxShield!");
                 return;
             }
 
-            slider.maxValue = maxHealth;
-            slider.value = maxHealth;
+            slider.maxValue = maxShieldPoint;
+            slider.value = maxShieldPoint;
         }
 
         private void Update()
         {
-            // Ensure the health bar always faces the camera
             if (mainCamera != null)
             {
                 transform.LookAt(transform.position + mainCamera.forward);
             }
 
-            // Manage health bar visibility
+
             timeUntillBarHidden -= Time.deltaTime;
 
             if (slider != null)

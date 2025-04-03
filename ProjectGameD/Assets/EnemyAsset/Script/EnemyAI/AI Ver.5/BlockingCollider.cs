@@ -6,20 +6,69 @@ namespace SG
 {
     public class BlockingCollider : MonoBehaviour
     {
+        [SerializeField] EnemyManager enemyManager;
+        [SerializeField] EnemyAnimatorManager enemyAnimatorManager;
         BoxCollider blockingCollider;
+        public float blockingColliderDamageAbsorption; // Using Both Player/Enemy
 
-        public float blockingColliderDamageAbsorption;
+
+        public int blockingColliderShieldPoint;
+        public int maxShieldPoint;
+        public float shieldRegenDelay; // Time before regen starts
+        public float shieldRegenRate; // Time between each shield point regen
+        public int shieldRegenAmount; // Amount of shield points restored per tick
+
+        [Header("UIEnemyShieldBar")]
+        public UIEnemyShieldBar uIEnemyShieldBar;
+        private float lastAttackTime;
+        private Coroutine regenCoroutine;
 
         private void Awake()
         {
+            //enemyAnimatorManager = GetComponentInParent<EnemyAnimatorManager>();
+            enemyManager = GetComponentInParent<EnemyManager>();
             blockingCollider = GetComponent<BoxCollider>();
         }
 
-        public void SetColliderDamageAbsorption(WeaponItem weapon)
+        private void Update()
         {
-            if (weapon == null)
+            uIEnemyShieldBar.SetCurrentShield(blockingColliderShieldPoint);
+            // Continuously check if enough time has passed for regen
+            if (Time.time - lastAttackTime >= shieldRegenDelay)
             {
-                blockingColliderDamageAbsorption = weapon.physicalDamageAbsorption;
+                if (regenCoroutine == null) // Start regen if not already running
+                {
+                    regenCoroutine = StartCoroutine(RegenerateShield());
+                }
+            }
+        }
+
+
+        public void SetShieldHealth(WeaponItem weapon) // Used only by Enemy
+        {
+            if (weapon != null && weapon.isShield)
+            {
+                blockingColliderShieldPoint = weapon.ShieldPoint;
+                maxShieldPoint = weapon.ShieldPoint;
+            }
+        }
+
+        public void GetBlocked(int damage)
+        {
+            blockingColliderShieldPoint -= damage;
+            blockingColliderShieldPoint = Mathf.Max(0, blockingColliderShieldPoint); // Ensure shield doesn't go negative
+
+            if (blockingColliderShieldPoint <= 0)
+            {
+                GuardBreak();
+            }
+
+            lastAttackTime = Time.time; // Reset the regen timer when taking damage
+
+            if (regenCoroutine != null)
+            {
+                StopCoroutine(regenCoroutine);
+                regenCoroutine = null;
             }
         }
 
@@ -32,5 +81,28 @@ namespace SG
         {
             blockingCollider.enabled = false;
         }
+
+        private void GuardBreak()
+        {
+            enemyManager.hasShield = false;
+            enemyManager.isBlocking = false;
+            enemyAnimatorManager.PlayTargetAnimation("Crouch", true);
+            enemyAnimatorManager.animator.SetBool("isBlocking", false);
+        }
+
+        private IEnumerator RegenerateShield()
+        {
+            while (blockingColliderShieldPoint < maxShieldPoint)
+            {
+                blockingColliderShieldPoint += shieldRegenAmount;
+                blockingColliderShieldPoint = Mathf.Min(blockingColliderShieldPoint, maxShieldPoint); // Cap at max value
+
+                yield return new WaitForSeconds(shieldRegenRate);
+            }
+
+            regenCoroutine = null; // Reset coroutine reference when fully regenerated
+        }
+
+
     }
 }

@@ -10,14 +10,18 @@ namespace SG
         public WeaponItem rightHandWeapon;
         public WeaponItem leftHandWeapon;
 
-        [SerializeField] WeaponHolderSlot rightHandSlot;
-        [SerializeField] WeaponHolderSlot leftHandSlot;
+        WeaponHolderSlot rightHandSlot;
+        WeaponHolderSlot leftHandSlot;
 
-        [SerializeField] DamageCollider leftHandDamageCollider;
-        [SerializeField] DamageCollider rightHandDamageCollider;
+        DamageCollider leftHandDamageCollider;
+        DamageCollider rightHandDamageCollider;
 
         EnemyEffectManager enemyEffectManager;
         EnemyManager enemyManager;
+
+        [Header("Shield Config")]
+        public BlockingCollider Shield;
+        public UIEnemyShieldBar uIEnemyShieldBar;
 
         private void Awake()
         {
@@ -52,6 +56,8 @@ namespace SG
                 if (weapon.isShield)
                 {
                     enemyManager.hasShield = weapon.isShield;
+                    Shield.SetShieldHealth(weapon);
+                    uIEnemyShieldBar.SetMaxShield(weapon.ShieldPoint);
                 }
             }
             else
@@ -110,7 +116,7 @@ namespace SG
 
         public void OpenDamageCollider()
         {
-            Debug.Log("OpenDamageCollider() called.");
+            //Debug.Log("OpenDamageCollider() called.");
             if (rightHandDamageCollider != null)
             {
                 rightHandDamageCollider.EnableDamageCollider();

@@ -17,16 +17,6 @@ namespace SG
             blockingCollider = GetComponentInChildren<BlockingCollider>();
         }
 
-        public void OpenBlockCollider()
-        {
-            blockingCollider.SetColliderDamageAbsorption(enemyWeaponSlotManager.leftHandWeapon);
-            blockingCollider.EnableBlockingCollider();
-        }
-
-        public void CloseBlockingCollider()
-        {
-            blockingCollider.DisableBlockingCollider();
-        }
     }
 
 }
