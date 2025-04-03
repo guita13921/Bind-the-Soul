@@ -513,8 +513,15 @@ MonoBehaviour:
   canBeParried: 0
   isParrying: 0
   isBlocking: 0
+  isInvulnerable: 0
+  isUsingRightHand: 0
+  isUsingLefthand: 0
   isRotatingWithRootMotion: 0
   canRotate: 0
+  isSprinting: 0
+  isInAir: 0
+  isGrounded: 0
+  isFiringSpell: 0
   pendingCriticalDamage: 0
   enemyLocomotionManager: {fileID: 0}
   enemyAnimationManager: {fileID: 0}
@@ -534,6 +541,7 @@ MonoBehaviour:
   currentRecoveryTime: 0
   allowAiToPerformCombo: 1
   comboLikelyHood: 100
+  isPhaseShifting: 0
 --- !u!114 &4741703615967756071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -548,6 +556,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharacterCollider: {fileID: 8173133016143583626}
   CharacterCollisiomBlockerCollider: {fileID: 4638341921865327123}
+  detectopnLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &6812061325098366569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,6 +572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossName: MineCraft
+  enemyAnimatorManager: {fileID: 0}
   particleFX: {fileID: 0}
 --- !u!1 &3715899248589903715
 GameObject:
@@ -1416,74 +1428,10 @@ PrefabInstance:
     - {fileID: 1239292414419848, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
     - {fileID: 1443982407616232, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1349150361055734, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2014449100168041265}
-    - targetCorrespondingSourceObject: {fileID: 1349150361055734, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4236017240912454833}
-    - targetCorrespondingSourceObject: {fileID: 1349150361055734, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 494010144455958250}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
 --- !u!4 &4612377575333667287 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4655139138601034, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
   m_PrefabInstance: {fileID: 4617030901904253341}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4617938044027523179 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1349150361055734, guid: dca8e056b77d49c4aafe4dbcc2bab713, type: 3}
-  m_PrefabInstance: {fileID: 4617030901904253341}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &2014449100168041265
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4617938044027523179}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: a58154c350c4ccf47a6cdad03a8dca1a, type: 3}
-  m_Controller: {fileID: 9100000, guid: 9745b6f3a79e042498aa3f310a82f53f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4236017240912454833
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4617938044027523179}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73ce265846cbf124ca9331175dc82c17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 0}
---- !u!114 &494010144455958250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4617938044027523179}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfb678f269817bf48a1d467cd9354f1f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rightHandWeapon: {fileID: 11400000, guid: 301004f2ea88aa74aa7e5b498bcdd4fc, type: 2}
-  leftHandWeapon: {fileID: 11400000, guid: f583d625035e8444da434173857f6d42, type: 2}
-  rightHandSlot: {fileID: 0}
-  leftHandSlot: {fileID: 0}

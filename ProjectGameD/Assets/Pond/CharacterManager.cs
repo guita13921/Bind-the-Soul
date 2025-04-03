@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 namespace SG
 {
@@ -8,7 +9,7 @@ namespace SG
         [Header("Lock On Transform")]
         public Transform lockOnTransform;
 
-        [Header("Combat Colliders")]
+        //[Header("Combat Colliders")]
 
         [Header("Combat Flags")]
         public bool CanDoCombo;
@@ -17,11 +18,18 @@ namespace SG
         public bool isParrying;
         public bool isBlocking;
         public bool isInvulnerable;
+        public bool isUsingRightHand;
+        public bool isUsingLefthand;
 
         [Header("Movement Flags")]
         public bool isRotatingWithRootMotion;
         public bool canRotate;
+        public bool isSprinting;
+        public bool isInAir;
+        public bool isGrounded;
 
+        [Header("Spells")]
+        public bool isFiringSpell;
 
         //Damage will be inflicted during an animation event
         //Used in backstab or riposte animations
