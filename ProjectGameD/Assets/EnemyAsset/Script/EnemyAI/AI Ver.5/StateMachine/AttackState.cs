@@ -71,7 +71,7 @@ namespace SG
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
             enemyAnimatorManager.PlayWeaponTrailFX();
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
-            //hasPerformAttack = true;
+            hasPerformAttack = true;
         }
 
         private void AttackTargetWithCombo(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager)

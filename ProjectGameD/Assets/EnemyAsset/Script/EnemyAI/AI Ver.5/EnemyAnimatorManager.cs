@@ -10,14 +10,16 @@ namespace SG
         EnemyBossManager enemyBossManager;
         EnemyStat enemyStat;
         EnemyEffectManager enemyEffectManager;
+        EnemyWeaponSlotManager enemyWeaponSlotManager;
 
         private void Awake()
         {
             animator = GetComponent<Animator>();
-            enemyManager = GetComponent<EnemyManager>();
-            enemyBossManager = GetComponent<EnemyBossManager>();
-            enemyStat = GetComponent<EnemyStat>();
-            enemyEffectManager = GetComponent<EnemyEffectManager>();
+            enemyManager = GetComponentInParent<EnemyManager>();
+            enemyBossManager = GetComponentInParent<EnemyBossManager>();
+            enemyStat = GetComponentInParent<EnemyStat>();
+            enemyEffectManager = GetComponentInParent<EnemyEffectManager>();
+            enemyWeaponSlotManager = GetComponentInParent<EnemyWeaponSlotManager>();
         }
 
         private void OnAnimatorMove()

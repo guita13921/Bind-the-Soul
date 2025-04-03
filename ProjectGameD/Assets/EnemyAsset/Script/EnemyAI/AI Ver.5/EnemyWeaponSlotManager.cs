@@ -10,17 +10,19 @@ namespace SG
         public WeaponItem rightHandWeapon;
         public WeaponItem leftHandWeapon;
 
-        WeaponHolderSlot rightHandSlot;
-        WeaponHolderSlot leftHandSlot;
+        [SerializeField] WeaponHolderSlot rightHandSlot;
+        [SerializeField] WeaponHolderSlot leftHandSlot;
 
-        DamageCollider leftHandDamageCollider;
-        DamageCollider rightHandDamageCollider;
+        [SerializeField] DamageCollider leftHandDamageCollider;
+        [SerializeField] DamageCollider rightHandDamageCollider;
 
         EnemyEffectManager enemyEffectManager;
+        EnemyManager enemyManager;
 
         private void Awake()
         {
-            enemyEffectManager = GetComponent<EnemyEffectManager>();
+            enemyEffectManager = GetComponentInParent<EnemyEffectManager>();
+            enemyManager = GetComponentInParent<EnemyManager>();
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
 
             foreach (WeaponHolderSlot weponslot in weaponHolderSlots)
@@ -47,10 +49,18 @@ namespace SG
             if (isLeft)
             {
                 leftHandSlot.isShield = weapon.isShield;
+                if (weapon.isShield)
+                {
+                    enemyManager.hasShield = weapon.isShield;
+                }
             }
             else
             {
                 rightHandSlot.isShield = weapon.isShield;
+                if (weapon.isShield)
+                {
+                    enemyManager.hasShield = weapon.isShield;
+                }
             }
         }
 
@@ -84,29 +94,36 @@ namespace SG
             }
         }
 
+
         public void LoadWeaponDamageCollider(bool isLeft)
         {
             if (isLeft)
             {
-                leftHandDamageCollider = leftHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
-                //enemyEffectManager.leftWeaponFX = leftHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
+                leftHandDamageCollider = leftHandSlot.currentWeaponModel?.GetComponentInChildren<DamageCollider>();
             }
             else
             {
-                rightHandDamageCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+                rightHandDamageCollider = rightHandSlot.currentWeaponModel?.GetComponentInChildren<DamageCollider>();
                 enemyEffectManager.rightWeaponFX = rightHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
             }
         }
 
         public void OpenDamageCollider()
         {
-            rightHandDamageCollider.EnableDamageCollider();
+            Debug.Log("OpenDamageCollider() called.");
+            if (rightHandDamageCollider != null)
+            {
+                rightHandDamageCollider.EnableDamageCollider();
+            }
+            else
+            {
+                Debug.LogError("rightHandDamageCollider is null!");
+            }
         }
 
-        public void CloseDamageCollider() //StopTrailVFX (Addition)
+        public void CloseDamageCollider()
         {
             rightHandDamageCollider.DisableDamageCollider();
-            //enemyEffectManager.rightWeaponFX.StopTrailVFX();
         }
 
         public bool LoadShield()

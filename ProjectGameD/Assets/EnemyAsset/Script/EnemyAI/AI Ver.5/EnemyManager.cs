@@ -41,7 +41,7 @@ namespace SG
         private void Awake()
         {
             enemyLocomotionManager = GetComponent<EnemyLocomotionManager>();
-            enemyAnimationManager = GetComponent<EnemyAnimatorManager>();
+            enemyAnimationManager = GetComponentInChildren<EnemyAnimatorManager>();
             enemyStat = GetComponent<EnemyStat>();
             enemyRigidBody = GetComponent<Rigidbody>();
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
@@ -51,7 +51,6 @@ namespace SG
 
         private void Start()
         {
-            hasShield = enemyWeaponSlotManager.LoadShield();
             enemyRigidBody.isKinematic = false;
         }
 
