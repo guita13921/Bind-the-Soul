@@ -17,10 +17,10 @@ namespace SG
         public GameObject itemInteractbleGameObject;
         public bool isInteracting;
 
-        [Header("Player Flges")]
-        public bool isSprinting;
-        public bool isUsingRightHand;
-        public bool isUsingLefthand;
+        //[Header("Player Flges")]
+        //public bool isSprinting;
+        //public bool isUsingRightHand;
+        //public bool isUsingLefthand;
 
         private void Awake()
         {

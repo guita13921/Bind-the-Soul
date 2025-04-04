@@ -23,7 +23,7 @@ namespace SG
             // 
             // IInputHander ....
             //
-            blockingCollider.SetColliderDamageAbsorption(playerInventory.leftWeapon);
+            //blockingCollider.SetColliderDamageAbsorption(playerInventory.leftWeapon); ยังไม่ได้ implement
             blockingCollider.EnableBlockingCollider();
         }
 
