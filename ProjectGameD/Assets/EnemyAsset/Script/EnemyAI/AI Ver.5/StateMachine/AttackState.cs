@@ -25,9 +25,9 @@ namespace SG
 
             float distanceFromTarget = Vector3.Distance(enemyManager.curretTarget.transform.position, enemyManager.transform.position);
 
-            RotateTowardTargetWhileAttacking(enemyManager);
+            if (enemyManager.isInterActing || enemyManager.isStunning) return this;
 
-            if (enemyManager.isInterActing) return this;
+            RotateTowardTargetWhileAttacking(enemyManager);
 
             if (enemyManager.hasShield && enemyManager.isBlocking == true)
             {

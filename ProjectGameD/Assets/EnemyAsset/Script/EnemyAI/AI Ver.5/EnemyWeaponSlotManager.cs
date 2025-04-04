@@ -10,8 +10,8 @@ namespace SG
         public WeaponItem rightHandWeapon;
         public WeaponItem leftHandWeapon;
 
-        WeaponHolderSlot rightHandSlot;
-        WeaponHolderSlot leftHandSlot;
+        [SerializeField] WeaponHolderSlot rightHandSlot;
+        [SerializeField] WeaponHolderSlot leftHandSlot;
 
         DamageCollider leftHandDamageCollider;
         DamageCollider rightHandDamageCollider;
@@ -137,7 +137,10 @@ namespace SG
             return leftHandSlot.isShield || rightHandSlot.isShield;
         }
 
-
+        public void ShieldBreak()
+        {
+            leftHandSlot.UnloadWeaponAndDestroy();
+        }
     }
 
 }

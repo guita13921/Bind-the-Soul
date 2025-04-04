@@ -8,10 +8,11 @@ namespace SG
     {
         [SerializeField] EnemyManager enemyManager;
         [SerializeField] EnemyAnimatorManager enemyAnimatorManager;
+        [SerializeField] EnemyWeaponSlotManager enemyWeaponSlotManager;
         BoxCollider blockingCollider;
         public float blockingColliderDamageAbsorption; // Using Both Player/Enemy
 
-
+        public bool isActive = true;
         public int blockingColliderShieldPoint;
         public int maxShieldPoint;
         public float shieldRegenDelay; // Time before regen starts
@@ -58,7 +59,7 @@ namespace SG
             blockingColliderShieldPoint -= damage;
             blockingColliderShieldPoint = Mathf.Max(0, blockingColliderShieldPoint); // Ensure shield doesn't go negative
 
-            if (blockingColliderShieldPoint <= 0)
+            if (blockingColliderShieldPoint <= 0 && isActive)
             {
                 GuardBreak();
             }
@@ -84,9 +85,13 @@ namespace SG
 
         private void GuardBreak()
         {
+            isActive = false;
             enemyManager.hasShield = false;
             enemyManager.isBlocking = false;
-            enemyAnimatorManager.PlayTargetAnimation("Crouch", true);
+            enemyManager.isStunning = true;
+            enemyManager.currentStunningTime = enemyManager.stunningTime;
+            enemyWeaponSlotManager.ShieldBreak();
+            enemyAnimatorManager.PlayTargetAnimation("Start Stun", true);
             enemyAnimatorManager.animator.SetBool("isBlocking", false);
         }
 

@@ -32,11 +32,15 @@ namespace SG
         public float minimumDetectionAngle;
         public float maximumDetectionAngle;
         public float currentRecoveryTime = 0;
+        public float currentStunningTime;
+        public float stunningTime = 5f;
+
 
         [Header("A.I Combat Setting")]
         public bool allowAiToPerformCombo;
         public float comboLikelyHood;
         public bool isPhaseShifting;
+        public bool isStunning;
 
         private void Awake()
         {
@@ -58,6 +62,7 @@ namespace SG
         {
             HandleRecoveryTimer();
             HandleStateMachine();
+            HandleStunningTimer();
 
             isPhaseShifting = enemyAnimationManager.animator.GetBool("isPhaseShifting");
             isRotatingWithRootMotion = enemyAnimationManager.animator.GetBool("isRotatingWithRootMotion");
@@ -67,6 +72,7 @@ namespace SG
             CanDoCombo = enemyAnimationManager.animator.GetBool("canDoCombo");
             enemyAnimationManager.animator.SetBool("isDead", enemyStat.isDead);
             enemyAnimationManager.animator.SetBool("isBlocking", isBlocking);
+            enemyAnimationManager.animator.SetBool("isStunning", isStunning);
         }
 
         private void LateUpdate()
@@ -99,6 +105,26 @@ namespace SG
             if (currentRecoveryTime > 0)
             {
                 currentRecoveryTime -= Time.deltaTime;
+            }
+
+            if (isPerformingAction)
+            {
+                if (currentRecoveryTime <= 0)
+                {
+                    isPerformingAction = false;
+                }
+            }
+        }
+
+        private void HandleStunningTimer()
+        {
+            if (currentStunningTime > 0)
+            {
+                currentStunningTime -= Time.deltaTime;
+            }
+            else
+            {
+                isStunning = false;
             }
 
             if (isPerformingAction)

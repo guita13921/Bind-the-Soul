@@ -20,9 +20,9 @@ namespace SG
             float distanceFromTarget = Vector3.Distance(enemyManager.curretTarget.transform.position, enemyManager.transform.position);
             float viewableAngle = Vector3.SignedAngle(targetDirection, enemyManager.transform.forward, Vector3.up);
 
-            HandleRotationToTarget(enemyManager);
+            if (enemyManager.isInterActing || enemyManager.isStunning) return this;
 
-            if (enemyManager.isInterActing) return this;
+            HandleRotationToTarget(enemyManager);
 
             if (enemyManager.hasShield && enemyManager.isBlocking == false)
             {
