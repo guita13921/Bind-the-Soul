@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace SG
 {
@@ -40,6 +42,9 @@ namespace SG
             if (playerInventory != null && weapon != null)
             {
                 playerInventory.weaponInventory.Add(weapon);
+                playerManager.itemInteractbleGameObject.GetComponentInChildren<TextMeshProUGUI>().text = weapon.itemName;
+                playerManager.itemInteractbleGameObject.GetComponentInChildren<RawImage>().texture = weapon.itemIcon.texture;
+                playerManager.itemInteractbleGameObject.SetActive(true);
                 Destroy(gameObject); // ✅ ทำลาย object หลังจากเก็บอาวุธแล้ว
             }
         }

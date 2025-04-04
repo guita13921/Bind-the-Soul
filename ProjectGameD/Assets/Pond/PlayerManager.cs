@@ -11,6 +11,10 @@ namespace SG
         Animator anim;
         CameraHandler cameraHandler;
         PlayerLocomotion playerLocomotion;
+
+        InteractbelUI interactbelUI;
+        public GameObject interactbelUIGameObject;
+        public GameObject itemInteractbleGameObject;
         public bool isInteracting;
 
         [Header("Player Flges")]
@@ -28,6 +32,7 @@ namespace SG
             inputHander = GetComponent<InputHander>();
             anim = GetComponentInChildren<Animator>();
             playerLocomotion = GetComponent<PlayerLocomotion>();
+            interactbelUI = FindObjectOfType<InteractbelUI>();
         }
 
         // Update is called once per frame
@@ -81,11 +86,24 @@ namespace SG
                     if (interactableObject != null)
                     {
                         string interactableText = interactableObject.interactableText;
+                        interactbelUI.interactableText.text = interactableText;
+                        interactbelUIGameObject.SetActive(true);
                     }
                     if (inputHander.a_Input)
                     {
                         hit.collider.GetComponent<Interactable>().Interact(this);
                     }
+                }
+            }
+            else
+            {
+                if (interactbelUIGameObject != null)
+                {
+                    interactbelUIGameObject.SetActive(false);
+                }
+                if (itemInteractbleGameObject != null && inputHander.a_Input)
+                {
+                    itemInteractbleGameObject.SetActive(false);
                 }
             }
         }
