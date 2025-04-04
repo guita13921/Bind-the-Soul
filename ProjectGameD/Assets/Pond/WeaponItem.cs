@@ -29,6 +29,7 @@ namespace SG
 
         [Header("Absorption")]
         public float physicalDamageAbsorption;
+        public int ShieldPoint;
 
     }
 }
