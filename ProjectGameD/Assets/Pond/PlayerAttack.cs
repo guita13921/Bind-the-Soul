@@ -10,6 +10,7 @@ namespace SG
 
         AnimatorHander animatorHander;
         InputHander inputHander;
+        WeaponSlotManager weaponSlotManager;
         public string lastAttack;
         public string lastAttack2;
 
@@ -17,7 +18,9 @@ namespace SG
         private void Awake()
         {
             animatorHander = GetComponentInChildren<AnimatorHander>();
+            weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
             inputHander = GetComponent<InputHander>();
+
 
             if (animatorHander == null)
             {
@@ -70,7 +73,7 @@ namespace SG
                 Debug.LogError("❌ AnimatorHander เป็นค่า null ใน PlayerAttack!");
                 return;
             }
-
+            weaponSlotManager.attackingWeapon = weapon;
             animatorHander.PlayTargetAnimation(weapon.OH_Light_Attack_1, true);
             lastAttack = weapon.OH_Light_Attack_1;
         }
@@ -88,6 +91,7 @@ namespace SG
                 Debug.LogError("❌ AnimatorHander เป็นค่า null ใน PlayerAttack!");
                 return;
             }
+            weaponSlotManager.attackingWeapon = weapon;
             animatorHander.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
             lastAttack = weapon.OH_Heavy_Attack_1;
         }

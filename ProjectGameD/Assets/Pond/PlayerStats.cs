@@ -1,19 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.WSA;
 
 namespace SG
 {
     public class PlayerStats : CharacterStats
     {
-        public int healthlevel = 10;
+        public int healthLevel = 10; // ✅ แก้ชื่อให้ตรงกับที่ใช้
+        public int maxHealth;
+        public int currentHealth;
+
+        public int staminaLevel = 10;
+        public int maxStamina;
+        public int currentStamina;
         public HealthBar healthBar;
+        public StaminaBar staminaBar;
 
         AnimatorHander animatorHander;
 
         private void Awake()
         {
+            healthBar = FindObjectOfType<HealthBar>();
+            staminaBar = FindObjectOfType<StaminaBar>();
             animatorHander = GetComponentInChildren<AnimatorHander>();
         }
 
@@ -22,25 +30,42 @@ namespace SG
             maxHealth = SetMaxHealthFromHealthLevel();
             currentHealth = maxHealth;
             healthBar.SetMaxHealth(maxHealth);
+            healthBar.SetCurrentHealth(currentHealth);
+
+            maxStamina = SetMaxStaminaFromStaminaLevel();
+            currentStamina = maxStamina;
+            staminaBar.SetMaxStamina(maxStamina);
+            staminaBar.SetcurrentStamina(currentStamina); // ✅ แก้ชื่อฟังก์ชันให้ถูกต้อง
         }
 
-        // เปลี่ยน void เป็น int
+        // ✅ คืนค่าโดยตรง ไม่ต้องเซ็ตค่าให้ maxHealth หรือ maxStamina ก่อน
         private int SetMaxHealthFromHealthLevel()
         {
-            return healthlevel * 10; // คืนค่า maxHealth
+            return healthLevel * 10;
         }
 
-        public void TakeDamage(int damage, string damageAinmation = "Damage_01")
+        private int SetMaxStaminaFromStaminaLevel()
         {
-            currentHealth -= damage; // ลดค่าพลังชีวิต
-            healthBar.SetCurrentHealth(currentHealth); // อัปเดต Health Bar
-            animatorHander.PlayTargetAnimation(damageAinmation, true);
+            return staminaLevel * 100;
+        }
+
+        public void TakeDamage(int damage, string damageAnimation = "Damage_01") // ✅ แก้ชื่อให้ตรง
+        {
+            currentHealth -= damage;
+            healthBar.SetCurrentHealth(currentHealth);
+            animatorHander.PlayTargetAnimation(damageAnimation, true);
 
             if (currentHealth <= 0)
             {
                 currentHealth = 0;
                 animatorHander.PlayTargetAnimation("Dead_01", true);
             }
+        }
+
+        public void TakeStaminaDamage(int damage)
+        {
+            currentStamina -= damage;
+            staminaBar.SetcurrentStamina(currentStamina); // ✅ แก้ชื่อฟังก์ชันให้ถูกต้อง
         }
     }
 }
