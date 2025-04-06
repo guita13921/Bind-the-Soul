@@ -25,7 +25,6 @@ namespace SG
         public void PlayTrailVFX()
         {
             trailEffect.enabled = true;
-            Invoke(nameof(StopTrailVFX), 1f); // Automatically calls StopTrailVFX after 1 second
         }
 
         public void StopTrailVFX()

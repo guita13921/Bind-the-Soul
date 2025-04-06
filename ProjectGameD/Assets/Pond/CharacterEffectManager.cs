@@ -12,6 +12,11 @@ namespace SG
 
         EnemyAnimatorManager enemyAnimatorManager;
 
+        void Awake()
+        {
+            enemyAnimatorManager = GetComponentInChildren<EnemyAnimatorManager>();
+        }
+
         public virtual void PlayWeaponFX(bool isLeft)
         {
             if (isLeft == false)
@@ -19,6 +24,7 @@ namespace SG
                 if (rightWeaponFX != null)
                 {
                     rightWeaponFX.PlayTrailVFX();
+
                 }
             }
             else

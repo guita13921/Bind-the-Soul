@@ -25,9 +25,14 @@ namespace SG
 
             float distanceFromTarget = Vector3.Distance(enemyManager.curretTarget.transform.position, enemyManager.transform.position);
 
+            if (!enemyManager.isStunning) RotateTowardTargetWhileAttacking(enemyManager);
+
             if (enemyManager.isInterActing || enemyManager.isStunning) return this;
 
-            RotateTowardTargetWhileAttacking(enemyManager);
+            if (currentAttack == null)
+            {
+                return combatStanceState;
+            }
 
             if (enemyManager.hasShield && enemyManager.isBlocking == true)
             {
@@ -63,13 +68,8 @@ namespace SG
 
         private void AttackTarget(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager)
         {
-            if (currentAttack == null)
-            {
-                return;
-            }
-
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
-            enemyAnimatorManager.PlayWeaponTrailFX();
+            enemyAnimatorManager.animator.SetBool("isAttacking", true);
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
             hasPerformAttack = true;
         }
@@ -78,7 +78,7 @@ namespace SG
         {
             willDoComboOnNextAttack = false;
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
-            enemyAnimatorManager.PlayWeaponTrailFX();
+            enemyAnimatorManager.animator.SetBool("isAttacking", true);
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
             currentAttack = null;
         }

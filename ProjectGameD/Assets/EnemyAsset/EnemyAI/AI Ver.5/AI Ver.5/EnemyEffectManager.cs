@@ -10,6 +10,7 @@ namespace SG
     {
         EnemyStat enemyStat;
         EnemyWeaponSlotManager enemyWeaponSlotManager;
+        EnemyAnimatorManager enemyAnimatorManager;
 
         public GameObject currentParticalFX;
         public GameObject instantiatedFXModel;
@@ -19,8 +20,25 @@ namespace SG
         {
             enemyStat = GetComponent<EnemyStat>();
             enemyWeaponSlotManager = GetComponent<EnemyWeaponSlotManager>();
+            enemyAnimatorManager = GetComponentInChildren<EnemyAnimatorManager>();
         }
 
+        void Update()
+        {
+            CheckisAttacking();
+        }
+
+        void CheckisAttacking()
+        {
+            if (enemyAnimatorManager.animator.GetBool("isAttacking") == true)
+            {
+                PlayWeaponFX(false);
+            }
+            else
+            {
+                StopWeaponFX(false);
+            }
+        }
 
     }
 }

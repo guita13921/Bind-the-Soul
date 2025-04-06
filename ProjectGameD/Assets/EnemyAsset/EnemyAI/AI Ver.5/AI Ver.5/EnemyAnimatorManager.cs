@@ -37,11 +37,6 @@ namespace SG
             }
         }
 
-        public void PlayWeaponTrailFX()
-        {
-            enemyEffectManager.PlayWeaponFX(false);
-        }
-
         public void InstanctiateBossParticleFX()
         {
             GameObject phaseFX = Instantiate(enemyBossManager.particleFX, enemyManager.transform);
