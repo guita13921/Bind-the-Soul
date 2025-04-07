@@ -10,17 +10,14 @@ namespace SG
     {
         public int currentDamageWeapon;
         Collider damageCollider;
-        CharacterManager characterManager;
-        CharacterStats characterStats;
+        public bool enableOnStartUp = false;
 
         private void Awake()
         {
-            characterManager = GetComponent<CharacterManager>();
-            characterStats = GetComponent<CharacterStats>();
             damageCollider = GetComponent<Collider>();
             damageCollider.gameObject.SetActive(true);
             damageCollider.isTrigger = true;
-            damageCollider.enabled = false;
+            damageCollider.enabled = enableOnStartUp;
         }
 
         public void EnableDamageCollider()

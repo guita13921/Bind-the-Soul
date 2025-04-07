@@ -43,7 +43,7 @@ namespace SG
             return staminaLevel * 100;
         }
 
-        public void TakeDamage(int damage, string damageAnimation = "Damage_01") // ✅ แก้ชื่อให้ตรง
+        public override void TakeDamage(int damage, string damageAnimation = "Damage_01") // ✅ แก้ชื่อให้ตรง
         {
             currentHealth -= damage;
             healthBar.SetCurrentHealth(currentHealth);

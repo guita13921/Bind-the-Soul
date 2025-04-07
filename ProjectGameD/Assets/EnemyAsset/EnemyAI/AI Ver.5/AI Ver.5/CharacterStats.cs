@@ -15,5 +15,10 @@ namespace SG
 
         public bool isDead;
 
+        public virtual void TakeDamage(int damage, string damageAnimation = "Danage_01")
+        {
+
+        }
+
     }
 }

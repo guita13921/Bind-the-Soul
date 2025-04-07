@@ -41,13 +41,13 @@ public class BulletScript : MonoBehaviour
             rb.useGravity = false;
             rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
         }
-        
+
         FlashEffect();
         newRandom();
         spawnPosition = transform.position;
         Invoke("SetUp", maxLifetime); // Call SetUp instead of Destroy
     }
-    
+
     void newRandom()
     {
         randomUpAngle = Random.Range(0, upAngle);
@@ -116,9 +116,10 @@ public class BulletScript : MonoBehaviour
         {
             HitTarget();
         }
-        else if(other.tag == "Obstacle"){
-        Instantiate(hit, transform.position, transform.rotation);
-Destroy(gameObject);
+        else if (other.tag == "Obstacle")
+        {
+            Instantiate(hit, transform.position, transform.rotation);
+            Destroy(gameObject);
         }
         else
         {
@@ -177,5 +178,5 @@ Destroy(gameObject);
         Destroy(gameObject);
     }
 
-    
+
 }

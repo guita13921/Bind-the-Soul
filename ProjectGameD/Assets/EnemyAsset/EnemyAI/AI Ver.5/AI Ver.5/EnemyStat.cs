@@ -62,7 +62,7 @@ namespace SG
                 }
         }
 
-        public void TakeDamage(int damage, string damageAinmation = "Damage01")
+        public override void TakeDamage(int damage, string damageAinmation = "Damage01")
         {
             if (enemyManager.isPhaseShifting)
             {
