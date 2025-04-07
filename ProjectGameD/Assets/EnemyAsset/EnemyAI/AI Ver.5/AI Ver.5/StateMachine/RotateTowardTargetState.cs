@@ -17,6 +17,8 @@ namespace SG
             Vector3 targetDirection = enemyManager.curretTarget.transform.position - enemyManager.transform.position;
             float viewableAngle = Vector3.SignedAngle(targetDirection, enemyManager.transform.forward, Vector3.up) + (-45);
 
+            if (!enemyManager.isStunning && enemyManager.canRotate) RotateTowardTargetWhileAttacking(enemyManager);
+
             if (enemyManager.isInterActing)
             {
                 return this;
@@ -45,5 +47,25 @@ namespace SG
 
             return combatStanceState;
         }
+
+        private void RotateTowardTargetWhileAttacking(EnemyManager enemyManager)
+        {
+            //Rotate manually
+            if (enemyManager.canRotate && enemyManager.isInterActing)
+            {
+                Vector3 direction = enemyManager.curretTarget.transform.position - transform.position;
+                direction.y = 0;
+                direction.Normalize();
+
+                if (direction == Vector3.zero)
+                {
+                    direction = transform.forward;
+                }
+
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                enemyManager.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, enemyManager.rotationSpeed / Time.deltaTime);
+            }
+        }
+
     }
 }

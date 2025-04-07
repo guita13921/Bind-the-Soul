@@ -68,7 +68,7 @@ namespace SG
 
         private void AttackTarget(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager)
         {
-            enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
+            enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true, currentAttack.canRotate);
             enemyAnimatorManager.animator.SetBool("isAttacking", true);
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
             hasPerformAttack = true;
@@ -77,7 +77,7 @@ namespace SG
         private void AttackTargetWithCombo(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager)
         {
             willDoComboOnNextAttack = false;
-            enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
+            enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true, currentAttack.canRotate);
             enemyAnimatorManager.animator.SetBool("isAttacking", true);
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
             currentAttack = null;
@@ -120,6 +120,5 @@ namespace SG
                 currentAttack = null;
             }
         }
-
     }
 }

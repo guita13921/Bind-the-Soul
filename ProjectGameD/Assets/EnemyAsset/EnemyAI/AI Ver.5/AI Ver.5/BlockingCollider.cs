@@ -47,7 +47,7 @@ namespace SG
 
         public void SetShieldHealth(WeaponItem weapon) // Used only by Enemy
         {
-            if (weapon != null && weapon.isShield)
+            if (weapon != null && weapon.weaponType == WeaponType.Shield)
             {
                 blockingColliderShieldPoint = weapon.ShieldPoint;
                 maxShieldPoint = weapon.ShieldPoint;

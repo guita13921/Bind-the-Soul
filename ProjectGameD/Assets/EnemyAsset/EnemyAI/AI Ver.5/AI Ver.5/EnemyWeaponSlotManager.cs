@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using SG;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace SG
@@ -9,15 +10,18 @@ namespace SG
     {
         public WeaponItem rightHandWeapon;
         public WeaponItem leftHandWeapon;
+        public ProjectileSpell projectileSpell;
 
-        [SerializeField] WeaponHolderSlot rightHandSlot;
-        [SerializeField] WeaponHolderSlot leftHandSlot;
+        [SerializeField] public WeaponHolderSlot rightHandSlot;
+        [SerializeField] public WeaponHolderSlot leftHandSlot;
 
         DamageCollider leftHandDamageCollider;
         DamageCollider rightHandDamageCollider;
 
+        EnemyAnimatorManager enemyAnimatorManager;
         EnemyEffectManager enemyEffectManager;
         EnemyManager enemyManager;
+        PlayerStats playerStats;
 
         [Header("Shield Config")]
         public BlockingCollider Shield;
@@ -25,6 +29,8 @@ namespace SG
 
         private void Awake()
         {
+            playerStats = GameObject.FindWithTag("Player").GetComponent<PlayerStats>();
+            enemyAnimatorManager = GetComponent<EnemyAnimatorManager>();
             enemyEffectManager = GetComponentInParent<EnemyEffectManager>();
             enemyManager = GetComponentInParent<EnemyManager>();
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
@@ -52,20 +58,11 @@ namespace SG
         {
             if (isLeft)
             {
-                leftHandSlot.isShield = weapon.isShield;
-                if (weapon.isShield)
+                if (weapon.weaponType == WeaponType.Shield)
                 {
-                    enemyManager.hasShield = weapon.isShield;
+                    enemyManager.hasShield = true;
                     Shield.SetShieldHealth(weapon);
                     uIEnemyShieldBar.SetMaxShield(weapon.ShieldPoint);
-                }
-            }
-            else
-            {
-                rightHandSlot.isShield = weapon.isShield;
-                if (weapon.isShield)
-                {
-                    enemyManager.hasShield = weapon.isShield;
                 }
             }
         }
@@ -100,17 +97,19 @@ namespace SG
             }
         }
 
-
         public void LoadWeaponDamageCollider(bool isLeft)
         {
             if (isLeft)
             {
                 leftHandDamageCollider = leftHandSlot.currentWeaponModel?.GetComponentInChildren<DamageCollider>();
+                //enemyEffectManager.rightWeaponFX = rightHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
+                //leftHandDamageCollider.currentDamageWeapon = leftHandWeapon.damage;
             }
             else
             {
                 rightHandDamageCollider = rightHandSlot.currentWeaponModel?.GetComponentInChildren<DamageCollider>();
                 enemyEffectManager.rightWeaponFX = rightHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
+                rightHandDamageCollider.currentDamageWeapon = rightHandWeapon.damage;
             }
         }
 
@@ -141,6 +140,13 @@ namespace SG
         {
             leftHandSlot.UnloadWeaponAndDestroy();
         }
+
+        public void SuccessfullyCastSpell()
+        {
+            projectileSpell.SuccessfullyCastSpell(enemyAnimatorManager, playerStats, null, this);
+            enemyAnimatorManager.animator.SetBool("isFiringSpell", true);
+        }
+
     }
 
 }

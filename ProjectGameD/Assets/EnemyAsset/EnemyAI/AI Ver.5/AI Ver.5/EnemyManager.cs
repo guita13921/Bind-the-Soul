@@ -21,10 +21,7 @@ namespace SG
         [Header("Enemy Flags")]
         public bool isPerformingAction;
         public bool isInterActing;
-
         public bool hasShield;
-        public float rotationSpeed = 15f;
-        public float maximumAttackRange = 2f;
 
         [Header("A.I Setting")]
         public float detectionRadius = 20f;
@@ -34,7 +31,8 @@ namespace SG
         public float currentRecoveryTime = 0;
         public float currentStunningTime;
         public float stunningTime = 5f;
-
+        public float rotationSpeed = 15f;
+        public float maximumAttackRange = 2f;
 
         [Header("A.I Combat Setting")]
         public bool allowAiToPerformCombo;
@@ -49,7 +47,7 @@ namespace SG
             enemyStat = GetComponent<EnemyStat>();
             enemyRigidBody = GetComponent<Rigidbody>();
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
-            enemyWeaponSlotManager = GetComponent<EnemyWeaponSlotManager>();
+            enemyWeaponSlotManager = GetComponentInChildren<EnemyWeaponSlotManager>();
             navMeshAgent.enabled = false;
         }
 
@@ -68,6 +66,7 @@ namespace SG
             isRotatingWithRootMotion = enemyAnimationManager.animator.GetBool("isRotatingWithRootMotion");
             isInterActing = enemyAnimationManager.animator.GetBool("isInteracting");
             isInvulnerable = enemyAnimationManager.animator.GetBool("isInvulnerable");
+            isFiringSpell = enemyAnimationManager.animator.GetBool("isFiringSpell");
             canRotate = enemyAnimationManager.animator.GetBool("canRotate");
             CanDoCombo = enemyAnimationManager.animator.GetBool("canDoCombo");
             enemyAnimationManager.animator.SetBool("isDead", enemyStat.isDead);

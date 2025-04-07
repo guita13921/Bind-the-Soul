@@ -30,7 +30,7 @@ namespace SG
                 enemyManager.isBlocking = true;
             }
 
-            if (enemyManager.isPerformingAction)
+            if (enemyManager.isPerformingAction || enemyManager.currentRecoveryTime > 0)
             {
                 enemyAnimatorManager.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
                 return this;

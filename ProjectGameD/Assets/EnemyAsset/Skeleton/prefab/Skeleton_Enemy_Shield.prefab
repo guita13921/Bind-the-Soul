@@ -265,8 +265,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2607728484400483445}
-  - component: {fileID: 2023691690564767790}
-  - component: {fileID: 9190872229210348152}
+  - component: {fileID: 4231877343589172019}
   m_Layer: 3
   m_Name: Combat Stance State
   m_TagString: Untagged
@@ -289,7 +288,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3451612965554251396}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2023691690564767790
+--- !u!114 &4231877343589172019
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -298,39 +297,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 2420762550524237946}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d0151df34ffbe94299f4a7f5119ca5b, type: 3}
+  m_Script: {fileID: 11500000, guid: 93d302b2a864aeb4197d2fcad40a2f38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   attackState: {fileID: 2996344141921196242}
   enemyAttacks:
+  - {fileID: 11400000, guid: f1a79c3496cba8a418dbead24e3a6d6d, type: 2}
+  - {fileID: 11400000, guid: b5e93430a3853aa4983866bed1c24506, type: 2}
   - {fileID: 11400000, guid: 22e84cfb9033f38488ad81e25693180d, type: 2}
   - {fileID: 11400000, guid: 1589b44ba8d2b344cbe973511c114e55, type: 2}
   pursueTargetState: {fileID: 6095264716612817845}
-  hasPhaseShifted: 0
-  secondPhaseAttacks:
-  - {fileID: 11400000, guid: f1a79c3496cba8a418dbead24e3a6d6d, type: 2}
-  - {fileID: 11400000, guid: b5e93430a3853aa4983866bed1c24506, type: 2}
---- !u!114 &9190872229210348152
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2420762550524237946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d0151df34ffbe94299f4a7f5119ca5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackState: {fileID: 2996344141921196242}
-  enemyAttacks:
-  - {fileID: 11400000, guid: 22e84cfb9033f38488ad81e25693180d, type: 2}
-  - {fileID: 11400000, guid: 1589b44ba8d2b344cbe973511c114e55, type: 2}
-  pursueTargetState: {fileID: 6095264716612817845}
-  hasPhaseShifted: 0
-  secondPhaseAttacks:
-  - {fileID: 11400000, guid: f1a79c3496cba8a418dbead24e3a6d6d, type: 2}
-  - {fileID: 11400000, guid: b5e93430a3853aa4983866bed1c24506, type: 2}
 --- !u!1 &2654909737647499194
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,8 +374,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyManager: {fileID: 0}
-  enemyAnimatorManager: {fileID: 0}
-  enemyWeaponSlotManager: {fileID: 0}
+  enemyAnimatorManager: {fileID: 8028365991495217958}
+  enemyWeaponSlotManager: {fileID: 5771485432675624813}
   blockingColliderDamageAbsorption: 90
   isActive: 1
   blockingColliderShieldPoint: 0
@@ -407,7 +383,7 @@ MonoBehaviour:
   shieldRegenDelay: 0
   shieldRegenRate: 0
   shieldRegenAmount: 0
-  uIEnemyShieldBar: {fileID: 0}
+  uIEnemyShieldBar: {fileID: 8355610177698498227}
 --- !u!1 &2672942651692921601
 GameObject:
   m_ObjectHideFlags: 0
@@ -782,9 +758,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 1.9131726
+  m_Height: 2.490714
   m_Direction: 1
-  m_Center: {x: 0, y: 0.76955694, z: -0}
+  m_Center: {x: 0, y: 1.0761523, z: -0}
 --- !u!114 &7157409728461709216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1121,9 +1097,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 1.774669
+  m_Height: 2.0213969
   m_Direction: 1
-  m_Center: {x: 0, y: 0.82075673, z: -0}
+  m_Center: {x: 0, y: 1.1851221, z: -0}
 --- !u!1 &5345125145407062431
 GameObject:
   m_ObjectHideFlags: 0
@@ -1168,7 +1144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3bce31758225bf4da777931a829b5d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatStanceState: {fileID: 9190872229210348152}
+  combatStanceState: {fileID: 4231877343589172019}
 --- !u!1 &6855830079623708237
 GameObject:
   m_ObjectHideFlags: 0
@@ -1382,7 +1358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1012258257c96541a591b38989f0ac8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatStanceState: {fileID: 9190872229210348152}
+  combatStanceState: {fileID: 4231877343589172019}
   rotateTowardTargetState: {fileID: 6266752306662861501}
 --- !u!1 &7987185684548863477
 GameObject:
@@ -1480,7 +1456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e257a45ca45e9bd40973c891f05cbf4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatStanceState: {fileID: 9190872229210348152}
+  combatStanceState: {fileID: 4231877343589172019}
   pursueTargetState: {fileID: 6095264716612817845}
   currentAttack: {fileID: 11400000, guid: 22e84cfb9033f38488ad81e25693180d, type: 2}
   rotateTowardTargetState: {fileID: 6266752306662861501}

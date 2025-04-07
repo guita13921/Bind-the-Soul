@@ -11,10 +11,14 @@ public class ResetAnimatorBoolAI : ResetAnimatorBool
     public string isAttacking = "isAttacking";
     public bool isisAttackingStatus = false;
 
+    public string isFiringSpell = "isFiringSpell";
+    public bool isFiringSpellStatus = false;
+
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         base.OnStateEnter(animator, stateInfo, layerIndex);
         animator.SetBool(isPhaseShifting, isisPhaseShiftingStatus);
         animator.SetBool(isAttacking, isisAttackingStatus);
+        animator.SetBool(isFiringSpell, isFiringSpellStatus);
     }
 }
