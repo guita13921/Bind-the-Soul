@@ -30,7 +30,6 @@ namespace SG
             {
                 enemyAnimatorManager.animator.SetFloat("Vertical", 0);
                 enemyAnimatorManager.animator.SetFloat("Horizontal", 0);
-                return this;
             }
 
             if (enemyManager.hasShield && enemyManager.isBlocking == false)
@@ -138,6 +137,7 @@ namespace SG
                     if (viewableAngle <= enemyAttackAction.maximumAttackAngle
                     && viewableAngle >= enemyAttackAction.minimumAttackAngle)
                     {
+                        //Debug.Log("GetNewAttack");
                         maxScore += enemyAttackAction.attackScore;
                     }
                 }
@@ -164,6 +164,7 @@ namespace SG
                         {
                             attackState.currentAttack = enemyAttackAction;
                         }
+
                     }
                 }
 

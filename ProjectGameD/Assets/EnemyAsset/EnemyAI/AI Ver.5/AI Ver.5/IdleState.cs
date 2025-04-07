@@ -18,7 +18,7 @@ namespace SG
 
             for (int i = 0; i < colliders.Length; i++)
             {
-                CharacterStats characterStat = colliders[i].transform.GetComponent<CharacterStats>();
+                PlayerStats characterStat = colliders[i].transform.GetComponent<PlayerStats>();
 
                 if (characterStat != null)
                 {

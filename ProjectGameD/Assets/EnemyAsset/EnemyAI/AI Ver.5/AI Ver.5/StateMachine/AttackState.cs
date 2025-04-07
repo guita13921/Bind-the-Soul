@@ -72,6 +72,7 @@ namespace SG
             enemyAnimatorManager.animator.SetBool("isAttacking", true);
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
             hasPerformAttack = true;
+            currentAttack = null;
         }
 
         private void AttackTargetWithCombo(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager)
@@ -117,7 +118,7 @@ namespace SG
             else
             {
                 willDoComboOnNextAttack = false;
-                currentAttack = null;
+                //currentAttack = null;
             }
         }
     }
