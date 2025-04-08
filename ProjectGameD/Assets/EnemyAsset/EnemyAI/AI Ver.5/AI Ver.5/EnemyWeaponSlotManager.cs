@@ -115,20 +115,28 @@ namespace SG
 
         public void OpenDamageCollider()
         {
-            //Debug.Log("OpenDamageCollider() called.");
             if (rightHandDamageCollider != null)
             {
                 rightHandDamageCollider.EnableDamageCollider();
             }
-            else
+
+            if (leftHandDamageCollider != null)
             {
-                Debug.LogError("rightHandDamageCollider is null!");
+                leftHandDamageCollider.EnableDamageCollider();
             }
         }
 
         public void CloseDamageCollider()
         {
-            rightHandDamageCollider.DisableDamageCollider();
+            if (rightHandDamageCollider != null)
+            {
+                rightHandDamageCollider.DisableDamageCollider();
+            }
+
+            if (leftHandDamageCollider != null)
+            {
+                leftHandDamageCollider.DisableDamageCollider();
+            }
         }
 
         public bool LoadShield()

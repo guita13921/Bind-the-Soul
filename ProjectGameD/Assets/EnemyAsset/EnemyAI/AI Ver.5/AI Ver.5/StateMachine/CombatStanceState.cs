@@ -145,7 +145,7 @@ namespace SG
 
             int rendomValue = Random.Range(0, maxScore);
             int temporaryScore = 0;
-
+            Debug.Log("GetNewAttack");
             for (int i = 0; i < enemyAttacks.Length; i++)
             {
                 EnemyAttackAction enemyAttackAction = enemyAttacks[i];
@@ -157,6 +157,7 @@ namespace SG
                     && viewableAngle >= enemyAttackAction.minimumAttackAngle)
                     {
                         if (attackState.currentAttack != null) return;
+                        //Debug.Log("GetNewAttack");
 
                         temporaryScore += enemyAttackAction.attackScore;
 

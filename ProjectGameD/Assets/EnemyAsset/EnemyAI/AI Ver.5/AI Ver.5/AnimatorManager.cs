@@ -26,7 +26,7 @@ namespace SG
             animator.applyRootMotion = isInteracting;
             animator.SetBool("isRotatingWithRootMotion", isInteracting);
             animator.SetBool("isInteracting", isInteracting);
-            animator.CrossFade(targetAnim, 0.2f);
+            animator.CrossFade(targetAnim, 0f);
         }
 
     }
