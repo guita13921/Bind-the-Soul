@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
+using UnityEngine.Rendering.Universal;
 
 namespace SG
 {
@@ -67,6 +68,14 @@ namespace SG
         public void DisableCombo()
         {
             anim.SetBool("CanDoCombo", false);
+        }
+        public void EnableIsInvulnerable()
+        {
+            anim.SetBool("IsInvulnerable", true);
+        }
+        public void DisableIsnvulnerable()
+        {
+            anim.SetBool("IsInvulnerable", false);
         }
 
         private void OnAnimatorMove()

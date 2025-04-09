@@ -6,20 +6,24 @@ namespace SG
 {
     public class PlayerStats : CharacterStats
     {
+        PlayerManager playerManager;
         public int healthLevel = 10; // ✅ แก้ชื่อให้ตรงกับที่ใช้
         public int maxHealth;
         public int currentHealth;
 
         public int staminaLevel = 10;
-        public int maxStamina;
-        public int currentStamina;
+        public float maxStamina;
+        public float currentStamina;
         public HealthBar healthBar;
         public StaminaBar staminaBar;
+        public float StaminaRegenerationAmount = 5.0f;
+        public float staminaRegenTimer = 0;
 
         AnimatorHander animatorHander;
 
         private void Awake()
         {
+            playerManager = FindObjectOfType<PlayerManager>();
             healthBar = FindObjectOfType<HealthBar>();
             staminaBar = FindObjectOfType<StaminaBar>();
             animatorHander = GetComponentInChildren<AnimatorHander>();
@@ -34,9 +38,10 @@ namespace SG
 
             maxStamina = SetMaxStaminaFromStaminaLevel();
             currentStamina = maxStamina;
-            staminaBar.SetMaxStamina(maxStamina);
-            staminaBar.SetcurrentStamina(currentStamina); // ✅ แก้ชื่อฟังก์ชันให้ถูกต้อง
+            staminaBar.SetMaxStamina(Mathf.RoundToInt(maxStamina));
+            staminaBar.SetcurrentStamina(Mathf.RoundToInt(currentStamina));
         }
+
 
         // ✅ คืนค่าโดยตรง ไม่ต้องเซ็ตค่าให้ maxHealth หรือ maxStamina ก่อน
         private int SetMaxHealthFromHealthLevel()
@@ -44,13 +49,17 @@ namespace SG
             return healthLevel * 10;
         }
 
-        private int SetMaxStaminaFromStaminaLevel()
+        private float SetMaxStaminaFromStaminaLevel()
         {
-            return staminaLevel * 100;
+            return staminaLevel * 10f;
         }
 
         public void TakeDamage(int damage, string damageAnimation = "Damage_01") // ✅ แก้ชื่อให้ตรง
         {
+            if (playerManager.isInvulnerable)
+                return;
+            if (isDead)
+                return;
             currentHealth -= damage;
             healthBar.SetCurrentHealth(currentHealth);
             animatorHander.PlayTargetAnimation(damageAnimation, true);
@@ -65,7 +74,26 @@ namespace SG
         public void TakeStaminaDamage(int damage)
         {
             currentStamina -= damage;
-            staminaBar.SetcurrentStamina(currentStamina); // ✅ แก้ชื่อฟังก์ชันให้ถูกต้อง
+            staminaBar.SetcurrentStamina(Mathf.RoundToInt(currentStamina));
+        }
+        public void RegenerateStamina()
+        {
+            if (playerManager.isInteracting)
+            {
+                staminaRegenTimer = 0;
+            }
+            else
+            {
+                staminaRegenTimer += Time.deltaTime;
+                if (currentStamina < maxStamina && staminaRegenTimer > 1f)
+                {
+                    currentStamina += StaminaRegenerationAmount * Time.deltaTime;
+                    currentStamina = Mathf.Min(currentStamina, maxStamina);
+
+                    staminaBar.SetcurrentStamina(Mathf.RoundToInt(currentStamina));
+                }
+            }
+
         }
     }
 }

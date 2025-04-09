@@ -11,7 +11,9 @@ namespace SG
         Animator anim;
         CameraHandler cameraHandler;
         PlayerLocomotion playerLocomotion;
+        PlayerStats playerStats;
         public bool isInteracting;
+        public bool isInvulerable;
 
         //[Header("Player Flges")]
         //public bool isSprinting;
@@ -28,6 +30,7 @@ namespace SG
             inputHander = GetComponent<InputHander>();
             anim = GetComponentInChildren<Animator>();
             playerLocomotion = GetComponent<PlayerLocomotion>();
+            playerStats = GetComponent<PlayerStats>();
         }
 
         // Update is called once per frame
@@ -36,12 +39,15 @@ namespace SG
             float delta = Time.deltaTime;
             isInteracting = anim.GetBool("isInteracting");
             CanDoCombo = anim.GetBool("CanDoCombo");
+            isInvulerable = anim.GetBool("IsInvulnerable");
 
             inputHander.TickInput(delta);
             playerLocomotion.HandleMovement(delta);
             playerLocomotion.HandleRollingAndSprinting(delta);
             isUsingLefthand = anim.GetBool("isUsingLefthand");
             isUsingRightHand = anim.GetBool("isUsingRightHand");
+            playerStats.RegenerateStamina();
+
 
             CheckForInteractableObjiect();
 
@@ -73,7 +79,7 @@ namespace SG
         public void CheckForInteractableObjiect()
         {
             RaycastHit hit;
-            if (Physics.SphereCast(transform.position, 0.3f, transform.forward, out hit, 1f, cameraHandler.ignoreLayers))
+            if (cameraHandler != null && Physics.SphereCast(transform.position, 0.3f, transform.forward, out hit, 1f, cameraHandler.ignoreLayers))
             {
                 if (hit.collider.tag == "Interactable")
                 {
