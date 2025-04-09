@@ -615,7 +615,6 @@ GameObject:
   - component: {fileID: 439884929}
   - component: {fileID: 439884933}
   - component: {fileID: 439884934}
-  - component: {fileID: 439884935}
   - component: {fileID: 439884936}
   m_Layer: 6
   m_Name: Player
@@ -710,6 +709,7 @@ MonoBehaviour:
   movementSpeed: 5
   sprintSpeed: 7
   rotationSpeed: 10
+  rollStaminaCost: 15
   CharacterCollider: {fileID: 439884928}
   CharacterCollisiomBlockerCollider: {fileID: 1566302811}
 --- !u!114 &439884930
@@ -783,6 +783,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b4f14dae596b94cb1e19294e9096a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentSpell: {fileID: 0}
   rightWeapon: {fileID: 11400000, guid: 8cd052c88b6864f4196e4a279881240d, type: 2}
   leftWeapon: {fileID: 11400000, guid: 8cd052c88b6864f4196e4a279881240d, type: 2}
   unarmedWeapon: {fileID: 11400000, guid: 933e8cdbcf319b6418669641a1a68e0b, type: 2}
@@ -795,20 +796,6 @@ MonoBehaviour:
   currentRightWeaponIndex: 0
   currentLeftWeaponIndex: 0
   weaponInventory: []
---- !u!114 &439884935
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 439884925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 503e546ea693c4542b1c90d4352e5ebe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lastAttack: 
-  lastAttack2: 
 --- !u!114 &439884936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -836,7 +823,7 @@ MonoBehaviour:
   currentStamina: 0
   healthBar: {fileID: 1540731135}
   staminaBar: {fileID: 0}
-  StaminaRegenerationAmount: 1
+  StaminaRegenerationAmount: 20
   staminaRegenTimer: 0
 --- !u!1 &480014855
 GameObject:
@@ -1308,6 +1295,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1498602441859810746, guid: ced25e6fd8255d34aa994a56aa9a4283, type: 3}
       insertIndex: -1
       addedObject: {fileID: 954811990}
+    - targetCorrespondingSourceObject: {fileID: 1498602441859810746, guid: ced25e6fd8255d34aa994a56aa9a4283, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 954811992}
     - targetCorrespondingSourceObject: {fileID: 7524928656275969926, guid: ced25e6fd8255d34aa994a56aa9a4283, type: 3}
       insertIndex: -1
       addedObject: {fileID: 24565972}
@@ -1357,6 +1347,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 954811988}
   canRotate: 1
+--- !u!114 &954811992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954811987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 503e546ea693c4542b1c90d4352e5ebe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lastAttack: 
+  lastAttack2: 
 --- !u!1 &1044460748
 GameObject:
   m_ObjectHideFlags: 0

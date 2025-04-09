@@ -27,6 +27,12 @@ namespace SG
         public float lightAttackMultiplier;
         public float heavyAttackMultiplier;
 
+        [Header("WeaponType")]
+        public bool isSpellCaster;
+        public bool isFaithCaster;
+        public bool isPyroCaster;
+        public bool isMeleeWeapon;
+
         [Header("Absorption")]
         public float physicalDamageAbsorption;
         public int ShieldPoint;

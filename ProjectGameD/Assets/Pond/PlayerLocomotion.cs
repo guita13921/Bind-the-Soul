@@ -8,6 +8,7 @@ namespace SG
     public class PlayerLocomotion : MonoBehaviour
     {
         PlayerManager playerManager;
+        PlayerStats playerStats;
         Transform cameraObject;
         InputHander inputHander;
         Vector3 moveDirection;
@@ -26,15 +27,27 @@ namespace SG
         [SerializeField]
         float rotationSpeed = 10;
 
+        [Header("Stamina Costa")]
+        [SerializeField]
+        int rollStaminaCost = 15;
+        int backstepStaminaCost = 12;
+        int sprintStaminaCost = 1;
+
         public CapsuleCollider CharacterCollider;
         public CapsuleCollider CharacterCollisiomBlockerCollider;
 
-        void Start()
+        private void Awake()
         {
             playerManager = GetComponent<PlayerManager>();
+            playerStats = GetComponent<PlayerStats>();
             rigidbody = GetComponent<Rigidbody>();
             inputHander = GetComponent<InputHander>();
             animatorHander = GetComponentInChildren<AnimatorHander>();
+        }
+
+        void Start()
+        {
+
             cameraObject = normalCameral.transform;
             myTransform = transform;
             animatorHander.Initialize();
@@ -76,11 +89,12 @@ namespace SG
 
             float speed = movementSpeed;
 
-            if (inputHander.sprintFlag)
+            if (inputHander.sprintFlag && inputHander.moveAmount > 0.5)
             {
                 speed = sprintSpeed;
                 playerManager.isSprinting = true;
                 moveDirection *= speed;
+                playerStats.TakeStaminaDamage(sprintStaminaCost);
             }
             else
             {
@@ -102,6 +116,8 @@ namespace SG
         {
             if (animatorHander.anim.GetBool("isInteracting"))
                 return;
+            if (playerStats.currentStamina <= 0)
+                return;
             if (inputHander.rollFlag)
             {
                 moveDirection = cameraObject.forward * inputHander.vertical;
@@ -112,10 +128,12 @@ namespace SG
                     moveDirection.y = 0;
                     Quaternion rollRotaion = Quaternion.LookRotation(moveDirection);
                     myTransform.rotation = rollRotaion;
+                    playerStats.TakeStaminaDamage(rollStaminaCost);
                 }
                 else
                 {
                     animatorHander.PlayTargetAnimation("Back Step", true);
+                    playerStats.TakeStaminaDamage(backstepStaminaCost);
                 }
             }
         }

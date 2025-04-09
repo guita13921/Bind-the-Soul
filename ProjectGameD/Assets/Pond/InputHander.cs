@@ -32,6 +32,7 @@ public class InputHander : MonoBehaviour
     PlayerAttack playerAttack;
     PlayerInventory playerInventory;
     PlayerManager playerManager;
+    PlayerStats playerStats;
 
 
     Vector3 movementInput;
@@ -39,9 +40,10 @@ public class InputHander : MonoBehaviour
 
     private void Awake()
     {
-        playerAttack = GetComponent<PlayerAttack>();
+        playerAttack = GetComponentInChildren<PlayerAttack>();
         playerInventory = GetComponent<PlayerInventory>();
         playerManager = GetComponent<PlayerManager>();
+        playerStats = GetComponent<PlayerStats>();
     }
 
     public void OnEnable()
@@ -50,6 +52,8 @@ public class InputHander : MonoBehaviour
         {
             inputAction = new PlayerControls();
             inputAction.PlayerMovement.Movement.performed += inputAction => movementInput = inputAction.ReadValue<Vector3>();
+            inputAction.PlayerAction.Roll.performed += i => b_Input = true;
+            inputAction.PlayerAction.Roll.canceled += i => b_Input = false;
             inputAction.PlayerMovement.Camera.performed += i => cameraInput = i.ReadValue<Vector3>();
         }
         inputAction.Enable();
@@ -98,16 +102,27 @@ public class InputHander : MonoBehaviour
 
     private void HandleRollinput(float delta)
     {
-        b_Input = inputAction.PlayerAction.Roll.phase == InputActionPhase.Started;
+
+
         if (b_Input)
         {
             rollInputTimer += delta;
+            if (playerStats.currentStamina <= 0)
+            {
+                b_Input = false;
+                sprintFlag = false;
+            }
+            if (moveAmount > 0.5f && playerStats.currentStamina > 0)
+            {
+                sprintFlag = true;
+            }
         }
         else
         {
+            sprintFlag = false;
             if (rollInputTimer > 0 && rollInputTimer < 0.5f)
             {
-                sprintFlag = false;
+
                 rollFlag = true;
             }
             rollInputTimer = 0;

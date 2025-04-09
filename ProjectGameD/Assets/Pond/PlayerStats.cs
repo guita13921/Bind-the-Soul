@@ -16,7 +16,7 @@ namespace SG
         public float currentStamina;
         public HealthBar healthBar;
         public StaminaBar staminaBar;
-        public float StaminaRegenerationAmount = 5.0f;
+        public float StaminaRegenerationAmount = 10.0f;
         public float staminaRegenTimer = 0;
 
         AnimatorHander animatorHander;
