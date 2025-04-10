@@ -44,8 +44,8 @@ namespace SG
             inputHander.TickInput(delta);
             playerLocomotion.HandleMovement(delta);
             playerLocomotion.HandleRollingAndSprinting(delta);
-            isUsingLefthand = anim.GetBool("isUsingLefthand");
-            isUsingRightHand = anim.GetBool("isUsingRightHand");
+            //            isUsingLefthand = anim.GetBool("isUsingLefthand");
+            //           isUsingRightHand = anim.GetBool("isUsingRightHand");
             playerStats.RegenerateStamina();
 
 
@@ -68,6 +68,7 @@ namespace SG
             isSprinting = inputHander.b_Input;
             inputHander.Al_Input = false;
             inputHander.Ah_Input = false;
+            inputHander.Lt_Input = false;
             inputHander.k_Up = false;
             inputHander.k_Down = false;
             inputHander.k_Right = false;

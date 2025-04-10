@@ -7,13 +7,6 @@ namespace SG
     public class PlayerStats : CharacterStats
     {
         PlayerManager playerManager;
-        public int healthLevel = 10; // ✅ แก้ชื่อให้ตรงกับที่ใช้
-        public int maxHealth;
-        public int currentHealth;
-
-        public int staminaLevel = 10;
-        public float maxStamina;
-        public float currentStamina;
         public HealthBar healthBar;
         public StaminaBar staminaBar;
         public float StaminaRegenerationAmount = 10.0f;

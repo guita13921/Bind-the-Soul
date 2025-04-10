@@ -13,6 +13,7 @@ namespace SG
         CharacterManager characterManager;
         CharacterStats characterStats;
 
+
         private void Awake()
         {
             characterManager = GetComponent<CharacterManager>();
@@ -21,6 +22,7 @@ namespace SG
             damageCollider.gameObject.SetActive(true);
             damageCollider.isTrigger = true;
             damageCollider.enabled = false;
+
         }
 
         public void EnableDamageCollider()
@@ -38,11 +40,17 @@ namespace SG
             if (collider.tag == "Player")
             {
                 PlayerStats playerStats = collider.GetComponent<PlayerStats>();
+                CharacterManager characterManager = collider.GetComponent<CharacterManager>();
                 PlayerManager enemyCharacterManager = collider.GetComponent<PlayerManager>();
                 BlockingCollider shield = collider.transform.GetComponentInChildren<BlockingCollider>();
 
                 if (enemyCharacterManager != null)
                 {
+                    if (characterManager.isParrying)
+                    {
+                        characterManager.GetComponentInChildren<AnimatorHander>().PlayTargetAnimation("Parried", true);
+                        return;
+                    }
                     //Shielded Damage
                     if (shield != null && enemyCharacterManager.isBlocking)
                     {
@@ -69,12 +77,18 @@ namespace SG
             {
                 //Debug.Log("Enemy");
                 EnemyStat enemyStat = collider.GetComponent<EnemyStat>();
+                CharacterManager characterManager = collider.GetComponent<CharacterManager>();
                 EnemyManager enemyManager = collider.GetComponent<EnemyManager>();
                 BlockingCollider shield = collider.transform.GetComponentInChildren<BlockingCollider>();
 
                 if (enemyManager != null && enemyStat != null)
                 {
 
+                    if (characterManager.isParrying)
+                    {
+                        characterManager.GetComponentInChildren<AnimatorHander>().PlayTargetAnimation("Parried", true);
+                        return;
+                    }
                     if (shield != null && enemyManager.isBlocking)
                     {
                         float physicalDamageAfterBlock =

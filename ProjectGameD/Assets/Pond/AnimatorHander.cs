@@ -77,6 +77,14 @@ namespace SG
         {
             anim.SetBool("IsInvulnerable", false);
         }
+        public void EnableIsParrying()
+        {
+            playerManager.isParrying = true;
+        }
+        public void DusableIsParrying()
+        {
+            playerManager.isParrying = false;
+        }
 
         private void OnAnimatorMove()
         {

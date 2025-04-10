@@ -11,7 +11,7 @@ namespace SG
         AnimatorHander animatorHander;
         PlayerManager playerManager;
         PlayerInventory playerInventory;
-        PlayerStats playerStats;
+        private PlayerStats playerStats;
         InputHander inputHander;
         WeaponSlotManager weaponSlotManager;
         public string lastAttack;
@@ -24,8 +24,9 @@ namespace SG
             playerManager = GetComponentInParent<PlayerManager>();
             playerStats = GetComponent<PlayerStats>();
             playerInventory = GetComponentInParent<PlayerInventory>();
-            weaponSlotManager = GetComponent<WeaponSlotManager>();
+            weaponSlotManager = GetComponentInParent<WeaponSlotManager>();
             inputHander = GetComponentInParent<InputHander>();
+
 
 
             if (animatorHander == null)
@@ -45,8 +46,8 @@ namespace SG
         }
         public void HandleWeaponCombo(WeaponItem weapon)
         {
-            if (playerStats.currentStamina <= 0)
-                return;
+            //        if (playerStats.currentStamina <= 0)
+            //            return;
             if (inputHander.comboflang)
             {
                 animatorHander.anim.SetBool("CanDoCombo", false);
@@ -70,19 +71,9 @@ namespace SG
 
         public void HandleLightAttack(WeaponItem weapon)
         {
-            if (weapon == null)
-            {
-                Debug.LogError("❌ Weapon เป็นค่า null ใน HandleLightAttack!");
-                return;
-            }
 
-            if (animatorHander == null)
-            {
-                Debug.LogError("❌ AnimatorHander เป็นค่า null ใน PlayerAttack!");
-                return;
-            }
-            if (playerStats.currentStamina <= 0)
-                return;
+            //            if (playerStats.currentStamina <= 0)
+            //               return;
             weaponSlotManager.attackingWeapon = weapon;
             animatorHander.PlayTargetAnimation(weapon.OH_Light_Attack_1, true);
             lastAttack = weapon.OH_Light_Attack_1;
@@ -90,19 +81,9 @@ namespace SG
 
         public void HandleHeavyAttack(WeaponItem weapon)
         {
-            if (weapon == null)
-            {
-                Debug.LogError("❌ Weapon เป็นค่า null ใน HandleLightAttack!");
-                return;
-            }
 
-            if (animatorHander == null)
-            {
-                Debug.LogError("❌ AnimatorHander เป็นค่า null ใน PlayerAttack!");
-                return;
-            }
-            if (playerStats.currentStamina <= 0)
-                return;
+            //          if (playerStats.currentStamina <= 0)
+            //              return;
             weaponSlotManager.attackingWeapon = weapon;
             animatorHander.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
             lastAttack = weapon.OH_Heavy_Attack_1;
@@ -119,6 +100,17 @@ namespace SG
                 PerformALMagicAction(playerInventory.rightWeapon);
             }
 
+        }
+        public void HandleLTAction()
+        {
+            if (playerInventory.leftWeapon.isShieldWeapon)
+            {
+                PerformLTWeaponArt(true);
+            }
+            else if (playerInventory.leftWeapon.isMeleeWeapon)
+            {
+
+            }
         }
         #endregion
         #region Attack Actions
@@ -140,6 +132,20 @@ namespace SG
                 animatorHander.anim.SetBool("isUsingRightHand", true);
                 HandleLightAttack(playerInventory.rightWeapon);
             }
+        }
+        private void PerformLTWeaponArt(bool isLeftWeapon)
+        {
+            if (playerManager.isInteracting)
+                return;
+            animatorHander.PlayTargetAnimation(playerInventory.leftWeapon.weapon_art, true);
+            /* if (isLeftWeapon)
+              {
+                  animatorHander.PlayTargetAnimation(playerInventory.leftWeapon.weapon_art, true);
+              }
+              els
+              {
+
+              }*/
         }
         private void PerformALMagicAction(WeaponItem weapon)
         {

@@ -21,6 +21,7 @@ public class InputHander : MonoBehaviour
     public bool k_Down;
     public bool k_Left;
     public bool k_Right;
+    public bool Lt_Input;
 
     public bool rollFlag;
     public bool sprintFlag;
@@ -54,6 +55,7 @@ public class InputHander : MonoBehaviour
             inputAction.PlayerMovement.Movement.performed += inputAction => movementInput = inputAction.ReadValue<Vector3>();
             inputAction.PlayerAction.Roll.performed += i => b_Input = true;
             inputAction.PlayerAction.Roll.canceled += i => b_Input = false;
+            inputAction.PlayerAction.LT.performed += i => Lt_Input = true;
             inputAction.PlayerMovement.Camera.performed += i => cameraInput = i.ReadValue<Vector3>();
         }
         inputAction.Enable();
@@ -170,6 +172,10 @@ public class InputHander : MonoBehaviour
         {
             playerAttack.HandleHeavyAttack(playerInventory.rightWeapon);
         }
+        if (Lt_Input)
+        {
+        }
+
     }
     private void HandleQuickSlotsInput()
     {
