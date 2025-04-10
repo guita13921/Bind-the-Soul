@@ -12,7 +12,9 @@ namespace RoomGen
         public RoomPreset preset;
         public bool debug;
 
-        [Space] [Header("Room Size")] [Range(1, 20)]
+        [Space]
+        [Header("Room Size")]
+        [Range(1, 20)]
         public int gridX = 2;
 
         [Range(1, 20)] public int gridZ = 2;
@@ -52,7 +54,8 @@ namespace RoomGen
         [Tooltip("This is a global property that will adjust all floor decorations up by this value. Use this if all your floor decorations " + "are clipping through the floor tiles.")]
         public float floorDecorationOffset = 0f;
 
-        [Tooltip("This will give your floor props a safe area distance from the surrounding walls. Nothing will spawn within the safe area.")] [Range(0, 25)]
+        [Tooltip("This will give your floor props a safe area distance from the surrounding walls. Nothing will spawn within the safe area.")]
+        [Range(0, 25)]
         public int decorSafeArea = 1;
 
         [HideInInspector] public int points;
@@ -688,12 +691,12 @@ GameObject decor = Instantiate(decoration.prefab) as GameObject;
                         default:
                             decor.transform.Rotate(Vector3.up * Random.Range(0, decoration.randomRotation), Space.World);
                             break;
-                        //case PointType.Character:
-                        //    decor.transform.Rotate(Vector3.up * Random.Range(0, decoration.randomRotation), Space.World);
-                        //    break;
-                        //case PointType.Roof:
-                        //    decor.transform.Rotate(Vector3.up * Random.Range(0, decoration.randomRotation), Space.World);
-                        //    break;
+                            //case PointType.Character:
+                            //    decor.transform.Rotate(Vector3.up * Random.Range(0, decoration.randomRotation), Space.World);
+                            //    break;
+                            //case PointType.Roof:
+                            //    decor.transform.Rotate(Vector3.up * Random.Range(0, decoration.randomRotation), Space.World);
+                            //    break;
                     }
 
                     decor.transform.localScale *= Random.Range(decoration.scaleRange.x, decoration.scaleRange.y);

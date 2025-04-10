@@ -18,6 +18,9 @@ namespace SG
         //public bool isUsingRightHand;
         //public bool isUsingLefthand;
 
+        public static Room currentRoom;
+        public static Transform transform;
+
         private void Awake()
         {
             cameraHandler = CameraHandler.singleton;
@@ -43,7 +46,7 @@ namespace SG
             isUsingLefthand = anim.GetBool("isUsingLefthand");
             isUsingRightHand = anim.GetBool("isUsingRightHand");
 
-            CheckForInteractableObjiect();
+            //CheckForInteractableObjiect();
 
         }
         private void FixedUpdate()

@@ -6,7 +6,7 @@ namespace SG
 {
     public class OpenChest : Interactable
     {
-
+        /*
         public override void Interact(PlayerManager playerManager)
         {
             //Rotate our player towards the chest
@@ -22,6 +22,7 @@ namespace SG
             Quaternion targetRotaion = Quaternion.Slerp(playerManager.transform.rotation, tr, 300 * Time.deltaTime);
             playerManager.transform.rotation = targetRotaion;
         }
+        */
 
 
     }
