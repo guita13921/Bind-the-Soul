@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public static class Level
 {
@@ -18,6 +19,8 @@ public static class Level
     public static Sprite treasureRoomIcon;
     public static Sprite bossRoomIcon;
     public static Sprite shopRoomIcon;
+    public static Sprite challengeRoom;
+
     public static Sprite unexploreRoom;
     public static Sprite defaultRoomIcon;
     public static Sprite currentRoomIcon;
@@ -26,11 +29,19 @@ public static class Level
     public static List<Room> rooms = new List<Room>();
     public static Room currentRoom;
 
+    public static float RoomChangeTime = 1f;
+
+    public static int enemyCount = 0;
+
 }
 
 public class Room
 {
     public int roomNumber = 6;
     public Vector2 location;
-    public Sprite roomImage;
+    public Image roomImage;
+    public Sprite roomSprite;
+    public bool revealed;
+    public bool explored;
+    public bool cleared = true;
 }

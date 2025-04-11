@@ -5,8 +5,13 @@ using UnityEngine;
 
 namespace SG
 {
+
     public class EnemyStat : CharacterStats
     {
+
+        private EnemyStat enemyStats;
+        private EnemyRoomManager roomManager;
+
         EnemyManager enemyManager;
         EnemyAnimatorManager enemyAnimatorManager;
         EnemyBossManager enemyBossManager;
@@ -17,6 +22,8 @@ namespace SG
 
         private void Awake()
         {
+            enemyStats = GetComponent<EnemyStat>();
+            roomManager = GetComponentInParent<EnemyRoomManager>();
             enemyManager = GetComponent<EnemyManager>();
             enemyAnimatorManager = GetComponentInChildren<EnemyAnimatorManager>();
             enemyBossManager = GetComponent<EnemyBossManager>();
@@ -96,13 +103,13 @@ namespace SG
             {
                 enemyBossManager.UpdateBossHealthBar(currentHealth, maxHealth);
             }
-
-
         }
 
         private void HandleDeath()
         {
             enemyAnimatorManager.PlayTargetAnimation("Dead01", true);
+            roomManager?.OnEnemyDefeated(this);
+            Destroy(gameObject);
         }
 
     }

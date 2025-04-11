@@ -168,7 +168,7 @@ public class RoomGeneratorEditor : Editor
 
         if (GUI.changed)
         {
-            if(roomGenerator.tileSize <= 0)
+            if (roomGenerator.tileSize <= 0)
             {
                 roomGenerator.tileSize = 0.01f;
             }
@@ -210,7 +210,7 @@ public class RoomGeneratorEditor : Editor
         //levelList.onSelectCallback = OnSelectLevel;
     }
 
-    
+
 
     void DrawLevelItems(Rect rect, int index, bool isActive, bool isFocused)
     {
@@ -262,7 +262,7 @@ public class RoomGeneratorEditor : Editor
     }
 
 
-  
+
 
     //Presets and levels
     void AddLevelElement(ReorderableList list)
@@ -279,7 +279,7 @@ public class RoomGeneratorEditor : Editor
         element.FindPropertyRelative("windowHeight").intValue = 1;
     }
 
-   
+
 
     public void OnInspectorUpdate()
     {

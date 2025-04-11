@@ -147,8 +147,10 @@ namespace SG
 
               }*/
         }
+
         private void PerformALMagicAction(WeaponItem weapon)
         {
+            /*
             if (weapon.isFaithCaster)
             {
                 if (playerInventory.currentSpell != null && playerInventory.currentSpell.isFaithSpell)
@@ -156,6 +158,7 @@ namespace SG
 
                 }
             }
+            */
         }
         #endregion
 
