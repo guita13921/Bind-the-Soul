@@ -25,10 +25,20 @@ namespace SG
         public string OH_Light_Attack_4;
         public string OH_Heavy_Attack_1;
 
+        [Header("Weapon Art")]
+        public string weapon_art;
+
         [Header("stamina Costs")]
         public int baseStamina;
         public float lightAttackMultiplier;
         public float heavyAttackMultiplier;
+
+        [Header("WeaponType")]
+        public bool isSpellCaster;
+        public bool isFaithCaster;
+        public bool isPyroCaster;
+        public bool isMeleeWeapon;
+        public bool isShieldWeapon;
 
         [Header("Absorption")]
         public float physicalDamageAbsorption;
