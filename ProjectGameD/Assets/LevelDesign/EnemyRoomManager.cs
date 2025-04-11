@@ -17,14 +17,22 @@ namespace SG
             Transform spawnerParent = GameObject.Find(currentRoom.roomNumber.ToString()).transform.Find("Spawners");
             if (spawnerParent == null)
             {
-                Debug.LogWarning("Spawner parent not found in room: " + currentRoom.roomNumber);
+                Debug.Log("Spawner parent not found in room: " + currentRoom.roomNumber);
                 return;
+            }
+
+            // Find or create the "Enemies" parent GameObject
+            GameObject enemiesParent = GameObject.Find("Enemies");
+            if (enemiesParent == null)
+            {
+                enemiesParent = new GameObject("Enemies");
             }
 
             foreach (Transform spawnPoint in spawnerParent)
             {
-                GameObject enemyGO = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
+                GameObject enemyGO = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity, enemiesParent.transform);
                 EnemyStat enemyStat = enemyGO.GetComponent<EnemyStat>();
+                enemyStat.roomManager = this;
 
                 if (enemyStat != null)
                 {
@@ -32,28 +40,31 @@ namespace SG
                 }
                 else
                 {
-                    Debug.LogWarning("Enemy prefab is missing EnemyStat component.");
+                    Debug.Log("Enemy prefab is missing EnemyStat component.");
                 }
 
                 Level.enemyCount++; // Track global enemy count if you're using it
             }
         }
 
+
         public void OnEnemyDefeated(EnemyStat defeatedEnemy)
         {
             enemiesInRoom.Remove(defeatedEnemy);
             Level.enemyCount--;
 
-            if (enemiesInRoom.Count <= 0 && !roomCleared)
+            if (enemiesInRoom.Count <= 0)
             {
                 roomCleared = true;
-                RoomCleared();
+                PlayerManager.currentRoom.cleared = true;
+                RoomCleared(PlayerManager.currentRoom);
             }
         }
 
-        private void RoomCleared()
+        private void RoomCleared(Room currentRoom)
         {
-            Transform doors = GameObject.Find(PlayerManager.currentRoom.roomNumber.ToString()).transform.Find("Doors");
+            Transform doors = GameObject.Find(currentRoom.roomNumber.ToString()).transform.Find("Doors");
+
             if (doors != null)
             {
                 OpenDoorIfExists(doors, "Left Door");
@@ -63,7 +74,7 @@ namespace SG
             }
             else
             {
-                Debug.LogWarning("Doors object not found in the new room.");
+                Debug.Log("Doors object not found in the new room.");
             }
 
             void OpenDoorIfExists(Transform doors, string doorName)
@@ -78,12 +89,12 @@ namespace SG
                     }
                     else
                     {
-                        Debug.LogWarning($"DoorManager not found on {doorName}.");
+                        Debug.Log($"DoorManager not found on {doorName}.");
                     }
                 }
                 else
                 {
-                    Debug.LogWarning($"{doorName} not found in Doors.");
+                    Debug.Log($"{doorName} not found in Doors.");
                 }
             }
         }

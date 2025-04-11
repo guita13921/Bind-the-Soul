@@ -336,7 +336,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1525799270638845737
 Transform:
   m_ObjectHideFlags: 0
@@ -443,6 +443,7 @@ MonoBehaviour:
   maxStamina: 0
   currentStamina: 0
   isDead: 0
+  roomManager: {fileID: 0}
   enemyHealthBar: {fileID: 3652417511076667309}
   coinAwardOnDeath: 10
   isBoss: 0
@@ -484,14 +485,14 @@ MonoBehaviour:
   isPerformingAction: 0
   isInterActing: 0
   hasShield: 0
-  rotationSpeed: 180
-  maximumAttackRange: 1.5
   detectionRadius: 10
   minimumDetectionAngle: -50
   maximumDetectionAngle: 50
   currentRecoveryTime: 0
   currentStunningTime: 0
   stunningTime: 5
+  rotationSpeed: 180
+  maximumAttackRange: 1.5
   allowAiToPerformCombo: 1
   comboLikelyHood: 100
   isPhaseShifting: 0
@@ -1082,7 +1083,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   combatStanceState: {fileID: 1292287871956581622}
   pursueTargetState: {fileID: 6081452545838763561}
-  currentAttack: {fileID: 11400000, guid: 7a82ac428016c5748b18bfcaab2eb4ac, type: 2}
+  currentAttack: {fileID: 0}
   rotateTowardTargetState: {fileID: 3083153096222501350}
   willDoComboOnNextAttack: 0
   hasPerformAttack: 0
@@ -1519,6 +1520,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rightHandWeapon: {fileID: 11400000, guid: 301004f2ea88aa74aa7e5b498bcdd4fc, type: 2}
   leftHandWeapon: {fileID: 0}
+  projectileSpell: {fileID: 0}
   rightHandSlot: {fileID: 0}
   leftHandSlot: {fileID: 0}
   Shield: {fileID: 0}

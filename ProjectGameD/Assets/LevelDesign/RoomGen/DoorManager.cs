@@ -9,10 +9,10 @@ public class DoorManager : MonoBehaviour
 
     public void OpenDoor()
     {
-        // Destroy both door panel parts if they exist
+        // Deactivate both door panel parts if they exist
         if (doorPanelLeft != null)
         {
-            Destroy(doorPanelLeft);
+            doorPanelLeft.SetActive(false);
         }
         else
         {
@@ -21,7 +21,7 @@ public class DoorManager : MonoBehaviour
 
         if (doorPanelRight != null)
         {
-            Destroy(doorPanelRight);
+            doorPanelRight.SetActive(false);
         }
         else
         {
@@ -32,6 +32,38 @@ public class DoorManager : MonoBehaviour
         if (pointLight != null)
         {
             pointLight.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("DoorManager: Point light not assigned!");
+        }
+    }
+
+    public void CloseDoor()
+    {
+        // Reactivate both door panel parts if they exist
+        if (doorPanelLeft != null)
+        {
+            doorPanelLeft.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("DoorManager: Left door panel not assigned!");
+        }
+
+        if (doorPanelRight != null)
+        {
+            doorPanelRight.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("DoorManager: Right door panel not assigned!");
+        }
+
+        // Disable the point light if assigned
+        if (pointLight != null)
+        {
+            pointLight.gameObject.SetActive(false);
         }
         else
         {

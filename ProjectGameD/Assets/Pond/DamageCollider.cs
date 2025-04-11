@@ -112,7 +112,7 @@ namespace SG
                     }
                     else
                     {
-                        Debug.Log("Damage:" + currentDamageWeapon);
+                        //Debug.Log("Damage:" + currentDamageWeapon);
                         enemyStat.TakeDamage(currentDamageWeapon);
                     }
                 }

@@ -201,8 +201,6 @@ namespace SG
 
                 EnableDoor(r);
 
-                PlayerManager.currentRoom.explored = true;
-
                 RevealRoom(r);
                 ReDrawRevealRoom();
 
@@ -216,28 +214,30 @@ namespace SG
                               .transform.Find("Spawners")
                               .GetComponent<EnemyRoomManager>();
 
-                    if (enemyRoomManager != null)
+                    if (enemyRoomManager != null && !PlayerManager.currentRoom.explored)
                     {
                         enemyRoomManager.SpawnEnemiesInRoom(PlayerManager.currentRoom);
                     }
+                    else
+                    {
+                        PlayerManager.currentRoom.cleared = true;
+                        Debug.Log("PlayerManager.currentRoom.cleared = true;");
+                    }
+                }
+
+                Transform doors = newRoom.transform.Find("Doors");
+                if (doors != null)
+                {
+                    OpenDoorIfExists(doors, "Left Door");
+                    OpenDoorIfExists(doors, "Right Door");
+                    OpenDoorIfExists(doors, "Top Door");
+                    OpenDoorIfExists(doors, "Bottom Door");
                 }
                 else
                 {
-                    Debug.LogWarning("Enemies object not found in the new room. Assuming room is already cleared.");
-
-                    Transform doors = newRoom.transform.Find("Doors");
-                    if (doors != null)
-                    {
-                        OpenDoorIfExists(doors, "Left Door");
-                        OpenDoorIfExists(doors, "Right Door");
-                        OpenDoorIfExists(doors, "Top Door");
-                        OpenDoorIfExists(doors, "Bottom Door");
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Doors object not found in the new room.");
-                    }
+                    Debug.LogWarning("Doors object not found in the new room.");
                 }
+
 
                 // Helper method to open a door if it exists
                 void OpenDoorIfExists(Transform doors, string doorName)
@@ -248,7 +248,12 @@ namespace SG
                         DoorManager doorManager = door.GetComponent<DoorManager>();
                         if (doorManager != null)
                         {
-                            doorManager.OpenDoor();
+                            if (PlayerManager.currentRoom.cleared)
+                                doorManager.OpenDoor();
+                            else
+                            {
+                                doorManager.CloseDoor();
+                            }
                         }
                         else
                         {
@@ -262,6 +267,10 @@ namespace SG
                 }
 
             }
+
+            //Debug.Log(PlayerManager.currentRoom.location);
+            //Debug.Log(PlayerManager.currentRoom.cleared);
+            PlayerManager.currentRoom.explored = true;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace SG
     {
 
         private EnemyStat enemyStats;
-        private EnemyRoomManager roomManager;
+        public EnemyRoomManager roomManager;
 
         EnemyManager enemyManager;
         EnemyAnimatorManager enemyAnimatorManager;
@@ -78,7 +78,7 @@ namespace SG
             else
             {
                 currentHealth -= damage;
-                if (currentHealth >= 0)
+                if (currentHealth > 0)
                 {
                     if (damageAinmation == "Block_Guard")
                     {
@@ -108,7 +108,7 @@ namespace SG
         private void HandleDeath()
         {
             enemyAnimatorManager.PlayTargetAnimation("Dead01", true);
-            roomManager?.OnEnemyDefeated(this);
+            roomManager.OnEnemyDefeated(this);
             Destroy(gameObject);
         }
 

@@ -145,7 +145,7 @@ namespace SG
 
             int rendomValue = Random.Range(0, maxScore);
             int temporaryScore = 0;
-            Debug.Log("GetNewAttack");
+
             for (int i = 0; i < enemyAttacks.Length; i++)
             {
                 EnemyAttackAction enemyAttackAction = enemyAttacks[i];
