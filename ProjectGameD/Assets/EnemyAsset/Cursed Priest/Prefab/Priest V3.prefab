@@ -82,16 +82,16 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 72
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 2.490714
+  m_Height: 2.1436179
   m_Direction: 1
-  m_Center: {x: 0, y: 1.0761523, z: -0}
+  m_Center: {x: 0, y: 1.2497004, z: 0}
 --- !u!114 &8792350163749617825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,6 +128,7 @@ MonoBehaviour:
   maxStamina: 0
   currentStamina: 0
   isDead: 0
+  roomManager: {fileID: 0}
   enemyHealthBar: {fileID: 147927961103627994}
   coinAwardOnDeath: 10
   isBoss: 0
@@ -162,21 +163,21 @@ MonoBehaviour:
   enemyLocomotionManager: {fileID: 0}
   enemyAnimationManager: {fileID: 0}
   enemyWeaponSlotManager: {fileID: 0}
-  currentState: {fileID: 0}
+  currentState: {fileID: 6660284551954206933}
   curretTarget: {fileID: 0}
   navMeshAgent: {fileID: 0}
   enemyRigidBody: {fileID: 0}
   isPerformingAction: 0
   isInterActing: 0
   hasShield: 0
-  rotationSpeed: 15
-  maximumAttackRange: 8
-  detectionRadius: 10
-  minimumDetectionAngle: -50
-  maximumDetectionAngle: 50
+  detectionRadius: 30
+  minimumDetectionAngle: -180
+  maximumDetectionAngle: 180
   currentRecoveryTime: 0
   currentStunningTime: 0
   stunningTime: 5
+  rotationSpeed: 100
+  maximumAttackRange: 10
   allowAiToPerformCombo: 0
   comboLikelyHood: 0
   isPhaseShifting: 0
@@ -1032,7 +1033,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   combatStanceState: {fileID: 8000356497454874491}
   pursueTargetState: {fileID: 3808974442211640935}
-  currentAttack: {fileID: 11400000, guid: a21b8981843e2eb44bed933ec072cd5e, type: 2}
+  currentAttack: {fileID: 0}
   rotateTowardTargetState: {fileID: 6428793433700738310}
   willDoComboOnNextAttack: 0
   hasPerformAttack: 0
@@ -1551,8 +1552,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb678f269817bf48a1d467cd9354f1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rightHandWeapon: {fileID: 0}
+  rightHandWeapon: {fileID: 11400000, guid: 8e1eefcd6cd39f24587596522097c76b, type: 2}
   leftHandWeapon: {fileID: 0}
+  projectileSpell: {fileID: 11400000, guid: 3e79392cb78f605479130861f0182479, type: 2}
   rightHandSlot: {fileID: 0}
   leftHandSlot: {fileID: 0}
   Shield: {fileID: 0}

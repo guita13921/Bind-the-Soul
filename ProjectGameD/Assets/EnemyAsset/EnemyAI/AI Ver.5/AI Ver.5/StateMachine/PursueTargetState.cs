@@ -21,7 +21,9 @@ namespace SG
             float viewableAngle = Vector3.SignedAngle(targetDirection, enemyManager.transform.forward, Vector3.up);
 
             if (enemyManager.isStunning) return this;
+
             HandleRotationToTarget(enemyManager);
+
             if (enemyManager.isInterActing || enemyManager.isStunning) return this;
 
             if (enemyManager.hasShield && enemyManager.isBlocking == false)
@@ -54,6 +56,7 @@ namespace SG
 
         private void HandleRotationToTarget(EnemyManager enemyManager)
         {
+            Debug.Log("HandleRotationToTarget");
             //Rotate manually
             if (enemyManager.isPerformingAction)
             {

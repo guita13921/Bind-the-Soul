@@ -6,7 +6,6 @@ namespace SG
     public class EnemyRoomManager : MonoBehaviour
     {
         [Header("Room Enemy Manager")]
-        public GameObject enemyPrefab; // The enemy to spawn
         public List<EnemyStat> enemiesInRoom = new List<EnemyStat>();
         public bool roomCleared = false;
 
@@ -21,7 +20,6 @@ namespace SG
                 return;
             }
 
-            // Find or create the "Enemies" parent GameObject
             GameObject enemiesParent = GameObject.Find("Enemies");
             if (enemiesParent == null)
             {
@@ -30,23 +28,28 @@ namespace SG
 
             foreach (Transform spawnPoint in spawnerParent)
             {
-                GameObject enemyGO = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity, enemiesParent.transform);
-                EnemyStat enemyStat = enemyGO.GetComponent<EnemyStat>();
-                enemyStat.roomManager = this;
+                EnemySpawner spawner = spawnPoint.GetComponent<EnemySpawner>();
+                if (spawner == null || spawner.enemyPrefab == null)
+                {
+                    Debug.LogWarning($"Spawner at {spawnPoint.name} is missing EnemySpawner component or has no enemyPrefab assigned.");
+                    continue;
+                }
 
+                GameObject enemyGO = Instantiate(spawner.enemyPrefab, spawnPoint.position, Quaternion.identity, enemiesParent.transform);
+                EnemyStat enemyStat = enemyGO.GetComponent<EnemyStat>();
                 if (enemyStat != null)
                 {
+                    enemyStat.roomManager = this;
                     enemiesInRoom.Add(enemyStat);
                 }
                 else
                 {
-                    Debug.Log("Enemy prefab is missing EnemyStat component.");
+                    Debug.LogWarning("Enemy prefab is missing EnemyStat component.");
                 }
 
-                Level.enemyCount++; // Track global enemy count if you're using it
+                Level.enemyCount++; // optional global tracking
             }
         }
-
 
         public void OnEnemyDefeated(EnemyStat defeatedEnemy)
         {
