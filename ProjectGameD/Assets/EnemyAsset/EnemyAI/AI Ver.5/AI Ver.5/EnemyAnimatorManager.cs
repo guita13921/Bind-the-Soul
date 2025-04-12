@@ -42,5 +42,20 @@ namespace SG
             GameObject phaseFX = Instantiate(enemyBossManager.particleFX, enemyManager.transform);
         }
 
+        public void AwardGoldOnDeath()
+        {
+            PlayerStats playerStats = FindObjectOfType<PlayerStats>();
+            GoldContBar goldContBar = FindObjectOfType<GoldContBar>();
+
+            if (playerStats != null)
+            {
+                playerStats.AddGold(enemyStat.goldAwardOnDeath);
+
+                if (goldContBar != null)
+                {
+                    goldContBar.SetGoldCountText(playerStats.goldCount);
+                }
+            }
+        }
     }
 }

@@ -69,6 +69,7 @@ namespace SG
             currentStamina -= damage;
             staminaBar.SetcurrentStamina(Mathf.RoundToInt(currentStamina));
         }
+
         public void RegenerateStamina()
         {
             if (playerManager.isInteracting)
@@ -87,6 +88,11 @@ namespace SG
                 }
             }
 
+        }
+
+        public void AddGold(int golds)
+        {
+            goldCount += golds;
         }
     }
 }

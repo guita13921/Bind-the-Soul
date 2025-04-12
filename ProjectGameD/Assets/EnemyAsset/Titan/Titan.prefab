@@ -436,7 +436,6 @@ Transform:
   m_Children:
   - {fileID: 4464761707599065035}
   - {fileID: 8633794924210747656}
-  - {fileID: 2986297377045133462}
   m_Father: {fileID: 8126703009135790530}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &2445617166827152000
@@ -883,9 +882,11 @@ MonoBehaviour:
   staminaLevel: 10
   maxStamina: 0
   currentStamina: 0
+  goldCount: 0
   isDead: 0
+  roomManager: {fileID: 0}
   enemyHealthBar: {fileID: 773499248473439547}
-  coinAwardOnDeath: 10
+  goldAwardOnDeath: 10
   isBoss: 0
 --- !u!114 &2204377031810582032
 MonoBehaviour:
@@ -1456,13 +1457,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5224416934799738128}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.68370736, y: -0.03902712, z: 0.72785217, w: -0.03538856}
-  m_LocalPosition: {x: -0.33243847, y: 0.057228923, z: 0.08677949}
+  m_LocalRotation: {x: 0.0013545431, y: 0.0068840403, z: -0.66896313, w: 0.74326247}
+  m_LocalPosition: {x: 0.4504728, y: -0.3323298, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 712528846108676247}
-  m_Father: {fileID: 7207896539729705504}
+  m_Father: {fileID: 2487614012208501896}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5259649429591110947
 GameObject:
@@ -2310,7 +2311,8 @@ Transform:
   m_LocalPosition: {x: 0.45374507, y: -4.2632563e-16, z: 7.105427e-16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2986297377045133462}
   m_Father: {fileID: 7110504102584035164}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8959531030003093117

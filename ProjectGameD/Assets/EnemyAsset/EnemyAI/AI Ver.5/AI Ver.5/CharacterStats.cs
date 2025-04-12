@@ -13,6 +13,8 @@ namespace SG
         public float maxStamina;
         public float currentStamina;
 
+        public int goldCount = 0;
+
         public bool isDead;
 
         public virtual void TakeDamage(int damage, string damageAnimation = "Danage_01")

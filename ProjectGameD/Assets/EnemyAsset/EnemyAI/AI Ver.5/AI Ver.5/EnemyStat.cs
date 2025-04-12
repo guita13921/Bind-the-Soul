@@ -8,7 +8,6 @@ namespace SG
 
     public class EnemyStat : CharacterStats
     {
-
         private EnemyStat enemyStats;
         public EnemyRoomManager roomManager;
 
@@ -16,8 +15,8 @@ namespace SG
         EnemyAnimatorManager enemyAnimatorManager;
         EnemyBossManager enemyBossManager;
         public UIEnemyHealthBar enemyHealthBar;
-        public int coinAwardOnDeath = 10;
 
+        public int goldAwardOnDeath = 10;
         public bool isBoss;
 
         private void Awake()
@@ -107,9 +106,13 @@ namespace SG
 
         private void HandleDeath()
         {
+            currentHealth = 0;
             enemyAnimatorManager.PlayTargetAnimation("Dead01", true);
             roomManager.OnEnemyDefeated(this);
-            Destroy(gameObject);
+            isDead = true;
+            //Scan for every player in scene, award them gold
+
+            //Destroy(gameObject);
         }
 
     }
