@@ -16,9 +16,6 @@ namespace SG
         public float currentStamina;
         public float staminaRegenTimer = 0;
 
-        public int staminaLevel = 10;
-        public float maxStamina;
-        public float currentStamina;
         AnimatorHander animatorHander;
 
         private void Awake()
@@ -55,7 +52,7 @@ namespace SG
             return staminaLevel * 10;
         }
 
-        public override void TakeDamage(int damage, string damageAnimation = "Damage_01") // ✅ แก้ชื่อให้ตรง
+        public void TakeDamage(int damage, string damageAnimation = "Damage_01") // ✅ แก้ชื่อให้ตรง
         {
             if (playerManager.isInvulnerable)
                 return;

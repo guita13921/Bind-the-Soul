@@ -36,7 +36,7 @@ public class InputHander : MonoBehaviour
     PlayerInventory playerInventory;
     PlayerManager playerManager;
     PlayerStats playerStats;
-    BlockingCollider blockingCollider;
+    BlockingColliderPlayer blockingColliderPlayer;
 
 
     Vector3 movementInput;
@@ -48,7 +48,7 @@ public class InputHander : MonoBehaviour
         playerInventory = GetComponent<PlayerInventory>();
         playerManager = GetComponent<PlayerManager>();
         playerStats = GetComponent<PlayerStats>();
-        blockingCollider = GetComponentInChildren<BlockingCollider>();
+        blockingColliderPlayer = GetComponentInParent<BlockingColliderPlayer>();
     }
 
     public void OnEnable()
@@ -176,6 +176,10 @@ public class InputHander : MonoBehaviour
         else
         {
             playerManager.isBlocking = false;
+            if (blockingColliderPlayer.blockingCollider.enabled)
+            {
+                blockingColliderPlayer.DisableBlockingCollider();
+            }
         }
         if (Lt_Input)
         {

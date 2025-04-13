@@ -9,13 +9,12 @@ namespace SG
     {
         InputHander inputHandler;
         PlayerInventory playerInventory;
-        BlockingCollider blockingCollider;
+        public BlockingCollider blockingCollider;
 
         void Awake()
         {
             inputHandler = GetComponentInParent<InputHander>();
             playerInventory = GetComponentInParent<PlayerInventory>();
-            blockingCollider = GetComponentInChildren<BlockingCollider>();
         }
 
         public void OpenBlockingCollider()
