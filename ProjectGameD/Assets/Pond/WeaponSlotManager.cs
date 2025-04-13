@@ -15,8 +15,8 @@ namespace SG
         [SerializeField] public WeaponHolderSlot rightHandSlot;
         WeaponHolderSlot backSlot;
 
-        [SerializeField] DamageCollider leftHandDamgeCollider;
-        [SerializeField] DamageCollider righthandDamgeCollider;
+        [SerializeField] public DamageCollider leftHandDamgeCollider;
+        [SerializeField] public DamageCollider righthandDamgeCollider;
 
         Animator animator;
 
@@ -86,14 +86,14 @@ namespace SG
         private void LoadLeftWeaponDamageCollider()
         {
             leftHandDamgeCollider = leftHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
-            leftHandDamgeCollider.currentDamageWeapon = attackingWeapon.damage;
+            // leftHandDamgeCollider.currentDamageWeapon = attackingWeapon.damage;
 
         }
 
         private void LoadRightWeaponDamageCollider()
         {
             righthandDamgeCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
-            righthandDamgeCollider.currentDamageWeapon = attackingWeapon.damage;
+            //righthandDamgeCollider.currentDamageWeapon = attackingWeapon.damage;
         }
 
         public void OpenRightDamageCollider()
@@ -113,24 +113,24 @@ namespace SG
         {
             leftHandDamgeCollider.DisableDamageCollider();
         }
-        /* public void OpenDamageCollider()
-         {
-             if (playerManager.isUsingLefthand)
-             {
-                 leftHandDamgeCollider.EnableDamageCollider();
-             }
-             else if (playerManager.isUsingRightHand)
-             {
-                 righthandDamgeCollider.EnableDamageCollider();
-             }
-         }
+        public void OpenDamageCollider()
+        {
+            if (playerManager.isUsingLefthand)
+            {
+                leftHandDamgeCollider.EnableDamageCollider();
+            }
+            else if (playerManager.isUsingRightHand)
+            {
+                righthandDamgeCollider.EnableDamageCollider();
+            }
+        }
 
 
-         public void CloseDamageCollider()
-         {
-             leftHandDamgeCollider.DisableDamageCollider();
-             righthandDamgeCollider.DisableDamageCollider();
-         }*/
+        public void CloseDamageCollider()
+        {
+            leftHandDamgeCollider.DisableDamageCollider();
+            righthandDamgeCollider.DisableDamageCollider();
+        }
 
         #endregion
 

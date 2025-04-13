@@ -26,6 +26,7 @@ namespace SG
             enemyManager = GetComponent<EnemyManager>();
             enemyAnimatorManager = GetComponentInChildren<EnemyAnimatorManager>();
             enemyBossManager = GetComponent<EnemyBossManager>();
+            enemyHealthBar = GetComponentInChildren<UIEnemyHealthBar>();
             maxHealth = SetMaxHealthFromHealthLevel();
             currentHealth = maxHealth;
         }

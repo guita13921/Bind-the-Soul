@@ -9,10 +9,6 @@ namespace SG
         public int maxHealth;
         public int currentHealth;
 
-        public int staminaLevel = 10;
-        public float maxStamina;
-        public float currentStamina;
-
         public int goldCount = 0;
 
         public bool isDead;

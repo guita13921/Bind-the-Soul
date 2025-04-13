@@ -9,7 +9,11 @@ namespace SG
         PlayerManager playerManager;
         public HealthBar healthBar;
         public StaminaBar staminaBar;
+
         public float StaminaRegenerationAmount = 10.0f;
+        public int staminaLevel = 10;
+        public float maxStamina;
+        public float currentStamina;
         public float staminaRegenTimer = 0;
 
         AnimatorHander animatorHander;
@@ -29,6 +33,7 @@ namespace SG
             healthBar.SetMaxHealth(maxHealth);
             healthBar.SetCurrentHealth(currentHealth);
 
+
             maxStamina = SetMaxStaminaFromStaminaLevel();
             currentStamina = maxStamina;
             staminaBar.SetMaxStamina(Mathf.RoundToInt(maxStamina));
@@ -44,10 +49,10 @@ namespace SG
 
         private float SetMaxStaminaFromStaminaLevel()
         {
-            return staminaLevel * 10f;
+            return staminaLevel * 10;
         }
 
-        public void TakeDamage(int damage, string damageAnimation = "Damage_01") // ✅ แก้ชื่อให้ตรง
+        public override void TakeDamage(int damage, string damageAnimation = "Damage_01") // ✅ แก้ชื่อให้ตรง
         {
             if (playerManager.isInvulnerable)
                 return;

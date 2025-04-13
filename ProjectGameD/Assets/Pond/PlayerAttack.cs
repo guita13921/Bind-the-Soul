@@ -22,7 +22,7 @@ namespace SG
         {
             animatorHander = GetComponent<AnimatorHander>();
             playerManager = GetComponentInParent<PlayerManager>();
-            playerStats = GetComponent<PlayerStats>();
+            playerStats = GetComponentInParent<PlayerStats>();
             playerInventory = GetComponentInParent<PlayerInventory>();
             weaponSlotManager = GetComponentInParent<WeaponSlotManager>();
             inputHander = GetComponentInParent<InputHander>();
@@ -46,8 +46,8 @@ namespace SG
         }
         public void HandleWeaponCombo(WeaponItem weapon)
         {
-            //        if (playerStats.currentStamina <= 0)
-            //            return;
+            if (playerStats.currentStamina <= 0)
+                return;
             if (inputHander.comboflang)
             {
                 animatorHander.anim.SetBool("CanDoCombo", false);
@@ -72,9 +72,11 @@ namespace SG
         public void HandleLightAttack(WeaponItem weapon)
         {
 
-            //            if (playerStats.currentStamina <= 0)
-            //               return;
+            if (playerStats.currentStamina <= 0)
+                return;
             weaponSlotManager.attackingWeapon = weapon;
+            weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
+            //          weaponSlotManager.leftHandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
             animatorHander.PlayTargetAnimation(weapon.OH_Light_Attack_1, true);
             lastAttack = weapon.OH_Light_Attack_1;
         }
@@ -82,9 +84,11 @@ namespace SG
         public void HandleHeavyAttack(WeaponItem weapon)
         {
 
-            //          if (playerStats.currentStamina <= 0)
-            //              return;
+            if (playerStats.currentStamina <= 0)
+                return;
             weaponSlotManager.attackingWeapon = weapon;
+            weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
+            //  weaponSlotManager.leftHandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
             animatorHander.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
             lastAttack = weapon.OH_Heavy_Attack_1;
         }
