@@ -24,12 +24,14 @@ public class FrontAttackDamage : MonoBehaviour
     {
         yield return new WaitForSeconds(damageWindowStart);  // Wait for the damage window
         sphereCollider.enabled = true;
-        if(mesh != null) {
+        if (mesh != null)
+        {
             mesh.enabled = true;
         }
         yield return new WaitForSeconds(damageWindowDuration);  // Wait for damage duration
         sphereCollider.enabled = false;
-        if(mesh != null) {
+        if (mesh != null)
+        {
             mesh.enabled = false;
         }
     }

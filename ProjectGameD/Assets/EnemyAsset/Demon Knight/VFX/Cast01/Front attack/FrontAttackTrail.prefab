@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5378321442968227143}
   - component: {fileID: -8400508204875163903}
+  - component: {fileID: -18493717666313325}
+  - component: {fileID: 1195007125717285571}
   m_Layer: 0
   m_Name: FrontAttackTrail
   m_TagString: Untagged
@@ -46,6 +48,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selfdestruct_in: 10
+--- !u!114 &-18493717666313325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620642375942035484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f4386cae2eed154baa154bc16731aca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  playerStats: {fileID: 0}
+  isCurseAttack: 0
+--- !u!135 &1195007125717285571
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620642375942035484}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &3177081226555611052
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -102,11 +140,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5590735142946190671, guid: b077e6cd582cac14cbbfc8e9dc6d8315, type: 3}
+      propertyPath: sphereCollider
+      value: 
+      objectReference: {fileID: 1985113426085032796}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b077e6cd582cac14cbbfc8e9dc6d8315, type: 3}
+--- !u!135 &1985113426085032796 stripped
+SphereCollider:
+  m_CorrespondingSourceObject: {fileID: 4007016944531203312, guid: b077e6cd582cac14cbbfc8e9dc6d8315, type: 3}
+  m_PrefabInstance: {fileID: 3177081226555611052}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7939458103077338485 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4772088953206319833, guid: b077e6cd582cac14cbbfc8e9dc6d8315, type: 3}

@@ -14,6 +14,7 @@ namespace SG
         EnemyManager enemyManager;
         EnemyAnimatorManager enemyAnimatorManager;
         EnemyBossManager enemyBossManager;
+        [SerializeField] DemonBossManager demonBossManager; //Only old Demon Boss
         public UIEnemyHealthBar enemyHealthBar;
 
         public int goldAwardOnDeath = 10;
@@ -26,9 +27,10 @@ namespace SG
             enemyManager = GetComponent<EnemyManager>();
             enemyAnimatorManager = GetComponentInChildren<EnemyAnimatorManager>();
             enemyBossManager = GetComponent<EnemyBossManager>();
-            enemyHealthBar = GetComponentInChildren<UIEnemyHealthBar>();
+            demonBossManager = GetComponent<DemonBossManager>();
             maxHealth = SetMaxHealthFromHealthLevel();
             currentHealth = maxHealth;
+            enemyHealthBar = GetComponentInChildren<UIEnemyHealthBar>();
         }
 
         void Start()
@@ -42,7 +44,7 @@ namespace SG
         private int SetMaxHealthFromHealthLevel()
         {
             maxHealth = healthLevel * 10;
-            enemyHealthBar.SetMaxHealth(maxHealth);
+            if (enemyHealthBar != null) enemyHealthBar.SetMaxHealth(maxHealth);
 
             return maxHealth;
         }
@@ -50,6 +52,7 @@ namespace SG
         public void TakeDamageNoAnimation(int damage)
         {
             currentHealth -= damage;
+
             if (!isBoss)
             {
                 enemyHealthBar.SetHealth(currentHealth);
@@ -59,17 +62,22 @@ namespace SG
                 enemyBossManager.UpdateBossHealthBar(currentHealth, maxHealth);
             }
 
+            else if (isBoss && demonBossManager != null) //Only For Demon Boss
+            {
+                demonBossManager.UpdateBossHealthBar(currentHealth, maxHealth);
+            }
+
 
             if (isBoss && enemyBossManager != null)
 
                 if (currentHealth <= 0)
                 {
-                    currentHealth = 0;
+                    enemyHealthBar.SetHealth(0);
                     isDead = true;
                 }
         }
 
-        public override void TakeDamage(int damage, string damageAinmation = "Damage01")
+        public void TakeDamage(int damage, string damageAinmation = "Damage01")
         {
             if (enemyManager.isPhaseShifting)
             {
@@ -91,6 +99,7 @@ namespace SG
                 }
                 else
                 {
+                    enemyHealthBar.SetHealth(0);
                     HandleDeath();
                 }
             }
@@ -109,13 +118,25 @@ namespace SG
         {
             currentHealth = 0;
             enemyAnimatorManager.PlayTargetAnimation("Dead01", true);
-            roomManager.OnEnemyDefeated(this);
+            if (roomManager != null) roomManager.OnEnemyDefeated(this);
             isDead = true;
-            //Scan for every player in scene, award them gold
 
-            //Destroy(gameObject);
         }
 
+        public int GetCurrentHealth()
+        {
+            return currentHealth;
+        }
+
+        public void RestoreFullHealth()
+        {
+            currentHealth = maxHealth;
+        }
+
+        public int GetMaxHealth()
+        {
+            return maxHealth;
+        }
     }
 
 }

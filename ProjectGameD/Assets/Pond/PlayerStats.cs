@@ -16,6 +16,9 @@ namespace SG
         public float currentStamina;
         public float staminaRegenTimer = 0;
 
+        public int staminaLevel = 10;
+        public float maxStamina;
+        public float currentStamina;
         AnimatorHander animatorHander;
 
         private void Awake()
