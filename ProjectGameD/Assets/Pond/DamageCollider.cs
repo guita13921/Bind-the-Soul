@@ -37,6 +37,7 @@ namespace SG
 
         private void OnTriggerEnter(Collider collider)
         {
+            //Hit Player
             if (collider.tag == "Player")
             {
                 PlayerStats playerStats = collider.GetComponent<PlayerStats>();
@@ -73,6 +74,7 @@ namespace SG
 
             }
 
+            //Hit Enemy
             if (collider.tag == "Enemy")
             {
                 //Debug.Log("Enemy");
@@ -112,7 +114,6 @@ namespace SG
                     }
                     else
                     {
-                        //Debug.Log("Damage:" + currentDamageWeapon);
                         enemyStat.TakeDamage(currentDamageWeapon);
                     }
                 }

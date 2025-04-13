@@ -35,7 +35,7 @@ namespace SG
             EnemyWeaponSlotManager enemyWeaponSlotManager
         )
         {
-            Debug.Log("Successfully CastSpell");
+            //Debug.Log("Successfully CastSpell");
         }
     }
 

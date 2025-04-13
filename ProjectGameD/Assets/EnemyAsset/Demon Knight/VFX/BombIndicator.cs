@@ -2,59 +2,63 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BombIndicator : MonoBehaviour
+namespace SG
 {
-    public RectTransform attackIndicator; // Ensure this is the RectTransform of your UI image.
-    public RectTransform attackIndicatorFinish; // Target scale indicator.
 
-
-    public void ShowIndicator(int AttackTimeFrame)
+    public class BombIndicator : MonoBehaviour
     {
-        if (attackIndicator != null)
+        public RectTransform attackIndicator; // Ensure this is the RectTransform of your UI image.
+        public RectTransform attackIndicatorFinish; // Target scale indicator.
+
+
+        public void ShowIndicator(int AttackTimeFrame)
         {
-            attackIndicator.gameObject.SetActive(true); // Enable the object4
-            attackIndicatorFinish.gameObject.SetActive(true); // Enable the object4
-            StartCoroutine(ScaleIndicatorY(AttackTimeFrame)); // Start the animation
+            if (attackIndicator != null)
+            {
+                attackIndicator.gameObject.SetActive(true); // Enable the object4
+                attackIndicatorFinish.gameObject.SetActive(true); // Enable the object4
+                StartCoroutine(ScaleIndicatorY(AttackTimeFrame)); // Start the animation
+            }
         }
-    }
 
-    private IEnumerator ScaleIndicatorY(int frameCount)
-    {
-        Vector3 originalScale = attackIndicator.localScale;
-        Vector3 targetScale = new Vector3(1f, 1f, 1f);
-        attackIndicatorFinish.localScale = new Vector3(1f, 1f, 1f);
-
-        int elapsedFrames = 0;
-        attackIndicator.localScale = new Vector3(0, 0, 0);
-
-        while (elapsedFrames < frameCount)
+        private IEnumerator ScaleIndicatorY(int frameCount)
         {
-            elapsedFrames++;
-            float progress = Mathf.Clamp01((float)elapsedFrames / frameCount);
+            Vector3 originalScale = attackIndicator.localScale;
+            Vector3 targetScale = new Vector3(1f, 1f, 1f);
+            attackIndicatorFinish.localScale = new Vector3(1f, 1f, 1f);
 
-            // Lerp scale between 0 and target
-            attackIndicator.localScale = Vector3.Lerp(
-                new Vector3(0, 0, 0),
-                targetScale,
-                progress
-            );
+            int elapsedFrames = 0;
+            attackIndicator.localScale = new Vector3(0, 0, 0);
 
-            yield return null; // Wait for the next frame
+            while (elapsedFrames < frameCount)
+            {
+                elapsedFrames++;
+                float progress = Mathf.Clamp01((float)elapsedFrames / frameCount);
+
+                // Lerp scale between 0 and target
+                attackIndicator.localScale = Vector3.Lerp(
+                    new Vector3(0, 0, 0),
+                    targetScale,
+                    progress
+                );
+
+                yield return null; // Wait for the next frame
+            }
         }
-    }
 
 
         public void HideIndicator()
-    {
-        if (attackIndicator != null)
         {
-            Vector3 originalScale = attackIndicator.localScale;
-            //attackIndicator.localScale = new Vector3(0, 0, 0);
-            //attackIndicatorFinish.localScale = new Vector3(0, 0, 0);
-            attackIndicator.localScale = originalScale;
-            attackIndicatorFinish.localScale = originalScale;
-            attackIndicator.gameObject.SetActive(false); // Enable the object4
-            attackIndicatorFinish.gameObject.SetActive(false); // Enable the object4
+            if (attackIndicator != null)
+            {
+                Vector3 originalScale = attackIndicator.localScale;
+                //attackIndicator.localScale = new Vector3(0, 0, 0);
+                //attackIndicatorFinish.localScale = new Vector3(0, 0, 0);
+                attackIndicator.localScale = originalScale;
+                attackIndicatorFinish.localScale = originalScale;
+                attackIndicator.gameObject.SetActive(false); // Enable the object4
+                attackIndicatorFinish.gameObject.SetActive(false); // Enable the object4
+            }
         }
     }
 }

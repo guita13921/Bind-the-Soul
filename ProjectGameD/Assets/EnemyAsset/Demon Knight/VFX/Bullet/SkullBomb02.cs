@@ -1,9 +1,10 @@
 using System.Collections;
+using SG;
 using UnityEngine;
 
 public class SkullBomb02 : MonoBehaviour
 {
-    /*
+
     public float rotationSpeed = 100f; // Speed of rotation
     public int countdownTime = 5; // Time before explosion
     public GameObject explosionEffect; // Assign a particle system for explosion
@@ -13,13 +14,12 @@ public class SkullBomb02 : MonoBehaviour
 
 
     [SerializeField] Canvas bar;
-    //[SerializeField]protected EnemyHealth health;
-    [SerializeField] CharacterData characterData;
+    [SerializeField] EnemyStat enemyStat;
 
 
     void Start()
     {
-        //health = GetComponent<EnemyHealth>();
+        enemyStat = GetComponent<EnemyStat>();
         timer = countdownTime;
         isCountingDown = true;
     }
@@ -36,7 +36,7 @@ public class SkullBomb02 : MonoBehaviour
 
     public void CheckHealth()
     {
-        if (health.GetCurrentHealth() <= 0)
+        if (enemyStat.currentHealth <= 0)
         {
             Destroy(gameObject);
         }
@@ -70,12 +70,8 @@ public class SkullBomb02 : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.isTrigger && other.gameObject.CompareTag("PlayerSword"))
-        {
-            PlayerWeapon playerWeapon = other.gameObject.GetComponent<PlayerWeapon>();
-            if (playerWeapon != null) health.CalculateDamage(playerWeapon.damage, characterData.Q3_QKWeak, characterData);
-
-        }
+        DamageCollider playerWeapon = other.gameObject.GetComponent<DamageCollider>();
+        if (playerWeapon != null) enemyStat.TakeDamageNoAnimation(playerWeapon.currentDamageWeapon);
     }
 
     public void Backward(Vector3 position)
@@ -100,5 +96,5 @@ public class SkullBomb02 : MonoBehaviour
 
         obj.transform.position = targetPos;
     }
-    */
+
 }

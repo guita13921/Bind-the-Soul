@@ -1,93 +1,97 @@
 using UnityEngine;
 
-public class HitboxController : MonoBehaviour
+namespace SG
 {
-    [Header("Timing Settings")]
-    public float enabletime = 0f;
-    public bool loop = false;
 
-    [Tooltip("Interval between collider toggles when looping.")]
-    public float looptime = 0f;
-
-    private BoxCollider boxCollider;
-    private SphereCollider sphereCollider;
-    private float timer = 0f;
-    private float loopTimer = 0f;
-    private bool isColliderEnabled = false;
-    public float destroyTime = 0f;
-
-    void Start()
+    public class HitboxController : MonoBehaviour
     {
-        boxCollider = GetComponent<BoxCollider>();
-        if (boxCollider == null)
-        {
-            sphereCollider = GetComponent<SphereCollider>();
-            sphereCollider.enabled = false;
-        }
-        else
-        {
-            boxCollider.enabled = false;
-        }
-    }
+        [Header("Timing Settings")]
+        public float enabletime = 0f;
+        public bool loop = false;
 
-    void Update()
-    {
-        if (loop)
-        {
-            HandleLoop();
-        }
-        else
-        {
-            HandleSingleActivation();
-        }
-    }
+        [Tooltip("Interval between collider toggles when looping.")]
+        public float looptime = 0f;
 
-    private void HandleLoop()
-    {
-        timer += Time.deltaTime;
-        loopTimer += Time.deltaTime;
+        private BoxCollider boxCollider;
+        private SphereCollider sphereCollider;
+        private float timer = 0f;
+        private float loopTimer = 0f;
+        private bool isColliderEnabled = false;
+        public float destroyTime = 0f;
 
-        if (timer >= enabletime && !isColliderEnabled)
+        void Start()
         {
-            ToggleBoxCollider(true);
+            boxCollider = GetComponent<BoxCollider>();
+            if (boxCollider == null)
+            {
+                sphereCollider = GetComponent<SphereCollider>();
+                sphereCollider.enabled = false;
+            }
+            else
+            {
+                boxCollider.enabled = false;
+            }
         }
 
-        if (loopTimer >= looptime)
+        void Update()
         {
-            ToggleBoxCollider(!boxCollider.enabled);
-            loopTimer = 0f;
+            if (loop)
+            {
+                HandleLoop();
+            }
+            else
+            {
+                HandleSingleActivation();
+            }
         }
 
-        if (timer >= destroyTime)
-            Destroy(gameObject);
-    }
-
-    private void HandleSingleActivation()
-    {
-        timer += Time.deltaTime;
-
-        if (timer >= enabletime && !isColliderEnabled)
+        private void HandleLoop()
         {
-            ToggleBoxCollider(true);
+            timer += Time.deltaTime;
+            loopTimer += Time.deltaTime;
+
+            if (timer >= enabletime && !isColliderEnabled)
+            {
+                ToggleBoxCollider(true);
+            }
+
+            if (loopTimer >= looptime)
+            {
+                ToggleBoxCollider(!boxCollider.enabled);
+                loopTimer = 0f;
+            }
+
+            if (timer >= destroyTime)
+                Destroy(gameObject);
         }
 
-        if (isColliderEnabled && timer >= enabletime + 0.2f)
+        private void HandleSingleActivation()
         {
-            Destroy(gameObject);
-        }
-    }
+            timer += Time.deltaTime;
 
-    private void ToggleBoxCollider(bool state)
-    {
-        if (boxCollider != null)
-        {
-            boxCollider.enabled = state;
-            isColliderEnabled = state;
+            if (timer >= enabletime && !isColliderEnabled)
+            {
+                ToggleBoxCollider(true);
+            }
+
+            if (isColliderEnabled && timer >= enabletime + 0.2f)
+            {
+                Destroy(gameObject);
+            }
         }
-        else
+
+        private void ToggleBoxCollider(bool state)
         {
-            sphereCollider.enabled = state;
-            isColliderEnabled = state;
+            if (boxCollider != null)
+            {
+                boxCollider.enabled = state;
+                isColliderEnabled = state;
+            }
+            else
+            {
+                sphereCollider.enabled = state;
+                isColliderEnabled = state;
+            }
         }
     }
 }

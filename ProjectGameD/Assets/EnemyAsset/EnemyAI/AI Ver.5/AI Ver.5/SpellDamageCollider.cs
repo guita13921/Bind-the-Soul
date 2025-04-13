@@ -56,6 +56,7 @@ namespace SG
                     if (spellTarget != null)
                     {
                         spellTarget.TakeDamage(currentDamageWeapon);
+                        Debug.Log("player");
                     }
 
                     hasCollider = true;
@@ -65,6 +66,16 @@ namespace SG
                     Destroy(impactParticle, 5f);
                     Destroy(gameObject, 5f);
                 }
+            }
+            else if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Enemy")
+            {
+                //Debug.Log("Enemy");
+
+                impactParticle = Instantiate(impactParticle, transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal));
+                Destroy(projectileParticle);
+                Destroy(impactParticle, 5f);
+                Destroy(gameObject, 5f);
+
             }
         }
     }
