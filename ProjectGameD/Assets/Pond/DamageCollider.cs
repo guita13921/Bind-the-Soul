@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
@@ -50,6 +51,16 @@ namespace SG
                     {
                         characterManager.GetComponentInChildren<AnimatorHander>().PlayTargetAnimation("Parried", true);
                         return;
+                    }
+                    else if (shield != null && enemyCharacterManager.isBlocking)
+                    {
+                        float physicalDamageAfterBlock =
+                        currentDamageWeapon - (currentDamageWeapon * shield.blockingColliderDamageAbsorption) / 100;
+                        if (playerStats != null)
+                        {
+                            playerStats.TakeDamage(Mathf.RoundToInt(physicalDamageAfterBlock), "Block Guard");
+                            return;
+                        }
                     }
                     //Shielded Damage
                     if (shield != null && enemyCharacterManager.isBlocking)

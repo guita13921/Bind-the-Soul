@@ -22,6 +22,13 @@ public class BlockingColliderPlayer : MonoBehaviour
         playerManager = GetComponentInParent<PlayerManager>();
         blockingCollider = GetComponent<BoxCollider>();
     }
+    public void SetColliderDamageAbsorption(WeaponItem weapon)
+    {
+        if (weapon != null)
+        {
+            blockingColliderDamageAbsorption = weapon.physicalDamageAbsorption;
+        }
+    }
 
     public void EnableBlockingCollider()
     {

@@ -9,6 +9,7 @@ namespace SG
     {
 
         AnimatorHander animatorHander;
+        PlayerEquipmentManager playerEquipmentManager;
         PlayerManager playerManager;
         PlayerInventory playerInventory;
         private PlayerStats playerStats;
@@ -21,6 +22,7 @@ namespace SG
         private void Awake()
         {
             animatorHander = GetComponent<AnimatorHander>();
+            playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
             playerManager = GetComponentInParent<PlayerManager>();
             playerStats = GetComponentInParent<PlayerStats>();
             playerInventory = GetComponentInParent<PlayerInventory>();
@@ -105,6 +107,10 @@ namespace SG
             }
 
         }
+        public void HandleQAction()
+        {
+            PerformQBlockingAction();
+        }
         public void HandleLTAction()
         {
             if (playerInventory.leftWeapon.isShieldWeapon)
@@ -163,6 +169,19 @@ namespace SG
                 }
             }
             */
+        }
+        #endregion
+        #region Defense Action
+        private void PerformQBlockingAction()
+        {
+            if (playerManager.isInteracting)
+                return;
+            if (playerManager.isBlocking)
+                return;
+            animatorHander.PlayTargetAnimation("Block Start", false, true);
+            playerEquipmentManager.OpenBlockingCollider();
+            playerManager.isBlocking = true;
+
         }
         #endregion
 

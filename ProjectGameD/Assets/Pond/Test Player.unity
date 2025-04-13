@@ -853,7 +853,10 @@ MonoBehaviour:
   movementSpeed: 5
   sprintSpeed: 7
   rotationSpeed: 10
-  rollStaminaCost: 5
+  staminaDrainInterval: 0.1
+  rollStaminaCost: 1
+  backstepStaminaCost: 1
+  sprintStaminaCost: 1
   CharacterCollider: {fileID: 439884928}
   CharacterCollisiomBlockerCollider: {fileID: 1566302811}
 --- !u!114 &439884930
@@ -874,6 +877,7 @@ MonoBehaviour:
   mouseX: 0
   mouseY: 0
   b_Input: 0
+  SHFIT_Input: 0
   a_Input: 0
   Al_Input: 0
   Ah_Input: 0
@@ -881,9 +885,10 @@ MonoBehaviour:
   k_Down: 0
   k_Left: 0
   k_Right: 0
+  Q_Input: 0
   Lt_Input: 0
   rollFlag: 0
-  sprintFlag: 1
+  sprintFlag: 0
   comboflang: 0
   rollInputTimer: 0
 --- !u!114 &439884933
@@ -961,7 +966,7 @@ MonoBehaviour:
   isDead: 0
   healthBar: {fileID: 1540731135}
   staminaBar: {fileID: 1487305217}
-  StaminaRegenerationAmount: 40
+  StaminaRegenerationAmount: 1
   staminaLevel: 10
   maxStamina: 0
   currentStamina: 0
@@ -1522,6 +1527,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1498602441859810746, guid: ced25e6fd8255d34aa994a56aa9a4283, type: 3}
       insertIndex: -1
       addedObject: {fileID: 954811992}
+    - targetCorrespondingSourceObject: {fileID: 1498602441859810746, guid: ced25e6fd8255d34aa994a56aa9a4283, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 954811993}
     - targetCorrespondingSourceObject: {fileID: 7524928656275969926, guid: ced25e6fd8255d34aa994a56aa9a4283, type: 3}
       insertIndex: -1
       addedObject: {fileID: 24565972}
@@ -1589,6 +1597,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lastAttack: OH_Light_Attack_1
   lastAttack2: OH_Light_Attack_2
+--- !u!114 &954811993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954811987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee54baae18e83a146acb8c70fed1f251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1044460748
 GameObject:
   m_ObjectHideFlags: 0
