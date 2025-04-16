@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3371133829300129499}
   - component: {fileID: 7450236288522700778}
   - component: {fileID: 7955871960288386445}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SM_PROP_chest_top_dungeon_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,14 +116,16 @@ GameObject:
   - component: {fileID: 4937723450722292650}
   - component: {fileID: 4169585510293186972}
   - component: {fileID: 7701681502428321125}
+  - component: {fileID: 1182980719186703317}
   - component: {fileID: 8632163040970503494}
-  m_Layer: 0
+  - component: {fileID: 2822539551692580155}
+  m_Layer: 3
   m_Name: Chest01
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4937723450722292650
 Transform:
   m_ObjectHideFlags: 0
@@ -190,6 +192,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1182980719186703317
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8276781078320898489}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7747375565301620929, guid: 9a3cf93f5aa761d4098f795535f205ff, type: 3}
 --- !u!65 &8632163040970503494
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -211,3 +235,17 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.7091274, y: 0.35127306, z: 0.5165216}
   m_Center: {x: 0.01658082, y: 0.16219878, z: 0.009702504}
+--- !u!114 &2822539551692580155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8276781078320898489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a6a7b095b0b09f4390c5890876f214f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 0.6
+  InteractableText: Open Chast

@@ -6,13 +6,17 @@ namespace SG
 {
     public class PlayerStats : CharacterStats
     {
+
+        [Header("Player Data")]
+        public PlayerData playerData;
+
         PlayerManager playerManager;
         public HealthBar healthBar;
         public StaminaBar staminaBar;
         public float StaminaRegenerationAmount = 10.0f;
         public float staminaRegenTimer = 0;
 
-        public int staminaLevel = 10;
+        public int staminaLevel;
         public float maxStamina;
         public float currentStamina;
         AnimatorHander animatorHander;
@@ -27,17 +31,28 @@ namespace SG
 
         void Start()
         {
+            LoadStatsFromPlayerData();
             maxHealth = SetMaxHealthFromHealthLevel();
-            currentHealth = maxHealth;
+
+            //currentHealth = maxHealth;
             healthBar.SetMaxHealth(maxHealth);
             healthBar.SetCurrentHealth(currentHealth);
 
             maxStamina = SetMaxStaminaFromStaminaLevel();
-            currentStamina = maxStamina;
+            //currentStamina = maxStamina;
             staminaBar.SetMaxStamina(Mathf.RoundToInt(maxStamina));
             staminaBar.SetcurrentStamina(Mathf.RoundToInt(currentStamina));
         }
 
+        private void LoadStatsFromPlayerData()
+        {
+            healthLevel = playerData.healthLevel;
+            staminaLevel = playerData.staminaLevel;
+            currentHealth = playerData.currentHealth; // Load current from PlayerData
+            currentStamina = playerData.currentStamina; // Load current from PlayerData
+            goldCount = playerData.goldCount;
+
+        }
 
         // ✅ คืนค่าโดยตรง ไม่ต้องเซ็ตค่าให้ maxHealth หรือ maxStamina ก่อน
         private int SetMaxHealthFromHealthLevel()
@@ -96,6 +111,15 @@ namespace SG
         public void AddGold(int golds)
         {
             goldCount += golds;
+        }
+
+        private void OnDestroy()
+        {
+            if (playerData != null)
+            {
+                playerData.currentHealth = currentHealth;
+                playerData.currentStamina = currentStamina;
+            }
         }
     }
 }

@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 6180294331010315333}
   - component: {fileID: 8398928381051183595}
   - component: {fileID: 410026029515595951}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: ShieldBar Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -322,7 +322,7 @@ GameObject:
   - component: {fileID: 7597798883326837813}
   - component: {fileID: 7786965201047849297}
   - component: {fileID: 3582720369208734943}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Health Bar fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -398,7 +398,7 @@ GameObject:
   - component: {fileID: 4865494672385472703}
   - component: {fileID: 7626618556047386726}
   - component: {fileID: 2368326746948807300}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: ShieldBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -769,7 +769,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3085682302363274601}
   - component: {fileID: 6074473813478790672}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Health Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1029,7 +1029,7 @@ GameObject:
   - component: {fileID: 3275057668525145857}
   - component: {fileID: 8483606512896231529}
   - component: {fileID: 5775458110551627199}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: ShieldBar fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1108,6 +1108,8 @@ GameObject:
   - component: {fileID: 8184303193293291855}
   - component: {fileID: 3592072837776814701}
   - component: {fileID: 946040374942152615}
+  - component: {fileID: 2388952968678473935}
+  - component: {fileID: 1995097764876746002}
   m_Layer: 3
   m_Name: Warrior_Shield
   m_TagString: Enemy
@@ -1218,12 +1220,12 @@ MonoBehaviour:
   healthLevel: 10
   maxHealth: 0
   currentHealth: 0
-  staminaLevel: 10
-  maxStamina: 0
-  currentStamina: 0
+  goldCount: 0
   isDead: 0
+  roomManager: {fileID: 0}
+  demonBossManager: {fileID: 0}
   enemyHealthBar: {fileID: 4582336181247122428}
-  coinAwardOnDeath: 10
+  goldAwardOnDeath: 10
   isBoss: 0
 --- !u!114 &3592072837776814701
 MonoBehaviour:
@@ -1292,6 +1294,122 @@ MonoBehaviour:
   detectopnLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!82 &2388952968678473935
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7153418833772228905}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: b95b343ce1b0fd244a0eb902b4b21d18, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &1995097764876746002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7153418833772228905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a209a41872a08e74bac78988e143df59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathSounds:
+  - {fileID: 8300000, guid: b95b343ce1b0fd244a0eb902b4b21d18, type: 3}
+  attackSounds:
+  - {fileID: 8300000, guid: ad5d0cc3c01711a49ad79df3e1e8a062, type: 3}
+  hitSounds:
+  - {fileID: 8300000, guid: f04a7d81d18a0bc4b907ab8003acc5e4, type: 3}
+  - {fileID: 8300000, guid: 56bebfb1848313e4181919fefc1d0b6f, type: 3}
+  - {fileID: 8300000, guid: 0432d2a3ee956f548afce8e93a202611, type: 3}
 --- !u!1 &7485380283414272485
 GameObject:
   m_ObjectHideFlags: 0
@@ -1303,7 +1421,7 @@ GameObject:
   - component: {fileID: 6020557666084093307}
   - component: {fileID: 6949618933636054403}
   - component: {fileID: 5623453357643161623}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Health Bar Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1775,6 +1893,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2101038458506793629, guid: 74cba210f6b556b4ab4f3b4d458e8a57, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2119334629088914961, guid: 74cba210f6b556b4ab4f3b4d458e8a57, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -1872,6 +1994,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3274412652310503610, guid: 74cba210f6b556b4ab4f3b4d458e8a57, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3411754592471355836, guid: 74cba210f6b556b4ab4f3b4d458e8a57, type: 3}
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}

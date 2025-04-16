@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 532503458317901295}
   - component: {fileID: 7868721025048270408}
   - component: {fileID: 7454802960874825007}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Health Bar fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134,7 +134,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6832236856983572025}
   - component: {fileID: 583070426160289950}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Health Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -330,6 +330,8 @@ GameObject:
   - component: {fileID: 7424233898122446468}
   - component: {fileID: 3160778069478417603}
   - component: {fileID: 8889622980373369929}
+  - component: {fileID: 3924514604851149320}
+  - component: {fileID: 3366355442638426010}
   m_Layer: 3
   m_Name: Skeleton_Enemy_WoShield
   m_TagString: Enemy
@@ -439,13 +441,12 @@ MonoBehaviour:
   healthLevel: 10
   maxHealth: 0
   currentHealth: 0
-  staminaLevel: 10
-  maxStamina: 0
-  currentStamina: 0
+  goldCount: 0
   isDead: 0
   roomManager: {fileID: 0}
+  demonBossManager: {fileID: 0}
   enemyHealthBar: {fileID: 3652417511076667309}
-  coinAwardOnDeath: 10
+  goldAwardOnDeath: 10
   isBoss: 0
 --- !u!114 &3160778069478417603
 MonoBehaviour:
@@ -514,6 +515,122 @@ MonoBehaviour:
   detectopnLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!82 &3924514604851149320
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067888235742993755}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 9341308cb7cda8744864e33a5c9624c5, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &3366355442638426010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067888235742993755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a209a41872a08e74bac78988e143df59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathSounds:
+  - {fileID: 8300000, guid: 9341308cb7cda8744864e33a5c9624c5, type: 3}
+  attackSounds:
+  - {fileID: 8300000, guid: ad5d0cc3c01711a49ad79df3e1e8a062, type: 3}
+  hitSounds:
+  - {fileID: 8300000, guid: f04a7d81d18a0bc4b907ab8003acc5e4, type: 3}
+  - {fileID: 8300000, guid: 56bebfb1848313e4181919fefc1d0b6f, type: 3}
+  - {fileID: 8300000, guid: 0432d2a3ee956f548afce8e93a202611, type: 3}
 --- !u!1 &1420165446075183800
 GameObject:
   m_ObjectHideFlags: 0
@@ -973,7 +1090,7 @@ GameObject:
   - component: {fileID: 5182166794742232181}
   - component: {fileID: 2246439450855043811}
   - component: {fileID: 6075822470235009659}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Health Bar Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -22,6 +22,7 @@ namespace SG
         EnemyEffectManager enemyEffectManager;
         EnemyManager enemyManager;
         PlayerStats playerStats;
+        EnemySoundManager enemySoundManager;
 
         [Header("Shield Config")]
         public BlockingCollider Shield;
@@ -34,6 +35,7 @@ namespace SG
             enemyEffectManager = GetComponentInParent<EnemyEffectManager>();
             enemyManager = GetComponentInParent<EnemyManager>();
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
+            enemySoundManager = GetComponentInParent<EnemySoundManager>();
 
             foreach (WeaponHolderSlot weponslot in weaponHolderSlots)
             {
@@ -124,6 +126,11 @@ namespace SG
             {
                 leftHandDamageCollider.EnableDamageCollider();
             }
+
+            if (enemySoundManager != null)
+            {
+                enemySoundManager.PlayAttackSound();
+            }
         }
 
         public void CloseDamageCollider()
@@ -151,6 +158,7 @@ namespace SG
 
         public void SuccessfullyCastSpell()
         {
+            enemySoundManager.PlayAttackSound();
             projectileSpell.SuccessfullyCastSpell(enemyAnimatorManager, playerStats, null, this);
             enemyAnimatorManager.animator.SetBool("isFiringSpell", true);
         }
