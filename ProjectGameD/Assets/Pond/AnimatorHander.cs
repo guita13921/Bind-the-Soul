@@ -50,11 +50,12 @@ namespace SG
             anim.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
         }
 
-        public void PlayTargetAnimation(string targetAnim, bool isInteracting)
+        public void PlayTargetAnimation(string targetAnim, bool isInteracting, bool canRotate = false)
         {
             if (anim == null) return;
 
             anim.applyRootMotion = isInteracting;
+            //anim.SetBool("canRotate", canRotate);
             anim.SetBool("isInteracting", isInteracting);
             anim.CrossFade(targetAnim, 0.2f);
         }

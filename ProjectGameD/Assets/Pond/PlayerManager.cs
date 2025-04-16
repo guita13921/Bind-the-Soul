@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 namespace SG
 {
@@ -19,6 +20,7 @@ namespace SG
         //public bool isSprinting;
         //public bool isUsingRightHand;
         //public bool isUsingLefthand;
+
 
         public static Room currentRoom;
         public static Transform transform;
@@ -43,6 +45,7 @@ namespace SG
             isInteracting = anim.GetBool("isInteracting");
             CanDoCombo = anim.GetBool("CanDoCombo");
             isInvulerable = anim.GetBool("IsInvulnerable");
+            anim.SetBool("IsBlocking", isBlocking);
 
             inputHander.TickInput(delta);
             playerLocomotion.HandleMovement(delta);
@@ -68,7 +71,7 @@ namespace SG
         {
             inputHander.rollFlag = false;
             inputHander.sprintFlag = false;
-            isSprinting = inputHander.b_Input;
+            isSprinting = inputHander.SHFIT_Input;
             inputHander.Al_Input = false;
             inputHander.Ah_Input = false;
             inputHander.Lt_Input = false;

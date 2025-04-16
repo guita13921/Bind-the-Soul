@@ -9,6 +9,7 @@ namespace SG
     {
 
         AnimatorHander animatorHander;
+        PlayerEquipmentManager playerEquipmentManager;
         PlayerManager playerManager;
         PlayerInventory playerInventory;
         private PlayerStats playerStats;
@@ -21,8 +22,9 @@ namespace SG
         private void Awake()
         {
             animatorHander = GetComponent<AnimatorHander>();
+            playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
             playerManager = GetComponentInParent<PlayerManager>();
-            playerStats = GetComponent<PlayerStats>();
+            playerStats = GetComponentInParent<PlayerStats>();
             playerInventory = GetComponentInParent<PlayerInventory>();
             weaponSlotManager = GetComponentInParent<WeaponSlotManager>();
             inputHander = GetComponentInParent<InputHander>();
@@ -46,8 +48,8 @@ namespace SG
         }
         public void HandleWeaponCombo(WeaponItem weapon)
         {
-            //        if (playerStats.currentStamina <= 0)
-            //            return;
+            if (playerStats.currentStamina <= 0)
+                return;
             if (inputHander.comboflang)
             {
                 animatorHander.anim.SetBool("CanDoCombo", false);
@@ -72,9 +74,12 @@ namespace SG
         public void HandleLightAttack(WeaponItem weapon)
         {
 
-            //            if (playerStats.currentStamina <= 0)
-            //               return;
+            if (playerStats.currentStamina <= 0)
+                return;
             weaponSlotManager.attackingWeapon = weapon;
+            if (weaponSlotManager.attackingWeapon != null)
+                weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
+            //          weaponSlotManager.leftHandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
             animatorHander.PlayTargetAnimation(weapon.OH_Light_Attack_1, true);
             lastAttack = weapon.OH_Light_Attack_1;
         }
@@ -82,9 +87,12 @@ namespace SG
         public void HandleHeavyAttack(WeaponItem weapon)
         {
 
-            //          if (playerStats.currentStamina <= 0)
-            //              return;
+            if (playerStats.currentStamina <= 0)
+                return;
             weaponSlotManager.attackingWeapon = weapon;
+            if (weaponSlotManager.attackingWeapon != null)
+                weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
+            //  weaponSlotManager.leftHandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
             animatorHander.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
             lastAttack = weapon.OH_Heavy_Attack_1;
         }
@@ -101,11 +109,15 @@ namespace SG
             }
 
         }
+        public void HandleQAction()
+        {
+            PerformQBlockingAction();
+        }
         public void HandleLTAction()
         {
             if (playerInventory.leftWeapon.isShieldWeapon)
             {
-                PerformLTWeaponArt(true);
+                PerformLTWeaponArt(inputHander.twohandflag);
             }
             else if (playerInventory.leftWeapon.isMeleeWeapon)
             {
@@ -133,19 +145,18 @@ namespace SG
                 HandleLightAttack(playerInventory.rightWeapon);
             }
         }
-        private void PerformLTWeaponArt(bool isLeftWeapon)
+        private void PerformLTWeaponArt(bool isTwoHanding)
         {
             if (playerManager.isInteracting)
                 return;
-            animatorHander.PlayTargetAnimation(playerInventory.leftWeapon.weapon_art, true);
-            /* if (isLeftWeapon)
-              {
-                  animatorHander.PlayTargetAnimation(playerInventory.leftWeapon.weapon_art, true);
-              }
-              els
-              {
+            if (isTwoHanding)
+            {
 
-              }*/
+            }
+            else
+            {
+                animatorHander.PlayTargetAnimation(playerInventory.leftWeapon.weapon_art, true);
+            }
         }
 
         private void PerformALMagicAction(WeaponItem weapon)
@@ -159,6 +170,19 @@ namespace SG
                 }
             }
             */
+        }
+        #endregion
+        #region Defense Action
+        private void PerformQBlockingAction()
+        {
+            if (playerManager.isInteracting)
+                return;
+            if (playerManager.isBlocking)
+                return;
+            animatorHander.PlayTargetAnimation("Block Start", false, true);
+            playerEquipmentManager.OpenBlockingCollider();
+            playerManager.isBlocking = true;
+
         }
         #endregion
 

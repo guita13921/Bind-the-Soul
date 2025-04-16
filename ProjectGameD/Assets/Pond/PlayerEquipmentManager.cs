@@ -9,21 +9,27 @@ namespace SG
     {
         InputHander inputHandler;
         PlayerInventory playerInventory;
-        BlockingCollider blockingCollider;
+        public BlockingColliderPlayer blockingCollider;
 
         void Awake()
         {
             inputHandler = GetComponentInParent<InputHander>();
             playerInventory = GetComponentInParent<PlayerInventory>();
-            blockingCollider = GetComponentInChildren<BlockingCollider>();
         }
 
-        public void OpenBlockCollider()
+        public void OpenBlockingCollider()
         {
             // 
-            // IInputHander ....
+            //if(inputHandle.twoHandFlag)
+            /*{
+                blockingCollider.SetColliderDamageAbsorption(playerInventory.rightWeapon);
+            }
+            else
+            {
+                blockingCollider.SetColliderDamageAbsorption(playerInventory.leftWeapon);
+            }*/
             //
-            //blockingCollider.SetColliderDamageAbsorption(playerInventory.leftWeapon); ยังไม่ได้ implement
+            // blockingCollider.SetColliderDamageAbsorption(playerInventory.leftWeapon); 
             blockingCollider.EnableBlockingCollider();
         }
 

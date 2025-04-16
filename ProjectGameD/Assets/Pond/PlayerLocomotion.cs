@@ -26,12 +26,14 @@ namespace SG
         float sprintSpeed = 7;
         [SerializeField]
         float rotationSpeed = 10;
+        private float sprintStaminaTimer = 0f;
+        public float staminaDrainInterval = 0.25f; // Drain every half second
 
         [Header("Stamina Costa")]
         [SerializeField]
-        int rollStaminaCost = 15;
-        int backstepStaminaCost = 12;
-        int sprintStaminaCost = 1;
+        public int rollStaminaCost = 5;
+        public int backstepStaminaCost = 1;
+        public float sprintStaminaCost = 1f;
 
         public CapsuleCollider CharacterCollider;
         public CapsuleCollider CharacterCollisiomBlockerCollider;
@@ -82,6 +84,7 @@ namespace SG
         {
             if (inputHander.rollFlag)
                 return;
+
             moveDirection = cameraObject.forward * inputHander.vertical;
             moveDirection += cameraObject.right * inputHander.horizontal;
             moveDirection.Normalize();
@@ -89,20 +92,22 @@ namespace SG
 
             float speed = movementSpeed;
 
-            if (inputHander.sprintFlag && inputHander.moveAmount > 0.5)
+            if (inputHander.sprintFlag && inputHander.moveAmount > 0.5f && playerStats.currentStamina > 0)
             {
                 speed = sprintSpeed;
                 playerManager.isSprinting = true;
-                moveDirection *= speed;
-                playerStats.TakeStaminaDamage(sprintStaminaCost);
-            }
-            else
-            {
-                moveDirection *= speed;
+
+                sprintStaminaTimer += delta;
+
+                if (sprintStaminaTimer >= staminaDrainInterval)
+                {
+                    sprintStaminaTimer = 0f;
+                    playerStats.TakeStaminaDamage((int)sprintStaminaCost);
+                    //                    Debug.Log("running");
+                }
             }
 
-
-            Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
+            Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection * speed, normalVector);
             rigidbody.velocity = projectedVelocity;
 
             animatorHander.UpdateAnimatorValues(inputHander.moveAmount, 0, playerManager.isSprinting);

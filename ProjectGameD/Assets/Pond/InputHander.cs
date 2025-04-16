@@ -14,6 +14,8 @@ public class InputHander : MonoBehaviour
     public float mouseY;
 
     public bool b_Input;
+    public bool y_Input;
+    public bool SHFIT_Input;
     public bool a_Input;
     public bool Al_Input;
     public bool Ah_Input;
@@ -21,9 +23,11 @@ public class InputHander : MonoBehaviour
     public bool k_Down;
     public bool k_Left;
     public bool k_Right;
+    public bool Q_Input;
     public bool Lt_Input;
 
     public bool rollFlag;
+    public bool twohandflag;
     public bool sprintFlag;
     public bool comboflang;
     public float rollInputTimer;
@@ -34,6 +38,8 @@ public class InputHander : MonoBehaviour
     PlayerInventory playerInventory;
     PlayerManager playerManager;
     PlayerStats playerStats;
+    WeaponSlotManager weaponSlotManager;
+    BlockingColliderPlayer blockingColliderPlayer;
 
 
     Vector3 movementInput;
@@ -45,6 +51,8 @@ public class InputHander : MonoBehaviour
         playerInventory = GetComponent<PlayerInventory>();
         playerManager = GetComponent<PlayerManager>();
         playerStats = GetComponent<PlayerStats>();
+        weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
+        blockingColliderPlayer = GetComponentInChildren<BlockingColliderPlayer>();
     }
 
     public void OnEnable()
@@ -55,8 +63,15 @@ public class InputHander : MonoBehaviour
             inputAction.PlayerMovement.Movement.performed += inputAction => movementInput = inputAction.ReadValue<Vector3>();
             inputAction.PlayerAction.Roll.performed += i => b_Input = true;
             inputAction.PlayerAction.Roll.canceled += i => b_Input = false;
+            inputAction.PlayerAction.Sprint.performed += i => SHFIT_Input = true;
+            inputAction.PlayerAction.Sprint.canceled += i => SHFIT_Input = false;
             inputAction.PlayerAction.LT.performed += i => Lt_Input = true;
+            inputAction.PlayerAction.Blocking.performed += i => Q_Input = true;
+            inputAction.PlayerAction.Blocking.canceled += i => Q_Input = false;
             inputAction.PlayerMovement.Camera.performed += i => cameraInput = i.ReadValue<Vector3>();
+            inputAction.PlayerAction.Y.performed += i => y_Input = true;
+            inputAction.PlayerAction.Y.canceled += i => y_Input = false;
+
         }
         inputAction.Enable();
     }
@@ -72,78 +87,68 @@ public class InputHander : MonoBehaviour
         HandleAttackInput(delta);
         HandleQuickSlotsInput();
         HandleInteractingButtonInput();
+        HandleTwoHandInput();
     }
     private void MoveInput(float delta)
     {
+        if (playerManager.isInteracting)
+            return;
         horizontal = movementInput.x;
         vertical = movementInput.z;
         moveAmount = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
         mouseX = cameraInput.x;
         mouseY = cameraInput.z;
     }
-    /*
-    private void HandleRollinput(float delta)
-    {
-        b_Input = inputAction.PlayerAction.Roll.phase == InputActionPhase.Started;
-        if (b_Input)
-        {
-            rollInputTimer += delta;
-            sprintFlag = true;
-        }
-        else
-        {
-            if (rollInputTimer > 0 && rollInputTimer < 0.5f)
-            {
-                sprintFlag = false;
-                rollFlag = true;
-            }
-            rollInputTimer = 0;
-        }
-    }
-    */
 
     private void HandleRollinput(float delta)
     {
 
-
         if (b_Input)
         {
-            rollInputTimer += delta;
-            if (playerStats.currentStamina <= 0)
+            // ถ้าแตะปุ่มในระยะเวลา < 0.5 วิ → Roll
+            if (rollInputTimer > 0 && rollInputTimer <= 0.5f && playerStats.currentStamina > 0)
             {
-                b_Input = false;
-                sprintFlag = false;
-            }
-            if (moveAmount > 0.5f && playerStats.currentStamina > 0)
-            {
-                sprintFlag = true;
-            }
-        }
-        else
-        {
-            sprintFlag = false;
-            if (rollInputTimer > 0 && rollInputTimer < 0.5f)
-            {
-
                 rollFlag = true;
             }
+            else
+            {
+                rollFlag = false;
+            }
+
+            // Reset
             rollInputTimer = 0;
+            b_Input = false;
+            return;
+        }
+        rollInputTimer += delta;
+        if (playerStats.currentStamina <= 0)
+        {
+            rollFlag = false;
+            b_Input = false;
+            return;
         }
     }
+
+
 
     private void HandleSprintinput()
     {
-        b_Input = inputAction.PlayerAction.Sprint.phase == InputActionPhase.Performed; // Use Performed for better control
-                                                                                       // Debug.Log("Sprint Input: " + b_Input);
+        SHFIT_Input = inputAction.PlayerAction.Sprint.phase == InputActionPhase.Performed;
 
-        if (b_Input)
+        if (SHFIT_Input)
         {
-            sprintFlag = true;
+            if (playerStats.currentStamina <= 0)
+            {
+                SHFIT_Input = false;
+                sprintFlag = false;
+            }
+            else
+            {
+                sprintFlag = true;
+            }
+
         }
-        else
-        {
-            sprintFlag = false; // Reset flag when input is released
-        }
+
     }
     private void HandleAttackInput(float delta)
     {
@@ -172,10 +177,49 @@ public class InputHander : MonoBehaviour
         {
             playerAttack.HandleHeavyAttack(playerInventory.rightWeapon);
         }
-        if (Lt_Input)
+
+        if (Q_Input)
         {
+            playerAttack.HandleQAction();
+        }
+        else
+        {
+            playerManager.isBlocking = false;
+            if (blockingColliderPlayer.blockingCollider.enabled)
+            {
+                blockingColliderPlayer.DisableBlockingCollider();
+            }
         }
 
+        if (Lt_Input)
+        {
+            if (twohandflag)
+            {
+
+            }
+            else
+            {
+                playerAttack.HandleLTAction();
+            }
+        }
+
+    }
+    private void HandleTwoHandInput()
+    {
+        if (y_Input)
+        {
+            y_Input = false;
+            twohandflag = !twohandflag;
+            if (twohandflag)
+            {
+                weaponSlotManager.LoadWeaponOnSlot(playerInventory.rightWeapon, false);
+            }
+            else
+            {
+                weaponSlotManager.LoadWeaponOnSlot(playerInventory.rightWeapon, false);
+                weaponSlotManager.LoadWeaponOnSlot(playerInventory.leftWeapon, true);
+            }
+        }
     }
     private void HandleQuickSlotsInput()
     {

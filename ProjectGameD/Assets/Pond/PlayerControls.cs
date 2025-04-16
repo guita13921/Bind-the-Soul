@@ -161,6 +161,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Blocking"",
+                    ""type"": ""Button"",
+                    ""id"": ""fde13190-c59c-4556-a575-55e78b86eed3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Y"",
+                    ""type"": ""Button"",
+                    ""id"": ""b52fb688-ce7e-4794-ad6f-3aa7feab734e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -249,6 +267,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""LT"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""631b8b88-7050-4fad-9f84-4ab8d5ffb79b"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Blocking"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""72bdc6ba-adca-40e2-8418-eea52d35cc4e"",
+                    ""path"": ""<Keyboard>/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Y"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -357,6 +397,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerAction_AttackH = m_PlayerAction.FindAction("AttackH", throwIfNotFound: true);
         m_PlayerAction_A = m_PlayerAction.FindAction("A", throwIfNotFound: true);
         m_PlayerAction_LT = m_PlayerAction.FindAction("LT", throwIfNotFound: true);
+        m_PlayerAction_Blocking = m_PlayerAction.FindAction("Blocking", throwIfNotFound: true);
+        m_PlayerAction_Y = m_PlayerAction.FindAction("Y", throwIfNotFound: true);
         // PlayerQuickSlots
         m_PlayerQuickSlots = asset.FindActionMap("PlayerQuickSlots", throwIfNotFound: true);
         m_PlayerQuickSlots_Up = m_PlayerQuickSlots.FindAction("Up", throwIfNotFound: true);
@@ -484,6 +526,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerAction_AttackH;
     private readonly InputAction m_PlayerAction_A;
     private readonly InputAction m_PlayerAction_LT;
+    private readonly InputAction m_PlayerAction_Blocking;
+    private readonly InputAction m_PlayerAction_Y;
     public struct PlayerActionActions
     {
         private @PlayerControls m_Wrapper;
@@ -494,6 +538,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @AttackH => m_Wrapper.m_PlayerAction_AttackH;
         public InputAction @A => m_Wrapper.m_PlayerAction_A;
         public InputAction @LT => m_Wrapper.m_PlayerAction_LT;
+        public InputAction @Blocking => m_Wrapper.m_PlayerAction_Blocking;
+        public InputAction @Y => m_Wrapper.m_PlayerAction_Y;
         public InputActionMap Get() { return m_Wrapper.m_PlayerAction; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -521,6 +567,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @LT.started += instance.OnLT;
             @LT.performed += instance.OnLT;
             @LT.canceled += instance.OnLT;
+            @Blocking.started += instance.OnBlocking;
+            @Blocking.performed += instance.OnBlocking;
+            @Blocking.canceled += instance.OnBlocking;
+            @Y.started += instance.OnY;
+            @Y.performed += instance.OnY;
+            @Y.canceled += instance.OnY;
         }
 
         private void UnregisterCallbacks(IPlayerActionActions instance)
@@ -543,6 +595,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @LT.started -= instance.OnLT;
             @LT.performed -= instance.OnLT;
             @LT.canceled -= instance.OnLT;
+            @Blocking.started -= instance.OnBlocking;
+            @Blocking.performed -= instance.OnBlocking;
+            @Blocking.canceled -= instance.OnBlocking;
+            @Y.started -= instance.OnY;
+            @Y.performed -= instance.OnY;
+            @Y.canceled -= instance.OnY;
         }
 
         public void RemoveCallbacks(IPlayerActionActions instance)
@@ -643,6 +701,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnAttackH(InputAction.CallbackContext context);
         void OnA(InputAction.CallbackContext context);
         void OnLT(InputAction.CallbackContext context);
+        void OnBlocking(InputAction.CallbackContext context);
+        void OnY(InputAction.CallbackContext context);
     }
     public interface IPlayerQuickSlotsActions
     {
