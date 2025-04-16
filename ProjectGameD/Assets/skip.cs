@@ -2,16 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class skip : MonoBehaviour
+namespace SG
 {
 
-    public SceneTransition sceneTransition;
-    [SerializeField] string NextScene;
-    void Update()
+    public class skip : MonoBehaviour
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+
+        public SceneTransition sceneTransition;
+        [SerializeField] string NextScene;
+        void Update()
         {
-            sceneTransition.NextScene(NextScene); // Adjust the method name as needed
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                sceneTransition.NextScene(NextScene); // Adjust the method name as needed
+            }
         }
     }
 }

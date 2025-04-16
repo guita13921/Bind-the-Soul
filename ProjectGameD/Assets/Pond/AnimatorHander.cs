@@ -8,13 +8,18 @@ namespace SG
 {
     public class AnimatorHander : MonoBehaviour
     {
-        private PlayerManager playerManager;
+        [SerializeField] private PlayerManager playerManager;
         public Animator anim;
         private InputHander inputHander;
         private PlayerLocomotion playerLocomotion;
         private int vertical;
         private int horizontal;
         public bool canRotate;
+
+        void Awake()
+        {
+            playerManager = GetComponentInParent<PlayerManager>();
+        }
 
         public void Initialize()
         {
@@ -66,22 +71,27 @@ namespace SG
         {
             anim.SetBool("CanDoCombo", true);
         }
+
         public void DisableCombo()
         {
             anim.SetBool("CanDoCombo", false);
         }
+
         public void EnableIsInvulnerable()
         {
             anim.SetBool("IsInvulnerable", true);
         }
+
         public void DisableIsnvulnerable()
         {
             anim.SetBool("IsInvulnerable", false);
         }
+
         public void EnableIsParrying()
         {
             playerManager.isParrying = true;
         }
+
         public void DusableIsParrying()
         {
             playerManager.isParrying = false;

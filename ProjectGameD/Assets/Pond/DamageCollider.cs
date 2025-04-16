@@ -12,7 +12,7 @@ namespace SG
         public int currentDamageWeapon;
         Collider damageCollider;
         public bool enableOnStartUp = false;
-        CharacterStats characterStats;
+        [SerializeField] EnemyManager enemyManager1;
 
 
         private void Awake()
@@ -22,7 +22,11 @@ namespace SG
             damageCollider.isTrigger = true;
             damageCollider.enabled = enableOnStartUp;
             damageCollider.enabled = false;
+        }
 
+        void Start()
+        {
+            enemyManager1 = GetComponentInParent<EnemyManager>();
         }
 
         public void EnableDamageCollider()
@@ -41,37 +45,27 @@ namespace SG
             if (collider.tag == "Player")
             {
                 PlayerStats playerStats = collider.GetComponent<PlayerStats>();
-                CharacterManager characterManager = collider.GetComponent<CharacterManager>();
-                PlayerManager enemyCharacterManager = collider.GetComponent<PlayerManager>();
+                PlayerManager playerManager = collider.GetComponent<PlayerManager>();
                 BlockingCollider shield = collider.transform.GetComponentInChildren<BlockingCollider>();
 
-                if (enemyCharacterManager != null)
+                if (playerManager != null)
                 {
-                    if (characterManager.isParrying)
+                    if (playerManager.isParrying)
                     {
-                        shield.Parried();
-                        characterManager.GetComponentInChildren<AnimatorHander>().PlayTargetAnimation("Parried", true);
+                        enemyManager1.GetComponentInChildren<EnemyAnimatorManager>().PlayTargetAnimation("Start Stun", true);
+                        enemyManager1.GetComponentInChildren<EnemyAnimatorManager>().animator.SetBool("isBlocking", false);
+                        enemyManager1.isBlocking = false;
+                        enemyManager1.isStunning = true;
+                        enemyManager1.currentStunningTime = enemyManager1.stunningTime;
                         return;
                     }
-                    else if (shield != null && enemyCharacterManager.isBlocking)
+                    else if (shield != null && playerManager.isBlocking)
                     {
                         float physicalDamageAfterBlock =
                         currentDamageWeapon - (currentDamageWeapon * shield.blockingColliderDamageAbsorption) / 100;
                         if (playerStats != null)
                         {
                             playerStats.TakeDamage(Mathf.RoundToInt(physicalDamageAfterBlock), "Block Guard");
-                            return;
-                        }
-                    }
-                    //Shielded Damage
-                    if (shield != null && enemyCharacterManager.isBlocking)
-                    {
-                        float physicalDamageAfterBlock =
-                            currentDamageWeapon - (currentDamageWeapon * shield.blockingColliderDamageAbsorption) / 100;
-
-                        if (playerStats != null)
-                        {
-                            playerStats.TakeDamage(Mathf.RoundToInt(physicalDamageAfterBlock), "Block_Guard");
                             return;
                         }
                     }
@@ -97,11 +91,6 @@ namespace SG
                 if (enemyManager != null && enemyStat != null)
                 {
 
-                    if (characterManager.isParrying)
-                    {
-                        characterManager.GetComponentInChildren<AnimatorHander>().PlayTargetAnimation("Parried", true);
-                        return;
-                    }
                     if (shield != null && enemyManager.isBlocking)
                     {
                         float physicalDamageAfterBlock =
@@ -115,6 +104,8 @@ namespace SG
                         }
                     }
                 }
+
+                Debug.Log(enemyStat);
 
                 //Normal Damage
                 if (enemyStat != null)

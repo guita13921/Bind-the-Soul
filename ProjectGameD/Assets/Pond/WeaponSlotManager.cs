@@ -112,20 +112,21 @@ namespace SG
 
         public void OpenRightDamageCollider()
         {
-            righthandDamgeCollider.EnableDamageCollider();
+            if (righthandDamgeCollider != null) righthandDamgeCollider.EnableDamageCollider();
         }
+
         public void OpenLeftDamageCollider()
         {
-            leftHandDamgeCollider.EnableDamageCollider();
+            if (leftHandDamgeCollider != null) leftHandDamgeCollider.EnableDamageCollider();
         }
 
         public void CloseRightHandDamgeCollider()
         {
-            righthandDamgeCollider.DisableDamageCollider();
+            if (righthandDamgeCollider != null) righthandDamgeCollider.DisableDamageCollider();
         }
         public void CloseLeftHandDamgeCollider()
         {
-            leftHandDamgeCollider.DisableDamageCollider();
+            if (leftHandDamgeCollider != null) leftHandDamgeCollider.DisableDamageCollider();
         }
         public void OpenDamageCollider()
         {
@@ -153,6 +154,7 @@ namespace SG
         {
             playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.lightAttackMultiplier));
         }
+
         public void DrainStaminaHeavyAttack()
         {
             playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));

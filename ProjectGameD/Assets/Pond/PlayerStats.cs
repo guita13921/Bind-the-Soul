@@ -15,8 +15,6 @@ namespace SG
         public StaminaBar staminaBar;
 
         public float StaminaRegenerationAmount = 10.0f;
-        public float staminaRegenTimer = 0;
-
         public int staminaLevel;
         public float maxStamina;
         public float currentStamina;

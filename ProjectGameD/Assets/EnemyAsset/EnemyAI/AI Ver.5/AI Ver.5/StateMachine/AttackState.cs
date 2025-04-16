@@ -27,7 +27,7 @@ namespace SG
 
             if (!enemyManager.isStunning) RotateTowardTargetWhileAttacking(enemyManager);
 
-            if (enemyManager.isInterActing || enemyManager.isStunning) return this;
+            if (enemyManager.isInterActing || enemyManager.isStunning || enemyManager.currentRecoveryTime > 0) return this;
 
             if (currentAttack == null)
             {

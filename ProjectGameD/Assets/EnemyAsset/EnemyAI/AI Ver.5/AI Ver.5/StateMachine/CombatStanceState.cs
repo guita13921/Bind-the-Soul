@@ -26,6 +26,8 @@ namespace SG
             //enemyAnimatorManager.animator.SetFloat("Vertical", vertcalMovementValue, 0.2f, Time.deltaTime);
             //enemyAnimatorManager.animator.SetFloat("Horizontal", HorizontalMovementValue, 0.2f, Time.deltaTime);
 
+            if (enemyManager.isStunning) return this;
+
             if (enemyManager.isInterActing)
             {
                 enemyAnimatorManager.animator.SetFloat("Vertical", 0);

@@ -77,8 +77,7 @@ namespace SG
             if (playerStats.currentStamina <= 0)
                 return;
             weaponSlotManager.attackingWeapon = weapon;
-            if (weaponSlotManager.attackingWeapon != null)
-                weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
+            if (weaponSlotManager.attackingWeapon != null) weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
             //          weaponSlotManager.leftHandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
             animatorHander.PlayTargetAnimation(weapon.OH_Light_Attack_1, true);
             lastAttack = weapon.OH_Light_Attack_1;
@@ -90,8 +89,7 @@ namespace SG
             if (playerStats.currentStamina <= 0)
                 return;
             weaponSlotManager.attackingWeapon = weapon;
-            if (weaponSlotManager.attackingWeapon != null)
-                weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
+            if (weaponSlotManager.attackingWeapon != null) weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
             //  weaponSlotManager.leftHandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
             animatorHander.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
             lastAttack = weapon.OH_Heavy_Attack_1;

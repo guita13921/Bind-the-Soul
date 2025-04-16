@@ -112,7 +112,7 @@ namespace SG
             {
                 rightHandDamageCollider = rightHandSlot.currentWeaponModel?.GetComponentInChildren<DamageCollider>();
                 enemyEffectManager.rightWeaponFX = rightHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
-                rightHandDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
+                //rightHandDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
                 rightHandDamageCollider.currentDamageWeapon = rightHandWeapon.damage;
             }
         }
@@ -137,6 +137,7 @@ namespace SG
 
         public void CloseDamageCollider()
         {
+            enemyAnimatorManager.animator.SetBool("isAttacking", false);
             if (rightHandDamageCollider != null)
             {
                 rightHandDamageCollider.DisableDamageCollider();
