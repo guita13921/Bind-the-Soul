@@ -12,7 +12,7 @@ namespace SG
         public int currentDamageWeapon;
         Collider damageCollider;
         public bool enableOnStartUp = false;
-        CharacterManager characterManager;
+        public CharacterManager characterManager;
         CharacterStats characterStats;
 
 
@@ -50,6 +50,8 @@ namespace SG
                 {
                     if (characterManager.isParrying)
                     {
+                        Debug.Log("parry compleat");
+                        shield.Parried();
                         characterManager.GetComponentInChildren<AnimatorHander>().PlayTargetAnimation("Parried", true);
                         return;
                     }

@@ -12,7 +12,7 @@ public class BlockingColliderPlayer : MonoBehaviour
     public float blockingColliderDamageAbsorption; // Using Both Player/Enemy
 
     [Header("Stamina")]
-    public UIEnemyShieldBar uIEnemyShieldBar;
+    // public UIEnemyShieldBar uIEnemyShieldBar;
     private float lastAttackTime;
     private Coroutine regenCoroutine;
 

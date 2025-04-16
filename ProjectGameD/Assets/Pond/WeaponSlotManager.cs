@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -22,6 +23,7 @@ namespace SG
 
         QuickSlotUI quickSlotUI;
         PlayerStats playerStats;
+        InputHander inputHander;
 
         private void Awake()
         {
@@ -29,6 +31,7 @@ namespace SG
             quickSlotUI = FindObjectOfType<QuickSlotUI>();
             playerManager = GetComponentInParent<PlayerManager>();
             playerStats = GetComponentInParent<PlayerStats>();
+            inputHander = GetComponentInParent<InputHander>();
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
 
             foreach (WeaponHolderSlot weponslot in weaponHolderSlots)
@@ -65,19 +68,30 @@ namespace SG
             }
             else /*if (isRight)*/
             {
-                rightHandSlot.LoadWeaponModel(weaponItem);
-                LoadRightWeaponDamageCollider();
-                quickSlotUI.UpdateWeaponQuickSlotsUI(false, weaponItem);
-                #region Handle Right Weapon Idle Animations
-                if (weaponItem != null)
+                if (inputHander.twohandflag)
                 {
-                    animator.CrossFade(weaponItem.right_hand_idle, 0.2f);
+                    animator.CrossFade(weaponItem.th_idle, 0.2f);
                 }
                 else
                 {
-                    animator.CrossFade("Right Arm Empty", 0.2f);
+
+                    #region Handle Right Weapon Idle Animations
+                    animator.CrossFade("Both Arms Empty", 0.2f);
+                    if (weaponItem != null)
+                    {
+
+                        animator.CrossFade(weaponItem.right_hand_idle, 0.2f);
+                    }
+                    else
+                    {
+
+                        animator.CrossFade("Right Arm Empty", 0.2f);
+                    }
+                    #endregion
                 }
-                #endregion
+                rightHandSlot.LoadWeaponModel(weaponItem);
+                LoadRightWeaponDamageCollider();
+                quickSlotUI.UpdateWeaponQuickSlotsUI(false, weaponItem);
             }
         }
 
@@ -86,7 +100,7 @@ namespace SG
         private void LoadLeftWeaponDamageCollider()
         {
             leftHandDamgeCollider = leftHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
-            leftHandDamgeCollider.currentDamageWeapon = attackingWeapon.damage;
+            //            leftHandDamgeCollider.currentDamageWeapon = attackingWeapon.damage;
 
         }
 

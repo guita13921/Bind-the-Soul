@@ -9,7 +9,7 @@ namespace SG
     {
         InputHander inputHandler;
         PlayerInventory playerInventory;
-        public BlockingCollider blockingCollider;
+        public BlockingColliderPlayer blockingCollider;
 
         void Awake()
         {

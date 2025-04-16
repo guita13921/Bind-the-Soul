@@ -56,7 +56,7 @@ namespace SG
 
         private void HandleRotationToTarget(EnemyManager enemyManager)
         {
-            Debug.Log("HandleRotationToTarget");
+            //            Debug.Log("HandleRotationToTarget");
             //Rotate manually
             if (enemyManager.isPerformingAction)
             {

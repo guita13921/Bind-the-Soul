@@ -14,6 +14,7 @@ public class InputHander : MonoBehaviour
     public float mouseY;
 
     public bool b_Input;
+    public bool y_Input;
     public bool SHFIT_Input;
     public bool a_Input;
     public bool Al_Input;
@@ -26,6 +27,7 @@ public class InputHander : MonoBehaviour
     public bool Lt_Input;
 
     public bool rollFlag;
+    public bool twohandflag;
     public bool sprintFlag;
     public bool comboflang;
     public float rollInputTimer;
@@ -36,6 +38,7 @@ public class InputHander : MonoBehaviour
     PlayerInventory playerInventory;
     PlayerManager playerManager;
     PlayerStats playerStats;
+    WeaponSlotManager weaponSlotManager;
     BlockingColliderPlayer blockingColliderPlayer;
 
 
@@ -48,7 +51,8 @@ public class InputHander : MonoBehaviour
         playerInventory = GetComponent<PlayerInventory>();
         playerManager = GetComponent<PlayerManager>();
         playerStats = GetComponent<PlayerStats>();
-        blockingColliderPlayer = GetComponentInParent<BlockingColliderPlayer>();
+        weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
+        blockingColliderPlayer = GetComponentInChildren<BlockingColliderPlayer>();
     }
 
     public void OnEnable()
@@ -65,6 +69,9 @@ public class InputHander : MonoBehaviour
             inputAction.PlayerAction.Blocking.performed += i => Q_Input = true;
             inputAction.PlayerAction.Blocking.canceled += i => Q_Input = false;
             inputAction.PlayerMovement.Camera.performed += i => cameraInput = i.ReadValue<Vector3>();
+            inputAction.PlayerAction.Y.performed += i => y_Input = true;
+            inputAction.PlayerAction.Y.canceled += i => y_Input = false;
+
         }
         inputAction.Enable();
     }
@@ -80,6 +87,7 @@ public class InputHander : MonoBehaviour
         HandleAttackInput(delta);
         HandleQuickSlotsInput();
         HandleInteractingButtonInput();
+        HandleTwoHandInput();
     }
     private void MoveInput(float delta)
     {
@@ -169,6 +177,7 @@ public class InputHander : MonoBehaviour
         {
             playerAttack.HandleHeavyAttack(playerInventory.rightWeapon);
         }
+
         if (Q_Input)
         {
             playerAttack.HandleQAction();
@@ -181,11 +190,36 @@ public class InputHander : MonoBehaviour
                 blockingColliderPlayer.DisableBlockingCollider();
             }
         }
+
         if (Lt_Input)
         {
+            if (twohandflag)
+            {
 
+            }
+            else
+            {
+                playerAttack.HandleLTAction();
+            }
         }
 
+    }
+    private void HandleTwoHandInput()
+    {
+        if (y_Input)
+        {
+            y_Input = false;
+            twohandflag = !twohandflag;
+            if (twohandflag)
+            {
+                weaponSlotManager.LoadWeaponOnSlot(playerInventory.rightWeapon, false);
+            }
+            else
+            {
+                weaponSlotManager.LoadWeaponOnSlot(playerInventory.rightWeapon, false);
+                weaponSlotManager.LoadWeaponOnSlot(playerInventory.leftWeapon, true);
+            }
+        }
     }
     private void HandleQuickSlotsInput()
     {

@@ -77,7 +77,8 @@ namespace SG
             if (playerStats.currentStamina <= 0)
                 return;
             weaponSlotManager.attackingWeapon = weapon;
-            weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
+            if (weaponSlotManager.attackingWeapon != null)
+                weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
             //          weaponSlotManager.leftHandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
             animatorHander.PlayTargetAnimation(weapon.OH_Light_Attack_1, true);
             lastAttack = weapon.OH_Light_Attack_1;
@@ -89,7 +90,8 @@ namespace SG
             if (playerStats.currentStamina <= 0)
                 return;
             weaponSlotManager.attackingWeapon = weapon;
-            weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
+            if (weaponSlotManager.attackingWeapon != null)
+                weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
             //  weaponSlotManager.leftHandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
             animatorHander.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
             lastAttack = weapon.OH_Heavy_Attack_1;
@@ -115,7 +117,7 @@ namespace SG
         {
             if (playerInventory.leftWeapon.isShieldWeapon)
             {
-                PerformLTWeaponArt(true);
+                PerformLTWeaponArt(inputHander.twohandflag);
             }
             else if (playerInventory.leftWeapon.isMeleeWeapon)
             {
@@ -143,19 +145,18 @@ namespace SG
                 HandleLightAttack(playerInventory.rightWeapon);
             }
         }
-        private void PerformLTWeaponArt(bool isLeftWeapon)
+        private void PerformLTWeaponArt(bool isTwoHanding)
         {
             if (playerManager.isInteracting)
                 return;
-            animatorHander.PlayTargetAnimation(playerInventory.leftWeapon.weapon_art, true);
-            /* if (isLeftWeapon)
-              {
-                  animatorHander.PlayTargetAnimation(playerInventory.leftWeapon.weapon_art, true);
-              }
-              els
-              {
+            if (isTwoHanding)
+            {
 
-              }*/
+            }
+            else
+            {
+                animatorHander.PlayTargetAnimation(playerInventory.leftWeapon.weapon_art, true);
+            }
         }
 
         private void PerformALMagicAction(WeaponItem weapon)

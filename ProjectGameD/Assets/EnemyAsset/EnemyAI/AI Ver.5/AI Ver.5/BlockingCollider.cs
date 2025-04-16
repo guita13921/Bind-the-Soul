@@ -94,6 +94,17 @@ namespace SG
             enemyAnimatorManager.PlayTargetAnimation("Start Stun", true);
             enemyAnimatorManager.animator.SetBool("isBlocking", false);
         }
+        public void Parried()
+        {
+            isActive = false;
+            enemyManager.isBlocking = false;
+            enemyManager.isStunning = true;
+            // enemySoundManager.PlayShielBreakSounds();
+            enemyManager.currentStunningTime = enemyManager.stunningTime;
+            enemyWeaponSlotManager.ShieldBreak();
+            enemyAnimatorManager.PlayTargetAnimation("Start Stun", true);
+            enemyAnimatorManager.animator.SetBool("isBlocking", false);
+        }
 
         private IEnumerator RegenerateShield()
         {

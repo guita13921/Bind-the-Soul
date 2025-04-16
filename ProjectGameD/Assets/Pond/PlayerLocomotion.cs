@@ -103,7 +103,7 @@ namespace SG
                 {
                     sprintStaminaTimer = 0f;
                     playerStats.TakeStaminaDamage((int)sprintStaminaCost);
-                    Debug.Log("running");
+                    //                    Debug.Log("running");
                 }
             }
 

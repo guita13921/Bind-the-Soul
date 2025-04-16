@@ -102,6 +102,7 @@ namespace SG
             if (isLeft)
             {
                 leftHandDamageCollider = leftHandSlot.currentWeaponModel?.GetComponentInChildren<DamageCollider>();
+                //  leftHandDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
                 //enemyEffectManager.rightWeaponFX = rightHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
                 //leftHandDamageCollider.currentDamageWeapon = leftHandWeapon.damage;
             }
@@ -109,6 +110,7 @@ namespace SG
             {
                 rightHandDamageCollider = rightHandSlot.currentWeaponModel?.GetComponentInChildren<DamageCollider>();
                 enemyEffectManager.rightWeaponFX = rightHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
+                rightHandDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
                 rightHandDamageCollider.currentDamageWeapon = rightHandWeapon.damage;
             }
         }
