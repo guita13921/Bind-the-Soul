@@ -22,6 +22,9 @@ namespace SG
 
         public List<WeaponItem> weaponInventory;
 
+        [Header("Player Data")]
+        public PlayerData playerData; // <-- Assign this in the Inspector!s
+
         private void Awake()
         {
             weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
@@ -29,6 +32,19 @@ namespace SG
 
         private void Start()
         {
+            // Load from ScriptableObject
+            if (playerData != null)
+            {
+                weaponsInRightHandSlots = playerData.weaponsInRightHandSlots;
+                weaponsInLeftHandSlots = playerData.weaponsInLeftHandSlots;
+
+                weaponInventory = new List<WeaponItem>(playerData.weaponInventory);
+            }
+            else
+            {
+                Debug.LogWarning("PlayerData ScriptableObject not assigned to PlayerInventory!");
+            }
+
             rightWeapon = unarmedWeapon;
             leftWeapon = unarmedWeapon;
 

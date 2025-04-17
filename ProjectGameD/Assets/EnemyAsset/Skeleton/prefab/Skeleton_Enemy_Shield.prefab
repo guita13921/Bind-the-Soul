@@ -483,7 +483,7 @@ GameObject:
   - component: {fileID: 8729135622067038117}
   - component: {fileID: 1022972178496795587}
   - component: {fileID: 1973049158011953031}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: ShieldBar Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -557,7 +557,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3662291029340565151}
   - component: {fileID: 4412634522611310642}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Health Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -683,6 +683,8 @@ GameObject:
   - component: {fileID: 1864743052174944187}
   - component: {fileID: 6090153918178203671}
   - component: {fileID: 2784998604611328041}
+  - component: {fileID: 1061811885554819359}
+  - component: {fileID: 1334375583494321658}
   m_Layer: 3
   m_Name: Skeleton_Enemy_Shield
   m_TagString: Enemy
@@ -793,13 +795,12 @@ MonoBehaviour:
   healthLevel: 10
   maxHealth: 0
   currentHealth: 0
-  staminaLevel: 10
-  maxStamina: 0
-  currentStamina: 0
+  goldCount: 0
   isDead: 0
   roomManager: {fileID: 0}
+  demonBossManager: {fileID: 0}
   enemyHealthBar: {fileID: 7463023822715930925}
-  coinAwardOnDeath: 10
+  goldAwardOnDeath: 10
   isBoss: 0
 --- !u!114 &6090153918178203671
 MonoBehaviour:
@@ -868,6 +869,122 @@ MonoBehaviour:
   detectopnLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!82 &1061811885554819359
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3438835678189145682}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 9341308cb7cda8744864e33a5c9624c5, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &1334375583494321658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3438835678189145682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a209a41872a08e74bac78988e143df59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathSounds:
+  - {fileID: 8300000, guid: 9341308cb7cda8744864e33a5c9624c5, type: 3}
+  attackSounds:
+  - {fileID: 8300000, guid: ad5d0cc3c01711a49ad79df3e1e8a062, type: 3}
+  hitSounds:
+  - {fileID: 8300000, guid: f04a7d81d18a0bc4b907ab8003acc5e4, type: 3}
+  - {fileID: 8300000, guid: 56bebfb1848313e4181919fefc1d0b6f, type: 3}
+  - {fileID: 8300000, guid: 0432d2a3ee956f548afce8e93a202611, type: 3}
 --- !u!1 &3581619932265688485
 GameObject:
   m_ObjectHideFlags: 0
@@ -879,7 +996,7 @@ GameObject:
   - component: {fileID: 8961349525849713315}
   - component: {fileID: 1047077969443891501}
   - component: {fileID: 18562052028294799}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Health Bar Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -954,7 +1071,7 @@ GameObject:
   - component: {fileID: 1591909688948249534}
   - component: {fileID: 7412069692091429471}
   - component: {fileID: 2124108247743473536}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Health Bar fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1158,7 +1275,7 @@ GameObject:
   - component: {fileID: 986984025523824016}
   - component: {fileID: 8026978042256999768}
   - component: {fileID: 3674699695858384269}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: ShieldBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1523,7 +1640,7 @@ GameObject:
   - component: {fileID: 7383575404695736923}
   - component: {fileID: 8956354332326077812}
   - component: {fileID: 2822079428587173245}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: ShieldBar fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}

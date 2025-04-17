@@ -10,6 +10,8 @@ namespace SG
         [SerializeField] EnemyAnimatorManager enemyAnimatorManager;
         [SerializeField] EnemyWeaponSlotManager enemyWeaponSlotManager;
         BoxCollider blockingCollider;
+        EnemySoundManager enemySoundManager;
+
         public float blockingColliderDamageAbsorption; // Using Both Player/Enemy
 
         public bool isActive = true;
@@ -27,6 +29,7 @@ namespace SG
         private void Awake()
         {
             //enemyAnimatorManager = GetComponentInParent<EnemyAnimatorManager>();
+            enemySoundManager = GetComponentInParent<EnemySoundManager>();
             enemyManager = GetComponentInParent<EnemyManager>();
             blockingCollider = GetComponent<BoxCollider>();
         }
@@ -89,17 +92,7 @@ namespace SG
             enemyManager.hasShield = false;
             enemyManager.isBlocking = false;
             enemyManager.isStunning = true;
-            enemyManager.currentStunningTime = enemyManager.stunningTime;
-            enemyWeaponSlotManager.ShieldBreak();
-            enemyAnimatorManager.PlayTargetAnimation("Start Stun", true);
-            enemyAnimatorManager.animator.SetBool("isBlocking", false);
-        }
-        public void Parried()
-        {
-            isActive = false;
-            enemyManager.isBlocking = false;
-            enemyManager.isStunning = true;
-            // enemySoundManager.PlayShielBreakSounds();
+            enemySoundManager.PlayShielBreakSounds();
             enemyManager.currentStunningTime = enemyManager.stunningTime;
             enemyWeaponSlotManager.ShieldBreak();
             enemyAnimatorManager.PlayTargetAnimation("Start Stun", true);

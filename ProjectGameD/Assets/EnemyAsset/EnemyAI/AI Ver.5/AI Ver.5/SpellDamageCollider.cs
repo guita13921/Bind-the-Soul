@@ -6,12 +6,14 @@ using UnityEngine.SocialPlatforms;
 
 namespace SG
 {
-
     public class SpellDamageCollider : DamageCollider
     {
         public GameObject impactParticle;
         public GameObject projectileParticle;
         public GameObject muzzleParticle;
+
+        public AudioClip hitSoundEffect; // 👈 Add this to assign the hit sound in Inspector
+        private AudioSource audioSource; // 👈 We’ll use this to play the sound
 
         bool hasCollider = false;
         Rigidbody rigidbody;
@@ -23,6 +25,15 @@ namespace SG
         void Awake()
         {
             rigidbody = GetComponent<Rigidbody>();
+
+            // Setup AudioSource if one doesn't already exist
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null)
+            {
+                audioSource = gameObject.AddComponent<AudioSource>();
+            }
+
+            audioSource.playOnAwake = false;
         }
 
         void Start()
@@ -47,6 +58,14 @@ namespace SG
 
         private void OnCollisionEnter(Collision collision)
         {
+            impactNormal = collision.contacts[0].normal; // Get the impact normal
+
+            // Play hit sound effect
+            if (hitSoundEffect != null)
+            {
+                audioSource.PlayOneShot(hitSoundEffect);
+            }
+
             if (collision.gameObject.tag == "Player")
             {
                 if (!hasCollider)
@@ -63,19 +82,17 @@ namespace SG
                     impactParticle = Instantiate(impactParticle, transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal));
 
                     Destroy(projectileParticle);
-                    Destroy(impactParticle, 5f);
-                    Destroy(gameObject, 5f);
+                    Destroy(impactParticle, 1f);
+                    Destroy(gameObject, 1f);
                 }
             }
-            else if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Enemy")
+            else if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "CantDash")
             {
-                //Debug.Log("Enemy");
-
                 impactParticle = Instantiate(impactParticle, transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal));
-                Destroy(projectileParticle);
-                Destroy(impactParticle, 5f);
-                Destroy(gameObject, 5f);
 
+                Destroy(projectileParticle);
+                Destroy(impactParticle, 1f);
+                Destroy(gameObject, 1f);
             }
         }
     }

@@ -11,7 +11,7 @@ namespace SG
 
         public int goldCount = 0;
 
-        public bool isDead;
+        public bool isDead = false;
 
 
     }

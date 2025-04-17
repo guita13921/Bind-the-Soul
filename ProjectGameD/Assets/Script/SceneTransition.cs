@@ -3,41 +3,44 @@ using System.Collections.Generic;
 using EasyTransition;
 using UnityEngine;
 
-public class SceneTransition : MonoBehaviour
+namespace SG
 {
-    public TransitionSettings transition;
-    public float loaddelay;
 
-    public void NextScene(string _sceneName)
+    public class SceneTransition : MonoBehaviour
     {
-        PlayTransitionSound();
-        if (_sceneName == "MainMenu")
-            Time.timeScale = 1f;
-        TransitionManager.Instance().Transition(_sceneName, transition, loaddelay);
-    }
+        public TransitionSettings transition;
+        public float loaddelay;
 
-    [SerializeField]
-    private AudioClip Transitionsound;
-
-    [SerializeField]
-    private AudioSource audioSource;
-
-    [SerializeField]
-    private AudioSource currentSoundtrack;
-
-    public void PlayTransitionSound()
-    {
-        if (currentSoundtrack != null)
+        public void NextScene(string _sceneName)
         {
-            currentSoundtrack.volume = 0f;
+            PlayTransitionSound();
+            if (_sceneName == "MainMenu") Time.timeScale = 1f;
+            TransitionManager.Instance().Transition(_sceneName, transition, loaddelay);
         }
-        if (audioSource != null && Transitionsound != null)
+
+        [SerializeField]
+        private AudioClip Transitionsound;
+
+        [SerializeField]
+        private AudioSource audioSource;
+
+        [SerializeField]
+        private AudioSource currentSoundtrack;
+
+        public void PlayTransitionSound()
         {
-            audioSource.PlayOneShot(Transitionsound);
-        }
-        else
-        {
-            Debug.LogWarning("AudioSource or AudioClip is missing!");
+            if (currentSoundtrack != null)
+            {
+                currentSoundtrack.volume = 0f;
+            }
+            if (audioSource != null && Transitionsound != null)
+            {
+                audioSource.PlayOneShot(Transitionsound);
+            }
+            else
+            {
+                Debug.LogWarning("AudioSource or AudioClip is missing!");
+            }
         }
     }
 }

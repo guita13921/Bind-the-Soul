@@ -198,26 +198,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4207673213264788833, guid: 0f9b7452c38cae340a9f53a0b5c006eb, type: 3}
-      propertyPath: m_Size.y
-      value: 0.8693261
-      objectReference: {fileID: 0}
-    - target: {fileID: 4207673213264788833, guid: 0f9b7452c38cae340a9f53a0b5c006eb, type: 3}
-      propertyPath: m_Size.z
-      value: 1.4477427
-      objectReference: {fileID: 0}
-    - target: {fileID: 4207673213264788833, guid: 0f9b7452c38cae340a9f53a0b5c006eb, type: 3}
-      propertyPath: m_Center.x
-      value: 9.871176e-16
-      objectReference: {fileID: 0}
-    - target: {fileID: 4207673213264788833, guid: 0f9b7452c38cae340a9f53a0b5c006eb, type: 3}
-      propertyPath: m_Center.y
-      value: -0.03606148
-      objectReference: {fileID: 0}
-    - target: {fileID: 4207673213264788833, guid: 0f9b7452c38cae340a9f53a0b5c006eb, type: 3}
-      propertyPath: m_Center.z
-      value: 0.03341271
-      objectReference: {fileID: 0}
     - target: {fileID: 4861087442478127578, guid: 0f9b7452c38cae340a9f53a0b5c006eb, type: 3}
       propertyPath: m_Name
       value: Blocking Collider Player
@@ -485,6 +465,14 @@ PrefabInstance:
     - target: {fileID: 1864743052174944187, guid: 4f4cbc8a422c3e047ab2822eeeaee1bc, type: 3}
       propertyPath: enemyHealthBar
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2996344141921196242, guid: 4f4cbc8a422c3e047ab2822eeeaee1bc, type: 3}
+      propertyPath: currentAttack
+      value: 
+      objectReference: {fileID: 11400000, guid: 22e84cfb9033f38488ad81e25693180d, type: 2}
+    - target: {fileID: 2996344141921196242, guid: 4f4cbc8a422c3e047ab2822eeeaee1bc, type: 3}
+      propertyPath: hasPerformAttack
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3438835678189145682, guid: 4f4cbc8a422c3e047ab2822eeeaee1bc, type: 3}
       propertyPath: m_Name
@@ -1060,12 +1048,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8cd052c88b6864f4196e4a279881240d, type: 2}
   - {fileID: 11400000, guid: 15ddd6c850843644fb1efa42b9d4b6f4, type: 2}
   weaponsInLeftHandSlots:
-  - {fileID: 11400000, guid: 8cd052c88b6864f4196e4a279881240d, type: 2}
-  - {fileID: 11400000, guid: 15ddd6c850843644fb1efa42b9d4b6f4, type: 2}
   - {fileID: 11400000, guid: 2b891f6e40c811941bfd4c163e4053db, type: 2}
   currentRightWeaponIndex: 0
   currentLeftWeaponIndex: 0
   weaponInventory: []
+  playerData: {fileID: 11400000, guid: 211666ca95011004ab793c9ba6446dea, type: 2}
 --- !u!114 &439884936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1078,15 +1065,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8789273b1f69ff14eb459029323aaf4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthLevel: 10
+  healthLevel: 0
   maxHealth: 0
   currentHealth: 0
   goldCount: 0
   isDead: 0
+  playerData: {fileID: 11400000, guid: 211666ca95011004ab793c9ba6446dea, type: 2}
   healthBar: {fileID: 1540731135}
   staminaBar: {fileID: 1487305217}
   StaminaRegenerationAmount: 1
-  staminaLevel: 10
+  staminaLevel: 0
   maxStamina: 0
   currentStamina: 0
   staminaRegenTimer: 0

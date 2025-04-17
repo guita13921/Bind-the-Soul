@@ -22,6 +22,7 @@ namespace SG
         EnemyEffectManager enemyEffectManager;
         EnemyManager enemyManager;
         PlayerStats playerStats;
+        EnemySoundManager enemySoundManager;
 
         [Header("Shield Config")]
         public BlockingCollider Shield;
@@ -34,6 +35,7 @@ namespace SG
             enemyEffectManager = GetComponentInParent<EnemyEffectManager>();
             enemyManager = GetComponentInParent<EnemyManager>();
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
+            enemySoundManager = GetComponentInParent<EnemySoundManager>();
 
             foreach (WeaponHolderSlot weponslot in weaponHolderSlots)
             {
@@ -110,7 +112,7 @@ namespace SG
             {
                 rightHandDamageCollider = rightHandSlot.currentWeaponModel?.GetComponentInChildren<DamageCollider>();
                 enemyEffectManager.rightWeaponFX = rightHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
-                rightHandDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
+                //rightHandDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
                 rightHandDamageCollider.currentDamageWeapon = rightHandWeapon.damage;
             }
         }
@@ -126,10 +128,16 @@ namespace SG
             {
                 leftHandDamageCollider.EnableDamageCollider();
             }
+
+            if (enemySoundManager != null)
+            {
+                enemySoundManager.PlayAttackSound();
+            }
         }
 
         public void CloseDamageCollider()
         {
+            enemyAnimatorManager.animator.SetBool("isAttacking", false);
             if (rightHandDamageCollider != null)
             {
                 rightHandDamageCollider.DisableDamageCollider();
@@ -153,6 +161,7 @@ namespace SG
 
         public void SuccessfullyCastSpell()
         {
+            enemySoundManager.PlayAttackSound();
             projectileSpell.SuccessfullyCastSpell(enemyAnimatorManager, playerStats, null, this);
             enemyAnimatorManager.animator.SetBool("isFiringSpell", true);
         }

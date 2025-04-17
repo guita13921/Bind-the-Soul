@@ -11,6 +11,7 @@ namespace SG
         public Transform rooms;
         public float roomSpawnOffSet = 5;
         public EnemyRoomManager enemyRoomManager;
+        //public TransitionSettings transition;
 
         private Sprite previousImage;
 
@@ -109,6 +110,8 @@ namespace SG
                 changeRoomCooldown = true;
                 Invoke(nameof(EndChangeRoomColdown), Level.RoomChangeTime);
             }
+
+
 
             if (hit.gameObject.name == "Left Door")
             {
