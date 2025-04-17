@@ -51,7 +51,6 @@ namespace SG
                     if (characterManager.isParrying)
                     {
                         Debug.Log("parry compleat");
-                        shield.Parried();
                         characterManager.GetComponentInChildren<AnimatorHander>().PlayTargetAnimation("Parried", true);
                         return;
                     }

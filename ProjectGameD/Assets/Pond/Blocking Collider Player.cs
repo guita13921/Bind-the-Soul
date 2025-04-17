@@ -9,7 +9,7 @@ public class BlockingColliderPlayer : MonoBehaviour
     [SerializeField] AnimatorHander animatorHander;
     [SerializeField] WeaponSlotManager weaponSlotManager;
     public BoxCollider blockingCollider;
-    public float blockingColliderDamageAbsorption; // Using Both Player/Enemy
+    public float blockingColliderDamageAbsorption;
 
     [Header("Stamina")]
     // public UIEnemyShieldBar uIEnemyShieldBar;
