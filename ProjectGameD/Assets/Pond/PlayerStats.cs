@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace SG
@@ -10,20 +11,24 @@ namespace SG
         [Header("Player Data")]
         public PlayerData playerData;
 
+        AnimatorHander animatorHander;
+        PowerUpManager powerUpManager;
         PlayerManager playerManager;
         public HealthBar healthBar;
         public StaminaBar staminaBar;
 
-        public float StaminaRegenerationAmount = 10.0f;
+        public float StaminaRegenerationAmount;
         public int staminaLevel;
         public float maxStamina;
         public float currentStamina;
         public float staminaRegenTimer = 0;
 
-        AnimatorHander animatorHander;
+        public int flatDamageBonus;
+        public float StaminaRegenBonus;
 
         private void Awake()
         {
+            powerUpManager = GetComponent<PowerUpManager>();
             playerManager = FindObjectOfType<PlayerManager>();
             healthBar = FindObjectOfType<HealthBar>();
             staminaBar = FindObjectOfType<StaminaBar>();
@@ -53,6 +58,9 @@ namespace SG
             currentHealth = playerData.currentHealth; // Load current from PlayerData
             currentStamina = playerData.currentStamina; // Load current from PlayerData
             goldCount = playerData.goldCount;
+            flatDamageBonus = playerData.flatDamageBonus;
+            StaminaRegenBonus = playerData.StaminaRegenBonus;
+
 
         }
 
@@ -69,6 +77,7 @@ namespace SG
 
         public void TakeDamage(int damage, string damageAnimation = "Damage_01") // ✅ แก้ชื่อให้ตรง
         {
+            CheckDamagePowerUp();
             if (playerManager.isInvulnerable)
                 return;
             if (isDead)
@@ -101,7 +110,7 @@ namespace SG
                 staminaRegenTimer += Time.deltaTime;
                 if (currentStamina < maxStamina && staminaRegenTimer > 1f)
                 {
-                    currentStamina += StaminaRegenerationAmount * Time.deltaTime;
+                    currentStamina += (StaminaRegenerationAmount + StaminaRegenBonus) * Time.deltaTime;
                     currentStamina = Mathf.Min(currentStamina, maxStamina);
 
                     staminaBar.SetcurrentStamina(Mathf.RoundToInt(currentStamina));
@@ -121,6 +130,16 @@ namespace SG
             {
                 playerData.currentHealth = currentHealth;
                 playerData.currentStamina = currentStamina;
+            }
+        }
+
+        private void CheckDamagePowerUp()
+        {
+            var Momentum = powerUpManager.collectedPowerUps.OfType<MomentumPowerUp>().FirstOrDefault();
+            if (Momentum != null)
+            {
+                Momentum.OnPlayerDamaged(playerData);
+                Debug.Log("OnRoomClear");
             }
         }
     }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace SG
@@ -9,8 +10,33 @@ namespace SG
         public List<EnemyStat> enemiesInRoom = new List<EnemyStat>();
         public bool roomCleared = false;
 
+        [Header("Player")]
+        private PlayerStats playerStats;
+        private PlayerData playerData;
+        private PowerUpManager powerUpManager;
+        private PlayerManager playerManager;
+
+        private void Awake()
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+            if (player != null)
+            {
+                playerManager = player.GetComponent<PlayerManager>();
+                powerUpManager = player.GetComponent<PowerUpManager>();
+                playerData = playerManager.playerData;
+            }
+        }
+
         public void SpawnEnemiesInRoom(Room currentRoom)
         {
+            var Momentum = powerUpManager.collectedPowerUps.OfType<MomentumPowerUp>().FirstOrDefault();
+            if (Momentum != null)
+            {
+                Momentum.OnRoomEnter(playerData);
+                Debug.Log("Momentum");
+            }
+
             enemiesInRoom.Clear();
 
             Transform spawnerParent = GameObject.Find(currentRoom.roomNumber.ToString()).transform.Find("Spawners");
@@ -66,6 +92,8 @@ namespace SG
 
         private void RoomCleared(Room currentRoom)
         {
+            CheckClearRoomPowerUp();
+
             Transform doors = GameObject.Find(currentRoom.roomNumber.ToString()).transform.Find("Doors");
 
             if (doors != null)
@@ -99,6 +127,22 @@ namespace SG
                 {
                     Debug.Log($"{doorName} not found in Doors.");
                 }
+            }
+        }
+
+        private void CheckClearRoomPowerUp()
+        {
+            var bloodPact = powerUpManager.collectedPowerUps.OfType<BloodPactPowerUp>().FirstOrDefault();
+            if (bloodPact != null)
+            {
+                bloodPact.OnRoomComplete(playerStats);
+            }
+
+            var Momentum = powerUpManager.collectedPowerUps.OfType<MomentumPowerUp>().FirstOrDefault();
+            if (Momentum != null)
+            {
+                Momentum.OnRoomClear(playerData);
+                Debug.Log("Momentum");
             }
         }
 

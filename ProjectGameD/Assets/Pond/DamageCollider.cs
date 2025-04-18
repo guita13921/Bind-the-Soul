@@ -46,7 +46,7 @@ namespace SG
             {
                 PlayerStats playerStats = collider.GetComponent<PlayerStats>();
                 PlayerManager playerManager = collider.GetComponent<PlayerManager>();
-                BlockingCollider shield = collider.transform.GetComponentInChildren<BlockingCollider>();
+                BlockingColliderPlayer shield = collider.transform.GetComponentInChildren<BlockingColliderPlayer>();
 
                 if (playerManager != null)
                 {

@@ -7,11 +7,13 @@ namespace SG
     public class ShopManager : MonoBehaviour
     {
         private List<ShopItem> availableShopItems = new List<ShopItem>();
+        List<ShopItemDisplay> shopItemDisplay;
 
         private void Start()
         {
             // Load all shop items from Resources
             availableShopItems = Resources.LoadAll<ShopItem>("ShopItems").ToList();
+            shopItemDisplay = GetComponentsInChildren<ShopItemDisplay>().ToList();
 
             if (availableShopItems.Count == 0)
             {
@@ -24,7 +26,6 @@ namespace SG
 
         private void LoadShopItems()
         {
-            // Find all children (recursive) named "ShopItemHolder"
             List<Transform> holders = new List<Transform>();
 
             foreach (Transform child in GetComponentsInChildren<Transform>())
@@ -41,30 +42,33 @@ namespace SG
                 return;
             }
 
-            // Shuffle shop items if you want to assign unique items per holder
             List<ShopItem> shuffledItems = availableShopItems.OrderBy(i => Random.value).ToList();
 
             for (int i = 0; i < holders.Count; i++)
             {
                 Transform holder = holders[i];
-
-                // Choose an item: unique or allow repeat
-                ShopItem itemToUse;
-
-                if (i < shuffledItems.Count)
-                {
-                    itemToUse = shuffledItems[i]; // Unique assignment
-                }
-                else
-                {
-                    // If more holders than items, start repeating randomly
-                    itemToUse = availableShopItems[Random.Range(0, availableShopItems.Count)];
-                }
+                ShopItem itemToUse = i < shuffledItems.Count
+                    ? shuffledItems[i]
+                    : availableShopItems[Random.Range(0, availableShopItems.Count)];
 
                 if (itemToUse.itemPrefab != null)
                 {
                     GameObject instance = Instantiate(itemToUse.itemPrefab, holder);
-                    instance.transform.localPosition = Vector3.zero; // Optional: tweak for spacing
+                    instance.transform.localPosition = Vector3.zero;
+
+
+                    // ✅ Get the ShopItemDisplay component from the holder
+                    ShopItemDisplay display = holder.GetComponent<ShopItemDisplay>();
+
+                    if (display != null)
+                    {
+                        display.item = itemToUse;
+                        display.SetText(); // Make sure you have this method in ShopItemDisplay
+                    }
+                    else
+                    {
+                        Debug.LogWarning("ShopItemHolder is missing ShopItemDisplay component.");
+                    }
                 }
                 else
                 {
@@ -72,5 +76,6 @@ namespace SG
                 }
             }
         }
+
     }
 }

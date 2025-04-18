@@ -278,6 +278,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f370f8cba160b54bb6366b0b6be42c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-4834175687580262901
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f370f8cba160b54bb6366b0b6be42c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &-4770074030853934093
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -323,11 +335,12 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Block Guard
-  m_Speed: 1
+  m_Speed: 5
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 8174271868311623471}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -4834175687580262901}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 1
   m_WriteDefaultValues: 1
@@ -336,7 +349,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 2c881ce85aa35c74d8410c65e6994362, type: 2}
+  m_Motion: {fileID: 7400000, guid: 7b889d38bd3a535408aa9ba109beb16e, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1339,7 +1352,7 @@ AnimatorStateMachine:
     m_Position: {x: 160, y: -280, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4326532317125145663}
-    m_Position: {x: 120, y: 210, z: 0}
+    m_Position: {x: 130, y: 270, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []

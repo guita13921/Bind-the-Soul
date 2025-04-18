@@ -47,7 +47,18 @@ namespace SG
             // Save inventory
             playerData.weaponInventory = new List<WeaponItem>(playerInventory.weaponInventory);
 
-            Debug.Log("PlayerData has been updated from PlayerInventory (via OnDestroy or Quit).");
+            // Save gold
+            playerData.goldCount = playerStats.goldCount;
+
+            // Save power-up flags
+            playerData.bloodPactDamageModify = playerStats.playerData.bloodPactDamageModify;
+            playerData.hasMomentum = playerStats.playerData.hasMomentum;
+            playerData.momentumActive = playerStats.playerData.momentumActive;
+
+            playerData.flatDamageBonus = playerStats.flatDamageBonus;
+            playerData.StaminaRegenBonus = playerStats.StaminaRegenBonus;
+
+            Debug.Log("PlayerData has been updated from PlayerInventory and PlayerStats.");
         }
     }
 }

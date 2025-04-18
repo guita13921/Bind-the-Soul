@@ -13,6 +13,8 @@ namespace SG
         CameraHandler cameraHandler;
         PlayerLocomotion playerLocomotion;
         PlayerStats playerStats;
+
+        public PlayerData playerData;
         public bool isInteracting;
         public bool isInvulerable;
 

@@ -62,7 +62,7 @@ namespace SG
             anim.applyRootMotion = isInteracting;
             //anim.SetBool("canRotate", canRotate);
             anim.SetBool("isInteracting", isInteracting);
-            anim.CrossFade(targetAnim, 0.2f);
+            anim.CrossFade(targetAnim, 0.0f);
         }
 
         public void CanRotate() => canRotate = true;

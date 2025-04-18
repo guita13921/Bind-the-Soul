@@ -27,6 +27,19 @@ namespace SG
         [Header("Gold")]
         public int goldCount;
 
+        [Header("BloodPactPowerUp")]
+        public bool bloodPactDamageModify;
+
+        [Header("MomentumPowerUp")]
+        public bool momentumActive;
+        public bool hasMomentum;
+
+        [Header("Damage Bonus")]
+        public int flatDamageBonus;
+
+        [Header("Stamina Bonus")]
+        public float StaminaRegenBonus;
+
         private void OnEnable()
         {
             healthLevel = 10;
@@ -35,6 +48,12 @@ namespace SG
             maxStamina = SetMaxStaminaFromStaminaLevel();
             currentHealth = maxHealth;
             currentStamina = maxStamina;
+
+            bloodPactDamageModify = false;
+            hasMomentum = false;
+            momentumActive = false;
+            flatDamageBonus = 0;
+            StaminaRegenBonus = 0;
         }
 
         private int SetMaxHealthFromHealthLevel()

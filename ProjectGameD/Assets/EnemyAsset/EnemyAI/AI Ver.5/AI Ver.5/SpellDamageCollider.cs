@@ -68,31 +68,42 @@ namespace SG
 
             if (collision.gameObject.tag == "Player")
             {
+
+                PlayerStats playerStats = collision.gameObject.GetComponent<PlayerStats>();
+                PlayerManager playerManager = collision.gameObject.GetComponent<PlayerManager>();
+                BlockingColliderPlayer shield = collision.gameObject.GetComponentInChildren<BlockingColliderPlayer>();
                 if (!hasCollider)
                 {
                     spellTarget = collision.transform.GetComponent<PlayerStats>();
 
-                    if (spellTarget != null)
+                    if (shield != null && playerManager.isBlocking)
+                    {
+                        float physicalDamageAfterBlock =
+                        currentDamageWeapon - (currentDamageWeapon * shield.blockingColliderDamageAbsorption) / 100;
+                        if (playerStats != null)
+                        {
+                            playerStats.TakeDamage(Mathf.RoundToInt(physicalDamageAfterBlock), "Block Guard");
+                        }
+                    }
+                    else
                     {
                         spellTarget.TakeDamage(currentDamageWeapon);
-                        //Debug.Log("player");
                     }
 
                     hasCollider = true;
                     impactParticle = Instantiate(impactParticle, transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal));
-
-                    Destroy(projectileParticle);
+                    Destroy(projectileParticle, 1f);
                     Destroy(impactParticle, 1f);
-                    Destroy(gameObject, 1f);
+                    Destroy(gameObject);
                 }
             }
             else if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "CantDash")
             {
                 impactParticle = Instantiate(impactParticle, transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal));
 
-                Destroy(projectileParticle);
+                Destroy(projectileParticle, 1f);
                 Destroy(impactParticle, 1f);
-                Destroy(gameObject, 1f);
+                Destroy(gameObject);
             }
         }
     }
