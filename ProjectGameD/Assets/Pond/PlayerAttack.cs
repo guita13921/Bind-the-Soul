@@ -74,11 +74,12 @@ namespace SG
         public void HandleLightAttack(WeaponItem weapon)
         {
 
-            if (playerStats.currentStamina <= 0)
+            if (playerStats.currentStamina <= 0 || weaponSlotManager.righthandDamgeCollider == null)
                 return;
             weaponSlotManager.attackingWeapon = weapon;
-            if (weaponSlotManager.attackingWeapon != null) weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
-            //          weaponSlotManager.leftHandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
+            if (weaponSlotManager.attackingWeapon != null) weaponSlotManager.righthandDamgeCollider.currentDamageWeapon =
+           Mathf.RoundToInt(weaponSlotManager.attackingWeapon.damage * weaponSlotManager.attackingWeapon.lightAttackDamageMultiplier);
+            //Debug.Log(weaponSlotManager.righthandDamgeCollider.currentDamageWeapon);
             animatorHander.PlayTargetAnimation(weapon.OH_Light_Attack_1, true);
             lastAttack = weapon.OH_Light_Attack_1;
         }
@@ -86,14 +87,16 @@ namespace SG
         public void HandleHeavyAttack(WeaponItem weapon)
         {
 
-            if (playerStats.currentStamina <= 0)
+            if (playerStats.currentStamina <= 0 || weaponSlotManager.righthandDamgeCollider == null)
                 return;
             weaponSlotManager.attackingWeapon = weapon;
-            if (weaponSlotManager.attackingWeapon != null) weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
-            //  weaponSlotManager.leftHandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
+            if (weaponSlotManager.attackingWeapon != null) weaponSlotManager.righthandDamgeCollider.currentDamageWeapon =
+            Mathf.RoundToInt(weaponSlotManager.attackingWeapon.damage * weaponSlotManager.attackingWeapon.heavyAttackDamageMultiplier);
+            //Debug.Log(weaponSlotManager.righthandDamgeCollider.currentDamageWeapon);
             animatorHander.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
             lastAttack = weapon.OH_Heavy_Attack_1;
         }
+
         #region Input Action
         public void HandleALAction()
         {

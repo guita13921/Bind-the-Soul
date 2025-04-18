@@ -134,6 +134,7 @@ namespace SG
         {
             currentHealth = 0;
             enemyAnimatorManager.PlayTargetAnimation("Dead01", true);
+            DropItem();
 
             // Play death sound
             if (enemySoundManager != null)
@@ -163,6 +164,25 @@ namespace SG
         public int GetMaxHealth()
         {
             return maxHealth;
+        }
+
+        public void DropItem()
+        {
+            foreach (Drop drop in PlayerManager.availableDrops)
+            {
+                //Debug.Log(drop);
+                int limiter = 0;
+                while (Random.value < drop.DropChance && limiter <= 3)
+                {
+                    limiter++;
+                    GameObject droppedItem = Instantiate(drop.Prefab,
+                    this.transform.position, Quaternion.identity);
+
+                    droppedItem.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-0.1f, 0.1f),
+                    Random.Range(30, 50),
+                    Random.Range(-1, 1)), ForceMode.Impulse);
+                }
+            }
         }
     }
 
