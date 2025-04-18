@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -77,8 +78,9 @@ namespace SG
             if (playerStats.currentStamina <= 0)
                 return;
             weaponSlotManager.attackingWeapon = weapon;
-            if (weaponSlotManager.attackingWeapon != null) weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
-            //          weaponSlotManager.leftHandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
+            if (weaponSlotManager.attackingWeapon != null) weaponSlotManager.righthandDamgeCollider.currentDamageWeapon =
+           Mathf.RoundToInt(weaponSlotManager.attackingWeapon.damage * weaponSlotManager.attackingWeapon.DamagelightAttackMultiplier);
+            Debug.Log(weaponSlotManager.attackingWeapon.damage);
             animatorHander.PlayTargetAnimation(weapon.OH_Light_Attack_1, true);
             lastAttack = weapon.OH_Light_Attack_1;
         }
@@ -89,8 +91,9 @@ namespace SG
             if (playerStats.currentStamina <= 0)
                 return;
             weaponSlotManager.attackingWeapon = weapon;
-            if (weaponSlotManager.attackingWeapon != null) weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
-            //  weaponSlotManager.leftHandDamgeCollider.currentDamageWeapon = weaponSlotManager.attackingWeapon.damage;
+            if (weaponSlotManager.attackingWeapon != null) weaponSlotManager.righthandDamgeCollider.currentDamageWeapon =
+            Mathf.RoundToInt(weaponSlotManager.attackingWeapon.damage * weaponSlotManager.attackingWeapon.DamageheavyAttackMultiplier);
+            Debug.Log(weaponSlotManager.attackingWeapon.damage);
             animatorHander.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
             lastAttack = weapon.OH_Heavy_Attack_1;
         }

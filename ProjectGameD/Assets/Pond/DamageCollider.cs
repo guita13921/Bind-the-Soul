@@ -12,6 +12,7 @@ namespace SG
         public int currentDamageWeapon;
         Collider damageCollider;
         public bool enableOnStartUp = false;
+        CharacterManager characterManager;
         [SerializeField] EnemyManager enemyManager1;
 
 
@@ -52,9 +53,11 @@ namespace SG
                 {
                     if (playerManager.isParrying)
                     {
-                        Debug.Log("parry compleat");
-                        shield.Parried();
-                        characterManager.GetComponentInChildren<AnimatorHander>().PlayTargetAnimation("Parried", true);
+                        enemyManager1.GetComponentInChildren<EnemyAnimatorManager>().PlayTargetAnimation("Start Stun", true);
+                        enemyManager1.GetComponentInChildren<EnemyAnimatorManager>().animator.SetBool("isBlocking", false);
+                        enemyManager1.isBlocking = false;
+                        enemyManager1.isStunning = true;
+                        enemyManager1.currentStunningTime = enemyManager1.stunningTime;
                         return;
                     }
                     else if (shield != null && playerManager.isBlocking)

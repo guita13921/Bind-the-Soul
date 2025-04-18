@@ -143,7 +143,8 @@ namespace SG
 
         public void CloseDamageCollider()
         {
-            leftHandDamgeCollider.DisableDamageCollider();
+            if (leftHandDamgeCollider != null)
+                leftHandDamgeCollider.DisableDamageCollider();
             righthandDamgeCollider.DisableDamageCollider();
         }
 
@@ -152,12 +153,14 @@ namespace SG
         #region Handle Weapon's Stamina Drainage
         public void DrainStaminaLightAttack()
         {
-            playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.lightAttackMultiplier));
+            if (attackingWeapon != null)
+                playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.lightAttackMultiplier));
         }
 
         public void DrainStaminaHeavyAttack()
         {
-            playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));
+            if (attackingWeapon != null)
+                playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));
         }
         #endregion
     }

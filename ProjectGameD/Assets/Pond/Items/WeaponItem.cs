@@ -29,6 +29,10 @@ namespace SG
         [Header("Weapon Art")]
         public string weapon_art;
 
+        [Header("Damage scale")]
+        public float DamagelightAttackMultiplier;
+        public float DamageheavyAttackMultiplier;
+
         [Header("stamina Costs")]
         public int baseStamina;
         public float lightAttackMultiplier;
