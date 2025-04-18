@@ -79,7 +79,7 @@ namespace SG
                 return;
             weaponSlotManager.attackingWeapon = weapon;
             if (weaponSlotManager.attackingWeapon != null) weaponSlotManager.righthandDamgeCollider.currentDamageWeapon =
-           Mathf.RoundToInt(weaponSlotManager.attackingWeapon.damage * weaponSlotManager.attackingWeapon.DamagelightAttackMultiplier);
+           Mathf.RoundToInt(weaponSlotManager.attackingWeapon.damage * weaponSlotManager.attackingWeapon.lightAttackDamageMultiplier);
             Debug.Log(weaponSlotManager.attackingWeapon.damage);
             if (weaponSlotManager.attackingWeapon != null) weaponSlotManager.righthandDamgeCollider.currentDamageWeapon =
            Mathf.RoundToInt(weaponSlotManager.attackingWeapon.damage * weaponSlotManager.attackingWeapon.lightAttackDamageMultiplier);
@@ -95,7 +95,7 @@ namespace SG
                 return;
             weaponSlotManager.attackingWeapon = weapon;
             if (weaponSlotManager.attackingWeapon != null) weaponSlotManager.righthandDamgeCollider.currentDamageWeapon =
-            Mathf.RoundToInt(weaponSlotManager.attackingWeapon.damage * weaponSlotManager.attackingWeapon.DamageheavyAttackMultiplier);
+            Mathf.RoundToInt(weaponSlotManager.attackingWeapon.damage * weaponSlotManager.attackingWeapon.heavyAttackDamageMultiplier);
             Debug.Log(weaponSlotManager.attackingWeapon.damage);
             if (weaponSlotManager.attackingWeapon != null) weaponSlotManager.righthandDamgeCollider.currentDamageWeapon =
             Mathf.RoundToInt(weaponSlotManager.attackingWeapon.damage * weaponSlotManager.attackingWeapon.heavyAttackDamageMultiplier);
@@ -121,6 +121,7 @@ namespace SG
         {
             PerformQBlockingAction();
         }
+
         public void HandleLTAction()
         {
             if (playerInventory.leftWeapon.isShieldWeapon)

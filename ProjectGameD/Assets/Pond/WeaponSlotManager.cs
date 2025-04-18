@@ -166,6 +166,14 @@ namespace SG
                 playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));
             if (attackingWeapon != null) playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));
         }
+        public void DrainStaminaParrying()
+        {
+            int staminaCost = 5; // ตั้งค่าคงที่
+
+            playerStats.TakeStaminaDamage(staminaCost);
+        }
+
+
         #endregion
     }
 }

@@ -24,6 +24,7 @@ namespace SG
                 public string OH_Light_Attack_2;
                 public string OH_Light_Attack_3;
                 public string OH_Light_Attack_4;
+                public string OH_Lignt_Attack_5;
                 public string OH_Heavy_Attack_1;
 
                 [Header("Weapon Art")]

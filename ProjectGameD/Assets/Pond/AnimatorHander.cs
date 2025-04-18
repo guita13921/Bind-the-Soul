@@ -16,6 +16,7 @@ namespace SG
         private int horizontal;
         public bool canRotate;
 
+
         void Awake()
         {
             playerManager = GetComponentInParent<PlayerManager>();
@@ -62,7 +63,7 @@ namespace SG
             anim.applyRootMotion = isInteracting;
             //anim.SetBool("canRotate", canRotate);
             anim.SetBool("isInteracting", isInteracting);
-            anim.CrossFade(targetAnim, 0.2f);
+            anim.CrossFade(targetAnim, 0.0f);
         }
 
         public void CanRotate() => canRotate = true;
@@ -90,6 +91,8 @@ namespace SG
         public void EnableIsParrying()
         {
             playerManager.isParrying = true;
+
+
         }
 
         public void DusableIsParrying()

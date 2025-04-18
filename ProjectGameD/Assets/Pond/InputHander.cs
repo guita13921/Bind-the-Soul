@@ -228,10 +228,11 @@ public class InputHander : MonoBehaviour
         if (k_Right)
         {
             playerInventory.ChangeRightWeapon();
-        }
-        else if (k_Left)
-        {
             playerInventory.ChangeLeftWeapon();
+        }
+        if (k_Left)
+        {
+            // playerInventory.ChangeLeftWeapon();
         }
     }
     private void HandleInteractingButtonInput()
