@@ -122,7 +122,7 @@ namespace SG
             bool secret = GenerateSpecialRoom(Level.secretRoom, 4);
             bool challenge = GenerateSpecialRoom(Level.challengeRoom, 5);
 
-            if (!treasure || !shop || !secret || !challenge)
+            if (!treasure && !shop || !secret || !challenge)
             {
                 regenerating = false;
             }
@@ -150,7 +150,6 @@ namespace SG
             if (!regenerating)
             {
                 regenerating = true;
-                failSafe = 0;
                 Level.rooms.Clear();
                 for (int i = transform.childCount - 1; i >= 0; i--)
                 {
@@ -228,16 +227,8 @@ namespace SG
             return false;
         }
 
-        int failSafe = 0;
-
         void Generate(Room room)
         {
-
-            failSafe++;
-            if (failSafe > 50)
-            {
-                return;
-            }
 
             DrawRoomOnMap(room);
 

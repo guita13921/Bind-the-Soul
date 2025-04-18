@@ -75,7 +75,7 @@ namespace SG
                     if (spellTarget != null)
                     {
                         spellTarget.TakeDamage(currentDamageWeapon);
-                        Debug.Log("player");
+                        //Debug.Log("player");
                     }
 
                     hasCollider = true;

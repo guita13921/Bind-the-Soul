@@ -18,6 +18,7 @@ namespace SG
             slider.maxValue = MaxHealth;
             slider.value = MaxHealth;
         }
+
         public void SetCurrentHealth(int currentHealth)
         {
             slider.value = currentHealth;

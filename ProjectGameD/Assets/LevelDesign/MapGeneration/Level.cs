@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,7 +42,7 @@ public class Room
     public Vector2 location;
     public Image roomImage;
     public Sprite roomSprite;
-    public bool revealed;
+    public bool revealed = true;
     public bool explored;
     public bool cleared = true;
 }

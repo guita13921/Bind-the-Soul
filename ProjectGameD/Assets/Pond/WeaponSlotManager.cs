@@ -22,7 +22,7 @@ namespace SG
         Animator animator;
 
         QuickSlotUI quickSlotUI;
-        PlayerStats playerStats;
+        [SerializeField] PlayerStats playerStats;
         InputHander inputHander;
 
         private void Awake()
@@ -124,10 +124,12 @@ namespace SG
         {
             if (righthandDamgeCollider != null) righthandDamgeCollider.DisableDamageCollider();
         }
+
         public void CloseLeftHandDamgeCollider()
         {
             if (leftHandDamgeCollider != null) leftHandDamgeCollider.DisableDamageCollider();
         }
+
         public void OpenDamageCollider()
         {
             if (playerManager.isUsingLefthand)
@@ -155,12 +157,14 @@ namespace SG
         {
             if (attackingWeapon != null)
                 playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.lightAttackMultiplier));
+            if (attackingWeapon != null) playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.lightAttackMultiplier));
         }
 
         public void DrainStaminaHeavyAttack()
         {
             if (attackingWeapon != null)
                 playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));
+            if (attackingWeapon != null) playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));
         }
         #endregion
     }

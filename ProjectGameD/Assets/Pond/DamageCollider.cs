@@ -106,7 +106,7 @@ namespace SG
                     }
                 }
 
-                Debug.Log(enemyStat);
+                //Debug.Log(enemyStat);
 
                 //Normal Damage
                 if (enemyStat != null)
