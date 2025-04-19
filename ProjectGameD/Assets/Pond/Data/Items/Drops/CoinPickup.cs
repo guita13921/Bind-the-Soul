@@ -14,9 +14,9 @@ namespace SG
             {
                 CharacterStats characterStats = other.GetComponent<CharacterStats>();
 
-                if (coinDrop.audioSource != null && coinDrop.audioSource.clip != null)
+                if (coinDrop.audioSource != null && coinDrop.audioSource != null)
                 {
-                    AudioSource.PlayClipAtPoint(coinDrop.audioSource.clip, transform.position);
+                    AudioSource.PlayClipAtPoint(coinDrop.audioSource, transform.position);
                 }
 
                 characterStats.goldCount += coinValue;

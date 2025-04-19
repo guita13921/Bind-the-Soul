@@ -179,9 +179,9 @@ namespace SG
                     GameObject droppedItem = Instantiate(drop.Prefab,
                     this.transform.position, Quaternion.identity);
 
-                    droppedItem.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-0.1f, 0.1f),
-                    Random.Range(30, 50),
-                    Random.Range(-1, 1)), ForceMode.Impulse);
+                    //droppedItem.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-0.1f, 0.1f),
+                    // Random.Range(30, 50),
+                    //Random.Range(-1, 1)), ForceMode.Impulse);
                 }
             }
         }

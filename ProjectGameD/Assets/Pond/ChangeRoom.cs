@@ -32,7 +32,11 @@ namespace SG
         {
             Transform t = rooms.Find(r.roomNumber.ToString());
             Transform doors = t.Find("Doors");
-
+            if (r.roomNumber == 1)
+            {
+                Transform trapdoor = t.Find("TrapDoor");
+                trapdoor.gameObject.SetActive(true);
+            }
             // First disable all doors and walls
             foreach (Transform child in doors)
             {

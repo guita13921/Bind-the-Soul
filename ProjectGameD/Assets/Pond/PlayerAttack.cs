@@ -40,7 +40,7 @@ namespace SG
             }
             else
             {
-                Debug.Log("✅ พบ AnimatorHander ใน " + gameObject.name);
+                //                Debug.Log("✅ พบ AnimatorHander ใน " + gameObject.name);
             }
         }
         private IEnumerator HandleLightLastAttack()
