@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace SG
 {
-
     public class EnemyBossManager : MonoBehaviour
     {
         public string bossName;
@@ -16,6 +15,13 @@ namespace SG
 
         [Header("Second Phase FX")]
         public GameObject particleFX;
+
+        [Header("Boss Defeat Actions")]
+        [SerializeField] private GameObject trapdoor;
+        [SerializeField] private GameObject pointLight;
+        [SerializeField] private GameObject nextStage;
+
+        private bool bossDefeated = false;
 
         private void Awake()
         {
@@ -40,6 +46,12 @@ namespace SG
                 bossCombatStanceState.hasPhaseShifted = true;
                 ShiftToSecondPhase();
             }
+
+            if (currentHealth <= 0 && !bossDefeated)
+            {
+                HandleBossDefeat();
+                bossDefeated = true;
+            }
         }
 
         public void ShiftToSecondPhase()
@@ -48,6 +60,24 @@ namespace SG
             enemyAnimatorManager.animator.SetBool("isPhaseShifting", true);
             enemyAnimatorManager.PlayTargetAnimation("PhaseShift", true);
             bossCombatStanceState.hasPhaseShifted = true;
+
+        }
+
+        private void HandleBossDefeat()
+        {
+            Debug.Log("Boss defeated! Triggering post-battle events.");
+
+            // Open trapdoor (if using animation, trigger here instead)
+            if (trapdoor != null)
+                trapdoor.SetActive(false); // or SetActive(true) depending on your logic
+
+            // Activate point light
+            if (pointLight != null)
+                pointLight.SetActive(true);
+
+            // Activate next stage
+            if (nextStage != null)
+                nextStage.SetActive(true);
         }
     }
 }

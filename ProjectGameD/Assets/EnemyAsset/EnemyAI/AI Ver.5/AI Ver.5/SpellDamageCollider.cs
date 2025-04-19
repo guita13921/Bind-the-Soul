@@ -69,11 +69,18 @@ namespace SG
             if (collision.gameObject.tag == "Player")
             {
 
+
+
                 PlayerStats playerStats = collision.gameObject.GetComponent<PlayerStats>();
                 PlayerManager playerManager = collision.gameObject.GetComponent<PlayerManager>();
                 BlockingColliderPlayer shield = collision.gameObject.GetComponentInChildren<BlockingColliderPlayer>();
                 if (!hasCollider)
                 {
+                    if (playerManager.isInvulerable)
+                    {
+                        return;
+                    }
+
                     spellTarget = collision.transform.GetComponent<PlayerStats>();
 
                     if (shield != null && playerManager.isBlocking)

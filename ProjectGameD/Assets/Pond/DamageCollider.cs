@@ -48,6 +48,11 @@ namespace SG
                 PlayerManager playerManager = collider.GetComponent<PlayerManager>();
                 BlockingColliderPlayer shield = collider.transform.GetComponentInChildren<BlockingColliderPlayer>();
 
+                if (playerManager.isInvulerable)
+                {
+                    return;
+                }
+
                 if (playerManager != null)
                 {
                     if (playerManager.isParrying)
