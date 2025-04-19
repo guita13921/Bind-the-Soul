@@ -16,6 +16,8 @@ namespace SG
         private PlayerStats playerStats;
         InputHander inputHander;
         WeaponSlotManager weaponSlotManager;
+        PlayerData playerData;
+
         public string lastAttack;
         public string lastAttack2;
 
@@ -74,35 +76,69 @@ namespace SG
 
         public void HandleLightAttack(WeaponItem weapon)
         {
-
             if (playerStats.currentStamina <= 0 || weaponSlotManager.righthandDamgeCollider == null)
                 return;
+
             weaponSlotManager.attackingWeapon = weapon;
-            if (weaponSlotManager.attackingWeapon != null) weaponSlotManager.righthandDamgeCollider.currentDamageWeapon =
-           Mathf.RoundToInt(weaponSlotManager.attackingWeapon.damage * weaponSlotManager.attackingWeapon.lightAttackDamageMultiplier);
-            Debug.Log(weaponSlotManager.attackingWeapon.damage);
-            if (weaponSlotManager.attackingWeapon != null) weaponSlotManager.righthandDamgeCollider.currentDamageWeapon =
-           Mathf.RoundToInt(weaponSlotManager.attackingWeapon.damage * weaponSlotManager.attackingWeapon.lightAttackDamageMultiplier);
-            //Debug.Log(weaponSlotManager.righthandDamgeCollider.currentDamageWeapon);
+
+            if (weaponSlotManager.attackingWeapon != null)
+            {
+                float damage = weapon.damage * weapon.lightAttackDamageMultiplier;
+
+                // Add flat damage AFTER multipliers
+                damage += playerStats.flatDamageBonus;
+
+                // Blood Pact boost
+                if (playerStats.playerData.bloodPactDamageModify)
+                {
+                    damage *= 1.2f;
+                }
+
+                // Momentum boost
+                if (playerStats.playerData.momentumActive)
+                {
+                    damage *= 1.15f;
+                }
+
+                weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
+            }
+
             animatorHander.PlayTargetAnimation(weapon.OH_Light_Attack_1, true);
             lastAttack = weapon.OH_Light_Attack_1;
         }
 
         public void HandleHeavyAttack(WeaponItem weapon)
         {
-
             if (playerStats.currentStamina <= 0 || weaponSlotManager.righthandDamgeCollider == null)
                 return;
+
             weaponSlotManager.attackingWeapon = weapon;
-            if (weaponSlotManager.attackingWeapon != null) weaponSlotManager.righthandDamgeCollider.currentDamageWeapon =
-            Mathf.RoundToInt(weaponSlotManager.attackingWeapon.damage * weaponSlotManager.attackingWeapon.heavyAttackDamageMultiplier);
-            Debug.Log(weaponSlotManager.attackingWeapon.damage);
-            if (weaponSlotManager.attackingWeapon != null) weaponSlotManager.righthandDamgeCollider.currentDamageWeapon =
-            Mathf.RoundToInt(weaponSlotManager.attackingWeapon.damage * weaponSlotManager.attackingWeapon.heavyAttackDamageMultiplier);
-            //Debug.Log(weaponSlotManager.righthandDamgeCollider.currentDamageWeapon);
+
+            if (weaponSlotManager.attackingWeapon != null)
+            {
+                float damage = weapon.damage * weapon.heavyAttackDamageMultiplier;
+
+                // Add flat damage AFTER multipliers
+                damage += playerStats.flatDamageBonus;
+
+                // Apply Blood Pact 20% damage increase if active
+                if (playerStats.playerData.bloodPactDamageModify)
+                {
+                    damage *= 1.2f;
+                }
+
+                if (playerStats.playerData.momentumActive)
+                {
+                    damage *= 1.15f;
+                }
+
+                weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
+            }
+
             animatorHander.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
             lastAttack = weapon.OH_Heavy_Attack_1;
         }
+
 
         #region Input Action
         public void HandleALAction()

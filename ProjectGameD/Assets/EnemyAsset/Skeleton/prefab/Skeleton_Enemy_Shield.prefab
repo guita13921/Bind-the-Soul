@@ -302,8 +302,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackState: {fileID: 2996344141921196242}
   enemyAttacks:
-  - {fileID: 11400000, guid: f1a79c3496cba8a418dbead24e3a6d6d, type: 2}
-  - {fileID: 11400000, guid: b5e93430a3853aa4983866bed1c24506, type: 2}
   - {fileID: 11400000, guid: 22e84cfb9033f38488ad81e25693180d, type: 2}
   - {fileID: 11400000, guid: 1589b44ba8d2b344cbe973511c114e55, type: 2}
   pursueTargetState: {fileID: 6095264716612817845}
@@ -792,7 +790,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf66b328a42905d4b996a8cd7053fe9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthLevel: 1
+  healthLevel: 10
   maxHealth: 0
   currentHealth: 0
   goldCount: 0
@@ -841,17 +839,18 @@ MonoBehaviour:
   isInterActing: 0
   hasShield: 0
   detectionRadius: 10
-  minimumDetectionAngle: -50
-  maximumDetectionAngle: 50
+  minimumDetectionAngle: -180
+  maximumDetectionAngle: 180
   currentRecoveryTime: 0
   currentStunningTime: 0
   stunningTime: 5
   rotationSpeed: 50
-  maximumAttackRange: 1.5
+  maximumAttackRange: 2
   allowAiToPerformCombo: 1
   comboLikelyHood: 100
   isPhaseShifting: 0
   isStunning: 0
+  spawnVFXPrefab: {fileID: 12546774554253248, guid: 65310811b25aaba47966a4fec239dd7b, type: 3}
 --- !u!82 &1061811885554819359
 AudioSource:
   m_ObjectHideFlags: 0

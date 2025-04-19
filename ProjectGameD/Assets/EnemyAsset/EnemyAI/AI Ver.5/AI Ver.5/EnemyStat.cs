@@ -54,6 +54,7 @@ namespace SG
 
         public void TakeDamageNoAnimation(int damage)
         {
+            if (enemySoundManager != null) enemySoundManager.PlayHitSound();
             currentHealth -= damage;
 
             if (!isBoss)
@@ -75,8 +76,8 @@ namespace SG
 
                 if (currentHealth <= 0)
                 {
-                    enemyHealthBar.SetHealth(0);
                     isDead = true;
+                    HandleDeath();
                 }
         }
 
@@ -85,8 +86,8 @@ namespace SG
 
             if (enemyManager.isPhaseShifting)
             {
-                TakeDamageNoAnimation(damage);
                 if (enemySoundManager != null) enemySoundManager.PlayHitSound();
+                TakeDamageNoAnimation(damage);
             }
             else
             {

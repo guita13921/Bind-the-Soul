@@ -40,6 +40,10 @@ namespace SG
         public bool isPhaseShifting;
         public bool isStunning;
 
+        [Header("Spawn Settings")]
+        [SerializeField] private GameObject spawnVFXPrefab; // 👈 Assign your spawn VFX prefab here
+
+
         private void Awake()
         {
             enemyLocomotionManager = GetComponent<EnemyLocomotionManager>();
@@ -48,12 +52,16 @@ namespace SG
             enemyRigidBody = GetComponent<Rigidbody>();
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
             enemyWeaponSlotManager = GetComponentInChildren<EnemyWeaponSlotManager>();
-            navMeshAgent.enabled = false;
+
+            navMeshAgent.enabled = false; // 👈 Keep enemy inactive at first
         }
 
         private void Start()
         {
             enemyRigidBody.isKinematic = false;
+
+            // 👇 Start the delayed activation coroutin
+            StartCoroutine(DelayedActivateEnemy());
         }
 
         private void Update()
@@ -69,6 +77,7 @@ namespace SG
             isFiringSpell = enemyAnimationManager.animator.GetBool("isFiringSpell");
             canRotate = enemyAnimationManager.animator.GetBool("canRotate");
             CanDoCombo = enemyAnimationManager.animator.GetBool("canDoCombo");
+
             enemyAnimationManager.animator.SetBool("isDead", enemyStat.isDead);
             enemyAnimationManager.animator.SetBool("isBlocking", isBlocking);
             enemyAnimationManager.animator.SetBool("isStunning", isStunning);
@@ -78,6 +87,27 @@ namespace SG
         {
             navMeshAgent.transform.localPosition = Vector3.zero;
             navMeshAgent.transform.localRotation = Quaternion.identity;
+        }
+
+        private IEnumerator DelayedActivateEnemy()
+        {
+            // Disable detection during spawn delay
+            detectionRadius = 0f;
+
+            // Play VFX immediately
+            if (spawnVFXPrefab != null)
+            {
+                Instantiate(spawnVFXPrefab, transform.position, Quaternion.identity);
+            }
+
+            // Wait before activating enemy
+            yield return new WaitForSeconds(2f);
+
+            // Enable enemy AI components
+            navMeshAgent.enabled = true;
+
+            // Restore detection radius
+            detectionRadius = 20f;
         }
 
         private void HandleStateMachine()

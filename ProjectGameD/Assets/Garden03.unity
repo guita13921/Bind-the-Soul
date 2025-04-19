@@ -1008,6 +1008,8 @@ MonoBehaviour:
   maxStamina: 0
   currentStamina: 0
   staminaRegenTimer: 0
+  flatDamageBonus: 0
+  StaminaRegenBonus: 0
 --- !u!114 &174913414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1061,6 +1063,7 @@ MonoBehaviour:
   isGrounded: 0
   isFiringSpell: 0
   pendingCriticalDamage: 0
+  playerData: {fileID: 0}
   isInteracting: 0
   isInvulerable: 0
 --- !u!114 &174913416
@@ -11808,90 +11811,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4291173699931618178, guid: 3210e85b1722423459cdcf21add8b082, type: 3}
   m_PrefabInstance: {fileID: 2134833362}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &2393353863480416592
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 486367787951759432, guid: 80aa8369e245574458573022b34ef1e8, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5095412773426126580, guid: 80aa8369e245574458573022b34ef1e8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5095412773426126580, guid: 80aa8369e245574458573022b34ef1e8, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5095412773426126580, guid: 80aa8369e245574458573022b34ef1e8, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5095412773426126580, guid: 80aa8369e245574458573022b34ef1e8, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5095412773426126580, guid: 80aa8369e245574458573022b34ef1e8, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5095412773426126580, guid: 80aa8369e245574458573022b34ef1e8, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5095412773426126580, guid: 80aa8369e245574458573022b34ef1e8, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5095412773426126580, guid: 80aa8369e245574458573022b34ef1e8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5095412773426126580, guid: 80aa8369e245574458573022b34ef1e8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5095412773426126580, guid: 80aa8369e245574458573022b34ef1e8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8416036051191281121, guid: 80aa8369e245574458573022b34ef1e8, type: 3}
-      propertyPath: m_Name
-      value: PowerUp
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8416036051191281121, guid: 80aa8369e245574458573022b34ef1e8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2393353863480416594}
-  m_SourcePrefab: {fileID: 100100000, guid: 80aa8369e245574458573022b34ef1e8, type: 3}
---- !u!1 &2393353863480416593 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8416036051191281121, guid: 80aa8369e245574458573022b34ef1e8, type: 3}
-  m_PrefabInstance: {fileID: 2393353863480416592}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2393353863480416594
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2393353863480416593}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 719a5c3a934243341a2968ff3dc6770a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  powerUp: {fileID: 11400000, guid: 82f23ff1d8f2b9d4a9e7cbe661ed91da, type: 2}
-  pickupSound: {fileID: 0}
-  pickupVFX: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -11907,5 +11826,4 @@ SceneRoots:
   - {fileID: 412432880}
   - {fileID: 842992919}
   - {fileID: 1107990101}
-  - {fileID: 2393353863480416592}
   - {fileID: 174913420}

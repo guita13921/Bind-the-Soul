@@ -42,7 +42,7 @@ public class Room
     public Vector2 location;
     public Image roomImage;
     public Sprite roomSprite;
-    public bool revealed = true;
+    public bool revealed;
     public bool explored;
     public bool cleared = true;
 }

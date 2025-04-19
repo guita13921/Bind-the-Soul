@@ -271,8 +271,6 @@ namespace SG
 
             }
 
-            //Debug.Log(PlayerManager.currentRoom.location);
-            //Debug.Log(PlayerManager.currentRoom.cleared);
             PlayerManager.currentRoom.explored = true;
         }
     }
