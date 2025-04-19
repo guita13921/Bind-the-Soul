@@ -109,6 +109,7 @@ public class InputHander : MonoBehaviour
             if (rollInputTimer > 0 && rollInputTimer <= 0.5f && playerStats.currentStamina > 0)
             {
                 rollFlag = true;
+
             }
             else
             {
@@ -118,6 +119,7 @@ public class InputHander : MonoBehaviour
             // Reset
             rollInputTimer = 0;
             b_Input = false;
+
             return;
         }
         rollInputTimer += delta;

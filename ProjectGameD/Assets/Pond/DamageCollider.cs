@@ -51,6 +51,10 @@ namespace SG
 
                 if (playerManager != null)
                 {
+                    if (playerManager.isInvulerable)
+                    {
+                        return;
+                    }
                     if (playerManager.isParrying)
                     {
                         enemyManager1.GetComponentInChildren<EnemyAnimatorManager>().PlayTargetAnimation("Start Stun", true);
