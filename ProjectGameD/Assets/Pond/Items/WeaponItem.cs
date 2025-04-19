@@ -44,6 +44,9 @@ namespace SG
                 public bool isFaithCaster;
                 public bool isPyroCaster;
                 public bool isMeleeWeapon;
+                public bool isSwordWeapon;
+                public bool isHammerWeapon;
+                public bool isDaggerWeapon;
                 public bool isShieldWeapon;
 
                 [Header("Absorption")]

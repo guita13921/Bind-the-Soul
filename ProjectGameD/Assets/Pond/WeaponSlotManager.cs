@@ -24,6 +24,7 @@ namespace SG
         QuickSlotUI quickSlotUI;
         [SerializeField] PlayerStats playerStats;
         InputHander inputHander;
+        PlayerSoundManager playerSoundManager;
 
         private void Awake()
         {
@@ -33,6 +34,7 @@ namespace SG
             playerStats = GetComponentInParent<PlayerStats>();
             inputHander = GetComponentInParent<InputHander>();
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
+            playerSoundManager = GetComponentInParent<PlayerSoundManager>();
 
             foreach (WeaponHolderSlot weponslot in weaponHolderSlots)
             {
@@ -113,11 +115,13 @@ namespace SG
         public void OpenRightDamageCollider()
         {
             if (righthandDamgeCollider != null) righthandDamgeCollider.EnableDamageCollider();
+            PlaySoundbyTypeWeapon(attackingWeapon);
         }
 
         public void OpenLeftDamageCollider()
         {
             if (leftHandDamgeCollider != null) leftHandDamgeCollider.EnableDamageCollider();
+            PlaySoundbyTypeWeapon(attackingWeapon);
         }
 
         public void CloseRightHandDamgeCollider()
@@ -175,6 +179,21 @@ namespace SG
 
 
         #endregion
+        public void PlaySoundbyTypeWeapon(WeaponItem weapon)
+        {
+            if (weapon.isSwordWeapon)
+            {
+                playerSoundManager.PlayAttackSWordSound();
+            }
+            if (weapon.isHammerWeapon)
+            {
+                playerSoundManager.PlayAttackHammerSound();
+            }
+            if (weapon.isDaggerWeapon)
+            {
+                playerSoundManager.PlayAttackDaggerSound();
+            }
+        }
     }
 }
 

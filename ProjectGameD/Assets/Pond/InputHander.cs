@@ -81,6 +81,8 @@ public class InputHander : MonoBehaviour
     }
     public void TickInput(float delta)
     {
+        if (playerStats.isDead)
+            return;
         MoveInput(delta);
         HandleRollinput(delta);
         HandleSprintinput();

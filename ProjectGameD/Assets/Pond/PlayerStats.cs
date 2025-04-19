@@ -11,6 +11,7 @@ namespace SG
         public PlayerData playerData;
 
         PlayerManager playerManager;
+        PlayerSoundManager playerSoundManager;
         public HealthBar healthBar;
         public StaminaBar staminaBar;
 
@@ -28,6 +29,7 @@ namespace SG
             healthBar = FindObjectOfType<HealthBar>();
             staminaBar = FindObjectOfType<StaminaBar>();
             animatorHander = GetComponentInChildren<AnimatorHander>();
+            playerSoundManager = GetComponentInParent<PlayerSoundManager>();
         }
 
         void Start()
@@ -80,7 +82,23 @@ namespace SG
             if (currentHealth <= 0)
             {
                 currentHealth = 0;
+                playerSoundManager.PlayDeathSound();
                 animatorHander.PlayTargetAnimation("Dead_01", true);
+                isDead = true;
+                HandledeathLocomotion();
+            }
+            else
+            {
+                if (damageAnimation == "Block Guard")
+                {
+                    animatorHander.PlayTargetAnimation(damageAnimation, false);
+                    if (playerSoundManager != null) playerSoundManager.PlayShieldHitSounds();
+                }
+                else
+                {
+                    animatorHander.PlayTargetAnimation(damageAnimation, true);
+                    if (playerSoundManager != null) playerSoundManager.PlayDamageSound();
+                }
             }
         }
 
@@ -122,6 +140,10 @@ namespace SG
                 playerData.currentHealth = currentHealth;
                 playerData.currentStamina = currentStamina;
             }
+        }
+        public void HandledeathLocomotion()
+        {
+            animatorHander.anim.SetFloat("Vertical", 0);
         }
     }
 }

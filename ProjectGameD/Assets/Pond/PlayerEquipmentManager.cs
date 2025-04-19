@@ -19,6 +19,7 @@ namespace SG
 
         public void OpenBlockingCollider()
         {
+            blockingCollider.SetColliderDamageAbsorption(playerInventory.leftWeapon);
             // 
             //if(inputHandle.twoHandFlag)
             /*{

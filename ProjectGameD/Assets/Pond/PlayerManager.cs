@@ -16,6 +16,7 @@ namespace SG
         public bool isInteracting;
         public bool isInvulerable;
 
+
         //[Header("Player Flges")]
         //public bool isSprinting;
         //public bool isUsingRightHand;
