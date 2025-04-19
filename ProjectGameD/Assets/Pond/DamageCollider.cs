@@ -12,6 +12,7 @@ namespace SG
         public int currentDamageWeapon;
         Collider damageCollider;
         public bool enableOnStartUp = false;
+        CharacterManager characterManager;
         [SerializeField] EnemyManager enemyManager1;
 
 
@@ -48,6 +49,8 @@ namespace SG
                 PlayerManager playerManager = collider.GetComponent<PlayerManager>();
                 BlockingColliderPlayer shield = collider.transform.GetComponentInChildren<BlockingColliderPlayer>();
 
+                BlockingColliderPlayer shield = collider.transform.GetComponentInChildren<BlockingColliderPlayer>();
+
                 if (playerManager.isInvulerable)
                 {
                     return;
@@ -55,6 +58,10 @@ namespace SG
 
                 if (playerManager != null)
                 {
+                    if (playerManager.isInvulerable)
+                    {
+                        return;
+                    }
                     if (playerManager.isParrying)
                     {
                         enemyManager1.GetComponentInChildren<EnemyAnimatorManager>().PlayTargetAnimation("Start Stun", true);
@@ -74,6 +81,7 @@ namespace SG
                             return;
                         }
                     }
+
                 }
 
                 //Normal Damage

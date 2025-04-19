@@ -81,6 +81,8 @@ public class InputHander : MonoBehaviour
     }
     public void TickInput(float delta)
     {
+        if (playerStats.isDead)
+            return;
         MoveInput(delta);
         HandleRollinput(delta);
         HandleSprintinput();
@@ -109,6 +111,7 @@ public class InputHander : MonoBehaviour
             if (rollInputTimer > 0 && rollInputTimer <= 0.5f && playerStats.currentStamina > 0)
             {
                 rollFlag = true;
+
             }
             else
             {
@@ -118,6 +121,7 @@ public class InputHander : MonoBehaviour
             // Reset
             rollInputTimer = 0;
             b_Input = false;
+
             return;
         }
         rollInputTimer += delta;
@@ -228,10 +232,11 @@ public class InputHander : MonoBehaviour
         if (k_Right)
         {
             playerInventory.ChangeRightWeapon();
-        }
-        else if (k_Left)
-        {
             playerInventory.ChangeLeftWeapon();
+        }
+        if (k_Left)
+        {
+            // playerInventory.ChangeLeftWeapon();
         }
     }
     private void HandleInteractingButtonInput()

@@ -24,6 +24,7 @@ namespace SG
         QuickSlotUI quickSlotUI;
         [SerializeField] PlayerStats playerStats;
         InputHander inputHander;
+        PlayerSoundManager playerSoundManager;
 
         private void Awake()
         {
@@ -33,6 +34,7 @@ namespace SG
             playerStats = GetComponentInParent<PlayerStats>();
             inputHander = GetComponentInParent<InputHander>();
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
+            playerSoundManager = GetComponentInParent<PlayerSoundManager>();
 
             foreach (WeaponHolderSlot weponslot in weaponHolderSlots)
             {
@@ -113,11 +115,13 @@ namespace SG
         public void OpenRightDamageCollider()
         {
             if (righthandDamgeCollider != null) righthandDamgeCollider.EnableDamageCollider();
+            PlaySoundbyTypeWeapon(attackingWeapon);
         }
 
         public void OpenLeftDamageCollider()
         {
             if (leftHandDamgeCollider != null) leftHandDamgeCollider.EnableDamageCollider();
+            PlaySoundbyTypeWeapon(attackingWeapon);
         }
 
         public void CloseRightHandDamgeCollider()
@@ -145,7 +149,8 @@ namespace SG
 
         public void CloseDamageCollider()
         {
-            leftHandDamgeCollider.DisableDamageCollider();
+            if (leftHandDamgeCollider != null)
+                leftHandDamgeCollider.DisableDamageCollider();
             righthandDamgeCollider.DisableDamageCollider();
         }
 
@@ -154,14 +159,41 @@ namespace SG
         #region Handle Weapon's Stamina Drainage
         public void DrainStaminaLightAttack()
         {
+            if (attackingWeapon != null)
+                playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.lightAttackMultiplier));
             if (attackingWeapon != null) playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.lightAttackMultiplier));
         }
 
         public void DrainStaminaHeavyAttack()
         {
+            if (attackingWeapon != null)
+                playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));
             if (attackingWeapon != null) playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));
         }
+        public void DrainStaminaParrying()
+        {
+            int staminaCost = 5; // ตั้งค่าคงที่
+
+            playerStats.TakeStaminaDamage(staminaCost);
+        }
+
+
         #endregion
+        public void PlaySoundbyTypeWeapon(WeaponItem weapon)
+        {
+            if (weapon.isSwordWeapon)
+            {
+                playerSoundManager.PlayAttackSWordSound();
+            }
+            if (weapon.isHammerWeapon)
+            {
+                playerSoundManager.PlayAttackHammerSound();
+            }
+            if (weapon.isDaggerWeapon)
+            {
+                playerSoundManager.PlayAttackDaggerSound();
+            }
+        }
     }
 }
 

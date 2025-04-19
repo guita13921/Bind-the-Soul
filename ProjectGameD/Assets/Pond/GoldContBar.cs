@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +9,7 @@ namespace SG
 
     public class GoldContBar : MonoBehaviour
     {
-        public Text goldCountText;
+        public TextMeshProUGUI goldCountText;
 
         public void SetGoldCountText(int goldCount)
         {

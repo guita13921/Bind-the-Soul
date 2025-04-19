@@ -10,6 +10,7 @@ public class ResetisInteracting : StateMachineBehaviour
   {
     animator.SetBool("isInteracting", false);
     animator.SetBool("isBlocking", false);
+    animator.SetBool("IsInvulnerable", false);
   }
 
 }

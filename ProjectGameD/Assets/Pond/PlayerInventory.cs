@@ -14,8 +14,8 @@ namespace SG
 
         public WeaponItem unarmedWeapon;
 
-        public WeaponItem[] weaponsInRightHandSlots = new WeaponItem[2];
-        public WeaponItem[] weaponsInLeftHandSlots = new WeaponItem[2];
+        public WeaponItem[] weaponsInRightHandSlots = new WeaponItem[3];
+        public WeaponItem[] weaponsInLeftHandSlots = new WeaponItem[1];
 
         public int currentRightWeaponIndex = -1;
         public int currentLeftWeaponIndex = -1;
@@ -52,33 +52,31 @@ namespace SG
 
         public void ChangeRightWeapon()
         {
-            currentRightWeaponIndex = currentRightWeaponIndex + 1;
+            int slotsCount = weaponsInRightHandSlots.Length;
 
-            if (currentRightWeaponIndex == 0 && weaponsInRightHandSlots[0] != null)
+            do
             {
-                rightWeapon = weaponsInRightHandSlots[currentRightWeaponIndex];
-                weaponSlotManager.LoadWeaponOnSlot(weaponsInRightHandSlots[currentRightWeaponIndex], false);
+                currentRightWeaponIndex++;
 
-            }
-            else if (currentRightWeaponIndex == 0 && weaponsInRightHandSlots[0] == null)
-            {
-                currentRightWeaponIndex = currentRightWeaponIndex + 1;
-            }
-            else if (currentRightWeaponIndex == 1 && weaponsInRightHandSlots[1] != null)
-            {
-                rightWeapon = weaponsInRightHandSlots[currentRightWeaponIndex];
-                weaponSlotManager.LoadWeaponOnSlot(weaponsInRightHandSlots[currentRightWeaponIndex], false);
-            }
-            else if (currentRightWeaponIndex == 1 && weaponsInRightHandSlots[1] == null)
-            {
-                currentRightWeaponIndex = currentRightWeaponIndex + 1;
-            }
-            if (currentRightWeaponIndex > weaponsInRightHandSlots.Length - 1)
-            {
-                currentRightWeaponIndex = -1;
-                rightWeapon = unarmedWeapon;
-                weaponSlotManager.LoadWeaponOnSlot(unarmedWeapon, false);
-            }
+                // ถ้าเกินจำนวน slot แล้วให้กลับไป -1 (ถือว่าเป็น unarmed)
+                if (currentRightWeaponIndex >= slotsCount)
+                {
+                    currentRightWeaponIndex = -1;
+                    rightWeapon = unarmedWeapon;
+                    weaponSlotManager.LoadWeaponOnSlot(unarmedWeapon, false);
+                    return;
+                }
+
+                // ถ้ามีอาวุธใน slot นั้น
+                if (weaponsInRightHandSlots[currentRightWeaponIndex] != null)
+                {
+                    rightWeapon = weaponsInRightHandSlots[currentRightWeaponIndex];
+                    weaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
+                    return;
+                }
+
+                // ถ้าไม่มีอาวุธ จะวนลูปไปเช็ค index ถัดไป
+            } while (true);
         }
 
         /*public void ChangeLeftWeapon()

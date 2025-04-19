@@ -15,10 +15,13 @@ namespace SG
         private int vertical;
         private int horizontal;
         public bool canRotate;
+        PlayerSoundManager playerSoundManager;
+
 
         void Awake()
         {
             playerManager = GetComponentInParent<PlayerManager>();
+            playerSoundManager = GetComponentInParent<PlayerSoundManager>();
         }
 
         public void Initialize()

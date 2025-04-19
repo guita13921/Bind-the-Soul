@@ -134,11 +134,13 @@ namespace SG
                     Quaternion rollRotaion = Quaternion.LookRotation(moveDirection);
                     myTransform.rotation = rollRotaion;
                     playerStats.TakeStaminaDamage(rollStaminaCost);
+                    animatorHander.anim.SetBool("IsInvulnerable", true);
                 }
                 else
                 {
                     animatorHander.PlayTargetAnimation("Back Step", true);
                     playerStats.TakeStaminaDamage(backstepStaminaCost);
+                    animatorHander.anim.SetBool("IsInvulnerable", true);
                 }
             }
         }
