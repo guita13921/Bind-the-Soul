@@ -25,11 +25,11 @@ public class NextStage : MonoBehaviour
     // Start is called before the first frame update
     public void loadscene(string NextSceneName)
     {
-        characterData.rerollpoint += 2;
-        CheckHPRestoreTHreshold();
-        characterData.healthRatio = MChealth.currentHealth / MChealth.maxHealth;
+        // characterData.rerollpoint += 2;
+        //   CheckHPRestoreTHreshold();
+        //        characterData.healthRatio = MChealth.currentHealth / MChealth.maxHealth;
 
-        characterData.Health = MChealth.currentHealth;
+        //characterData.Health = MChealth.currentHealth;
         TransitionManager.Instance().Transition(NextSceneName, transition, loaddelay);
     }
 
