@@ -49,8 +49,7 @@ namespace SG
                 PlayerManager playerManager = collider.GetComponent<PlayerManager>();
                 BlockingColliderPlayer shield = collider.transform.GetComponentInChildren<BlockingColliderPlayer>();
 
-                BlockingColliderPlayer shield = collider.transform.GetComponentInChildren<BlockingColliderPlayer>();
-
+<<<<<<<<< Temporary merge branch 1
                 if (playerManager.isInvulerable)
                 {
                     return;

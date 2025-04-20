@@ -16,12 +16,14 @@ namespace SG
         private int horizontal;
         public bool canRotate;
         PlayerSoundManager playerSoundManager;
+        PlayerStats playerStats;
 
 
         void Awake()
         {
             playerManager = GetComponentInParent<PlayerManager>();
             playerSoundManager = GetComponentInParent<PlayerSoundManager>();
+            playerStats = GetComponentInParent<PlayerStats>();
         }
 
         public void Initialize()
@@ -43,7 +45,7 @@ namespace SG
 
         public void UpdateAnimatorValues(float verticalMovement, float horizontalMovement, bool isSprinting)
         {
-            if (anim == null) return; // ป้องกันข้อผิดพลาด
+            if (anim == null || playerStats.isDead) return; // ป้องกันข้อผิดพลาด
 
             float v = verticalMovement > 0.55f ? 1 : verticalMovement > 0 ? 0.5f : verticalMovement < -0.55f ? -1 : verticalMovement < 0 ? -0.5f : 0;
             float h = horizontalMovement > 0.55f ? 1 : horizontalMovement > 0 ? 0.5f : horizontalMovement < -0.55f ? -1 : horizontalMovement < 0 ? -0.5f : 0;

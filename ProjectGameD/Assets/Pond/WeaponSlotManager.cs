@@ -161,14 +161,13 @@ namespace SG
         {
             if (attackingWeapon != null)
                 playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.lightAttackMultiplier));
-            if (attackingWeapon != null) playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.lightAttackMultiplier));
+
         }
 
         public void DrainStaminaHeavyAttack()
         {
             if (attackingWeapon != null)
                 playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));
-            if (attackingWeapon != null) playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));
         }
         public void DrainStaminaParrying()
         {

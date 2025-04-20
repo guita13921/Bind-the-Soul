@@ -19,6 +19,7 @@ namespace SG
         private void Awake()
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
+            playerStats = player.GetComponent<PlayerStats>();
 
             if (player != null)
             {

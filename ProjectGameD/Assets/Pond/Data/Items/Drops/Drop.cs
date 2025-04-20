@@ -10,7 +10,7 @@ namespace SG
     {
         public GameObject Prefab;
         public float DropChance;
-        public AudioSource audioSource;
+        public AudioClip audioSource;
 
     }
 }
