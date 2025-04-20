@@ -4,6 +4,7 @@
 
 1. **ดาวน์โหลดเกม**  
    - ดาวน์โหลด **Bind the Soul** ได้ที่ [ลิงก์นี้](https://drive.google.com/file/d/1giniev5S3nnTj6yaRNFYoHihSHv1Pmoq/view)
+   - ดาวน์โหลด **Bind the SoulV2.0** ได้ที่ [ลิงก์นี้](https://drive.google.com/file/d/1RvcQQinxcjyn93qUXXYXqeZjfVyxfXNQ/view)
 
 2. **แตกไฟล์ ZIP**  
    - หลังจากดาวน์โหลดเสร็จ ให้ทำการแตกไฟล์ **ZIP**
