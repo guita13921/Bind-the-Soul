@@ -12,6 +12,7 @@ namespace SG
         [SerializeField] private AudioClip[] hitSounds;
         [SerializeField] private AudioClip[] shieldHitSounds;
         [SerializeField] private AudioClip[] shieldBreakSounds;
+        [SerializeField] private AudioClip[] PariedSounds;
 
         private AudioSource audioSource;
 
@@ -47,6 +48,11 @@ namespace SG
         public void PlayShielBreakSounds()
         {
             PlayRandomSound(shieldBreakSounds);
+        }
+
+        public void PlayPariedSounds()
+        {
+            PlayRandomSound(PariedSounds);
         }
 
         private void PlayRandomSound(AudioClip[] clips)

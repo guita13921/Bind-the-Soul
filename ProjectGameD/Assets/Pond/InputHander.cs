@@ -41,6 +41,7 @@ public class InputHander : MonoBehaviour
     WeaponSlotManager weaponSlotManager;
     BlockingColliderPlayer blockingColliderPlayer;
 
+    [SerializeField] GameObject cameraObject;
 
     Vector3 movementInput;
     Vector3 cameraInput;
@@ -75,10 +76,12 @@ public class InputHander : MonoBehaviour
         }
         inputAction.Enable();
     }
+
     private void OnDisable()
     {
         inputAction.Disable();
     }
+
     public void TickInput(float delta)
     {
         if (playerStats.isDead)
@@ -91,7 +94,8 @@ public class InputHander : MonoBehaviour
         HandleInteractingButtonInput();
         HandleTwoHandInput();
     }
-    private void MoveInput(float delta)
+
+    /*private void MoveInput(float delta)
     {
         if (playerManager.isInteracting)
             return;
@@ -101,6 +105,37 @@ public class InputHander : MonoBehaviour
         mouseX = cameraInput.x;
         mouseY = cameraInput.z;
     }
+    */
+    private void MoveInput(float delta)
+    {
+        if (playerManager.isInteracting)
+            return;
+
+        // Step 1: Get raw input
+        Vector3 input = new Vector3(movementInput.x, 0f, movementInput.z);
+
+        // Step 2: Get camera-relative directions (flattened on Y axis)
+        Vector3 cameraForward = cameraObject.transform.forward;
+        Vector3 cameraRight = cameraObject.transform.right;
+
+        cameraForward.y = 0f;
+        cameraRight.y = 0f;
+
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+
+        // Step 3: Create movement direction relative to camera
+        Vector3 moveDirection = cameraForward * input.z + cameraRight * input.x;
+
+        // Step 4: Set values
+        horizontal = moveDirection.x;
+        vertical = moveDirection.z;
+        moveAmount = Mathf.Clamp01(moveDirection.magnitude);
+
+        mouseX = cameraInput.x;
+        mouseY = cameraInput.z;
+    }
+
 
     private void HandleRollinput(float delta)
     {
@@ -133,8 +168,6 @@ public class InputHander : MonoBehaviour
         }
     }
 
-
-
     private void HandleSprintinput()
     {
         SHFIT_Input = inputAction.PlayerAction.Sprint.phase == InputActionPhase.Performed;
@@ -154,6 +187,7 @@ public class InputHander : MonoBehaviour
         }
 
     }
+
     private void HandleAttackInput(float delta)
     {
         inputAction.PlayerAction.AttackL.performed += i => Al_Input = true;
@@ -208,6 +242,7 @@ public class InputHander : MonoBehaviour
         }
 
     }
+
     private void HandleTwoHandInput()
     {
         if (y_Input)
@@ -225,6 +260,7 @@ public class InputHander : MonoBehaviour
             }
         }
     }
+
     private void HandleQuickSlotsInput()
     {
         inputAction.PlayerQuickSlots.Right.performed += i => k_Right = true;
@@ -239,6 +275,7 @@ public class InputHander : MonoBehaviour
             // playerInventory.ChangeLeftWeapon();
         }
     }
+
     private void HandleInteractingButtonInput()
     {
         inputAction.PlayerAction.A.performed += i => a_Input = true;

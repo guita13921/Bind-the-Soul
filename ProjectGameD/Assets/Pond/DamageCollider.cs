@@ -14,6 +14,7 @@ namespace SG
         public bool enableOnStartUp = false;
         CharacterManager characterManager;
         [SerializeField] EnemyManager enemyManager1;
+        EnemySoundManager enemySoundManager;
 
 
         private void Awake()
@@ -28,6 +29,7 @@ namespace SG
         void Start()
         {
             enemyManager1 = GetComponentInParent<EnemyManager>();
+            enemySoundManager = GetComponentInParent<EnemySoundManager>();
         }
 
         public void EnableDamageCollider()
@@ -49,7 +51,6 @@ namespace SG
                 PlayerManager playerManager = collider.GetComponent<PlayerManager>();
                 BlockingColliderPlayer shield = collider.transform.GetComponentInChildren<BlockingColliderPlayer>();
 
-<<<<<<<<< Temporary merge branch 1
                 if (playerManager.isInvulerable)
                 {
                     return;
@@ -63,6 +64,7 @@ namespace SG
                     }
                     if (playerManager.isParrying)
                     {
+                        enemySoundManager.PlayPariedSounds();
                         enemyManager1.GetComponentInChildren<EnemyAnimatorManager>().PlayTargetAnimation("Start Stun", true);
                         enemyManager1.GetComponentInChildren<EnemyAnimatorManager>().animator.SetBool("isBlocking", false);
                         enemyManager1.isBlocking = false;
