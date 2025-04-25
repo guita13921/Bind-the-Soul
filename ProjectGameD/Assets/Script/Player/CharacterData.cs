@@ -73,7 +73,7 @@ public class CharacterData : ScriptableObject
     public bool Q3_Barrier = false;
 
     public Health MC_health;
-        public ControlPower controlPower;  
+    public ControlPower controlPower;
 
     public void HpCalculation()
     {
@@ -85,7 +85,7 @@ public class CharacterData : ScriptableObject
         MC_health.currentHealth = maxHealth * healthRatio;
     }
 
-        public void SpeedUpgrade()
+    public void SpeedUpgrade()
     {
         controlPower = FindObjectOfType<ControlPower>();
 
@@ -93,10 +93,10 @@ public class CharacterData : ScriptableObject
         controlPower.CheckSpeed();
     }
 
-        public void QKCooldownReduce()
+    public void QKCooldownReduce()
     {
         controlPower = FindObjectOfType<ControlPower>();
-        
+
         QKReduceCooldown++;
         controlPower.CheckQKCooldown();
 
@@ -104,7 +104,7 @@ public class CharacterData : ScriptableObject
 
 
 
-     public void WaitDashtimeReduce()
+    public void WaitDashtimeReduce()
     {
         controlPower = FindObjectOfType<ControlPower>();
         ReduceDashCooldown++;

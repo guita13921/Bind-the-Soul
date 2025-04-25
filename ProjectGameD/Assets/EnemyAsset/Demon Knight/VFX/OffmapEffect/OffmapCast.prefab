@@ -19673,9 +19673,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4228356715656678}
   - component: {fileID: 114637848196567126}
-  - component: {fileID: 7940501442137036270}
   - component: {fileID: 3592290219496233395}
   - component: {fileID: 2429037501928024385}
+  - component: {fileID: 4972892233496733700}
   m_Layer: 0
   m_Name: OffmapCast
   m_TagString: EnemyWeapon
@@ -19721,25 +19721,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selfdestruct_in: 10
---- !u!114 &7940501442137036270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1230444927430528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0571ab3c9c65bb42ae6230de4697814, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 1000
-  characterData: {fileID: 11400000, guid: e628f4ad3830604478a34deaa6dbc29e, type: 2}
-  playerCombat: {fileID: 0}
-  reduceDamageTimer: 0
-  reducedDamage: 0
-  playerControl: {fileID: 0}
-  isCurseAttack: 0
 --- !u!114 &3592290219496233395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19777,6 +19758,21 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4972892233496733700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1230444927430528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f4386cae2eed154baa154bc16731aca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 100
+  playerStats: {fileID: 0}
+  isCurseAttack: 0
 --- !u!1 &1335871808378460
 GameObject:
   m_ObjectHideFlags: 0

@@ -56,10 +56,10 @@ public class EnemySpawnManager : MonoBehaviour
 
     private void Start()
     {
-            if (upgradeShow == null)
-    {
-        upgradeShow = FindObjectOfType<UpgradeShow>();
-    }
+        if (upgradeShow == null)
+        {
+            upgradeShow = FindObjectOfType<UpgradeShow>();
+        }
         InitializeNextStageObjects();
         StartNextWave();
     }
@@ -77,14 +77,16 @@ public class EnemySpawnManager : MonoBehaviour
             }
             else
             {
-                if(upgradeShow != null){
+                if (upgradeShow != null)
+                {
                     upgradeShow.ShowUpgradeUI();
                 }
                 EnableNextStageObjects();
             }
         }
 
-        if(upgradeShow != null){
+        if (upgradeShow != null)
+        {
             UpdateUI();
         }
     }
@@ -131,9 +133,9 @@ public class EnemySpawnManager : MonoBehaviour
 
     private void SpawnEnemyAtPoint(Transform spawnPoint, EnemyType enemyType)
     {
-        
-        GameObject monster = Instantiate(enemyType.prefab, spawnPoint.position, Quaternion.identity);
-        monster.SetActive(true);
+        GameObject instantiatedObject = Instantiate(enemyType.prefab, spawnPoint.position, Quaternion.identity);
+        instantiatedObject.SetActive(true); // Ensure the instantiated object is active
+
         Debug.Log($"Spawned {enemyType.prefab.name} at {spawnPoint.position}");
         usedSpawnPoints.Add(spawnPoint); // Mark this spawn point as used
     }
@@ -161,7 +163,8 @@ public class EnemySpawnManager : MonoBehaviour
 
     private void InitializeNextStageObjects()
     {
-        if(nextStageObjects != null){
+        if (nextStageObjects != null)
+        {
             foreach (var obj in nextStageObjects)
             {
                 obj.SetActive(false);
@@ -171,7 +174,8 @@ public class EnemySpawnManager : MonoBehaviour
 
     private void EnableNextStageObjects()
     {
-        if(nextStageObjects != null){
+        if (nextStageObjects != null)
+        {
             foreach (var obj in nextStageObjects)
             {
                 obj.SetActive(true);

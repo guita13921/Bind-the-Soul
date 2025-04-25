@@ -1,99 +1,110 @@
+using SG;
 using UnityEngine;
 
-public class ExpandingRingHitbox : MonoBehaviour
+namespace SG
 {
-    public SphereCollider hitboxCollider;
-    public ParticleSystem particleEffect;
-    public float growthSpeed; // Speed at which the ring expands
-    public float ringThickness; // How thick the damageable ring is
-    public float maxRadius = 5f; // Maximum expansion size
 
-    [SerializeField] private float currentRadius = 0f;
-    [SerializeField] private float distance = 0f;
-    [SerializeField] private int damage;
-    [SerializeField] private Health player;
-
-
-    PlayerControl playerControl;
-    public PlayerCombat playerCombat;
-    [SerializeField] public CharacterData characterData;
-    private float reducedDamageSecond = 0; // if HP < 25% of maxHP
-
-
-    void Start()
+    public class ExpandingRingHitbox : MonoBehaviour
     {
-        playerControl = FindObjectOfType<PlayerControl>();
-        if (hitboxCollider == null)
-            hitboxCollider = GetComponent<SphereCollider>();
+        public SphereCollider hitboxCollider;
+        public ParticleSystem particleEffect;
+        public float growthSpeed; // Speed at which the ring expands
+        public float ringThickness; // How thick the damageable ring is
+        public float maxRadius = 5f; // Maximum expansion size
 
-        if (particleEffect == null)
-            particleEffect = GetComponent<ParticleSystem>();
+        [SerializeField] private float currentRadius = 0f;
+        [SerializeField] private float distance = 0f;
+        [SerializeField] private int damage;
+        [SerializeField] private PlayerManager playerManager;
+        [SerializeField] private PlayerStats playerStats;
 
-        if (hitboxCollider == null || particleEffect == null)
+
+        private float reducedDamageSecond = 0; // if HP < 25% of maxHP
+
+
+        void Start()
         {
-            Debug.LogError("Missing required components!");
-            enabled = false;
-            return;
-        }
+            playerManager = FindObjectOfType<PlayerManager>();
 
-        hitboxCollider.isTrigger = true; // Ensure it's a trigger
-        hitboxCollider.radius = 0f; // Start at zero
-    }
+            if (hitboxCollider == null)
+                hitboxCollider = GetComponent<SphereCollider>();
 
-    void Update()
-    {
-        if (particleEffect.isPlaying)
-        {
-            currentRadius = Mathf.MoveTowards(currentRadius, maxRadius, growthSpeed * Time.deltaTime);
-            hitboxCollider.radius = currentRadius;
-        }
-    }
+            if (particleEffect == null)
+                particleEffect = GetComponent<ParticleSystem>();
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            distance = Vector3.Distance(this.transform.position, other.transform.position);
-
-            // Player is inside the ring but not the center
-            if (distance >= currentRadius * 3 - ringThickness)
-            //&& distance <= currentRadius)
+            if (hitboxCollider == null || particleEffect == null)
             {
-                //enemyWeapon.enabled = true;
-                //Debug.Log("Player hit by expanding ring!");
-                ApplyDamage(other);
+                Debug.LogError("Missing required components!");
+                enabled = false;
+                return;
+            }
+
+            hitboxCollider.isTrigger = true; // Ensure it's a trigger
+            hitboxCollider.radius = 0f; // Start at zero
+        }
+
+        void Update()
+        {
+            if (particleEffect.isPlaying)
+            {
+                currentRadius = Mathf.MoveTowards(currentRadius, maxRadius, growthSpeed * Time.deltaTime);
+                hitboxCollider.radius = currentRadius;
             }
         }
-    }
 
-    private void ApplyDamage(Collider other)
-    {
-        if (playerControl.GetisDash() == false)
+        private void OnTriggerEnter(Collider other)
         {
-            //Debug.Log("ApplyDamage");
-            player = other.gameObject.GetComponent<Health>();
-            playerCombat = other.gameObject.GetComponent<PlayerCombat>();
-
-            if (playerControl != null)
+            if (other.CompareTag("Player"))
             {
-                playerControl.GetHit();
-            }
-            if (player != null && other.CompareTag("Player"))
-            {
-                if (!playerCombat.isShield1 && !playerCombat.isShield2)
+                distance = Vector3.Distance(this.transform.position, other.transform.position);
+                if (distance >= currentRadius * 3 - ringThickness)
                 {
-                    if (player.currentHealth < (player.maxHealth * 0.25f))
-                    {
-                        reducedDamageSecond = characterData.reduceIncomeDamageDependOnHP * 0.15f; // 0.15f per level (15%, 30%, 45%)
-                    }
-                    float damageReductionPercentage = characterData.reduceIncomeDamage * 0.05f; // 0.05f per level (5%, 10%, 15%)
-                    float reducedDamage = damage * damageReductionPercentage;
-                    float reducedDamageDependOnHP = damage * reducedDamageSecond;
-                    player.currentHealth -= Mathf.Max(
-                        0,
-                        damage - reducedDamage - reducedDamageDependOnHP
-                    );
+                    ApplyDamage(other);
                 }
+            }
+        }
+
+
+        /*
+        private void ApplyDamage(Collider other)
+        {
+            if (playerControl.GetisDash() == false)
+            {
+                player = other.gameObject.GetComponent<Health>();
+                playerCombat = other.gameObject.GetComponent<PlayerCombat>();
+
+                if (playerControl != null)
+                {
+                    playerControl.GetHit();
+                }
+                if (player != null && other.CompareTag("Player"))
+                {
+                    if (!playerCombat.isShield1 && !playerCombat.isShield2)
+                    {
+                        if (player.currentHealth < (player.maxHealth * 0.25f))
+                        {
+                            reducedDamageSecond = characterData.reduceIncomeDamageDependOnHP * 0.15f; // 0.15f per level (15%, 30%, 45%)
+                        }
+                        float damageReductionPercentage = characterData.reduceIncomeDamage * 0.05f; // 0.05f per level (5%, 10%, 15%)
+                        float reducedDamage = damage * damageReductionPercentage;
+                        float reducedDamageDependOnHP = damage * reducedDamageSecond;
+                        player.currentHealth -= Mathf.Max(
+                            0,
+                            damage - reducedDamage - reducedDamageDependOnHP
+                        );
+                    }
+                }
+            }
+        }
+        */
+
+        private void ApplyDamage(Collider other)
+        {
+            if (!playerManager.isInvulnerable)
+            {
+                playerStats = other.gameObject.GetComponent<PlayerStats>();
+                if (playerStats != null) playerStats.TakeDamage(damage);
+
             }
         }
     }

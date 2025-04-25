@@ -76,7 +76,7 @@ public class ObjFadeing : MonoBehaviour
     // Sets the material to transparent mode with correct settings for URP
     void SetMaterialToTransparent(Material mat)
     {
-        mat.SetFloat("_Surface", 1); // 1 = Transparent
+        mat.SetFloat("_Surface", 1);
         mat.SetFloat("_Blend", 1);    // Set the blend mode (alpha blending)
         mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
         mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);

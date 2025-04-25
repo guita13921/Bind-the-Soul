@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -3844008639675150785}
   - component: {fileID: -6392652977586658310}
   - component: {fileID: 7745470056240873381}
-  - component: {fileID: 9141104021788713154}
+  - component: {fileID: -3144784983809033496}
   m_Layer: 0
   m_Name: SkullBullet
   m_TagString: EnemyWeapon
@@ -47,10 +47,10 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 704
+    m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -104,13 +104,14 @@ MonoBehaviour:
   Detached: []
   LocalRotation: 0
   target: {fileID: 0}
+  sphereCollider: {fileID: 0}
   sideAngle: 20
   upAngle: 0
   elapsedTime: 0
   runDuration: 0.1
   maxLifetime: 10
   maxRange: 50
---- !u!114 &9141104021788713154
+--- !u!114 &-3144784983809033496
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,16 +120,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1184375899483656}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0571ab3c9c65bb42ae6230de4697814, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f4386cae2eed154baa154bc16731aca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  characterData: {fileID: 11400000, guid: e628f4ad3830604478a34deaa6dbc29e, type: 2}
-  playerCombat: {fileID: 0}
-  reduceDamageTimer: 0
-  reducedDamage: 0
-  playerControl: {fileID: 0}
-  isCurseAttack: 1
+  playerStats: {fileID: 0}
+  isCurseAttack: 0
 --- !u!1001 &8899047536726693736
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -48,7 +48,7 @@
 //     [SerializeField] private RangeSensor RangeSensor;
 //     [SerializeField] private MeleeSensor MeleeSensor;
 //     private float attackTimer = 0f;
-    
+
 
 //     private enum BossAction
 //     {
@@ -64,7 +64,7 @@
 //         DiveBomb,
 //         LavaPits
 //     }
-    
+
 
 //     private List<BossAction> currentCombo = new List<BossAction>(); // Stores the current combo
 //     public bool isExecutingCombo = false; // Tracks if a combo is currently being executed
@@ -76,7 +76,7 @@
 //     [SerializeField] private List<BossAction> Rangecombo1 = new List<BossAction> { BossAction.Backward, BossAction.FireBreath };
 //     //FireVar02 laser 25%
 //     [SerializeField] private List<BossAction> Rangecombo2 = new List<BossAction> { BossAction.KnockBack, BossAction.Backward, BossAction.Laser };
-    
+
 //     //Malee
 //     //Attack 35%
 //     [SerializeField] private List<BossAction> Maleecombo1 = new List<BossAction> { BossAction.TailSweep, BossAction.ClawSwipe };
@@ -108,7 +108,7 @@
 //         if (!movementController) Debug.LogError("BossRotationWithAnimation script is missing!");
 
 //         TransitionToPhase(BossPhase.Phase1);
-        
+
 //     }
 
 //     public void Update()
@@ -134,7 +134,7 @@
 //         }
 
 //         // Check for phase transitions
-        
+
 //         if (enemyHealth.GetCurrentHealth() <= 0 && currentPhase != BossPhase.Dead)
 //         {
 //             TransitionToPhase(BossPhase.Dead);
@@ -267,7 +267,7 @@
 //                     animator.SetTrigger("DashBackward");
 //                     yield return new WaitForSeconds(3f); // Adjust timing as needed
 //                     break;
-                
+
 //                 case BossAction.ForwardRush:
 //                     //Debug.Log("Boss moves ForwardRush.");
 //                     bossAnimations.PerformForwardRush(); // Custom ForwardRush logic

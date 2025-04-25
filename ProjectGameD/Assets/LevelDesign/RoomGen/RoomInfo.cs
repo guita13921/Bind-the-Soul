@@ -4,10 +4,12 @@ public class RoomInfo : MonoBehaviour
 {
     [SerializeField] private string type;
     [SerializeField] private int cost;
-    [SerializeField] private int sizeX;
-    [SerializeField] private int sizeZ;
+    [SerializeField] public int sizeX;
+    [SerializeField] public int sizeZ;
     [SerializeField] private int tileSize;
     [SerializeField] private float shift;
+
+    public GameObject roomPrefabs;
 
 
 
