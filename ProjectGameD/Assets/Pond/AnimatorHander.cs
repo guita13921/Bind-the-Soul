@@ -67,11 +67,12 @@ namespace SG
             anim.applyRootMotion = isInteracting;
             //anim.SetBool("canRotate", canRotate);
             anim.SetBool("isInteracting", isInteracting);
-            anim.CrossFade(targetAnim, 0.0f);
+            anim.CrossFade(targetAnim, 0.1f);
         }
 
         public void CanRotate() => canRotate = true;
         public void StopRotation() => canRotate = false;
+
         public void EnableCombo()
         {
             anim.SetBool("CanDoCombo", true);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
@@ -19,7 +20,7 @@ namespace SG
         PlayerData playerData;
 
         public string lastAttack;
-        public string lastAttack2;
+        public string lastAttack_current;
 
 
         private void Awake()
@@ -32,23 +33,19 @@ namespace SG
             weaponSlotManager = GetComponentInParent<WeaponSlotManager>();
             inputHander = GetComponentInParent<InputHander>();
 
-
-
             if (animatorHander == null)
             {
                 Debug.LogError("❌ ไม่พบ AnimatorHander ใน " + gameObject.name);
             }
-            else
-            {
-                //                Debug.Log("✅ พบ AnimatorHander ใน " + gameObject.name);
-            }
         }
-        private IEnumerator HandleLightLastAttack()
+
+        private IEnumerator HandleLightLastAttack(String Current_lastAttack)
         {
             yield return null;
-            lastAttack = lastAttack2;
+            lastAttack = Current_lastAttack;
 
         }
+
         public void HandleWeaponCombo(WeaponItem weapon)
         {
             if (playerStats.currentStamina <= 0)
@@ -60,16 +57,26 @@ namespace SG
                 {
                     animatorHander.anim.SetBool("CanDoCombo", false);
                     animatorHander.PlayTargetAnimation(weapon.OH_Light_Attack_2, true);
-                    lastAttack2 = weapon.OH_Light_Attack_2;
-
-                    StartCoroutine(HandleLightLastAttack());
+                    lastAttack_current = weapon.OH_Light_Attack_2;
+                    StartCoroutine(HandleLightLastAttack(lastAttack_current));
                 }
 
                 if (lastAttack == weapon.OH_Light_Attack_2)
                 {
                     animatorHander.anim.SetBool("CanDoCombo", false);
                     animatorHander.PlayTargetAnimation(weapon.OH_Light_Attack_3, true);
+                    lastAttack_current = weapon.OH_Light_Attack_3;
+                    StartCoroutine(HandleLightLastAttack(lastAttack_current));
                 }
+
+                if (lastAttack == weapon.OH_Light_Attack_3)
+                {
+                    animatorHander.anim.SetBool("CanDoCombo", false);
+                    animatorHander.PlayTargetAnimation(weapon.OH_Light_Attack_4, true);
+                    lastAttack_current = weapon.OH_Light_Attack_3;
+                    StartCoroutine(HandleLightLastAttack(lastAttack_current));
+                }
+
             }
 
         }
@@ -101,10 +108,9 @@ namespace SG
                 }
 
                 weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
+                animatorHander.PlayTargetAnimation(weapon.OH_Light_Attack_1, true);
+                lastAttack = weapon.OH_Light_Attack_1;
             }
-
-            animatorHander.PlayTargetAnimation(weapon.OH_Light_Attack_1, true);
-            lastAttack = weapon.OH_Light_Attack_1;
         }
 
         public void HandleHeavyAttack(WeaponItem weapon)
@@ -133,12 +139,54 @@ namespace SG
                 }
 
                 weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
-            }
+                animatorHander.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
+                lastAttack = weapon.OH_Heavy_Attack_1;
 
-            animatorHander.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
-            lastAttack = weapon.OH_Heavy_Attack_1;
+            }
         }
 
+        /*
+        public void PerformDirectionalLightAttack(WeaponItem weapon, Vector3 direction)
+        {
+            if (playerStats.currentStamina <= 0 || weaponSlotManager.righthandDamgeCollider == null)
+                return;
+
+            weaponSlotManager.attackingWeapon = weapon;
+
+            if (weaponSlotManager.attackingWeapon != null)
+            {
+                float damage = weapon.damage * weapon.lightAttackDamageMultiplier;
+
+                damage += playerStats.flatDamageBonus;
+
+                if (playerStats.playerData.bloodPactDamageModify)
+                {
+                    damage *= 1.2f;
+                }
+
+                if (playerStats.playerData.momentumActive)
+                {
+                    damage *= 1.15f;
+                }
+
+                weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
+
+                // Normalize direction and convert to local space
+                Vector3 localDir = transform.InverseTransformDirection(direction.normalized);
+
+                // Clamp the local direction to only horizontal plane (Y=0)
+                Vector2 blendDirection = new Vector2(localDir.x, localDir.z).normalized;
+
+                // Pass blend values to animator
+                animatorHander.anim.SetFloat("AttackX", blendDirection.x);
+                animatorHander.anim.SetFloat("AttackY", blendDirection.y);
+
+                animatorHander.PlayTargetAnimation("HopAttack", true);
+
+                lastAttack = weapon.OH_Light_Attack_1; // Optional if animation names are different
+            }
+        }
+                */
 
         #region Input Action
         public void HandleALAction()
@@ -171,6 +219,7 @@ namespace SG
         }
         #endregion
         #region Attack Actions
+
         private void PerformALMeleeAction()
         {
 
@@ -190,6 +239,7 @@ namespace SG
                 HandleLightAttack(playerInventory.rightWeapon);
             }
         }
+
         private void PerformLTWeaponArt(bool isTwoHanding)
         {
             if (playerManager.isInteracting)
@@ -216,8 +266,10 @@ namespace SG
             }
             */
         }
+
         #endregion
         #region Defense Action
+
         private void PerformQBlockingAction()
         {
             if (playerManager.isInteracting)

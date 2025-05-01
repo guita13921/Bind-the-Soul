@@ -95,17 +95,6 @@ public class InputHander : MonoBehaviour
         HandleTwoHandInput();
     }
 
-    /*private void MoveInput(float delta)
-    {
-        if (playerManager.isInteracting)
-            return;
-        horizontal = movementInput.x;
-        vertical = movementInput.z;
-        moveAmount = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
-        mouseX = cameraInput.x;
-        mouseY = cameraInput.z;
-    }
-    */
     private void MoveInput(float delta)
     {
         if (playerManager.isInteracting)
@@ -136,17 +125,16 @@ public class InputHander : MonoBehaviour
         mouseY = cameraInput.z;
     }
 
-
     private void HandleRollinput(float delta)
     {
 
         if (b_Input)
         {
             // ถ้าแตะปุ่มในระยะเวลา < 0.5 วิ → Roll
-            if (rollInputTimer > 0 && rollInputTimer <= 0.5f && playerStats.currentStamina > 0)
+            //if (rollInputTimer > 0 && rollInputTimer <= 0.5f && playerStats.currentStamina > 0)
+            if (rollInputTimer > 0 && playerStats.currentStamina > 0)
             {
                 rollFlag = true;
-
             }
             else
             {
@@ -193,6 +181,11 @@ public class InputHander : MonoBehaviour
         inputAction.PlayerAction.AttackL.performed += i => Al_Input = true;
         inputAction.PlayerAction.AttackH.performed += i => Ah_Input = true;
 
+        if (playerManager.isDrawWeapon)
+        {
+            return;
+        }
+
         if (Al_Input)
         {
             if (playerManager.CanDoCombo)
@@ -211,6 +204,7 @@ public class InputHander : MonoBehaviour
             }
 
         }
+
         if (Ah_Input)
         {
             playerAttack.HandleHeavyAttack(playerInventory.rightWeapon);
@@ -261,10 +255,79 @@ public class InputHander : MonoBehaviour
         }
     }
 
+    /*
+        private void HandleAttackInput(float delta)
+        {
+            inputAction.PlayerAction.AttackL.performed += i => Al_Input = true;
+            inputAction.PlayerAction.AttackH.performed += i => Ah_Input = true;
+
+            if (Al_Input)
+            {
+                if (playerManager.isInteracting)
+                    return;
+
+                bool isMoving = movementInput != Vector3.zero;
+
+                if (isMoving)
+                {
+                    // Hop attack
+                    Debug.Log("Hop attack");
+                    playerAttack.PerformDirectionalLightAttack(playerInventory.rightWeapon, movementInput);
+                }
+                else
+                {
+                    // Regular in-place light attack
+                    Debug.Log("Regular in-place light attack");
+                    playerAttack.HandleLightAttack(playerInventory.rightWeapon);
+                }
+
+                Al_Input = false; // Reset input so it's not triggered every frame
+            }
+
+            if (Ah_Input)
+            {
+                playerAttack.HandleHeavyAttack(playerInventory.rightWeapon);
+                Ah_Input = false;
+            }
+
+            if (Q_Input)
+            {
+                playerAttack.HandleQAction();
+            }
+            else
+            {
+                playerManager.isBlocking = false;
+                if (blockingColliderPlayer.blockingCollider.enabled)
+                {
+                    blockingColliderPlayer.DisableBlockingCollider();
+                }
+            }
+
+            if (Lt_Input)
+            {
+                if (twohandflag)
+                {
+
+                }
+                else
+                {
+                    playerAttack.HandleLTAction();
+                }
+            }
+
+        }
+        */
+
     private void HandleQuickSlotsInput()
     {
         inputAction.PlayerQuickSlots.Right.performed += i => k_Right = true;
         inputAction.PlayerQuickSlots.Left.performed += i => k_Left = true;
+
+        if (playerManager.isInteracting)
+        {
+            return;
+        }
+
         if (k_Right)
         {
             playerInventory.ChangeRightWeapon();

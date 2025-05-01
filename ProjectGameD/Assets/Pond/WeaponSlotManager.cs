@@ -57,15 +57,19 @@ namespace SG
                 leftHandSlot.LoadWeaponModel(weaponItem);
                 LoadLeftWeaponDamageCollider();
                 quickSlotUI.UpdateWeaponQuickSlotsUI(true, weaponItem);
+
                 #region Handle Left Weapon Idle Animations
+
                 if (weaponItem != null)
                 {
                     animator.CrossFade(weaponItem.left_hand_idle, 0.2f);
+                    animator.SetBool("isDrawWeapon", true);
                 }
                 else
                 {
                     animator.CrossFade("Left Arm Empty", 0.2f);
                 }
+
                 #endregion
             }
             else /*if (isRight)*/
