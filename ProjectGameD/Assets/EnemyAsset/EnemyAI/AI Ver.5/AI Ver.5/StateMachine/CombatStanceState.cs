@@ -22,13 +22,13 @@ namespace SG
             enemyAnimatorManager.animator.SetFloat("Vertical", vertcalMovementValue, 0.2f, Time.deltaTime);
             enemyAnimatorManager.animator.SetFloat("Horizontal", HorizontalMovementValue, 0.2f, Time.deltaTime);
 
-            if (enemyManager.isStunning) return this;
-
-            if (enemyManager.isInterActing)
+            if (enemyManager.isInterActing || enemyManager.currentRecoveryTime > 0 || enemyManager.isStunning)
             {
                 enemyAnimatorManager.animator.SetFloat("Vertical", 0);
                 enemyAnimatorManager.animator.SetFloat("Horizontal", 0);
             }
+
+            if (enemyManager.isStunning) return this;
 
             if (enemyManager.hasShield && enemyManager.isBlocking == false)
             {
