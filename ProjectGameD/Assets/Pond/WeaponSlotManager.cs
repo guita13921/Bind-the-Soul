@@ -52,6 +52,8 @@ namespace SG
 
         public void LoadWeaponOnSlot(WeaponItem weaponItem, bool isLeft)
         {
+            animator.SetBool("isDrawWeapon", true);
+
             if (isLeft)
             {
                 leftHandSlot.LoadWeaponModel(weaponItem);
@@ -62,8 +64,7 @@ namespace SG
 
                 if (weaponItem != null)
                 {
-                    animator.CrossFade(weaponItem.left_hand_idle, 0.2f);
-                    animator.SetBool("isDrawWeapon", true);
+                    animator.CrossFade(weaponItem.left_hand_idle, 0.0f);
                 }
                 else
                 {
@@ -76,7 +77,7 @@ namespace SG
             {
                 if (inputHander.twohandflag)
                 {
-                    animator.CrossFade(weaponItem.th_idle, 0.2f);
+                    animator.CrossFade(weaponItem.th_idle, 0.0f);
                 }
                 else
                 {
@@ -86,7 +87,7 @@ namespace SG
                     if (weaponItem != null)
                     {
 
-                        animator.CrossFade(weaponItem.right_hand_idle, 0.2f);
+                        animator.CrossFade(weaponItem.right_hand_idle, 0.0f);
                     }
                     else
                     {

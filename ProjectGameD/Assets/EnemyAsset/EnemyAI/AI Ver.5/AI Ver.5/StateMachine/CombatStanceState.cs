@@ -17,14 +17,10 @@ namespace SG
 
         public override State Tick(EnemyManager enemyManager, EnemyStat enemyStat, EnemyAnimatorManager enemyAnimatorManager)
         {
-            //Check for attack range
-            //potentially circle player or walk around them
-            //if in attack range return Attack State
-            //if we are in a cool down after attack, return this state and continue circling player
-            //if the player runs out of range return the pursuetarget state
+
             float distanceFromTarget = Vector3.Distance(enemyManager.curretTarget.transform.position, enemyManager.transform.position);
-            //enemyAnimatorManager.animator.SetFloat("Vertical", vertcalMovementValue, 0.2f, Time.deltaTime);
-            //enemyAnimatorManager.animator.SetFloat("Horizontal", HorizontalMovementValue, 0.2f, Time.deltaTime);
+            enemyAnimatorManager.animator.SetFloat("Vertical", vertcalMovementValue, 0.2f, Time.deltaTime);
+            enemyAnimatorManager.animator.SetFloat("Horizontal", HorizontalMovementValue, 0.2f, Time.deltaTime);
 
             if (enemyManager.isStunning) return this;
 
@@ -45,14 +41,12 @@ namespace SG
                 return pursueTargetState;
             }
 
-            /*
             if (!randomDestinationSet)
             {
                 randomDestinationSet = true;
                 DecideCirclingAction(enemyAnimatorManager);
+                Debug.Log("DecideCirclingAction");
             }
-            */
-
 
             HandleRotationToTarget(enemyManager);
 
@@ -108,18 +102,24 @@ namespace SG
 
         protected void WalkAroundTarget(EnemyAnimatorManager enemyAnimatorManager)
         {
-            vertcalMovementValue = 0.5f;
-            HorizontalMovementValue = vertcalMovementValue = Random.Range(-1, 1);
 
-            if (vertcalMovementValue <= 1 && vertcalMovementValue >= 0)
-            {
-                vertcalMovementValue = 0.5f;
-            }
-            else if (vertcalMovementValue >= -1 && vertcalMovementValue < 0)
-            {
-                vertcalMovementValue = -0.5f;
-            }
+            List<Vector2> strafingDirections = new List<Vector2>()
+                {
+                    new Vector2(1f, 0f),       // Walk forward
+                    new Vector2(0.5f, -0.5f),  // Strafe right 45°
+                    new Vector2(0.5f, 0.5f),   // Strafe left 45°
+                    new Vector2(0.5f, 1f),   // Left 90°
+                    new Vector2(0.5f, -1f),  // Right 90°
+                };
+
+            // Randomly select a direction
+            Vector2 chosenDirection = strafingDirections[Random.Range(0, strafingDirections.Count)];
+
+            vertcalMovementValue = chosenDirection.x;
+            HorizontalMovementValue = chosenDirection.y;
+
         }
+
 
         protected virtual void GetNewAttack(EnemyManager enemyManager)
         {
