@@ -29,5 +29,14 @@ namespace SG
             animator.CrossFade(targetAnim, 0f);
         }
 
+        public void PlayRecoilAnimation(string recoilAnim)
+        {
+            animator.applyRootMotion = true;
+            animator.SetBool("isInteracting", true);
+            animator.SetBool("isAttacking", false); // Stop attack state
+            animator.SetBool("canDoCombo", false);  // Optional: if using combos
+            animator.CrossFade(recoilAnim, 0.1f);   // Faster blend for snappy reaction
+        }
+
     }
 }

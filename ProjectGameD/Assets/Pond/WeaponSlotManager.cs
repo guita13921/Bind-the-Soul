@@ -16,8 +16,8 @@ namespace SG
         [SerializeField] public WeaponHolderSlot rightHandSlot;
         WeaponHolderSlot backSlot;
 
-        [SerializeField] public DamageCollider leftHandDamgeCollider;
-        [SerializeField] public DamageCollider righthandDamgeCollider;
+        [SerializeField] public PlayerDamageCollider leftHandDamgeCollider;
+        [SerializeField] public PlayerDamageCollider righthandDamgeCollider;
 
         Animator animator;
 
@@ -106,14 +106,14 @@ namespace SG
 
         private void LoadLeftWeaponDamageCollider()
         {
-            leftHandDamgeCollider = leftHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+            leftHandDamgeCollider = leftHandSlot.currentWeaponModel.GetComponentInChildren<PlayerDamageCollider>();
             //            leftHandDamgeCollider.currentDamageWeapon = attackingWeapon.damage;
 
         }
 
         private void LoadRightWeaponDamageCollider()
         {
-            righthandDamgeCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+            righthandDamgeCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<PlayerDamageCollider>();
             //righthandDamgeCollider.currentDamageWeapon = attackingWeapon.damage;
         }
 

@@ -15,8 +15,8 @@ namespace SG
         [SerializeField] public WeaponHolderSlot rightHandSlot;
         [SerializeField] public WeaponHolderSlot leftHandSlot;
 
-        DamageCollider leftHandDamageCollider;
-        DamageCollider rightHandDamageCollider;
+        EnemyDamageCollider leftHandDamageCollider;
+        EnemyDamageCollider rightHandDamageCollider;
 
         EnemyAnimatorManager enemyAnimatorManager;
         EnemyEffectManager enemyEffectManager;
@@ -103,14 +103,14 @@ namespace SG
         {
             if (isLeft)
             {
-                leftHandDamageCollider = leftHandSlot.currentWeaponModel?.GetComponentInChildren<DamageCollider>();
+                leftHandDamageCollider = leftHandSlot.currentWeaponModel?.GetComponentInChildren<EnemyDamageCollider>();
                 //  leftHandDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
                 //enemyEffectManager.rightWeaponFX = rightHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
                 //leftHandDamageCollider.currentDamageWeapon = leftHandWeapon.damage;
             }
             else
             {
-                rightHandDamageCollider = rightHandSlot.currentWeaponModel?.GetComponentInChildren<DamageCollider>();
+                rightHandDamageCollider = rightHandSlot.currentWeaponModel?.GetComponentInChildren<EnemyDamageCollider>();
                 enemyEffectManager.rightWeaponFX = rightHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
                 //rightHandDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
                 rightHandDamageCollider.currentDamageWeapon = rightHandWeapon.damage;

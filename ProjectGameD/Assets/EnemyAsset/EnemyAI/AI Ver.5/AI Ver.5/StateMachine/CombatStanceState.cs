@@ -45,7 +45,7 @@ namespace SG
             {
                 randomDestinationSet = true;
                 DecideCirclingAction(enemyAnimatorManager);
-                Debug.Log("DecideCirclingAction");
+                //Debug.Log("DecideCirclingAction");
             }
 
             HandleRotationToTarget(enemyManager);
@@ -95,8 +95,6 @@ namespace SG
 
         protected void DecideCirclingAction(EnemyAnimatorManager enemyAnimatorManager)
         {
-            //Circle with only forward vertical movement
-            //Circle with running
             WalkAroundTarget(enemyAnimatorManager);
         }
 
