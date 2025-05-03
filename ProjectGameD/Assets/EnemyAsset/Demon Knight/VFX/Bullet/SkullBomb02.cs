@@ -70,7 +70,7 @@ public class SkullBomb02 : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        DamageCollider playerWeapon = other.gameObject.GetComponent<DamageCollider>();
+        PlayerDamageCollider playerWeapon = other.gameObject.GetComponent<PlayerDamageCollider>();
         if (playerWeapon != null) enemyStat.TakeDamageNoAnimation(playerWeapon.currentDamageWeapon);
     }
 

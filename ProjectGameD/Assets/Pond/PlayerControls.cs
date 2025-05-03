@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public partial class @PlayerControls: IInputActionCollection2, IDisposable
+public partial class @PlayerControls : IInputActionCollection2, IDisposable
 {
     public InputActionAsset asset { get; }
     public @PlayerControls()
@@ -176,7 +176,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""id"": ""901d57e4-4a49-4e5f-9600-446cb24e3c34"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Tap"",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
@@ -275,7 +275,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""add92f2b-aed8-481b-8ee6-0fa90fd89422"",
                     ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
+                    ""interactions"": ""Tap(pressPoint=0.5),Press(pressPoint=1.401298E-45)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Roll"",
@@ -295,17 +295,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""2f1521eb-53d3-4dee-ab06-b5fa0b53c3eb"",
-                    ""path"": ""<Keyboard>/j"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""AttackL"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""d7a8a60b-0f54-414a-88d3-df2292a7ec02"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
@@ -317,20 +306,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""cf5ecdae-6c97-46ed-87fd-ed9503bc180c"",
-                    ""path"": ""<Keyboard>/r"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""AttackH"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""ff706b9a-4a19-497a-9e71-cbb20bf22487"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Hold(duration=1)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""AttackH"",
@@ -351,7 +329,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""414eeb6e-4a23-4d40-bdc5-ebee4380c159"",
-                    ""path"": ""<Keyboard>/z"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -362,7 +340,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""631b8b88-7050-4fad-9f84-4ab8d5ffb79b"",
-                    ""path"": ""<Keyboard>/q"",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": ""Hold"",
                     ""processors"": """",
                     ""groups"": """",
@@ -494,7 +472,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""ab480299-bae7-439b-a9c7-a3375123ccf3"",
-                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

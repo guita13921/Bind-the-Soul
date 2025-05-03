@@ -49,6 +49,7 @@ public class InputHander : MonoBehaviour
     WeaponSlotManager weaponSlotManager;
     BlockingColliderPlayer blockingColliderPlayer;
 
+    [SerializeField] GameObject cameraObject;
 
     Vector3 movementInput;
     Vector3 cameraInput;
@@ -88,10 +89,12 @@ public class InputHander : MonoBehaviour
         }
         inputAction.Enable();
     }
+
     private void OnDisable()
     {
         inputAction.Disable();
     }
+
     public void TickInput(float delta)
     {
         if (playerStats.isDead)
@@ -110,9 +113,28 @@ public class InputHander : MonoBehaviour
     {
         if (playerManager.isInteracting)
             return;
-        horizontal = movementInput.x;
-        vertical = movementInput.z;
-        moveAmount = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
+
+        // Step 1: Get raw input
+        Vector3 input = new Vector3(movementInput.x, 0f, movementInput.z);
+
+        // Step 2: Get camera-relative directions (flattened on Y axis)
+        Vector3 cameraForward = cameraObject.transform.forward;
+        Vector3 cameraRight = cameraObject.transform.right;
+
+        cameraForward.y = 0f;
+        cameraRight.y = 0f;
+
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+
+        // Step 3: Create movement direction relative to camera
+        Vector3 moveDirection = cameraForward * input.z + cameraRight * input.x;
+
+        // Step 4: Set values
+        horizontal = moveDirection.x;
+        vertical = moveDirection.z;
+        moveAmount = Mathf.Clamp01(moveDirection.magnitude);
+
         mouseX = cameraInput.x;
         mouseY = cameraInput.z;
     }
@@ -123,10 +145,10 @@ public class InputHander : MonoBehaviour
         if (b_Input)
         {
             // ถ้าแตะปุ่มในระยะเวลา < 0.5 วิ → Roll
-            if (rollInputTimer > 0 && rollInputTimer <= 0.5f && playerStats.currentStamina > 0)
+            //if (rollInputTimer > 0 && rollInputTimer <= 0.5f && playerStats.currentStamina > 0)
+            if (rollInputTimer > 0 && playerStats.currentStamina > 0)
             {
                 rollFlag = true;
-
             }
             else
             {
@@ -148,8 +170,6 @@ public class InputHander : MonoBehaviour
         }
     }
 
-
-
     private void HandleSprintinput()
     {
         SHFIT_Input = inputAction.PlayerAction.Sprint.phase == InputActionPhase.Performed;
@@ -169,10 +189,16 @@ public class InputHander : MonoBehaviour
         }
 
     }
+
     private void HandleAttackInput(float delta)
     {
         inputAction.PlayerAction.AttackL.performed += i => Al_Input = true;
         inputAction.PlayerAction.AttackH.performed += i => Ah_Input = true;
+
+        if (playerManager.isDrawWeapon)
+        {
+            return;
+        }
 
         if (Al_Input)
         {
@@ -188,10 +214,12 @@ public class InputHander : MonoBehaviour
                     return;
                 if (playerManager.CanDoCombo)
                     return;
+
                 playerAttack.HandleLightAttack(playerInventory.rightWeapon);
             }
 
         }
+
         if (Ah_Input)
         {
             playerAttack.HandleHeavyAttack(playerInventory.rightWeapon);
@@ -223,6 +251,12 @@ public class InputHander : MonoBehaviour
         }
 
     }
+
+    private void HandleCombatInput(float delta)
+    {
+
+    }
+
     private void HandleTwoHandInput()
     {
         if (y_Input)
@@ -240,10 +274,17 @@ public class InputHander : MonoBehaviour
             }
         }
     }
+
     private void HandleQuickSlotsInput()
     {
         inputAction.PlayerQuickSlots.Right.performed += i => k_Right = true;
         inputAction.PlayerQuickSlots.Left.performed += i => k_Left = true;
+
+        if (playerManager.isInteracting)
+        {
+            return;
+        }
+
         if (k_Right)
         {
             playerInventory.ChangeRightWeapon();
@@ -254,6 +295,7 @@ public class InputHander : MonoBehaviour
             // playerInventory.ChangeLeftWeapon();
         }
     }
+
     private void HandleInteractingButtonInput()
     {
         inputAction.PlayerAction.A.performed += i => a_Input = true;

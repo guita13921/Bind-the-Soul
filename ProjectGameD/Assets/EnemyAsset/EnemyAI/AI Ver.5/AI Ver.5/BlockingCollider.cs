@@ -12,8 +12,11 @@ namespace SG
         BoxCollider blockingCollider;
         EnemySoundManager enemySoundManager;
 
+        [Header("PlayerShield")]
         public float blockingColliderDamageAbsorption; // Using Both Player/Enemy
+        public float staminaDamageModifier;
 
+        [Header("EnemyShield")]
         public bool isActive = true;
         public int blockingColliderShieldPoint;
         public int maxShieldPoint;
@@ -96,7 +99,7 @@ namespace SG
             enemyManager.currentStunningTime = enemyManager.stunningTime;
             enemyWeaponSlotManager.ShieldBreak();
             enemyAnimatorManager.PlayTargetAnimation("Start Stun", true);
-            enemyAnimatorManager.animator.SetBool("isBlocking", false);
+            enemyAnimatorManager.animator.SetBool("IsBlocking", false);
         }
 
         private IEnumerator RegenerateShield()

@@ -18,6 +18,7 @@ namespace SG
         {
             Vector3 targetDirection = enemyManager.curretTarget.transform.position - enemyManager.transform.position;
             float distanceFromTarget = Vector3.Distance(enemyManager.curretTarget.transform.position, enemyManager.transform.position);
+            enemyAnimatorManager.animator.SetFloat("Horizontal", 0, 0.2f, Time.deltaTime);
             float viewableAngle = Vector3.SignedAngle(targetDirection, enemyManager.transform.forward, Vector3.up);
 
             if (enemyManager.isStunning) return this;
@@ -25,6 +26,11 @@ namespace SG
             HandleRotationToTarget(enemyManager);
 
             if (enemyManager.isInterActing || enemyManager.isStunning) return this;
+
+            if (viewableAngle > 65 || viewableAngle < -65)
+            {
+                return rotateTowardTargetState;
+            }
 
             if (enemyManager.hasShield && enemyManager.isBlocking == false)
             {

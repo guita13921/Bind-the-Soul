@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 namespace SG
 {
@@ -17,6 +14,7 @@ namespace SG
         public PlayerData playerData;
         public bool isInteracting;
         public bool isInvulerable;
+        public bool isDrawWeapon;
 
 
         //[Header("Player Flges")]
@@ -53,6 +51,7 @@ namespace SG
             CanDoCombo = anim.GetBool("CanDoCombo");
             isInvulerable = anim.GetBool("IsInvulnerable");
             anim.SetBool("IsBlocking", isBlocking);
+            isDrawWeapon = anim.GetBool("isDrawWeapon");
 
             inputHander.TickInput(delta);
             playerLocomotion.HandleMovement(delta);

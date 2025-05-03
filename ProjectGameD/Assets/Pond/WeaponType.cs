@@ -8,12 +8,12 @@ namespace SG
     {
         Unarmed,
         StrightSword,
+        Hammer,
+        Dagger,
         Shield,
-        Bow,
+        PyroCaster,
+        SpellCaster,
+        FaithCaster
     }
 
-    public class Enum : MonoBehaviour
-    {
-
-    }
 }

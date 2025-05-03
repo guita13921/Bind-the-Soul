@@ -74,13 +74,13 @@ namespace SG
             isPhaseShifting = enemyAnimationManager.animator.GetBool("isPhaseShifting");
             isRotatingWithRootMotion = enemyAnimationManager.animator.GetBool("isRotatingWithRootMotion");
             isInterActing = enemyAnimationManager.animator.GetBool("isInteracting");
-            isInvulnerable = enemyAnimationManager.animator.GetBool("isInvulnerable");
+            isInvulnerable = enemyAnimationManager.animator.GetBool("IsInvulnerable");
             isFiringSpell = enemyAnimationManager.animator.GetBool("isFiringSpell");
             canRotate = enemyAnimationManager.animator.GetBool("canRotate");
             CanDoCombo = enemyAnimationManager.animator.GetBool("canDoCombo");
 
             enemyAnimationManager.animator.SetBool("isDead", enemyStat.isDead);
-            enemyAnimationManager.animator.SetBool("isBlocking", isBlocking);
+            enemyAnimationManager.animator.SetBool("IsBlocking", isBlocking);
             enemyAnimationManager.animator.SetBool("isStunning", isStunning);
         }
 
