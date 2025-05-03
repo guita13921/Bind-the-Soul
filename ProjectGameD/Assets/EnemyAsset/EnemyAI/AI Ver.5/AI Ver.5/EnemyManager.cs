@@ -50,6 +50,7 @@ namespace SG
             enemyAnimationManager = GetComponentInChildren<EnemyAnimatorManager>();
             enemyStat = GetComponent<EnemyStat>();
             enemyRigidBody = GetComponent<Rigidbody>();
+            backStabCollider = GetComponentInChildren<BackStabCollider>();
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
             enemyWeaponSlotManager = GetComponentInChildren<EnemyWeaponSlotManager>();
 

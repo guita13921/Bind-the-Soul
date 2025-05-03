@@ -33,6 +33,8 @@ namespace SG
         private void Awake()
         {
             cameraHandler = CameraHandler.singleton;
+            backStabCollider = GetComponentInChildren<BackStabCollider>();
+
         }
 
         void Start()

@@ -21,7 +21,7 @@ namespace SG
         public string lastAttack;
         public string lastAttack2;
 
-
+        LayerMask backStabLayer = 1 << 12;
         private void Awake()
         {
             animatorHander = GetComponent<AnimatorHander>();
@@ -230,7 +230,31 @@ namespace SG
 
         }
         #endregion
-
+        public void AttemptBackStabOrRiposte()
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(inputHander.CriticalAttackRayCastStartPoint.position,
+            transform.TransformDirection(Vector3.forward), out hit, 0.5f, backStabLayer))
+            {
+                CharacterManager enemyCharacterManger = hit.transform.gameObject.GetComponentInParent<CharacterManager>();
+                if (enemyCharacterManger != null)
+                {
+                    //CHECK FOR TEAM I.D (So you cant back stab friend or yourself ?)
+                    playerManager.lockOnTransform.position = enemyCharacterManger.backStabCollider.backStabberStandPoint.position;
+                    Vector3 rotationDirection = playerManager.lockOnTransform.root.eulerAngles;
+                    rotationDirection = hit.transform.position - playerManager.lockOnTransform.position;
+                    rotationDirection.y = 0;
+                    rotationDirection.Normalize();
+                    Quaternion tr = Quaternion.LookRotation(rotationDirection);
+                    Quaternion targetRotation = Quaternion.Slerp(playerManager.lockOnTransform.rotation, tr, 500 * Time.deltaTime);
+                    playerManager.lockOnTransform.rotation = targetRotation;
+                    animatorHander.PlayTargetAnimation("Back Stab", true);
+                    enemyCharacterManger.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Damage01", true);
+                    //make enemy play animation
+                    //do damage
+                }
+            }
+        }
     }
 }
 

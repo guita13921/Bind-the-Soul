@@ -9,6 +9,10 @@ namespace SG
         [Header("Lock On Transform")]
         public Transform lockOnTransform;
 
+        [Header("Combat Colliders")]
+        public BoxCollider backStabBoxCollider;
+        public BackStabCollider backStabCollider;
+
         //[Header("Combat Colliders")]
 
         [Header("Combat Flags")]
