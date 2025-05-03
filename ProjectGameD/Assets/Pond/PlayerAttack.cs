@@ -224,7 +224,7 @@ namespace SG
                     return;
                 if (playerManager.CanDoCombo)
                     return;
-                animatorHander.anim.SetBool("isUsingRightHand", true);
+                animatorHander.anim.SetBool("isInteracting", true);
                 HandleLightAttack(playerInventory.rightWeapon);
             }
         }

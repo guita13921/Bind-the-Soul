@@ -205,6 +205,7 @@ public class InputHander : MonoBehaviour
             if (playerManager.CanDoCombo)
             {
                 comboflang = true;
+                Debug.Log("HandleWeaponCombo");
                 playerAttack.HandleWeaponCombo(playerInventory.rightWeapon);
                 comboflang = false;
             }
@@ -215,6 +216,7 @@ public class InputHander : MonoBehaviour
                 if (playerManager.CanDoCombo)
                     return;
 
+                Debug.Log("HandleLightAttack");
                 playerAttack.HandleLightAttack(playerInventory.rightWeapon);
             }
 
@@ -222,6 +224,7 @@ public class InputHander : MonoBehaviour
 
         if (Ah_Input)
         {
+            Debug.Log("HandleHeavyAttack");
             playerAttack.HandleHeavyAttack(playerInventory.rightWeapon);
         }
 
@@ -237,7 +240,7 @@ public class InputHander : MonoBehaviour
                 blockingColliderPlayer.DisableBlockingCollider();
             }
         }
-
+        /*
         if (Lt_Input)
         {
             if (twohandflag)
@@ -249,6 +252,7 @@ public class InputHander : MonoBehaviour
                 playerAttack.HandleLTAction();
             }
         }
+        */
 
     }
 
