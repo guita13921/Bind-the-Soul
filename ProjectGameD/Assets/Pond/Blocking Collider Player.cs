@@ -10,9 +10,10 @@ public class BlockingColliderPlayer : MonoBehaviour
     [SerializeField] WeaponSlotManager weaponSlotManager;
     public BoxCollider blockingCollider;
     public float blockingColliderDamageAbsorption;
+    public float staminaDamageModifier;
 
     [Header("Stamina")]
-    // public UIEnemyShieldBar uIEnemyShieldBar;
+    public UIEnemyShieldBar uIEnemyShieldBar;
     private float lastAttackTime;
     private Coroutine regenCoroutine;
 
@@ -22,11 +23,13 @@ public class BlockingColliderPlayer : MonoBehaviour
         playerManager = GetComponentInParent<PlayerManager>();
         blockingCollider = GetComponent<BoxCollider>();
     }
+
     public void SetColliderDamageAbsorption(WeaponItem weapon)
     {
         if (weapon != null)
         {
             blockingColliderDamageAbsorption = weapon.physicalDamageAbsorption;
+            staminaDamageModifier = weapon.staminaDamageModifier;
         }
     }
 

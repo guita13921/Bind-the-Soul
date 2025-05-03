@@ -64,15 +64,18 @@ namespace SG
                     float damageBlocked = currentDamageWeapon * shield.blockingColliderDamageAbsorption / 100f;
                     float damageAfterBlock = currentDamageWeapon - damageBlocked;
 
+                    // Apply health damage
                     playerStats?.TakeDamage(Mathf.RoundToInt(damageAfterBlock), "Block Guard");
+
+                    // Apply stamina damage based on weapon damage and shield modifier
+                    int staminaDamage = Mathf.RoundToInt(currentDamageWeapon * shield.staminaDamageModifier / 100);
+                    playerStats?.TakeStaminaDamage(staminaDamage);
 
                     var enemyAnimator = enemyManager?.GetComponentInChildren<EnemyAnimatorManager>();
                     if (enemyAnimator != null)
                     {
-                        //Debug.Log(enemyAnimator);
-                        int randomIndex = Random.Range(1, 6); // Recoil_1 to Recoil_5
+                        int randomIndex = Random.Range(1, 6);
                         string recoilAnim = $"AttackRecoil_0{randomIndex}";
-                        Debug.Log(recoilAnim);
                         enemyAnimator.PlayRecoilAnimation(recoilAnim);
                     }
 
@@ -111,6 +114,8 @@ namespace SG
                         enemyStat.TakeDamage(currentDamageWeapon);
                 }
             }
+
         }
+
     }
 }

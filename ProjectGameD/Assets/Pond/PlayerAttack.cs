@@ -14,10 +14,21 @@ namespace SG
         PlayerEquipmentManager playerEquipmentManager;
         PlayerManager playerManager;
         PlayerInventory playerInventory;
-        private PlayerStats playerStats;
+        PlayerStats playerStats;
         InputHander inputHander;
         WeaponSlotManager weaponSlotManager;
         PlayerData playerData;
+
+        [Header("Attack Animations")]
+        string OH_Light_Attack_1 = "OH_Light_Attack_1";
+        string OH_Light_Attack_2 = "OH_Light_Attack_2";
+        string OH_Light_Attack_3 = "OH_Light_Attack_3";
+        string OH_Light_Attack_4 = "OH_Light_Attack_4";
+        string OH_Light_Attack_5 = "OH_Light_Attack_5";
+        string OH_Heavy_Attack_1 = "OH_Heavy_Attack_1";
+        string OH_Shield_Attack_1 = "OH_Shield_Attack_1";
+
+        string weapon_art = "Weapon_Art";
 
         public string lastAttack;
         public string lastAttack_current;
@@ -39,6 +50,41 @@ namespace SG
             }
         }
 
+        #region Input Action
+        public void HandleALAction()
+        {
+            if (playerInventory.rightWeapon.weaponType == WeaponType.StrightSword
+                || playerInventory.rightWeapon.weaponType == WeaponType.Hammer
+                || playerInventory.rightWeapon.weaponType == WeaponType.Dagger)
+            {
+                PerformALMeleeAction();
+            }
+            else if (playerInventory.rightWeapon.weaponType == WeaponType.PyroCaster
+                || playerInventory.rightWeapon.weaponType == WeaponType.SpellCaster
+                || playerInventory.rightWeapon.weaponType == WeaponType.FaithCaster)
+            {
+                PerformALMagicAction(playerInventory.rightWeapon);
+            }
+        }
+
+        public void HandleQAction() //Shields
+        {
+            PerformQBlockingAction();
+        }
+
+        public void HandleLTAction() //Parry
+        {
+            if (playerInventory.rightWeapon.weaponType == WeaponType.Shield)
+            {
+                PerformLTWeaponArt(inputHander.twohandflag);
+            }
+            else if (playerInventory.rightWeapon.weaponType == WeaponType.StrightSword)
+            {
+
+            }
+        }
+        #endregion
+
         private IEnumerator HandleLightLastAttack(String Current_lastAttack)
         {
             yield return null;
@@ -53,27 +99,35 @@ namespace SG
             if (inputHander.comboflang)
             {
                 animatorHander.anim.SetBool("CanDoCombo", false);
-                if (lastAttack == weapon.OH_Light_Attack_1)
+                if (lastAttack == OH_Light_Attack_1)
                 {
                     animatorHander.anim.SetBool("CanDoCombo", false);
-                    animatorHander.PlayTargetAnimation(weapon.OH_Light_Attack_2, true);
-                    lastAttack_current = weapon.OH_Light_Attack_2;
+                    animatorHander.PlayTargetAnimation(OH_Light_Attack_2, true);
+                    lastAttack_current = OH_Light_Attack_2;
                     StartCoroutine(HandleLightLastAttack(lastAttack_current));
                 }
 
-                if (lastAttack == weapon.OH_Light_Attack_2)
+                if (lastAttack == OH_Light_Attack_2)
                 {
                     animatorHander.anim.SetBool("CanDoCombo", false);
-                    animatorHander.PlayTargetAnimation(weapon.OH_Light_Attack_3, true);
-                    lastAttack_current = weapon.OH_Light_Attack_3;
+                    animatorHander.PlayTargetAnimation(OH_Light_Attack_3, true);
+                    lastAttack_current = OH_Light_Attack_3;
                     StartCoroutine(HandleLightLastAttack(lastAttack_current));
                 }
 
-                if (lastAttack == weapon.OH_Light_Attack_3)
+                if (lastAttack == OH_Light_Attack_3)
                 {
                     animatorHander.anim.SetBool("CanDoCombo", false);
-                    animatorHander.PlayTargetAnimation(weapon.OH_Light_Attack_4, true);
-                    lastAttack_current = weapon.OH_Light_Attack_3;
+                    animatorHander.PlayTargetAnimation(OH_Light_Attack_4, true);
+                    lastAttack_current = OH_Light_Attack_3;
+                    StartCoroutine(HandleLightLastAttack(lastAttack_current));
+                }
+
+                if (lastAttack == OH_Light_Attack_4)
+                {
+                    animatorHander.anim.SetBool("CanDoCombo", false);
+                    animatorHander.PlayTargetAnimation(OH_Light_Attack_5, true);
+                    lastAttack_current = OH_Light_Attack_3;
                     StartCoroutine(HandleLightLastAttack(lastAttack_current));
                 }
 
@@ -108,8 +162,17 @@ namespace SG
                 }
 
                 weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
-                animatorHander.PlayTargetAnimation(weapon.OH_Light_Attack_1, true);
-                lastAttack = weapon.OH_Light_Attack_1;
+
+                if (playerManager.isBlocking)
+                {
+                    animatorHander.PlayTargetAnimation(OH_Shield_Attack_1, true);
+                    lastAttack = OH_Shield_Attack_1;
+                }
+                else
+                {
+                    animatorHander.PlayTargetAnimation(OH_Light_Attack_1, true);
+                    lastAttack = OH_Light_Attack_1;
+                }
             }
         }
 
@@ -139,87 +202,13 @@ namespace SG
                 }
 
                 weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
-                animatorHander.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
-                lastAttack = weapon.OH_Heavy_Attack_1;
+                animatorHander.PlayTargetAnimation(OH_Heavy_Attack_1, true);
+                lastAttack = OH_Heavy_Attack_1;
 
             }
         }
 
-        /*
-        public void PerformDirectionalLightAttack(WeaponItem weapon, Vector3 direction)
-        {
-            if (playerStats.currentStamina <= 0 || weaponSlotManager.righthandDamgeCollider == null)
-                return;
-
-            weaponSlotManager.attackingWeapon = weapon;
-
-            if (weaponSlotManager.attackingWeapon != null)
-            {
-                float damage = weapon.damage * weapon.lightAttackDamageMultiplier;
-
-                damage += playerStats.flatDamageBonus;
-
-                if (playerStats.playerData.bloodPactDamageModify)
-                {
-                    damage *= 1.2f;
-                }
-
-                if (playerStats.playerData.momentumActive)
-                {
-                    damage *= 1.15f;
-                }
-
-                weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
-
-                // Normalize direction and convert to local space
-                Vector3 localDir = transform.InverseTransformDirection(direction.normalized);
-
-                // Clamp the local direction to only horizontal plane (Y=0)
-                Vector2 blendDirection = new Vector2(localDir.x, localDir.z).normalized;
-
-                // Pass blend values to animator
-                animatorHander.anim.SetFloat("AttackX", blendDirection.x);
-                animatorHander.anim.SetFloat("AttackY", blendDirection.y);
-
-                animatorHander.PlayTargetAnimation("HopAttack", true);
-
-                lastAttack = weapon.OH_Light_Attack_1; // Optional if animation names are different
-            }
-        }
-                */
-
-        #region Input Action
-        public void HandleALAction()
-        {
-            if (playerInventory.rightWeapon.isMeleeWeapon)
-            {
-                PerformALMeleeAction();
-            }
-            else if (playerInventory.rightWeapon.isSpellCaster || playerInventory.rightWeapon.isFaithCaster || playerInventory.rightWeapon.isPyroCaster)
-            {
-                PerformALMagicAction(playerInventory.rightWeapon);
-            }
-
-        }
-        public void HandleQAction()
-        {
-            PerformQBlockingAction();
-        }
-
-        public void HandleLTAction()
-        {
-            if (playerInventory.leftWeapon.isShieldWeapon)
-            {
-                PerformLTWeaponArt(inputHander.twohandflag);
-            }
-            else if (playerInventory.leftWeapon.isMeleeWeapon)
-            {
-
-            }
-        }
-        #endregion
         #region Attack Actions
-
         private void PerformALMeleeAction()
         {
 
@@ -250,7 +239,7 @@ namespace SG
             }
             else
             {
-                animatorHander.PlayTargetAnimation(playerInventory.leftWeapon.weapon_art, true);
+                animatorHander.PlayTargetAnimation(weapon_art, true);
             }
         }
 
@@ -266,16 +255,16 @@ namespace SG
             }
             */
         }
-
         #endregion
-        #region Defense Action
 
+        #region Defense Action
         private void PerformQBlockingAction()
         {
             if (playerManager.isInteracting)
                 return;
             if (playerManager.isBlocking)
                 return;
+
             animatorHander.PlayTargetAnimation("Block Start", false, true);
             playerEquipmentManager.OpenBlockingCollider();
             playerManager.isBlocking = true;

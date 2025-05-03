@@ -8,8 +8,10 @@ namespace SG
 {
     public class WeaponSlotManager : MonoBehaviour
     {
-
         PlayerManager playerManager;
+        AnimatorHander animatorHander;
+        Animator animator;
+
         [SerializeField] public WeaponItem attackingWeapon;
 
         [SerializeField] public WeaponHolderSlot leftHandSlot;
@@ -19,8 +21,6 @@ namespace SG
         [SerializeField] public PlayerDamageCollider leftHandDamgeCollider;
         [SerializeField] public PlayerDamageCollider righthandDamgeCollider;
 
-        Animator animator;
-
         QuickSlotUI quickSlotUI;
         [SerializeField] PlayerStats playerStats;
         InputHander inputHander;
@@ -29,6 +29,7 @@ namespace SG
         private void Awake()
         {
             animator = GetComponent<Animator>();
+            animatorHander = GetComponent<AnimatorHander>();
             quickSlotUI = FindObjectOfType<QuickSlotUI>();
             playerManager = GetComponentInParent<PlayerManager>();
             playerStats = GetComponentInParent<PlayerStats>();
@@ -52,53 +53,39 @@ namespace SG
 
         public void LoadWeaponOnSlot(WeaponItem weaponItem, bool isLeft)
         {
-            animator.SetBool("isDrawWeapon", true);
-
-            if (isLeft)
+            //animator.SetBool("isDrawWeapon", true);
+            if (weaponItem != null)
             {
-                leftHandSlot.LoadWeaponModel(weaponItem);
-                LoadLeftWeaponDamageCollider();
-                quickSlotUI.UpdateWeaponQuickSlotsUI(true, weaponItem);
 
-                #region Handle Left Weapon Idle Animations
-
-                if (weaponItem != null)
+                if (isLeft)
                 {
-                    animator.CrossFade(weaponItem.left_hand_idle, 0.0f);
+                    leftHandSlot.currentWeapon = weaponItem;
+                    leftHandSlot.LoadWeaponModel(weaponItem);
+                    LoadLeftWeaponDamageCollider();
+                    quickSlotUI.UpdateWeaponQuickSlotsUI(true, weaponItem);
+                    animatorHander.PlayTargetAnimation(weaponItem.offHandIdleAniamtion, false, true);
+
                 }
-                else
+                else /*if (isRight)*/
                 {
-                    animator.CrossFade("Left Arm Empty", 0.2f);
-                }
-
-                #endregion
-            }
-            else /*if (isRight)*/
-            {
-                if (inputHander.twohandflag)
-                {
-                    animator.CrossFade(weaponItem.th_idle, 0.0f);
-                }
-                else
-                {
-
-                    #region Handle Right Weapon Idle Animations
-                    animator.CrossFade("Both Arms Empty", 0.2f);
-                    if (weaponItem != null)
+                    if (inputHander.twohandflag)
                     {
+                        backSlot.LoadWeaponModel(weaponItem);
+                        leftHandSlot.UnloadWeaponAndDestroy();
+                        animatorHander.PlayTargetAnimation("Left Arm Empty", false, true);
 
-                        animator.CrossFade(weaponItem.right_hand_idle, 0.0f);
                     }
                     else
                     {
-
-                        animator.CrossFade("Right Arm Empty", 0.2f);
+                        leftHandSlot.UnloadWeaponAndDestroy();
                     }
-                    #endregion
+
+                    rightHandSlot.currentWeapon = weaponItem;
+                    rightHandSlot.LoadWeaponModel(weaponItem);
+                    LoadRightWeaponDamageCollider();
+                    quickSlotUI.UpdateWeaponQuickSlotsUI(false, weaponItem);
+                    animatorHander.anim.runtimeAnimatorController = weaponItem.weaponController;
                 }
-                rightHandSlot.LoadWeaponModel(weaponItem);
-                LoadRightWeaponDamageCollider();
-                quickSlotUI.UpdateWeaponQuickSlotsUI(false, weaponItem);
             }
         }
 
@@ -160,7 +147,6 @@ namespace SG
         }
 
         #endregion
-
         #region Handle Weapon's Stamina Drainage
         public void DrainStaminaLightAttack()
         {
@@ -174,28 +160,31 @@ namespace SG
             if (attackingWeapon != null)
                 playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));
         }
+
         public void DrainStaminaParrying()
         {
             int staminaCost = 5; // ตั้งค่าคงที่
-
             playerStats.TakeStaminaDamage(staminaCost);
         }
 
-
         #endregion
+
         public void PlaySoundbyTypeWeapon(WeaponItem weapon)
         {
-            if (weapon.isSwordWeapon)
+            if (weapon != null)
             {
-                playerSoundManager.PlayAttackSWordSound();
-            }
-            if (weapon.isHammerWeapon)
-            {
-                playerSoundManager.PlayAttackHammerSound();
-            }
-            if (weapon.isDaggerWeapon)
-            {
-                playerSoundManager.PlayAttackDaggerSound();
+                if (weapon.weaponType == WeaponType.StrightSword)
+                {
+                    playerSoundManager.PlayAttackSWordSound();
+                }
+                if (weapon.weaponType == WeaponType.Hammer)
+                {
+                    playerSoundManager.PlayAttackHammerSound();
+                }
+                if (weapon.weaponType == WeaponType.Dagger)
+                {
+                    playerSoundManager.PlayAttackDaggerSound();
+                }
             }
         }
     }

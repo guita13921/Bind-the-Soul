@@ -62,8 +62,6 @@ namespace SG
             goldCount = playerData.goldCount;
             flatDamageBonus = playerData.flatDamageBonus;
             StaminaRegenBonus = playerData.StaminaRegenBonus;
-
-
         }
 
         // ✅ คืนค่าโดยตรง ไม่ต้องเซ็ตค่าให้ maxHealth หรือ maxStamina ก่อน

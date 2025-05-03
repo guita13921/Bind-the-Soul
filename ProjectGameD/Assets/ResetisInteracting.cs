@@ -8,7 +8,7 @@ public class ResetisInteracting : StateMachineBehaviour
   override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
   {
     animator.SetBool("isInteracting", false);
-    animator.SetBool("isBlocking", false);
+    animator.SetBool("IsBlocking", false);
     animator.SetBool("IsInvulnerable", false);
   }
 

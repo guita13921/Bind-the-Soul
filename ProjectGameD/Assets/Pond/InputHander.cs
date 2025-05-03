@@ -200,6 +200,7 @@ public class InputHander : MonoBehaviour
                     return;
                 if (playerManager.CanDoCombo)
                     return;
+
                 playerAttack.HandleLightAttack(playerInventory.rightWeapon);
             }
 
@@ -237,6 +238,11 @@ public class InputHander : MonoBehaviour
 
     }
 
+    private void HandleCombatInput(float delta)
+    {
+
+    }
+
     private void HandleTwoHandInput()
     {
         if (y_Input)
@@ -254,69 +260,6 @@ public class InputHander : MonoBehaviour
             }
         }
     }
-
-    /*
-        private void HandleAttackInput(float delta)
-        {
-            inputAction.PlayerAction.AttackL.performed += i => Al_Input = true;
-            inputAction.PlayerAction.AttackH.performed += i => Ah_Input = true;
-
-            if (Al_Input)
-            {
-                if (playerManager.isInteracting)
-                    return;
-
-                bool isMoving = movementInput != Vector3.zero;
-
-                if (isMoving)
-                {
-                    // Hop attack
-                    Debug.Log("Hop attack");
-                    playerAttack.PerformDirectionalLightAttack(playerInventory.rightWeapon, movementInput);
-                }
-                else
-                {
-                    // Regular in-place light attack
-                    Debug.Log("Regular in-place light attack");
-                    playerAttack.HandleLightAttack(playerInventory.rightWeapon);
-                }
-
-                Al_Input = false; // Reset input so it's not triggered every frame
-            }
-
-            if (Ah_Input)
-            {
-                playerAttack.HandleHeavyAttack(playerInventory.rightWeapon);
-                Ah_Input = false;
-            }
-
-            if (Q_Input)
-            {
-                playerAttack.HandleQAction();
-            }
-            else
-            {
-                playerManager.isBlocking = false;
-                if (blockingColliderPlayer.blockingCollider.enabled)
-                {
-                    blockingColliderPlayer.DisableBlockingCollider();
-                }
-            }
-
-            if (Lt_Input)
-            {
-                if (twohandflag)
-                {
-
-                }
-                else
-                {
-                    playerAttack.HandleLTAction();
-                }
-            }
-
-        }
-        */
 
     private void HandleQuickSlotsInput()
     {
