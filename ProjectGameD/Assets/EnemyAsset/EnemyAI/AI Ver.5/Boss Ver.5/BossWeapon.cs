@@ -11,8 +11,6 @@ namespace SG
         public int damage;
         public PlayerStats playerStats;
 
-        [SerializeField] bool isCurseAttack = false;
-
         void Awake()
         {
             // Find the first active PlayerCombat in the scene

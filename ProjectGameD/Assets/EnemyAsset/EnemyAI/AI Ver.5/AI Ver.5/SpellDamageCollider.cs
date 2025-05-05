@@ -16,7 +16,7 @@ namespace SG
         private AudioSource audioSource; // 👈 We’ll use this to play the sound
 
         bool hasCollider = false;
-        Rigidbody rigidbody;
+        new Rigidbody rigidbody;
 
         Vector3 impactNormal;
 

@@ -15,8 +15,8 @@ namespace SG
         InputHander inputHander;
         PlayerManager playerManager;
         public Transform targetTransform;
-        public Transform cameraTransform;
-        public Transform cameraPivotTranform;
+        public Transform cameraTransform; //Move Camera
+        public Transform cameraPivotTranform; //Rotate
         private Transform myTransform;
         private Vector3 cameraTransformPosition;
         public LayerMask ignoreLayers;
@@ -53,15 +53,18 @@ namespace SG
             inputHander = FindObjectOfType<InputHander>();
             playerManager = FindObjectOfType<PlayerManager>();
         }
+
         private void Start()
         {
             envirometLayer = LayerMask.NameToLayer("Environment");
         }
+
         public void FollowTarget(float delta)
         {
             Vector3 targetPosition = Vector3.Lerp(myTransform.position, targetTransform.position, delta / followSpeed);
             myTransform.position = targetPosition;
         }
+
         public void HandleCameraRotation(float delta, float mouseXInput, float mouseYIput)
         {
             if (inputHander.lockOnFlag == false && currentLockOnTarget == null)
@@ -83,10 +86,19 @@ namespace SG
             }
             else
             {
+                if (currentLockOnTarget == null && nearestLockOnTarget == null)
+                {
+                    inputHander.lockOnFlag = false;
+                    currentLockOnTarget = null;
+                    return;
+                }
+
                 float velocity = 0;
+
                 Vector3 dir = currentLockOnTarget.position - transform.position;
                 dir.Normalize();
                 dir.y = 0;
+
                 Quaternion targetRotation = Quaternion.LookRotation(dir);
                 transform.rotation = targetRotation;
 
@@ -99,70 +111,82 @@ namespace SG
                 cameraPivotTranform.localEulerAngles = eulerAngle;
             }
 
+
         }
+
         public void HandleLockOn()
         {
             float shortestDistance = Mathf.Infinity;
             float shortestDistanceOfLeftTarget = Mathf.Infinity;
             float shortestDistanceOfRightTarget = Mathf.Infinity;
+            avilableTargets.Clear();
+
             Collider[] colliders = Physics.OverlapSphere(targetTransform.position, 26);
+
             for (int i = 0; i < colliders.Length; i++)
             {
                 CharacterManager character = colliders[i].GetComponent<CharacterManager>();
-                if (character != null)
-                {
-                    {
-                        Vector3 lockTragetDirection = character.transform.position - targetTransform.position;
-                        float distanceFromTarget = Vector3.Distance(targetTransform.position, character.transform.position);
-                        float viewAbleAngle = Vector3.Angle(lockTragetDirection, cameraTransform.forward);
-                        RaycastHit hit;
+                CharacterStats characterStats = colliders[i].GetComponent<CharacterStats>();
 
-                        if (character.transform.root != targetTransform.transform.root
-                        && viewAbleAngle > -50 && viewAbleAngle < 50
+                if (character != null && characterStats != null && !characterStats.isDead)
+                {
+                    Vector3 lockTargetDirection = character.transform.position - targetTransform.position;
+                    float distanceFromTarget = Vector3.Distance(targetTransform.position, character.transform.position);
+                    float viewableAngle = Vector3.Angle(lockTargetDirection, cameraTransform.forward);
+
+                    if (character.transform.root != targetTransform.transform.root
+                        && viewableAngle > -50 && viewableAngle < 50
                         && distanceFromTarget <= maximumLockOnDistance)
+                    {
+                        if (Physics.Linecast(playerManager.lockOnTransform.position, character.lockOnTransform.position, out RaycastHit hit))
                         {
-                            if (Physics.Linecast(playerManager.lockOnTransform.position, character.lockOnTransform.position, out hit))
+                            if (hit.transform.gameObject.layer != envirometLayer)
                             {
-                                Debug.DrawLine(playerManager.lockOnTransform.position, character.lockOnTransform.position);
-                                if (hit.transform.gameObject.layer == envirometLayer)
-                                {
-                                    //Cannot lock onto target, object in the way
-                                }
-                                else
-                                {
-                                    avilableTargets.Add(character);
-                                }
+                                avilableTargets.Add(character);
                             }
-
                         }
                     }
                 }
-                for (int k = 0; k < avilableTargets.Count; i++)
+            }
+
+            for (int k = 0; k < avilableTargets.Count; k++)
+            {
+                var target = avilableTargets[k];
+                if (target == null || target.transform == null)
+                    continue;
+
+                float distanceFromTarget = Vector3.Distance(targetTransform.position, target.transform.position);
+
+                if (distanceFromTarget < shortestDistance)
                 {
-                    float distanceFromTarget = Vector3.Distance(targetTransform.position, avilableTargets[k].transform.position);
-                    if (distanceFromTarget < shortestDistance)
-                    {
-                        shortestDistance = distanceFromTarget;
-                        nearestLockOnTarget = avilableTargets[k].lockOnTransform;
-                    }
-                    if (inputHander.lockOnFlag)
-                    {
-                        Vector3 relativeEnemyPosition = currentLockOnTarget.InverseTransformPoint(avilableTargets[k].transform.position);
-                        var distanceFromLeftTarget = currentLockOnTarget.transform.position.x - avilableTargets[k].transform.position.x;
-                        var distanceFromRightTarget = currentLockOnTarget.transform.position.x + avilableTargets[k].transform.position.x;
-                        if (relativeEnemyPosition.x > 0.00 && distanceFromLeftTarget < shortestDistanceOfLeftTarget)
-                        {
-                            shortestDistanceOfLeftTarget = distanceFromLeftTarget;
-                            leftLockTarget = avilableTargets[k].lockOnTransform;
-                        }
-                        if (relativeEnemyPosition.x < 0.00 && distanceFromRightTarget < shortestDistanceOfRightTarget)
-                        {
-                            shortestDistanceOfRightTarget = distanceFromRightTarget;
-                            rightLockTarget = avilableTargets[k].lockOnTransform;
-                        }
-                    }
+                    shortestDistance = distanceFromTarget;
+                    nearestLockOnTarget = target.lockOnTransform;
                 }
 
+                if (inputHander.lockOnFlag && currentLockOnTarget != null)
+                {
+                    Vector3 relativeEnemyPosition = currentLockOnTarget.InverseTransformPoint(target.transform.position);
+                    float distanceFromLeftTarget = currentLockOnTarget.transform.position.x - target.transform.position.x;
+                    float distanceFromRightTarget = currentLockOnTarget.transform.position.x + target.transform.position.x;
+
+                    if (relativeEnemyPosition.x > 0.00f && distanceFromLeftTarget < shortestDistanceOfLeftTarget)
+                    {
+                        shortestDistanceOfLeftTarget = distanceFromLeftTarget;
+                        leftLockTarget = target.lockOnTransform;
+                    }
+
+                    if (relativeEnemyPosition.x < 0.00f && distanceFromRightTarget < shortestDistanceOfRightTarget)
+                    {
+                        shortestDistanceOfRightTarget = distanceFromRightTarget;
+                        rightLockTarget = target.lockOnTransform;
+                    }
+                }
+            }
+
+            // 🔁 Handle auto-switch if current target is dead or missing
+            if (inputHander.lockOnFlag)
+            {
+                currentLockOnTarget = nearestLockOnTarget;
             }
         }
 
@@ -188,6 +212,7 @@ namespace SG
                 cameraPivotTranform.transform.localPosition = Vector3.SmoothDamp(cameraPivotTranform.transform.localPosition, newUnlockedPosition, ref velocity, Time.deltaTime);
             }
         }
+
     }
 
 }

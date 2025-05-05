@@ -47,24 +47,20 @@ namespace SG
             inputHander = GetComponent<InputHander>();
             animatorHander = GetComponentInChildren<AnimatorHander>();
             cameraHandler = FindObjectOfType<CameraHandler>();
-
         }
 
         void Start()
         {
-
             cameraObject = normalCameral.transform;
             myTransform = transform;
             animatorHander.Initialize();
-
             Physics.IgnoreCollision(CharacterCollider, CharacterCollisiomBlockerCollider, true);
         }
-
-
 
         #region Movement
         Vector3 normalVector;
         Vector3 targetPosition;
+
         private void HandleRotation(float delta)
         {
             if (inputHander.lockOnFlag)
@@ -76,10 +72,12 @@ namespace SG
                     targetDirection += cameraHandler.cameraTransform.right * inputHander.horizontal;
                     targetDirection.Normalize();
                     targetDirection.y = 0;
+
                     if (targetDirection == Vector3.zero)
                     {
                         targetDirection = transform.forward;
                     }
+
                     Quaternion tr = Quaternion.LookRotation(targetDirection);
                     Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, rotationSpeed * Time.deltaTime);
 
@@ -87,8 +85,10 @@ namespace SG
                 }
                 else
                 {
-                    Vector3 rotationDirection = moveDirection;
-                    rotationDirection = cameraHandler.currentLockOnTarget.position - transform.position;
+                    if (cameraHandler.currentLockOnTarget == null || !cameraHandler.currentLockOnTarget.gameObject.activeInHierarchy)
+                        return;
+
+                    Vector3 rotationDirection = cameraHandler.currentLockOnTarget.position - transform.position;
                     rotationDirection.y = 0;
                     rotationDirection.Normalize();
                     Quaternion tr = Quaternion.LookRotation(rotationDirection);
@@ -113,9 +113,8 @@ namespace SG
 
                 myTransform.rotation = targetRotation;
             }
-
-
         }
+
         public void HandleMovement(float delta)
         {
             if (inputHander.rollFlag)
@@ -160,6 +159,7 @@ namespace SG
                 HandleRotation(delta);
             }
         }
+
         public void HandleRollingAndSprinting(float delta)
         {
             if (animatorHander.anim.GetBool("isInteracting"))
