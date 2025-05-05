@@ -27,6 +27,7 @@ namespace SG
         public float lookSpeed = 0.1f;
         public float followSpeed = 0.1f;
         public float pivotSpeed = 0.03f;
+        [SerializeField] private float rotationSpeed = 8f; // Adjust as needed
 
         private float defaultPosition;
         private float lookAngle;
@@ -59,12 +60,21 @@ namespace SG
             envirometLayer = LayerMask.NameToLayer("Environment");
         }
 
+        /*
         public void FollowTarget(float delta)
         {
             Vector3 targetPosition = Vector3.Lerp(myTransform.position, targetTransform.position, delta / followSpeed);
             myTransform.position = targetPosition;
         }
+        */
 
+        public void FollowTarget(float delta)
+        {
+            Vector3 targetPosition = Vector3.Lerp(myTransform.position, targetTransform.position, delta / followSpeed);
+            transform.position = Vector3.Lerp(transform.position, targetPosition, delta / 0.1f); // smooth camera movement
+        }
+
+        /*
         public void HandleCameraRotation(float delta, float mouseXInput, float mouseYIput)
         {
             if (inputHander.lockOnFlag == false && currentLockOnTarget == null)
@@ -110,8 +120,30 @@ namespace SG
                 eulerAngle.y = 0;
                 cameraPivotTranform.localEulerAngles = eulerAngle;
             }
+        }
+        */
 
+        public void HandleCameraRotation(float delta, float mouseXInput, float mouseYInput)
+        {
+            if (inputHander.lockOnFlag && currentLockOnTarget != null)
+            {
+                Vector3 direction = currentLockOnTarget.position - transform.position;
+                direction.y = 0;
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * delta);
+            }
+            else
+            {
+                // Free rotation (non-lock-on)
+                lookAngle += (mouseXInput * lookSpeed) / delta;
+                pivotAngle -= (mouseYInput * pivotSpeed) / delta;
+                pivotAngle = Mathf.Clamp(pivotAngle, minimumPivot, maximumPivot);
 
+                Vector3 rotation = Vector3.zero;
+                rotation.y = lookAngle;
+                Quaternion targetRotation = Quaternion.Euler(rotation);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * delta);
+            }
         }
 
         public void HandleLockOn()

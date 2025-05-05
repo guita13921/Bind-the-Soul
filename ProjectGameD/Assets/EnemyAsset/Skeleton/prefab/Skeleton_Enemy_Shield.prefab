@@ -308,7 +308,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4bb9e15263b82b64c8b6c37832733d06, type: 2}
   - {fileID: 11400000, guid: f6e783a8cbb34e84b8a5215abd25f7e2, type: 2}
   - {fileID: 11400000, guid: da31789a34ff47d43b331c753d2f6024, type: 2}
-  - {fileID: 11400000, guid: 1589b44ba8d2b344cbe973511c114e55, type: 2}
   pursueTargetState: {fileID: 6095264716612817845}
 --- !u!1 &2654909737647499194
 GameObject:
@@ -337,7 +336,7 @@ Transform:
   m_GameObject: {fileID: 2654909737647499194}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.026, y: 0.94, z: 0.728}
+  m_LocalPosition: {x: 0, y: 0.94, z: 0.775}
   m_LocalScale: {x: 0.14, y: 1.9123199, z: 1.1504}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -358,7 +357,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 8
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -634,9 +633,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1000
+  m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -795,7 +794,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.75
+  m_Radius: 0.7
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1.2491212, z: 0}
@@ -2921,7 +2920,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!136 &2172017300961736877
 CapsuleCollider:
@@ -3109,7 +3108,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 200
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 200
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

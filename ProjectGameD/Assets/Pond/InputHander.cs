@@ -348,6 +348,7 @@ public class InputHander : MonoBehaviour
             }
             cameraHandler.SetCameraHeight();
         }
+
     }
 
 }
