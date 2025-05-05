@@ -1074,12 +1074,20 @@ PrefabInstance:
       objectReference: {fileID: 1050686455}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 632528189867980035, guid: 873716c7e94aee742b7c17eabd204396, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1186523148}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 873716c7e94aee742b7c17eabd204396, type: 3}
 --- !u!4 &1010472508 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9139101490796005325, guid: 873716c7e94aee742b7c17eabd204396, type: 3}
+  m_PrefabInstance: {fileID: 1010472507}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1010472509 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 632528189867980035, guid: 873716c7e94aee742b7c17eabd204396, type: 3}
   m_PrefabInstance: {fileID: 1010472507}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1044460748
@@ -1233,6 +1241,60 @@ Transform:
   - {fileID: 79073514}
   m_Father: {fileID: 269250296}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1186523147
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1186523148}
+  - component: {fileID: 1186523149}
+  m_Layer: 0
+  m_Name: Back Weapon Slot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1186523148
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186523147}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0.0931, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1010472509}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1186523149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186523147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b08ee125676b9d4980ef1a4f033409a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shieldPositionOverride: {fileID: 0}
+  daggerPositionOverride: {fileID: 0}
+  SwordPositionOverride: {fileID: 0}
+  BackWeaponPositionOverride: {fileID: 1186523148}
+  currentWeapon: {fileID: 0}
+  isLeftHandSlot: 0
+  isRightHandSlot: 0
+  isShield: 0
+  isBackSlot: 1
+  currentWeaponModel: {fileID: 0}
 --- !u!1 &1288159133
 GameObject:
   m_ObjectHideFlags: 0

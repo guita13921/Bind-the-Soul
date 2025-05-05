@@ -80,7 +80,6 @@ public class InputHander : MonoBehaviour
             inputAction.PlayerAction.Blocking.canceled += i => Q_Input = false;
             inputAction.PlayerMovement.Camera.performed += i => cameraInput = i.ReadValue<Vector3>();
             inputAction.PlayerAction.Y.performed += i => y_Input = true;
-            inputAction.PlayerAction.Y.canceled += i => y_Input = false;
             inputAction.PlayerAction.CriticalAttack.performed += i => critical_Attack_Input = true;
             inputAction.PlayerAction.LockOn.performed += i => lockOnFlag = true;
             inputAction.PlayerMovement.LockOnTargetRight.performed += i => right_Stick_Right_Input = true;
@@ -307,7 +306,7 @@ public class InputHander : MonoBehaviour
     private void HandleCriticalAttackInput()
     {
         critical_Attack_Input = false;
-        playerAttack.AttemptBackStabOrRiposte();
+        // playerAttack.AttemptBackStabOrRiposte();
     }
     private void HandleLockOnInput()
     {

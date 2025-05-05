@@ -142,6 +142,15 @@ namespace SG
 
             weaponSlotManager.attackingWeapon = weapon;
 
+            if (inputHander.twohandflag)
+            {
+
+            }
+            else
+            {
+
+            }
+
             if (weaponSlotManager.attackingWeapon != null)
             {
                 float damage = weapon.damage * weapon.lightAttackDamageMultiplier;
@@ -182,6 +191,16 @@ namespace SG
                 return;
 
             weaponSlotManager.attackingWeapon = weapon;
+
+            if (inputHander.twohandflag)
+            {
+
+            }
+            else
+            {
+
+            }
+
 
             if (weaponSlotManager.attackingWeapon != null)
             {

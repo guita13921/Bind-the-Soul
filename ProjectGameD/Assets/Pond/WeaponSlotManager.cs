@@ -47,6 +47,10 @@ namespace SG
                 {
                     rightHandSlot = weponslot;
                 }
+                else if (weponslot.isBackSlot)
+                {
+                    backSlot = weponslot;
+                }
 
             }
         }
@@ -64,22 +68,44 @@ namespace SG
                     LoadLeftWeaponDamageCollider();
                     quickSlotUI.UpdateWeaponQuickSlotsUI(true, weaponItem);
                     animatorHander.PlayTargetAnimation(weaponItem.offHandIdleAniamtion, false, true);
-
+                    #region Handle Left Weapon Idle Animations
+                    if (weaponItem != null)
+                    {
+                        animator.CrossFade(weaponItem.left_hand_idle, 0.2f);
+                    }
+                    else
+                    {
+                        animatorHander.PlayTargetAnimation("Left Arm Empty", false, true);
+                    }
+                    #endregion
                 }
                 else /*if (isRight)*/
                 {
                     if (inputHander.twohandflag)
                     {
-                        backSlot.LoadWeaponModel(weaponItem);
+                        backSlot.LoadWeaponModel(leftHandSlot.currentWeapon);
                         leftHandSlot.UnloadWeaponAndDestroy();
-                        animatorHander.PlayTargetAnimation("Left Arm Empty", false, true);
+                        animator.CrossFade(weaponItem.th_idle, 0.2f);
 
                     }
                     else
                     {
-                        leftHandSlot.UnloadWeaponAndDestroy();
-                    }
+                        #region Handle Right Weapon Idle Animationss
 
+                        animator.CrossFade("Both Arms Empty", 0.2f);
+
+                        backSlot.UnloadWeaponAndDestroy();
+
+                        if (weaponItem != null)
+                        {
+                            animator.CrossFade(weaponItem.right_hand_idle, 0.2f);
+                        }
+                        else
+                        {
+                            animator.CrossFade("Right Arm Empty", 0.2f);
+                        }
+                        #endregion
+                    }
                     rightHandSlot.currentWeapon = weaponItem;
                     rightHandSlot.LoadWeaponModel(weaponItem);
                     LoadRightWeaponDamageCollider();
