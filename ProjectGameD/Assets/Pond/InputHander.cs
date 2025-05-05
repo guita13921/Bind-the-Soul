@@ -299,8 +299,12 @@ public class InputHander : MonoBehaviour
 
     private void HandleCriticalAttackInput()
     {
-        critical_Attack_Input = false;
-        //playerAttack.AttemptBackStabOrRiposte();
+        if (critical_Attack_Input)
+        {
+            critical_Attack_Input = false;
+            playerAttack.AttemptBackStabOrRiposte();
+        }
+
     }
 
     private void HandleLockOnInput()

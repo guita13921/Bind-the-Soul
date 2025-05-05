@@ -296,6 +296,7 @@ namespace SG
             if (Physics.Raycast(inputHander.CriticalAttackRayCastStartPoint.position,
             transform.TransformDirection(Vector3.forward), out hit, 0.5f, backStabLayer))
             {
+                Debug.Log(hit);
                 CharacterManager enemyCharacterManger = hit.transform.gameObject.GetComponentInParent<CharacterManager>();
                 if (enemyCharacterManger != null)
                 {
@@ -309,7 +310,7 @@ namespace SG
                     Quaternion targetRotation = Quaternion.Slerp(playerManager.lockOnTransform.rotation, tr, 500 * Time.deltaTime);
                     playerManager.lockOnTransform.rotation = targetRotation;
                     animatorHander.PlayTargetAnimation("Back Stab", true);
-                    enemyCharacterManger.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Damage01", true);
+                    enemyCharacterManger.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Back Stabed", true);
                     //make enemy play animation
                     //do damage
                 }
