@@ -15,7 +15,7 @@ namespace SG
             enemyAnimatorManager.animator.SetFloat("Horizontal", 0);
 
             Vector3 targetDirection = enemyManager.curretTarget.transform.position - enemyManager.transform.position;
-            float viewableAngle = Vector3.SignedAngle(targetDirection, enemyManager.transform.forward, Vector3.up) + (-45);
+            float viewableAngle = Vector3.SignedAngle(targetDirection, enemyManager.transform.forward, Vector3.up);
 
             if (!enemyManager.isStunning && enemyManager.canRotate) RotateTowardTargetWhileAttacking(enemyManager);
 

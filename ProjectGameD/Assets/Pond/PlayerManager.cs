@@ -24,7 +24,7 @@ namespace SG
 
 
         public static Room currentRoom;
-        public static Transform transform;
+        public static new Transform transform;
         public static List<Drop> availableDrops = new List<Drop>();
         public static List<ShopItem> availableShopItem = new List<ShopItem>();
 

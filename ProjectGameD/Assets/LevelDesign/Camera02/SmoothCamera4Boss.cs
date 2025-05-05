@@ -10,7 +10,7 @@ public class SmoothCamera4Boss : MonoBehaviour
     [SerializeField] private Transform pivot;  // Pivot (parent of the camera)
 
     [SerializeField] private float smoothTime = 0.3f; // Smoothing factor for camera movement
-    [SerializeField] private Camera camera;          // Reference to the Camera component
+    [SerializeField] private new Camera camera;          // Reference to the Camera component
 
     [Header("Zoom Settings")]
     [SerializeField] private float minSize = 5f;     // Minimum orthographic size (for orthographic camera) or FOV (for perspective camera)

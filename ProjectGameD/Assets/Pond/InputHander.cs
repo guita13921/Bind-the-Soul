@@ -4,6 +4,7 @@ using System.Linq;
 using SG;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class InputHander : MonoBehaviour
@@ -44,15 +45,18 @@ public class InputHander : MonoBehaviour
     PlayerAttack playerAttack;
     PlayerInventory playerInventory;
     PlayerManager playerManager;
-    CameraHandler cameraHandler;
+    [SerializeField] CameraHandler cameraHandler;
     PlayerStats playerStats;
     WeaponSlotManager weaponSlotManager;
     BlockingColliderPlayer blockingColliderPlayer;
 
     [SerializeField] GameObject cameraObject;
 
-    Vector3 movementInput;
-    Vector3 cameraInput;
+    //Vector3 movementInput;
+    //Vector3 cameraInput;
+
+    Vector2 movementInput;
+    Vector2 cameraInput;
 
     private void Awake()
     {
@@ -65,12 +69,24 @@ public class InputHander : MonoBehaviour
         cameraHandler = FindObjectOfType<CameraHandler>();
     }
 
+    void FixedUpdate()
+    {
+        float delta = Time.fixedDeltaTime;
+
+        if (cameraHandler != null)
+        {
+            cameraHandler.FollowTarget(delta);
+            cameraHandler.HandleCameraRotation(delta, mouseX, mouseY);
+        }
+    }
+
     public void OnEnable()
     {
         if (inputAction == null)
         {
             inputAction = new PlayerControls();
-            inputAction.PlayerMovement.Movement.performed += inputAction => movementInput = inputAction.ReadValue<Vector3>();
+            inputAction.PlayerMovement.Movement.performed += inputAction => movementInput = inputAction.ReadValue<Vector2>();
+            inputAction.PlayerMovement.Camera.performed += i => cameraInput = i.ReadValue<Vector2>();
             inputAction.PlayerAction.Roll.performed += i => b_Input = true;
             inputAction.PlayerAction.Roll.canceled += i => b_Input = false;
             inputAction.PlayerAction.Sprint.performed += i => SHFIT_Input = true;
@@ -78,12 +94,11 @@ public class InputHander : MonoBehaviour
             inputAction.PlayerAction.LT.performed += i => Lt_Input = true;
             inputAction.PlayerAction.Blocking.performed += i => Q_Input = true;
             inputAction.PlayerAction.Blocking.canceled += i => Q_Input = false;
-            inputAction.PlayerMovement.Camera.performed += i => cameraInput = i.ReadValue<Vector3>();
             inputAction.PlayerAction.Y.performed += i => y_Input = true;
             inputAction.PlayerAction.CriticalAttack.performed += i => critical_Attack_Input = true;
-            inputAction.PlayerAction.LockOn.performed += i => lockOnFlag = true;
+            inputAction.PlayerAction.LockOn.performed += i => lockOnInput = true;
             inputAction.PlayerMovement.LockOnTargetRight.performed += i => right_Stick_Right_Input = true;
-            inputAction.PlayerMovement.LockOnTargetRight.performed += i => right_Stick_Left_Input = true;
+            inputAction.PlayerMovement.LockOnTargetLeft.performed += i => right_Stick_Left_Input = true;
 
         }
         inputAction.Enable();
@@ -96,8 +111,7 @@ public class InputHander : MonoBehaviour
 
     public void TickInput(float delta)
     {
-        if (playerStats.isDead)
-            return;
+        if (playerStats.isDead) return;
         HandleMoveInput(delta);
         HandleRollinput(delta);
         HandleSprintinput();
@@ -108,34 +122,18 @@ public class InputHander : MonoBehaviour
         HandleCriticalAttackInput();
         HandleLockOnInput();
     }
+
     private void HandleMoveInput(float delta)
     {
         if (playerManager.isInteracting)
+        {
             return;
-
-        // Step 1: Get raw input
-        Vector3 input = new Vector3(movementInput.x, 0f, movementInput.z);
-
-        // Step 2: Get camera-relative directions (flattened on Y axis)
-        Vector3 cameraForward = cameraObject.transform.forward;
-        Vector3 cameraRight = cameraObject.transform.right;
-
-        cameraForward.y = 0f;
-        cameraRight.y = 0f;
-
-        cameraForward.Normalize();
-        cameraRight.Normalize();
-
-        // Step 3: Create movement direction relative to camera
-        Vector3 moveDirection = cameraForward * input.z + cameraRight * input.x;
-
-        // Step 4: Set values
-        horizontal = moveDirection.x;
-        vertical = moveDirection.z;
-        moveAmount = Mathf.Clamp01(moveDirection.magnitude);
-
+        }
+        horizontal = movementInput.x;
+        vertical = movementInput.y;
+        moveAmount = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
         mouseX = cameraInput.x;
-        mouseY = cameraInput.z;
+        mouseY = cameraInput.y;
     }
 
     private void HandleRollinput(float delta)
@@ -143,8 +141,6 @@ public class InputHander : MonoBehaviour
 
         if (b_Input)
         {
-            // ถ้าแตะปุ่มในระยะเวลา < 0.5 วิ → Roll
-            //if (rollInputTimer > 0 && rollInputTimer <= 0.5f && playerStats.currentStamina > 0)
             if (rollInputTimer > 0 && playerStats.currentStamina > 0)
             {
                 rollFlag = true;
@@ -171,6 +167,11 @@ public class InputHander : MonoBehaviour
 
     private void HandleSprintinput()
     {
+        if (playerManager.isInteracting)
+        {
+            return;
+        }
+
         SHFIT_Input = inputAction.PlayerAction.Sprint.phase == InputActionPhase.Performed;
 
         if (SHFIT_Input)
@@ -204,7 +205,6 @@ public class InputHander : MonoBehaviour
             if (playerManager.CanDoCombo)
             {
                 comboflang = true;
-                Debug.Log("HandleWeaponCombo");
                 playerAttack.HandleWeaponCombo(playerInventory.rightWeapon);
                 comboflang = false;
             }
@@ -215,7 +215,6 @@ public class InputHander : MonoBehaviour
                 if (playerManager.CanDoCombo)
                     return;
 
-                Debug.Log("HandleLightAttack");
                 playerAttack.HandleLightAttack(playerInventory.rightWeapon);
             }
 
@@ -223,7 +222,6 @@ public class InputHander : MonoBehaviour
 
         if (Ah_Input)
         {
-            Debug.Log("HandleHeavyAttack");
             playerAttack.HandleHeavyAttack(playerInventory.rightWeapon);
         }
 
@@ -252,11 +250,6 @@ public class InputHander : MonoBehaviour
             }
         }
         */
-
-    }
-
-    private void HandleCombatInput(float delta)
-    {
 
     }
 
@@ -303,19 +296,20 @@ public class InputHander : MonoBehaviour
     {
         inputAction.PlayerAction.A.performed += i => a_Input = true;
     }
+
     private void HandleCriticalAttackInput()
     {
         critical_Attack_Input = false;
-        // playerAttack.AttemptBackStabOrRiposte();
+        //playerAttack.AttemptBackStabOrRiposte();
     }
+
     private void HandleLockOnInput()
     {
-        if (lockOnFlag && lockOnFlag == false)
+        if (lockOnInput && lockOnFlag == false)
         {
-
             lockOnInput = false;
-            lockOnFlag = true;
             cameraHandler.HandleLockOn();
+
             if (cameraHandler.nearestLockOnTarget != null)
             {
                 cameraHandler.currentLockOnTarget = cameraHandler.nearestLockOnTarget;
@@ -329,24 +323,31 @@ public class InputHander : MonoBehaviour
             cameraHandler.ClearLockOnTargets();
         }
 
-        if (lockOnFlag && right_Stick_Left_Input)
+        // Continuously update lock-on target while active
+        if (lockOnFlag)
         {
-            right_Stick_Left_Input = false;
             cameraHandler.HandleLockOn();
-            if (cameraHandler.leftLockTarget != null)
+
+            if (right_Stick_Left_Input)
             {
-                cameraHandler.currentLockOnTarget = cameraHandler.leftLockTarget;
+                right_Stick_Left_Input = false;
+                if (cameraHandler.leftLockTarget != null)
+                {
+                    cameraHandler.currentLockOnTarget = cameraHandler.leftLockTarget;
+                }
             }
-        }
-        if (lockOnFlag && right_Stick_Right_Input)
-        {
-            right_Stick_Right_Input = false;
-            cameraHandler.HandleLockOn();
-            if (cameraHandler.rightLockTarget != null)
+
+            if (right_Stick_Right_Input)
             {
-                cameraHandler.currentLockOnTarget = cameraHandler.rightLockTarget;
+                right_Stick_Right_Input = false;
+                if (cameraHandler.rightLockTarget != null)
+                {
+                    cameraHandler.currentLockOnTarget = cameraHandler.rightLockTarget;
+                }
             }
+            cameraHandler.SetCameraHeight();
         }
-        cameraHandler.SetCameraHeight();
+
     }
+
 }

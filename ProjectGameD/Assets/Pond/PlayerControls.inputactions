@@ -9,7 +9,7 @@
                     "name": "Movement",
                     "type": "PassThrough",
                     "id": "2e981c45-8dfe-4afe-a959-01b5bbd18149",
-                    "expectedControlType": "Vector3",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -17,8 +17,8 @@
                 {
                     "name": "Camera",
                     "type": "PassThrough",
-                    "id": "1b7d5a80-9cfc-45c0-a27c-3216d6a49794",
-                    "expectedControlType": "Vector3",
+                    "id": "6e2ef75e-d364-49c2-9056-37942b1e694b",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -46,7 +46,7 @@
                 {
                     "name": "WASD",
                     "id": "6dd68f5a-cf9a-4c2f-9ba9-3150903523f2",
-                    "path": "3DVector(mode=2)",
+                    "path": "2DVector(mode=2)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -55,7 +55,7 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Left",
+                    "name": "left",
                     "id": "8f13436c-2cfd-4cc8-9b8d-e323192564fb",
                     "path": "<Keyboard>/a",
                     "interactions": "",
@@ -66,7 +66,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "Right",
+                    "name": "right",
                     "id": "4a6f73f8-f37f-4dee-b578-39e028e7e77b",
                     "path": "<Keyboard>/d",
                     "interactions": "",
@@ -77,7 +77,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "forward",
+                    "name": "up",
                     "id": "88828bdc-ebcd-412e-85c8-489df7092feb",
                     "path": "<Keyboard>/w",
                     "interactions": "",
@@ -88,7 +88,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "backward",
+                    "name": "down",
                     "id": "ea2dff1f-fea6-4b88-a294-6a91586f9f93",
                     "path": "<Keyboard>/s",
                     "interactions": "",
@@ -141,6 +141,28 @@
                     "action": "Lock On Target Left",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "30865d08-6eed-4dbe-80f8-5356536ba9e2",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "StickDeadzone",
+                    "groups": "",
+                    "action": "Camera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "61a00312-3c91-4f78-920d-cf2736e31355",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "NormalizeVector2",
+                    "groups": "",
+                    "action": "Camera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -148,6 +170,15 @@
             "name": "PlayerAction",
             "id": "0a073051-b9dc-4288-bf20-2fb6e6f6a6a1",
             "actions": [
+                {
+                    "name": "LockOn",
+                    "type": "Button",
+                    "id": "009c9ce6-813b-4968-99f4-ed7f1dc1ce6a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
                 {
                     "name": "Roll",
                     "type": "Button",
@@ -161,15 +192,6 @@
                     "name": "Sprint",
                     "type": "Button",
                     "id": "e7af48b4-92bc-496e-b95a-8c67bb7423dc",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "LockOn",
-                    "type": "Button",
-                    "id": "009c9ce6-813b-4968-99f4-ed7f1dc1ce6a",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -362,7 +384,7 @@
                 {
                     "name": "",
                     "id": "6d7cd2a0-3804-4c4f-b048-8675301e27d3",
-                    "path": "<Keyboard>/f",
+                    "path": "<Mouse>/middleButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
