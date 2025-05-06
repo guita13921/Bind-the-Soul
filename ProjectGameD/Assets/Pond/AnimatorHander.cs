@@ -102,6 +102,11 @@ namespace SG
             playerManager.isParrying = false;
         }
 
+        public void TakeCriticalDamageAnimationEvent()
+        {
+            playerStats.TakeDamage(playerManager.pendingCriticalDamage);
+            playerManager.pendingCriticalDamage = 0;
+        }
         private void OnAnimatorMove()
         {
             if (playerManager == null || playerManager.isInteracting == false) return;

@@ -22,6 +22,11 @@ namespace SG
             enemyWeaponSlotManager = GetComponent<EnemyWeaponSlotManager>();
         }
 
+        public void TakeCriticalDamageAnimationEvent()
+        {
+            enemyStat.TakeDamageNoAnimation(enemyManager.pendingCriticalDamage);
+            enemyManager.pendingCriticalDamage = 0;
+        }
         private void OnAnimatorMove()
         {
             float delta = Time.deltaTime;
