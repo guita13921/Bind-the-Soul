@@ -17,7 +17,7 @@ namespace SG
         [SerializeField] DemonBossManager demonBossManager; //Only old Demon Boss
         public UIEnemyHealthBar enemyHealthBar;
 
-        EnemySoundManager enemySoundManager;
+        CharacterSoundFXManager characterSoundFXManager;
 
         public int goldAwardOnDeath = 10;
         public bool isBoss;
@@ -33,7 +33,7 @@ namespace SG
             maxHealth = SetMaxHealthFromHealthLevel();
             currentHealth = maxHealth;
             enemyHealthBar = GetComponentInChildren<UIEnemyHealthBar>();
-            enemySoundManager = GetComponent<EnemySoundManager>();
+            characterSoundFXManager = GetComponent<CharacterSoundFXManager>();
         }
 
         void Start()
@@ -54,7 +54,7 @@ namespace SG
 
         public void TakeDamageNoAnimation(int damage)
         {
-            if (enemySoundManager != null) enemySoundManager.PlayHitSound();
+            if (characterSoundFXManager != null) characterSoundFXManager.PlayRandomDamageSoundFX();
             currentHealth -= damage;
 
             if (!isBoss)
@@ -86,7 +86,7 @@ namespace SG
 
             if (enemyManager.isPhaseShifting)
             {
-                if (enemySoundManager != null) enemySoundManager.PlayHitSound();
+                if (characterSoundFXManager != null) characterSoundFXManager.PlayRandomDamageSoundFX();
                 TakeDamageNoAnimation(damage);
             }
             else
@@ -98,12 +98,12 @@ namespace SG
                     if (damageAinmation == "Block_Guard")
                     {
                         enemyAnimatorManager.PlayTargetAnimation(damageAinmation, false);
-                        if (enemySoundManager != null) enemySoundManager.PlayShieldHitSounds();
+                        if (characterSoundFXManager != null) characterSoundFXManager.PlayRandomShielHitSoundFX();
                     }
                     else
                     {
                         enemyAnimatorManager.PlayTargetAnimation(damageAinmation, true);
-                        if (enemySoundManager != null) enemySoundManager.PlayHitSound();
+                        if (characterSoundFXManager != null) characterSoundFXManager.PlayRandomDamageSoundFX();
                     }
                 }
                 else
@@ -138,10 +138,10 @@ namespace SG
             DropItem();
 
             // Play death sound
-            if (enemySoundManager != null)
+            if (characterSoundFXManager != null)
             {
-                enemySoundManager.PlayHitSound();
-                enemySoundManager.PlayDeathSound();
+                characterSoundFXManager.PlayRandomDamageSoundFX();
+                characterSoundFXManager.PlayDeathSound();
             }
 
             if (roomManager != null)

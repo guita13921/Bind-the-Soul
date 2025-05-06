@@ -7,9 +7,8 @@ using UnityEngine;
 
 namespace SG
 {
-    public class PlayerAttack : MonoBehaviour
+    public class PlayerAttack : CharacterCombatManager
     {
-
         AnimatorHander animatorHander;
         PlayerEquipmentManager playerEquipmentManager;
         PlayerManager playerManager;
@@ -31,7 +30,7 @@ namespace SG
         string weapon_art = "Weapon_Art";
 
         public string lastAttack;
-        public string lastAttack_current;
+        private string lastAttack_current;
 
         LayerMask backStabLayer = 1 << 12;
         private void Awake()
@@ -83,6 +82,10 @@ namespace SG
             {
 
             }
+            else
+            {
+
+            }
         }
         #endregion
 
@@ -90,7 +93,6 @@ namespace SG
         {
             yield return null;
             lastAttack = Current_lastAttack;
-
         }
 
         public void HandleWeaponCombo(WeaponItem weapon)
@@ -141,7 +143,6 @@ namespace SG
                     lastAttack_current = OH_Light_Attack_3;
                     StartCoroutine(HandleLightLastAttack(lastAttack_current));
                 }
-
             }
 
         }
@@ -155,6 +156,11 @@ namespace SG
 
             if (weaponSlotManager.attackingWeapon != null)
             {
+
+                float damage = weapon.damage;
+                weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
+
+                /*
                 float damage = weapon.damage * weapon.lightAttackDamageMultiplier;
 
                 // Add flat damage AFTER multipliers
@@ -173,6 +179,8 @@ namespace SG
                 }
 
                 weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
+                */
+
 
                 if (playerManager.isBlocking)
                 {
@@ -184,6 +192,8 @@ namespace SG
                     animatorHander.PlayTargetAnimation(OH_Light_Attack_1, true);
                     lastAttack = OH_Light_Attack_1;
                 }
+
+                currentAttackType = AttackType.light;
             }
         }
 
@@ -196,6 +206,11 @@ namespace SG
 
             if (weaponSlotManager.attackingWeapon != null)
             {
+                float damage = weapon.damage;
+                weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
+
+
+                /*
                 float damage = weapon.damage * weapon.heavyAttackDamageMultiplier;
 
                 // Add flat damage AFTER multipliers
@@ -211,10 +226,11 @@ namespace SG
                 {
                     damage *= 1.15f;
                 }
+                */
 
-                weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
                 animatorHander.PlayTargetAnimation(OH_Heavy_Attack_1, true);
                 lastAttack = OH_Heavy_Attack_1;
+                currentAttackType = AttackType.Heavy;
 
             }
         }

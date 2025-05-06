@@ -14,9 +14,9 @@ public class ResetAnimatorBoolAI : ResetAnimatorBool
     public string isFiringSpell = "isFiringSpell";
     public bool isFiringSpellStatus = false;
 
-    public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        base.OnStateEnter(animator, stateInfo, layerIndex);
+        base.OnStateExit(animator, stateInfo, layerIndex);
         animator.SetBool(isPhaseShifting, isisPhaseShiftingStatus);
         animator.SetBool(isAttacking, isisAttackingStatus);
         animator.SetBool(isFiringSpell, isFiringSpellStatus);

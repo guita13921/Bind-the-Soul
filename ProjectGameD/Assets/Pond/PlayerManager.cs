@@ -16,23 +16,16 @@ namespace SG
         public bool isInvulerable;
         public bool isDrawWeapon;
 
-
-        //[Header("Player Flges")]
-        //public bool isSprinting;
-        //public bool isUsingRightHand;
-        //public bool isUsingLefthand;
-
-
         public static Room currentRoom;
         public static new Transform transform;
         public static List<Drop> availableDrops = new List<Drop>();
         public static List<ShopItem> availableShopItem = new List<ShopItem>();
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             cameraHandler = CameraHandler.singleton;
             backStabCollider = GetComponentInChildren<BackStabCollider>();
-
         }
 
         void Start()
@@ -56,8 +49,8 @@ namespace SG
             inputHander.TickInput(delta);
             playerLocomotion.HandleMovement(delta);
             playerLocomotion.HandleRollingAndSprinting(delta);
-            //            isUsingLefthand = anim.GetBool("isUsingLefthand");
-            //           isUsingRightHand = anim.GetBool("isUsingRightHand");
+            isUsingLefthand = anim.GetBool("isUsingLefthand");
+            isUsingRightHand = anim.GetBool("isUsingRightHand");
             playerStats.RegenerateStamina();
 
 

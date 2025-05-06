@@ -10,14 +10,13 @@ namespace SG
     public class DamageCollider : MonoBehaviour
     {
         public int currentDamageWeapon;
-        Collider damageCollider;
+        public Collider damageCollider;
         public bool enableOnStartUp = false;
-        CharacterManager characterManager;
-        [SerializeField] EnemyManager enemyManager1;
-        EnemySoundManager enemySoundManager;
+        public CharacterManager characterManager;
+        public CharacterSoundFXManager characterSoundFXManager;
 
 
-        private void Awake()
+        protected virtual void Awake()
         {
             damageCollider = GetComponent<Collider>();
             damageCollider.gameObject.SetActive(true);
@@ -26,12 +25,13 @@ namespace SG
             damageCollider.enabled = false;
         }
 
-        void Start()
+        void Update()
         {
-            enemyManager1 = GetComponentInParent<EnemyManager>();
-            enemySoundManager = GetComponentInParent<EnemySoundManager>();
+            characterManager = GetComponentInParent<CharacterManager>();
+            characterSoundFXManager = GetComponentInParent<CharacterSoundFXManager>();
         }
 
+        /*
         public void EnableDamageCollider()
         {
             damageCollider.enabled = true;
@@ -41,6 +41,7 @@ namespace SG
         {
             damageCollider.enabled = false;
         }
+
 
         private void OnTriggerEnter(Collider collider)
         {
@@ -64,7 +65,7 @@ namespace SG
                     }
                     if (playerManager.isParrying)
                     {
-                        enemySoundManager.PlayPariedSounds();
+                        characterSoundFXManager.PlayPariedSounds();
                         enemyManager1.GetComponentInChildren<EnemyAnimatorManager>().PlayTargetAnimation("Start Stun", true);
                         enemyManager1.GetComponentInChildren<EnemyAnimatorManager>().animator.SetBool("isBlocking", false);
                         enemyManager1.isBlocking = false;
@@ -136,5 +137,6 @@ namespace SG
 
             }
         }
+                */
     }
 }

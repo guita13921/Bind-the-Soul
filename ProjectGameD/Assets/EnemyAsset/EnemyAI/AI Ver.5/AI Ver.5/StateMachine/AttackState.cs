@@ -27,6 +27,11 @@ namespace SG
 
             if (!enemyManager.isStunning) RotateTowardTargetWhileAttacking(enemyManager);
 
+            if (willDoComboOnNextAttack)
+            {
+                AttackTargetWithCombo(enemyAnimator, enemyManager);
+            }
+
             if (enemyManager.isInterActing || enemyManager.isStunning || enemyManager.currentRecoveryTime > 0) return this;
 
             if (currentAttack == null)
@@ -36,19 +41,8 @@ namespace SG
 
             if (enemyManager.hasShield && enemyManager.isBlocking == true)
             {
-                enemyAnimator.PlayTargetAnimation("EndBlock01", false);
+                enemyAnimator.PlayTargetAnimation("EndBlock01", true);
                 enemyManager.isBlocking = false;
-            }
-
-            if (distanceFromTarget > enemyManager.maximumAttackRange)
-            {
-                return pursueTargetState;
-            }
-
-            if (willDoComboOnNextAttack)
-            {
-                //Debug.Log("AttackTargetWithCombo");
-                AttackTargetWithCombo(enemyAnimator, enemyManager);
             }
 
             if (!hasPerformAttack)
@@ -56,6 +50,11 @@ namespace SG
                 //Debug.Log("AttackTarget");
                 AttackTarget(enemyAnimator, enemyManager);
                 RollForComboChance(enemyManager, enemyAnimator);
+            }
+
+            if (distanceFromTarget > enemyManager.maximumAttackRange)
+            {
+                return pursueTargetState;
             }
 
             if (willDoComboOnNextAttack)

@@ -43,10 +43,12 @@ public partial class PlayerControl : MonoBehaviour
             )
             {
                 GotHit = true;
-                if(mchealth.currentHealth<=0){
-                    animator.Play("die",0,0);
-                }else
-                animator.Play("GotHit", 0, 0);
+                if (mchealth.currentHealth <= 0)
+                {
+                    animator.Play("die", 0, 0);
+                }
+                else
+                    animator.Play("GotHit", 0, 0);
                 int randomIndex = Random.Range(0, hurtsound.Length);
                 GameObject humansfx = Instantiate(hurtsound[randomIndex]);
             }

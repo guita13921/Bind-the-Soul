@@ -32,7 +32,7 @@ namespace SG
                 return rotateTowardTargetState;
             }
 
-            if (enemyManager.hasShield && enemyManager.isBlocking == false)
+            if (enemyManager.hasShield && enemyManager.isBlocking == false && !enemyManager.isInterActing)
             {
                 enemyAnimatorManager.PlayTargetAnimation("StartBlock", false);
                 enemyManager.isBlocking = true;

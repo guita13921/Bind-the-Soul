@@ -10,7 +10,7 @@ namespace SG
         [SerializeField] EnemyAnimatorManager enemyAnimatorManager;
         [SerializeField] EnemyWeaponSlotManager enemyWeaponSlotManager;
         BoxCollider blockingCollider;
-        EnemySoundManager enemySoundManager;
+        CharacterSoundFXManager characterSoundFXManager;
 
         [Header("PlayerShield")]
         public float blockingColliderDamageAbsorption; // Using Both Player/Enemy
@@ -32,7 +32,7 @@ namespace SG
         private void Awake()
         {
             //enemyAnimatorManager = GetComponentInParent<EnemyAnimatorManager>();
-            enemySoundManager = GetComponentInParent<EnemySoundManager>();
+            characterSoundFXManager = GetComponentInParent<CharacterSoundFXManager>();
             enemyManager = GetComponentInParent<EnemyManager>();
             blockingCollider = GetComponent<BoxCollider>();
         }
@@ -95,7 +95,9 @@ namespace SG
             enemyManager.hasShield = false;
             enemyManager.isBlocking = false;
             enemyManager.isStunning = true;
-            enemySoundManager.PlayShielBreakSounds();
+
+            characterSoundFXManager.PlayRandomShielBreakSoundFX();
+
             enemyManager.currentStunningTime = enemyManager.stunningTime;
             enemyWeaponSlotManager.ShieldBreak();
             enemyAnimatorManager.PlayTargetAnimation("Start Stun", true);

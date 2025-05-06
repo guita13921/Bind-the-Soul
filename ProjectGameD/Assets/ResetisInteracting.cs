@@ -10,6 +10,8 @@ public class ResetisInteracting : StateMachineBehaviour
     animator.SetBool("isInteracting", false);
     animator.SetBool("IsBlocking", false);
     animator.SetBool("IsInvulnerable", false);
+    animator.SetBool("IsUsingRightHand", false);
+    animator.SetBool("IsUsingLefthand", false);
   }
 
 }

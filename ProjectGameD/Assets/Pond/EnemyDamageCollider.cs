@@ -3,20 +3,17 @@ using UnityEngine;
 
 namespace SG
 {
-    public class EnemyDamageCollider : MonoBehaviour
+    public class EnemyDamageCollider : DamageCollider
     {
-        public int currentDamageWeapon;
         public LayerMask damageableLayers;
-
-        private Collider damageCollider;
         private EnemyManager enemyManager;
-        private EnemySoundManager enemySoundManager;
 
         // 🛑 Track who has already been hit
         private HashSet<Collider> hitTargets = new HashSet<Collider>();
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             damageCollider = GetComponent<Collider>();
             damageCollider.isTrigger = true;
             damageCollider.enabled = false;
@@ -25,7 +22,7 @@ namespace SG
         private void Start()
         {
             enemyManager = GetComponentInParent<EnemyManager>();
-            enemySoundManager = GetComponentInParent<EnemySoundManager>();
+            characterSoundFXManager = GetComponentInParent<CharacterSoundFXManager>();
         }
 
         public void EnableDamageCollider()
@@ -62,10 +59,10 @@ namespace SG
 
                 if (playerManager.isParrying)
                 {
-                    enemySoundManager?.PlayPariedSounds();
+                    characterSoundFXManager?.PlayPariedSounds();
                     var animMgr = enemyManager?.GetComponentInChildren<EnemyAnimatorManager>();
                     animMgr?.PlayTargetAnimation("Start Stun", true);
-                    animMgr?.animator.SetBool("isBlocking", false);
+                    animMgr?.animator.SetBool("IsBlocking", false);
 
                     if (enemyManager != null)
                     {

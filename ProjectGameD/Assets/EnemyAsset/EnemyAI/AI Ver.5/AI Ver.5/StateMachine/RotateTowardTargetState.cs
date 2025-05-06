@@ -24,22 +24,22 @@ namespace SG
                 return this;
             }
 
-            if (viewableAngle >= 100 && viewableAngle <= 180 && !enemyManager.isInterActing)
+            if (viewableAngle >= 100 && viewableAngle <= 180 && !enemyManager.isInterActing && !enemyManager.isAttacking)
             {
                 enemyAnimatorManager.PlayTargetAnimationWithRootRotation("Turn Behide", true);
                 return combatStanceState;
             }
-            else if (viewableAngle <= -101 && viewableAngle >= -180 && !enemyManager.isInterActing)
+            else if (viewableAngle <= -101 && viewableAngle >= -180 && !enemyManager.isInterActing && !enemyManager.isAttacking)
             {
                 enemyAnimatorManager.PlayTargetAnimationWithRootRotation("Turn Behide", true);
                 return combatStanceState;
             }
-            else if (viewableAngle <= -45 && viewableAngle <= -100 && !enemyManager.isInterActing)
+            else if (viewableAngle <= -45 && viewableAngle <= -100 && !enemyManager.isInterActing && !enemyManager.isAttacking)
             {
                 enemyAnimatorManager.PlayTargetAnimationWithRootRotation("Turn Right", true);
                 return combatStanceState;
             }
-            else if (viewableAngle >= 45 && viewableAngle <= 100 && !enemyManager.isInterActing)
+            else if (viewableAngle >= 45 && viewableAngle <= 100 && !enemyManager.isInterActing && !enemyManager.isAttacking)
             {
                 enemyAnimatorManager.PlayTargetAnimationWithRootRotation("Turn Left", true);
                 return combatStanceState;

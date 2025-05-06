@@ -6,6 +6,11 @@ namespace SG
 {
     public class CharacterManager : MonoBehaviour
     {
+        public CharacterSoundFXManager characterSoundFXManager;
+        public EnemyWeaponSlotManager enemyWeaponSlotManager;
+        public WeaponSlotManager weaponSlotManager;
+        public CharacterCombatManager characterCombatManager;
+
         [Header("Lock On Transform")]
         public Transform lockOnTransform;
 
@@ -38,5 +43,13 @@ namespace SG
         //Damage will be inflicted during an animation event
         //Used in backstab or riposte animations
         public int pendingCriticalDamage;
+
+        protected virtual void Awake()
+        {
+            characterCombatManager = GetComponentInChildren<CharacterCombatManager>();
+            characterSoundFXManager = GetComponent<CharacterSoundFXManager>();
+            enemyWeaponSlotManager = GetComponent<EnemyWeaponSlotManager>();
+            weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
+        }
     }
 }

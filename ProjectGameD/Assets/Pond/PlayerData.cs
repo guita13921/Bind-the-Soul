@@ -5,6 +5,7 @@ namespace SG
 {
 
     [CreateAssetMenu(fileName = "New PlayerData", menuName = "ScriptableObjects/PlayerData", order = 1)]
+
     public class PlayerData : ScriptableObject
     {
         [Header("Health Stats")]

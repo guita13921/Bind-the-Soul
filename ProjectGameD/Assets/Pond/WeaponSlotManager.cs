@@ -11,6 +11,10 @@ namespace SG
         PlayerManager playerManager;
         AnimatorHander animatorHander;
         Animator animator;
+        QuickSlotUI quickSlotUI;
+        PlayerStats playerStats;
+        InputHander inputHander;
+        [SerializeField] CharacterSoundFXManager characterSoundFXManager;
 
         [SerializeField] public WeaponItem attackingWeapon;
 
@@ -21,10 +25,6 @@ namespace SG
         [SerializeField] public PlayerDamageCollider leftHandDamgeCollider;
         [SerializeField] public PlayerDamageCollider righthandDamgeCollider;
 
-        QuickSlotUI quickSlotUI;
-        [SerializeField] PlayerStats playerStats;
-        InputHander inputHander;
-        PlayerSoundManager playerSoundManager;
 
         private void Awake()
         {
@@ -35,7 +35,7 @@ namespace SG
             playerStats = GetComponentInParent<PlayerStats>();
             inputHander = GetComponentInParent<InputHander>();
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
-            playerSoundManager = GetComponentInParent<PlayerSoundManager>();
+            characterSoundFXManager = GetComponentInParent<CharacterSoundFXManager>();
 
             foreach (WeaponHolderSlot weponslot in weaponHolderSlots)
             {
@@ -101,19 +101,20 @@ namespace SG
         private void LoadRightWeaponDamageCollider()
         {
             righthandDamgeCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<PlayerDamageCollider>();
+
             //righthandDamgeCollider.currentDamageWeapon = attackingWeapon.damage;
         }
 
         public void OpenRightDamageCollider()
         {
             if (righthandDamgeCollider != null) righthandDamgeCollider.EnableDamageCollider();
-            PlaySoundbyTypeWeapon(attackingWeapon);
+            characterSoundFXManager.PlayRandomWeaponWhooshesSoundFX();
         }
 
         public void OpenLeftDamageCollider()
         {
             if (leftHandDamgeCollider != null) leftHandDamgeCollider.EnableDamageCollider();
-            PlaySoundbyTypeWeapon(attackingWeapon);
+            //PlaySoundbyTypeWeapon(attackingWeapon);
         }
 
         public void CloseRightHandDamgeCollider()
@@ -153,12 +154,15 @@ namespace SG
             if (attackingWeapon != null)
                 playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.lightAttackMultiplier));
 
+            animatorHander.anim.SetBool("IsUsingRightHand", true);
         }
 
         public void DrainStaminaHeavyAttack()
         {
             if (attackingWeapon != null)
                 playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));
+
+            animatorHander.anim.SetBool("IsUsingRightHand", true);
         }
 
         public void DrainStaminaParrying()
@@ -169,24 +173,6 @@ namespace SG
 
         #endregion
 
-        public void PlaySoundbyTypeWeapon(WeaponItem weapon)
-        {
-            if (weapon != null)
-            {
-                if (weapon.weaponType == WeaponType.StrightSword)
-                {
-                    playerSoundManager.PlayAttackSWordSound();
-                }
-                if (weapon.weaponType == WeaponType.Hammer)
-                {
-                    playerSoundManager.PlayAttackHammerSound();
-                }
-                if (weapon.weaponType == WeaponType.Dagger)
-                {
-                    playerSoundManager.PlayAttackDaggerSound();
-                }
-            }
-        }
     }
 }
 

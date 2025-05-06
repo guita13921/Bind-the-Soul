@@ -9,7 +9,6 @@ namespace SG
     {
         [SerializeField] EnemyLocomotionManager enemyLocomotionManager;
         [SerializeField] EnemyAnimatorManager enemyAnimationManager;
-        [SerializeField] EnemyWeaponSlotManager enemyWeaponSlotManager;
         EnemyStat enemyStat;
 
         [Header("State")]
@@ -39,13 +38,15 @@ namespace SG
         public float comboLikelyHood;
         public bool isPhaseShifting;
         public bool isStunning;
+        public bool isAttacking;
 
         [Header("Spawn Settings")]
         [SerializeField] private GameObject spawnVFXPrefab; // 👈 Assign your spawn VFX prefab here
 
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             enemyLocomotionManager = GetComponent<EnemyLocomotionManager>();
             enemyAnimationManager = GetComponentInChildren<EnemyAnimatorManager>();
             enemyStat = GetComponent<EnemyStat>();
@@ -78,6 +79,7 @@ namespace SG
             isFiringSpell = enemyAnimationManager.animator.GetBool("isFiringSpell");
             canRotate = enemyAnimationManager.animator.GetBool("canRotate");
             CanDoCombo = enemyAnimationManager.animator.GetBool("canDoCombo");
+            isAttacking = enemyAnimationManager.animator.GetBool("isAttacking");
 
             enemyAnimationManager.animator.SetBool("isDead", enemyStat.isDead);
             enemyAnimationManager.animator.SetBool("IsBlocking", isBlocking);

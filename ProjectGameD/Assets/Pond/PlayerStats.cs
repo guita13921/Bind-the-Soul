@@ -14,7 +14,7 @@ namespace SG
         AnimatorHander animatorHander;
         PowerUpManager powerUpManager;
         PlayerManager playerManager;
-        PlayerSoundManager playerSoundManager;
+        CharacterSoundFXManager characterSoundFXManager;
         public HealthBar healthBar;
         public StaminaBar staminaBar;
 
@@ -34,7 +34,7 @@ namespace SG
             healthBar = FindObjectOfType<HealthBar>();
             staminaBar = FindObjectOfType<StaminaBar>();
             animatorHander = GetComponentInChildren<AnimatorHander>();
-            playerSoundManager = GetComponentInParent<PlayerSoundManager>();
+            characterSoundFXManager = GetComponentInParent<CharacterSoundFXManager>();
         }
 
         void Start()
@@ -89,7 +89,9 @@ namespace SG
             if (currentHealth <= 0)
             {
                 currentHealth = 0;
-                playerSoundManager.PlayDeathSound();
+
+                characterSoundFXManager.PlayDeathSound();
+
                 animatorHander.PlayTargetAnimation("Dead_01", true);
                 isDead = true;
                 HandledeathLocomotion();
@@ -99,12 +101,12 @@ namespace SG
                 if (damageAnimation == "Block Guard")
                 {
                     animatorHander.PlayTargetAnimation(damageAnimation, false);
-                    if (playerSoundManager != null) playerSoundManager.PlayShieldHitSounds();
+                    if (characterSoundFXManager != null) characterSoundFXManager.PlayRandomShielHitSoundFX();
                 }
                 else
                 {
                     animatorHander.PlayTargetAnimation(damageAnimation, true);
-                    if (playerSoundManager != null) playerSoundManager.PlayDamageSound();
+                    if (characterSoundFXManager != null) characterSoundFXManager.PlayRandomDamageSoundFX();
                 }
             }
         }
@@ -148,6 +150,7 @@ namespace SG
                 playerData.currentStamina = currentStamina;
             }
         }
+
         public void HandledeathLocomotion()
         {
             animatorHander.anim.SetFloat("Vertical", 0);
