@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SG
@@ -10,6 +11,9 @@ namespace SG
         private Collider damageCollider;
         private EnemyManager enemyManager;
         private EnemySoundManager enemySoundManager;
+
+        // 🛑 Track who has already been hit
+        private HashSet<Collider> hitTargets = new HashSet<Collider>();
 
         private void Awake()
         {
@@ -24,23 +28,37 @@ namespace SG
             enemySoundManager = GetComponentInParent<EnemySoundManager>();
         }
 
-        public void EnableDamageCollider() => damageCollider.enabled = true;
-        public void DisableDamageCollider() => damageCollider.enabled = false;
+        public void EnableDamageCollider()
+        {
+            hitTargets.Clear(); // Reset hit list each time a new attack starts
+            damageCollider.enabled = true;
+        }
+
+        public void DisableDamageCollider()
+        {
+            damageCollider.enabled = false;
+        }
 
         private void OnTriggerEnter(Collider collider)
         {
-            // Ignore if not in the allowed layer mask
             if ((damageableLayers.value & (1 << collider.gameObject.layer)) == 0)
                 return;
 
-            // Player hit
+            // 🚫 Already hit this object
+            if (hitTargets.Contains(collider))
+                return;
+
+            hitTargets.Add(collider); // ✅ Mark as hit
+
+            // 🎯 Player
             if (collider.CompareTag("Player"))
             {
                 PlayerStats playerStats = collider.GetComponent<PlayerStats>();
                 PlayerManager playerManager = collider.GetComponent<PlayerManager>();
                 BlockingColliderPlayer shield = collider.transform.GetComponentInChildren<BlockingColliderPlayer>();
 
-                if (playerManager == null || playerManager.isInvulerable) return;
+                if (playerManager == null || playerManager.isInvulerable)
+                    return;
 
                 if (playerManager.isParrying)
                 {
@@ -61,22 +79,19 @@ namespace SG
 
                 if (shield != null && playerManager.isBlocking)
                 {
-                    float damageBlocked = currentDamageWeapon * shield.blockingColliderDamageAbsorption / 100f;
-                    float damageAfterBlock = currentDamageWeapon - damageBlocked;
+                    float blocked = currentDamageWeapon * shield.blockingColliderDamageAbsorption / 100f;
+                    float finalDamage = currentDamageWeapon - blocked;
 
-                    // Apply health damage
-                    playerStats?.TakeDamage(Mathf.RoundToInt(damageAfterBlock), "Block Guard");
+                    playerStats?.TakeDamage(Mathf.RoundToInt(finalDamage), "Block Guard");
 
-                    // Apply stamina damage based on weapon damage and shield modifier
                     int staminaDamage = Mathf.RoundToInt(currentDamageWeapon * shield.staminaDamageModifier / 100);
                     playerStats?.TakeStaminaDamage(staminaDamage);
 
-                    var enemyAnimator = enemyManager?.GetComponentInChildren<EnemyAnimatorManager>();
-                    if (enemyAnimator != null)
+                    var animMgr = enemyManager?.GetComponentInChildren<EnemyAnimatorManager>();
+                    if (animMgr != null)
                     {
-                        int randomIndex = Random.Range(1, 6);
-                        string recoilAnim = $"AttackRecoil_0{randomIndex}";
-                        enemyAnimator.PlayRecoilAnimation(recoilAnim);
+                        string recoilAnim = $"AttackRecoil_0{Random.Range(1, 6)}";
+                        animMgr.PlayRecoilAnimation(recoilAnim);
                     }
 
                     return;
@@ -86,15 +101,15 @@ namespace SG
                 return;
             }
 
-            // Enemy hit (friendly fire allowed via LayerMask)
+            // 🧟 Enemy (friendly fire)
             if (collider.CompareTag("Enemy"))
             {
+                if (collider.GetComponent<EnemyManager>() == enemyManager)
+                    return; // Prevent self-hit
+
                 EnemyStat enemyStat = collider.GetComponent<EnemyStat>();
                 EnemyManager targetEnemyManager = collider.GetComponent<EnemyManager>();
-                BlockingCollider shield = collider.transform.GetComponentInChildren<BlockingCollider>();
-
-                if (targetEnemyManager == enemyManager)
-                    return; // Don't hit self
+                BlockingCollider shield = collider.GetComponentInChildren<BlockingCollider>();
 
                 if (targetEnemyManager != null && targetEnemyManager.isBlocking && shield != null)
                 {
@@ -114,8 +129,6 @@ namespace SG
                         enemyStat.TakeDamage(currentDamageWeapon);
                 }
             }
-
         }
-
     }
 }

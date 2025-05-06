@@ -74,11 +74,12 @@ namespace SG
 
         public void HandleLTAction() //Parry
         {
-            if (playerInventory.rightWeapon.weaponType == WeaponType.Shield)
+            if (playerInventory.leftWeapon.weaponType == WeaponType.Shield)
             {
+                Debug.Log(playerInventory.leftWeapon.weaponType);
                 PerformLTWeaponArt(inputHander.twohandflag);
             }
-            else if (playerInventory.rightWeapon.weaponType == WeaponType.StrightSword)
+            else if (playerInventory.leftWeapon.weaponType == WeaponType.StrightSword)
             {
 
             }
@@ -109,10 +110,20 @@ namespace SG
 
                 if (lastAttack == OH_Light_Attack_2)
                 {
-                    animatorHander.anim.SetBool("CanDoCombo", false);
-                    animatorHander.PlayTargetAnimation(OH_Light_Attack_3, true);
-                    lastAttack_current = OH_Light_Attack_3;
-                    StartCoroutine(HandleLightLastAttack(lastAttack_current));
+                    if (weaponSlotManager.attackingWeapon.weaponType == WeaponType.Hammer)
+                    {
+                        animatorHander.anim.SetBool("CanDoCombo", false);
+                        animatorHander.PlayTargetAnimation(OH_Light_Attack_1, true);
+                        lastAttack_current = OH_Light_Attack_1;
+                        StartCoroutine(HandleLightLastAttack(lastAttack_current));
+                    }
+                    else
+                    {
+                        animatorHander.anim.SetBool("CanDoCombo", false);
+                        animatorHander.PlayTargetAnimation(OH_Light_Attack_3, true);
+                        lastAttack_current = OH_Light_Attack_3;
+                        StartCoroutine(HandleLightLastAttack(lastAttack_current));
+                    }
                 }
 
                 if (lastAttack == OH_Light_Attack_3)
@@ -233,14 +244,8 @@ namespace SG
         {
             if (playerManager.isInteracting)
                 return;
-            if (isTwoHanding)
-            {
 
-            }
-            else
-            {
-                animatorHander.PlayTargetAnimation(weapon_art, true);
-            }
+            animatorHander.PlayTargetAnimation(weapon_art, true);
         }
 
         private void PerformALMagicAction(WeaponItem weapon)

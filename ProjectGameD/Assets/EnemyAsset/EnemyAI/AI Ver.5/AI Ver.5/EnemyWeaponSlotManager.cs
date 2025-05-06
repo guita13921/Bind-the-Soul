@@ -60,8 +60,6 @@ namespace SG
         {
             if (isLeft)
             {
-                Debug.Log(weapon);
-
                 if (weapon.weaponType == WeaponType.Shield)
                 {
                     enemyManager.hasShield = true;

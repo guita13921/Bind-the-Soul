@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SG
@@ -7,6 +8,9 @@ namespace SG
         public int currentDamageWeapon;
         private Collider damageCollider;
 
+        // 🔐 Enemies hit this activation
+        private HashSet<Collider> enemiesHitThisAttack = new HashSet<Collider>();
+
         private void Awake()
         {
             damageCollider = GetComponent<Collider>();
@@ -15,12 +19,26 @@ namespace SG
             damageCollider.enabled = false;
         }
 
-        public void EnableDamageCollider() => damageCollider.enabled = true;
-        public void DisableDamageCollider() => damageCollider.enabled = false;
+        public void EnableDamageCollider()
+        {
+            enemiesHitThisAttack.Clear(); // Reset for new attack
+            damageCollider.enabled = true;
+        }
+
+        public void DisableDamageCollider()
+        {
+            damageCollider.enabled = false;
+        }
 
         private void OnTriggerEnter(Collider collider)
         {
-            if (!collider.CompareTag("Enemy")) return;
+            if (!collider.CompareTag("Enemy"))
+                return;
+
+            if (enemiesHitThisAttack.Contains(collider))
+                return; // Already hit this enemy in this attack
+
+            enemiesHitThisAttack.Add(collider);
 
             EnemyStat enemyStat = collider.GetComponent<EnemyStat>();
             EnemyManager enemyManager = collider.GetComponent<EnemyManager>();

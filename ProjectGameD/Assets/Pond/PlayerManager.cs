@@ -73,6 +73,7 @@ namespace SG
                 cameraHandler.HandleCameraRotation(delta, inputHander.mouseX, inputHander.mouseY);
             }
         }
+
         private void LateUpdate()
         {
             inputHander.rollFlag = false;
@@ -86,7 +87,6 @@ namespace SG
             inputHander.k_Right = false;
             inputHander.k_Left = false;
             inputHander.a_Input = false;
-            //Debug.Log(inputHander.b_Input);
         }
 
         public void CheckForInteractableObjiect()

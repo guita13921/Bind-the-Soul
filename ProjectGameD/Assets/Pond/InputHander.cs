@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using SG;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class InputHander : MonoBehaviour
@@ -139,7 +135,6 @@ public class InputHander : MonoBehaviour
 
     private void HandleRollinput(float delta)
     {
-
         if (b_Input)
         {
             if (rollInputTimer > 0 && playerStats.currentStamina > 0)
@@ -151,13 +146,13 @@ public class InputHander : MonoBehaviour
                 rollFlag = false;
             }
 
-            // Reset
             rollInputTimer = 0;
             b_Input = false;
-
             return;
         }
+
         rollInputTimer += delta;
+
         if (playerStats.currentStamina <= 0)
         {
             rollFlag = false;
@@ -238,7 +233,7 @@ public class InputHander : MonoBehaviour
                 blockingColliderPlayer.DisableBlockingCollider();
             }
         }
-        /*
+
         if (Lt_Input)
         {
             if (twohandflag)
@@ -250,7 +245,7 @@ public class InputHander : MonoBehaviour
                 playerAttack.HandleLTAction();
             }
         }
-        */
+
 
     }
 

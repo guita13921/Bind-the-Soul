@@ -67,20 +67,17 @@ namespace SG
             {
                 if (inputHander.sprintFlag || inputHander.rollFlag)
                 {
-                    Vector3 targetDirection = Vector3.zero;
-                    targetDirection = cameraHandler.cameraTransform.forward * inputHander.vertical;
+                    Vector3 targetDirection = cameraHandler.cameraTransform.forward * inputHander.vertical;
                     targetDirection += cameraHandler.cameraTransform.right * inputHander.horizontal;
-                    targetDirection.Normalize();
                     targetDirection.y = 0;
 
-                    if (targetDirection == Vector3.zero)
+                    if (targetDirection.sqrMagnitude == 0)
                     {
                         targetDirection = transform.forward;
                     }
 
                     Quaternion tr = Quaternion.LookRotation(targetDirection);
                     Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, rotationSpeed * Time.deltaTime);
-
                     transform.rotation = targetRotation;
                 }
                 else
@@ -88,7 +85,7 @@ namespace SG
                     if (cameraHandler.currentLockOnTarget == null || !cameraHandler.currentLockOnTarget.gameObject.activeInHierarchy)
                         return;
 
-                    Vector3 rotationDirection = cameraHandler.currentLockOnTarget.position - transform.position;
+                    Vector3 rotationDirection = cameraHandler.currentLockOnTarget.transform.position - transform.position;
                     rotationDirection.y = 0;
                     rotationDirection.Normalize();
                     Quaternion tr = Quaternion.LookRotation(rotationDirection);
@@ -117,9 +114,6 @@ namespace SG
 
         public void HandleMovement(float delta)
         {
-            if (inputHander.rollFlag)
-                return;
-
             moveDirection = cameraObject.forward * inputHander.vertical;
             moveDirection += cameraObject.right * inputHander.horizontal;
             moveDirection.Normalize();
@@ -138,7 +132,6 @@ namespace SG
                 {
                     sprintStaminaTimer = 0f;
                     playerStats.TakeStaminaDamage((int)sprintStaminaCost);
-                    //                    Debug.Log("running");
                 }
             }
 
@@ -166,6 +159,7 @@ namespace SG
                 return;
             if (playerStats.currentStamina <= 0)
                 return;
+
             if (inputHander.rollFlag)
             {
                 moveDirection = cameraObject.forward * inputHander.vertical;
