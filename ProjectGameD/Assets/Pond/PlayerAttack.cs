@@ -75,8 +75,8 @@ namespace SG
         {
             if (playerInventory.leftWeapon.weaponType == WeaponType.Shield)
             {
-                Debug.Log(playerInventory.leftWeapon.weaponType);
-                PerformLTWeaponArt(inputHander.twohandflag);
+                //Debug.Log(playerInventory.leftWeapon.weaponType);
+                PerformLTWeaponArt(playerInventory.leftWeapon);
             }
             else if (playerInventory.leftWeapon.weaponType == WeaponType.StrightSword)
             {
@@ -160,28 +160,6 @@ namespace SG
                 float damage = weapon.damage;
                 weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
 
-                /*
-                float damage = weapon.damage * weapon.lightAttackDamageMultiplier;
-
-                // Add flat damage AFTER multipliers
-                damage += playerStats.flatDamageBonus;
-
-                // Blood Pact boost
-                if (playerStats.playerData.bloodPactDamageModify)
-                {
-                    damage *= 1.2f;
-                }
-
-                // Momentum boost
-                if (playerStats.playerData.momentumActive)
-                {
-                    damage *= 1.15f;
-                }
-
-                weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
-                */
-
-
                 if (playerManager.isBlocking)
                 {
                     animatorHander.PlayTargetAnimation(OH_Shield_Attack_1, true);
@@ -208,25 +186,6 @@ namespace SG
             {
                 float damage = weapon.damage;
                 weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
-
-
-                /*
-                float damage = weapon.damage * weapon.heavyAttackDamageMultiplier;
-
-                // Add flat damage AFTER multipliers
-                damage += playerStats.flatDamageBonus;
-
-                // Apply Blood Pact 20% damage increase if active
-                if (playerStats.playerData.bloodPactDamageModify)
-                {
-                    damage *= 1.2f;
-                }
-
-                if (playerStats.playerData.momentumActive)
-                {
-                    damage *= 1.15f;
-                }
-                */
 
                 animatorHander.PlayTargetAnimation(OH_Heavy_Attack_1, true);
                 lastAttack = OH_Heavy_Attack_1;
@@ -256,12 +215,22 @@ namespace SG
             }
         }
 
-        private void PerformLTWeaponArt(bool isTwoHanding)
+        private void PerformLTWeaponArt(WeaponItem weapon)
         {
             if (playerManager.isInteracting)
                 return;
 
-            animatorHander.PlayTargetAnimation(weapon_art, true);
+            weaponSlotManager.attackingWeapon = weapon;
+
+            if (weaponSlotManager.attackingWeapon != null)
+            {
+                float damage = weapon.damage;
+
+                if (weaponSlotManager.leftHandDamgeCollider != null)
+                    weaponSlotManager.leftHandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
+
+                animatorHander.PlayTargetAnimation(weapon_art, true);
+            }
         }
 
         private void PerformALMagicAction(WeaponItem weapon)

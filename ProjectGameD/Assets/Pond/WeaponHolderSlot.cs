@@ -16,6 +16,7 @@ namespace SG
 
         public bool currentWeapon;
         public GameObject currentWeaponModel;
+        public WeaponItem currentWeaponItem;
 
         public void UnloadWeapon()
         {
@@ -89,6 +90,7 @@ namespace SG
             }
 
             currentWeaponModel = model;
+            currentWeaponItem = weaponItem;
         }
     }
 }

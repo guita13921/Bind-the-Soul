@@ -164,23 +164,47 @@ namespace SG
             {
                 moveDirection = cameraObject.forward * inputHander.vertical;
                 moveDirection += cameraObject.right * inputHander.horizontal;
-                if (inputHander.moveAmount > 0)
+
+                if (playerManager.weaponSlotManager.rightHandSlot.currentWeaponItem.stantType == StantType.Medium)
                 {
-                    animatorHander.PlayTargetAnimation("Roll", true);
-                    moveDirection.y = 0;
-                    Quaternion rollRotaion = Quaternion.LookRotation(moveDirection);
-                    myTransform.rotation = rollRotaion;
-                    playerStats.TakeStaminaDamage(rollStaminaCost);
-                    animatorHander.anim.SetBool("IsInvulnerable", true);
+                    Roll(0.50f);
+                }
+                else if (playerManager.weaponSlotManager.rightHandSlot.currentWeaponItem.stantType == StantType.Heavy)
+                {
+                    Roll(0.80f);
+                }
+                else if (playerManager.weaponSlotManager.rightHandSlot.currentWeaponItem.stantType == StantType.Light)
+                {
+                    Roll(1.00f);
                 }
                 else
                 {
-                    animatorHander.PlayTargetAnimation("Back Step", true);
-                    playerStats.TakeStaminaDamage(backstepStaminaCost);
-                    animatorHander.anim.SetBool("IsInvulnerable", true);
+                    Roll(1.00f);
                 }
             }
+
         }
+
+
+        public void Roll(float speed)
+        {
+            if (inputHander.moveAmount > 0)
+            {
+                animatorHander.PlayTargetAnimation("Roll", true, false, speed);
+                moveDirection.y = 0;
+                Quaternion rollRotaion = Quaternion.LookRotation(moveDirection);
+                myTransform.rotation = rollRotaion;
+                playerStats.TakeStaminaDamage(rollStaminaCost);
+                animatorHander.anim.SetBool("IsInvulnerable", true);
+            }
+            else
+            {
+                animatorHander.PlayTargetAnimation("Back Step", true, false, speed);
+                playerStats.TakeStaminaDamage(backstepStaminaCost);
+                animatorHander.anim.SetBool("IsInvulnerable", true);
+            }
+        }
+
         #endregion
     }
 }

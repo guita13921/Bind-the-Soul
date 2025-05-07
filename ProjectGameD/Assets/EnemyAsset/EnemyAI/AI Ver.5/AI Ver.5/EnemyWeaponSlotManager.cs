@@ -65,6 +65,7 @@ namespace SG
                     enemyManager.hasShield = true;
                     Shield.SetShieldHealth(weapon);
                     uIEnemyShieldBar.SetMaxShield(weapon.ShieldPoint);
+                    uIEnemyShieldBar.SetMaxShieldRegen(weapon.ShieldPoint);
                 }
             }
         }

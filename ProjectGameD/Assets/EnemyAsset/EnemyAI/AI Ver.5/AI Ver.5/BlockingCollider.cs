@@ -19,7 +19,7 @@ namespace SG
         [Header("EnemyShield")]
         public bool isActive = true;
         public int blockingColliderShieldPoint;
-        public int maxShieldPoint;
+        public int blockingColliderMaxShieldPoint;
         public float shieldRegenDelay; // Time before regen starts
         public float shieldRegenRate; // Time between each shield point regen
         public int shieldRegenAmount; // Amount of shield points restored per tick
@@ -56,7 +56,7 @@ namespace SG
             if (weapon != null && weapon.weaponType == WeaponType.Shield)
             {
                 blockingColliderShieldPoint = weapon.ShieldPoint;
-                maxShieldPoint = weapon.ShieldPoint;
+                blockingColliderMaxShieldPoint = weapon.ShieldPoint;
             }
         }
 
@@ -70,7 +70,7 @@ namespace SG
                 GuardBreak();
             }
 
-            lastAttackTime = Time.time; // Reset the regen timer when taking damage
+            lastAttackTime = Time.time;
 
             if (regenCoroutine != null)
             {
@@ -78,6 +78,32 @@ namespace SG
                 regenCoroutine = null;
             }
         }
+
+        public void GetBlockedMaxShieldPoint(int damage)
+        {
+            blockingColliderMaxShieldPoint -= damage;
+            blockingColliderMaxShieldPoint = Mathf.Max(0, blockingColliderMaxShieldPoint);
+
+            // Clamp current shield to new max
+            blockingColliderShieldPoint = Mathf.Min(blockingColliderShieldPoint, blockingColliderMaxShieldPoint);
+
+            if (blockingColliderShieldPoint <= 0 && isActive)
+            {
+                GuardBreak();
+            }
+
+            lastAttackTime = Time.time;
+
+            if (regenCoroutine != null)
+            {
+                StopCoroutine(regenCoroutine);
+                regenCoroutine = null;
+            }
+
+            uIEnemyShieldBar.SetCurrentShieldRegen(blockingColliderShieldPoint);
+        }
+
+
 
         public void EnableBlockingCollider()
         {
@@ -106,10 +132,10 @@ namespace SG
 
         private IEnumerator RegenerateShield()
         {
-            while (blockingColliderShieldPoint < maxShieldPoint)
+            while (blockingColliderShieldPoint < blockingColliderMaxShieldPoint)
             {
                 blockingColliderShieldPoint += shieldRegenAmount;
-                blockingColliderShieldPoint = Mathf.Min(blockingColliderShieldPoint, maxShieldPoint); // Cap at max value
+                blockingColliderShieldPoint = Mathf.Min(blockingColliderShieldPoint, blockingColliderMaxShieldPoint); // Cap at max value
 
                 yield return new WaitForSeconds(shieldRegenRate);
             }

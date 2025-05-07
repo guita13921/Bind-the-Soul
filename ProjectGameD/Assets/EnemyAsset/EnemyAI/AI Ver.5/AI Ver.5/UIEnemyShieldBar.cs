@@ -8,37 +8,52 @@ namespace SG
 
     public class UIEnemyShieldBar : MonoBehaviour
     {
-        [SerializeField] private Slider slider;
+        [SerializeField] private Slider sliderFill;
+        [SerializeField] private Slider sliderRegen;
         float timeUntillBarHidden = 0;
         public Transform mainCamera;
 
-        private void Awake()
-        {
-            slider = GetComponentInChildren<Slider>();
-            //mainCamera = Camera.main.transform; // Get the main camera
-        }
 
         public void SetShield(int ShieldPoint)
         {
-            slider.value = ShieldPoint;
+            sliderFill.value = ShieldPoint;
             timeUntillBarHidden = 5;
+
+            sliderRegen.value = ShieldPoint;
         }
 
         public void SetCurrentShield(int currentShieldPoint)
         {
-            slider.value = currentShieldPoint;
+            sliderFill.value = currentShieldPoint;
         }
 
         public void SetMaxShield(int maxShieldPoint)
         {
-            if (slider == null)
+            if (sliderFill == null)
             {
                 Debug.LogError("Slider is null in SetMaxShield!");
                 return;
             }
 
-            slider.maxValue = maxShieldPoint;
-            slider.value = maxShieldPoint;
+            sliderFill.maxValue = maxShieldPoint;
+            sliderFill.value = maxShieldPoint;
+        }
+
+        public void SetCurrentShieldRegen(int currentShieldPoint)
+        {
+            sliderRegen.value = currentShieldPoint;
+        }
+
+        public void SetMaxShieldRegen(int maxShieldPoint)
+        {
+            if (sliderRegen == null)
+            {
+                Debug.LogError("Slider is null in SetMaxShield!");
+                return;
+            }
+
+            sliderRegen.maxValue = maxShieldPoint;
+            sliderRegen.value = maxShieldPoint;
         }
 
         private void Update()
@@ -51,24 +66,24 @@ namespace SG
 
             timeUntillBarHidden -= Time.deltaTime;
 
-            if (slider != null)
+            if (sliderFill != null)
             {
                 if (timeUntillBarHidden <= 0)
                 {
                     timeUntillBarHidden = 0;
-                    //slider.gameObject.SetActive(false);
+                    //sliderFill.gameObject.SetActive(false);
                 }
                 else
                 {
-                    if (!slider.gameObject.activeInHierarchy)
+                    if (!sliderFill.gameObject.activeInHierarchy)
                     {
-                        slider.gameObject.SetActive(true);
+                        sliderFill.gameObject.SetActive(true);
                     }
                 }
 
-                if (slider.value <= 0)
+                if (sliderFill.value <= 0)
                 {
-                    Destroy(slider.gameObject);
+                    Destroy(this.gameObject);
                 }
             }
         }

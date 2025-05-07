@@ -14,10 +14,10 @@ namespace SG
         QuickSlotUI quickSlotUI;
         PlayerStats playerStats;
         InputHander inputHander;
+
         [SerializeField] CharacterSoundFXManager characterSoundFXManager;
 
         [SerializeField] public WeaponItem attackingWeapon;
-
         [SerializeField] public WeaponHolderSlot leftHandSlot;
         [SerializeField] public WeaponHolderSlot rightHandSlot;
         WeaponHolderSlot backSlot;

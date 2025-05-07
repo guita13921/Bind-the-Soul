@@ -84,7 +84,7 @@ namespace SG
                 return;
             currentHealth -= damage;
             healthBar.SetCurrentHealth(currentHealth);
-            animatorHander.PlayTargetAnimation(damageAnimation, true);
+            animatorHander.PlayTargetAnimation(damageAnimation, true, false, 3.0f);
 
             if (currentHealth <= 0)
             {

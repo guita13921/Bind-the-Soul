@@ -42,7 +42,6 @@ namespace SG
             BlockingCollider shield = collider.transform.GetComponentInChildren<BlockingCollider>();
 
             CheckForBlock(enemyStat, enemyManager, shield);
-
             DealDamage(enemyStat);
         }
 
@@ -50,14 +49,44 @@ namespace SG
         {
             if (enemyManager != null && enemyManager.isBlocking && shield != null)
             {
-                float damageBlocked = currentDamageWeapon * shield.blockingColliderDamageAbsorption / 100f;
-                float damageAfterBlock = currentDamageWeapon - damageBlocked;
+                Debug.Log(characterManager.weaponSlotManager.attackingWeapon.stantType);
 
-                enemyStat?.TakeDamage(Mathf.RoundToInt(damageAfterBlock), "Block_Guard");
-                shield?.GetBlocked(Mathf.RoundToInt(currentDamageWeapon));
-                return;
+                if (characterManager.weaponSlotManager.attackingWeapon.stantType == StantType.Heavy)
+                {
+                    float damageBlocked = currentDamageWeapon * shield.blockingColliderDamageAbsorption / 100f;
+                    float damageAfterBlock = currentDamageWeapon - damageBlocked;
+
+                    enemyStat?.TakeDamage(Mathf.RoundToInt(damageAfterBlock), "Block_Guard");
+                    shield?.GetBlockedMaxShieldPoint(Mathf.RoundToInt(currentDamageWeapon * 1.25f)); return;
+                }
+                else if (characterManager.weaponSlotManager.attackingWeapon.stantType == StantType.Medium)
+                {
+                    float damageBlocked = currentDamageWeapon * shield.blockingColliderDamageAbsorption / 100f;
+                    float damageAfterBlock = currentDamageWeapon - damageBlocked;
+
+                    enemyStat?.TakeDamage(Mathf.RoundToInt(damageAfterBlock), "Block_Guard");
+                    shield?.GetBlocked(Mathf.RoundToInt(currentDamageWeapon * 0.8f));
+                    return;
+                }
+                else if (characterManager.weaponSlotManager.attackingWeapon.stantType == StantType.Light)
+                {
+                    float damageBlocked = currentDamageWeapon * shield.blockingColliderDamageAbsorption / 100f;
+                    float damageAfterBlock = currentDamageWeapon - damageBlocked;
+
+                    enemyStat?.TakeDamage(Mathf.RoundToInt(damageAfterBlock), "Block_Guard");
+                    shield?.GetBlocked(Mathf.RoundToInt(currentDamageWeapon * 0.5f));
+                    return;
+                }
+                else
+                {
+                    float damageBlocked = currentDamageWeapon * shield.blockingColliderDamageAbsorption / 100f;
+                    float damageAfterBlock = currentDamageWeapon - damageBlocked;
+
+                    enemyStat?.TakeDamage(Mathf.RoundToInt(damageAfterBlock), "Block_Guard");
+                    shield?.GetBlocked(Mathf.RoundToInt(currentDamageWeapon));
+                    return;
+                }
             }
-
 
         }
 
