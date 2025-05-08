@@ -294,7 +294,7 @@ namespace SG
                 if (enemyCharacterManger != null)
                 {
                     //CHECK FOR TEAM I.D (So you cant back stab friend or yourself ?)
-                    playerManager.isInvulerable = true;
+
                     playerManager.lockOnTransform.position = enemyCharacterManger.backStabCollider.CriticalDamageStandPosition.position;
 
                     Vector3 rotationDirection = playerManager.lockOnTransform.root.eulerAngles;
@@ -342,6 +342,45 @@ namespace SG
 
                     string riposteAnim = "Riposte0" + riposteIndex;
                     string ripostedAnim = "Riposted0" + riposteIndex;
+
+                    animatorHander.PlayTargetAnimation(riposteAnim, true);
+                    enemyCharacterManger.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation(ripostedAnim, true);
+                }
+            }
+        }
+
+        public void AttemptInstantRiposte()
+        {
+            RaycastHit hit;
+
+            if (Physics.Raycast(inputHander.CriticalAttackRayCastStartPoint.position, transform.TransformDirection(Vector3.forward), out hit, 0.7f, riposteLayer))
+            {
+                CharacterManager enemyCharacterManger = hit.transform.gameObject.GetComponentInParent<CharacterManager>();
+                PlayerDamageCollider rightWeapon = weaponSlotManager.righthandDamgeCollider;
+
+                if (enemyCharacterManger != null && enemyCharacterManger.canBeRiposted)
+                {
+                    playerManager.isInvulerable = true;
+                    playerManager.lockOnTransform.position = enemyCharacterManger.riposteCollider.CriticalDamageStandPosition.position;
+
+                    Vector3 rotationDirection = playerManager.lockOnTransform.root.eulerAngles;
+                    rotationDirection = hit.transform.position - playerManager.lockOnTransform.position;
+                    rotationDirection.y = 0;
+                    rotationDirection.Normalize();
+
+                    Quaternion tr = Quaternion.LookRotation(rotationDirection);
+                    Quaternion targetRotation = Quaternion.Slerp(playerManager.lockOnTransform.rotation, tr, 500 * Time.deltaTime);
+                    playerManager.lockOnTransform.rotation = targetRotation;
+
+                    int criticalDamage = playerInventory.rightWeapon.criticalDamageMultiple * rightWeapon.currentDamageWeapon;
+                    enemyCharacterManger.pendingCriticalDamage = criticalDamage;
+                    Debug.Log(criticalDamage);
+
+                    // 🎲 Randomized animation index
+                    int riposteIndex = UnityEngine.Random.Range(0, 4); // Generates 0 to 3
+
+                    string riposteAnim = "StandRiposte0" + riposteIndex;
+                    string ripostedAnim = "StandRiposted0" + riposteIndex;
 
                     animatorHander.PlayTargetAnimation(riposteAnim, true);
                     enemyCharacterManger.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation(ripostedAnim, true);

@@ -11,6 +11,7 @@ namespace SG
         PlayerLocomotion playerLocomotion;
         PlayerStats playerStats;
 
+        public PlayerAttack playerAttack;
         public PlayerData playerData;
         public bool isInteracting;
         public bool isInvulerable;

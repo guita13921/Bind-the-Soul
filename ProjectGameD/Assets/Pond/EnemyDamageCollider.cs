@@ -50,6 +50,8 @@ namespace SG
                 enemyManager.isBlocking = false;
                 enemyManager.isStunning = true;
                 enemyManager.currentStunningTime = enemyManager.stunningTime;
+
+                if (enemyManager.enemyStat.isBoss == false) playerManager.playerAttack.AttemptInstantRiposte(); //IstanceKillMinioun
             }
 
         }
