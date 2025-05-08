@@ -42,14 +42,12 @@ namespace SG
             BlockingCollider shield = collider.transform.GetComponentInChildren<BlockingCollider>();
 
             CheckForBlock(enemyStat, enemyManager, shield);
-            DealDamage(enemyStat);
         }
 
         protected virtual void CheckForBlock(EnemyStat enemyStat, EnemyManager enemyManager, BlockingCollider shield)
         {
             if (enemyManager != null && enemyManager.isBlocking && shield != null)
             {
-                Debug.Log(characterManager.weaponSlotManager.attackingWeapon.stantType);
 
                 if (characterManager.weaponSlotManager.attackingWeapon.stantType == StantType.Heavy)
                 {
@@ -57,7 +55,8 @@ namespace SG
                     float damageAfterBlock = currentDamageWeapon - damageBlocked;
 
                     enemyStat?.TakeDamage(Mathf.RoundToInt(damageAfterBlock), "Block_Guard");
-                    shield?.GetBlockedMaxShieldPoint(Mathf.RoundToInt(currentDamageWeapon * 1.25f)); return;
+                    shield?.GetBlockedMaxShieldPoint(Mathf.RoundToInt(currentDamageWeapon * 1.25f));
+                    return;
                 }
                 else if (characterManager.weaponSlotManager.attackingWeapon.stantType == StantType.Medium)
                 {
@@ -87,12 +86,15 @@ namespace SG
                     return;
                 }
             }
+            else
+            {
+                DealDamage(enemyStat, enemyManager, currentDamageWeapon);
+            }
 
         }
 
-        protected virtual void DealDamage(EnemyStat enemyStat)
+        protected virtual void DealDamage(EnemyStat enemyStat, EnemyManager enemyManager, float damage)
         {
-            float damage;
 
             if (characterManager.characterCombatManager.currentAttackType == AttackType.light)
             {
@@ -106,7 +108,7 @@ namespace SG
 
                 if (enemyStat != null)
                 {
-                    if (enemyStat.isBoss)
+                    if (enemyStat.isBoss || enemyManager.isStunning)
                         enemyStat.TakeDamageNoAnimation(currentDamage);
                     else
                         enemyStat.TakeDamage(currentDamage);
@@ -125,7 +127,7 @@ namespace SG
 
                 if (enemyStat != null)
                 {
-                    if (enemyStat.isBoss)
+                    if (enemyStat.isBoss || enemyManager.isStunning)
                         enemyStat.TakeDamageNoAnimation(currentDamage);
                     else
                         enemyStat.TakeDamage(currentDamage);

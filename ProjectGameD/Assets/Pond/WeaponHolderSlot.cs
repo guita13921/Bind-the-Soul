@@ -9,12 +9,15 @@ namespace SG
         public Transform shieldPositionOverride;
         public Transform daggerPositionOverride;
         public Transform SwordPositionOverride;
+        public Transform BackWeaponPositionOverride;
+        public WeaponItem currentWeapon;
 
         public bool isLeftHandSlot;
         public bool isRightHandSlot;
         public bool isShield;
+        public bool isBackSlot;
 
-        public bool currentWeapon;
+        //public bool currentWeapon;
         public GameObject currentWeaponModel;
         public WeaponItem currentWeaponItem;
 

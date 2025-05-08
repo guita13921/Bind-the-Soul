@@ -9,6 +9,7 @@ namespace SG
     public class AnimatorHander : MonoBehaviour
     {
         [SerializeField] private PlayerManager playerManager;
+        public CameraHandler cameraHandler;
         public Animator anim;
         private InputHander inputHander;
         private PlayerLocomotion playerLocomotion;
@@ -23,6 +24,7 @@ namespace SG
 
         void Awake()
         {
+            cameraHandler = FindObjectOfType<CameraHandler>();
             playerManager = GetComponentInParent<PlayerManager>();
             playerSoundManager = GetComponentInParent<CharacterSoundFXManager>();
             playerStats = GetComponentInParent<PlayerStats>();
@@ -104,6 +106,12 @@ namespace SG
             playerManager.isParrying = false;
         }
 
+        public void TakeCriticalDamageAnimationEvent()
+        {
+            playerStats.TakeDamage(playerManager.pendingCriticalDamage);
+            playerManager.pendingCriticalDamage = 0;
+        }
+
         private void OnAnimatorMove()
         {
             if (playerManager == null || playerManager.isInteracting == false) return;
@@ -126,6 +134,11 @@ namespace SG
             {
                 Debug.LogWarning("⚠️ Rigidbody ไม่พบใน PlayerLocomotion");
             }
+        }
+
+        public void SetDefaultCamera()
+        {
+            cameraHandler.SetDefaultTransform();
         }
     }
 }

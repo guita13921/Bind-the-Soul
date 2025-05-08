@@ -204,6 +204,11 @@ namespace SG
             }
         }
 
+        public void SetDefaultTransform()
+        {
+            playerManager.lockOnTransform.position = playerManager.DefaultlockOnTransform.position;
+        }
+
     }
 
 }

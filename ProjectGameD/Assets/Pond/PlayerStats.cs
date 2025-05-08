@@ -78,10 +78,12 @@ namespace SG
         public void TakeDamage(int damage, string damageAnimation = "Damage_01") // ✅ แก้ชื่อให้ตรง
         {
             CheckDamagePowerUp();
+
             if (playerManager.isInvulnerable)
                 return;
             if (isDead)
                 return;
+
             currentHealth -= damage;
             healthBar.SetCurrentHealth(currentHealth);
             animatorHander.PlayTargetAnimation(damageAnimation, true, false, 3.0f);

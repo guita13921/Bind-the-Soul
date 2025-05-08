@@ -9,7 +9,7 @@ namespace SG
     {
         [SerializeField] EnemyLocomotionManager enemyLocomotionManager;
         [SerializeField] EnemyAnimatorManager enemyAnimationManager;
-        EnemyStat enemyStat;
+        public EnemyStat enemyStat;
 
         [Header("State")]
         public State currentState;
@@ -51,7 +51,7 @@ namespace SG
             enemyAnimationManager = GetComponentInChildren<EnemyAnimatorManager>();
             enemyStat = GetComponent<EnemyStat>();
             enemyRigidBody = GetComponent<Rigidbody>();
-            backStabCollider = GetComponentInChildren<BackStabCollider>();
+            //backStabCollider = GetComponentInChildren<CriticalDamageCollider>();
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
             enemyWeaponSlotManager = GetComponentInChildren<EnemyWeaponSlotManager>();
 

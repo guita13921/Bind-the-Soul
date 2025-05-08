@@ -33,6 +33,7 @@ namespace SG
         private string lastAttack_current;
 
         LayerMask backStabLayer = 1 << 12;
+        LayerMask riposteLayer = 1 << 13;
         private void Awake()
         {
             animatorHander = GetComponent<AnimatorHander>();
@@ -154,6 +155,15 @@ namespace SG
 
             weaponSlotManager.attackingWeapon = weapon;
 
+            if (inputHander.twohandflag)
+            {
+
+            }
+            else
+            {
+
+            }
+
             if (weaponSlotManager.attackingWeapon != null)
             {
 
@@ -181,6 +191,16 @@ namespace SG
                 return;
 
             weaponSlotManager.attackingWeapon = weapon;
+
+            if (inputHander.twohandflag)
+            {
+
+            }
+            else
+            {
+
+            }
+
 
             if (weaponSlotManager.attackingWeapon != null)
             {
@@ -261,17 +281,22 @@ namespace SG
 
         }
         #endregion
+
         public void AttemptBackStabOrRiposte()
         {
             RaycastHit hit;
+
             if (Physics.Raycast(inputHander.CriticalAttackRayCastStartPoint.position,
             transform.TransformDirection(Vector3.forward), out hit, 0.5f, backStabLayer))
             {
                 CharacterManager enemyCharacterManger = hit.transform.gameObject.GetComponentInParent<CharacterManager>();
+                PlayerDamageCollider rightWeapon = weaponSlotManager.righthandDamgeCollider;
                 if (enemyCharacterManger != null)
                 {
                     //CHECK FOR TEAM I.D (So you cant back stab friend or yourself ?)
-                    playerManager.lockOnTransform.position = enemyCharacterManger.backStabCollider.backStabberStandPoint.position;
+                    playerManager.isInvulerable = true;
+                    playerManager.lockOnTransform.position = enemyCharacterManger.backStabCollider.CriticalDamageStandPosition.position;
+
                     Vector3 rotationDirection = playerManager.lockOnTransform.root.eulerAngles;
                     rotationDirection = hit.transform.position - playerManager.lockOnTransform.position;
                     rotationDirection.y = 0;
@@ -279,12 +304,50 @@ namespace SG
                     Quaternion tr = Quaternion.LookRotation(rotationDirection);
                     Quaternion targetRotation = Quaternion.Slerp(playerManager.lockOnTransform.rotation, tr, 500 * Time.deltaTime);
                     playerManager.lockOnTransform.rotation = targetRotation;
+
+                    int criticalDamage = playerInventory.rightWeapon.criticalDamageMultiple * rightWeapon.currentDamageWeapon;
+                    enemyCharacterManger.pendingCriticalDamage = criticalDamage;
+
                     animatorHander.PlayTargetAnimation("Back Stab", true);
-                    enemyCharacterManger.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Damage01", true);
-                    //make enemy play animation
-                    //do damage
+                    enemyCharacterManger.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Back Stabed", true);
+
+                    //playerManager.lockOnTransform.position = playerManager.DefaultlockOnTransform.position;
                 }
             }
+            else if (Physics.Raycast(inputHander.CriticalAttackRayCastStartPoint.position, transform.TransformDirection(Vector3.forward), out hit, 0.7f, riposteLayer))
+            {
+                CharacterManager enemyCharacterManger = hit.transform.gameObject.GetComponentInParent<CharacterManager>();
+                PlayerDamageCollider rightWeapon = weaponSlotManager.righthandDamgeCollider;
+
+                if (enemyCharacterManger != null && enemyCharacterManger.canBeRiposted)
+                {
+                    playerManager.isInvulerable = true;
+                    playerManager.lockOnTransform.position = enemyCharacterManger.riposteCollider.CriticalDamageStandPosition.position;
+
+                    Vector3 rotationDirection = playerManager.lockOnTransform.root.eulerAngles;
+                    rotationDirection = hit.transform.position - playerManager.lockOnTransform.position;
+                    rotationDirection.y = 0;
+                    rotationDirection.Normalize();
+
+                    Quaternion tr = Quaternion.LookRotation(rotationDirection);
+                    Quaternion targetRotation = Quaternion.Slerp(playerManager.lockOnTransform.rotation, tr, 500 * Time.deltaTime);
+                    playerManager.lockOnTransform.rotation = targetRotation;
+
+                    int criticalDamage = playerInventory.rightWeapon.criticalDamageMultiple * rightWeapon.currentDamageWeapon;
+                    enemyCharacterManger.pendingCriticalDamage = criticalDamage;
+                    Debug.Log(criticalDamage);
+
+                    // 🎲 Randomized animation index
+                    int riposteIndex = UnityEngine.Random.Range(0, 4); // Generates 0 to 3
+
+                    string riposteAnim = "Riposte0" + riposteIndex;
+                    string ripostedAnim = "Riposted0" + riposteIndex;
+
+                    animatorHander.PlayTargetAnimation(riposteAnim, true);
+                    enemyCharacterManger.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation(ripostedAnim, true);
+                }
+            }
+
         }
     }
 }

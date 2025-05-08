@@ -36,6 +36,24 @@ namespace SG
             damageCollider.enabled = false;
         }
 
+        public void CheckForParry(PlayerManager playerManager)
+        {
+            characterSoundFXManager?.PlayPariedSounds();
+            var animMgr = enemyManager?.GetComponentInChildren<EnemyAnimatorManager>();
+
+            animMgr?.PlayTargetAnimation("Start Stun", true);
+            animMgr?.animator.SetBool("IsBlocking", false);
+
+            if (enemyManager != null)
+            {
+                enemyManager.canBeRiposted = true;
+                enemyManager.isBlocking = false;
+                enemyManager.isStunning = true;
+                enemyManager.currentStunningTime = enemyManager.stunningTime;
+            }
+
+        }
+
         private void OnTriggerEnter(Collider collider)
         {
             if ((damageableLayers.value & (1 << collider.gameObject.layer)) == 0)
@@ -54,23 +72,12 @@ namespace SG
                 PlayerManager playerManager = collider.GetComponent<PlayerManager>();
                 BlockingColliderPlayer shield = collider.transform.GetComponentInChildren<BlockingColliderPlayer>();
 
-                if (playerManager == null || playerManager.isInvulerable)
+                if (playerManager.isInvulerable)
                     return;
 
                 if (playerManager.isParrying)
                 {
-                    characterSoundFXManager?.PlayPariedSounds();
-                    var animMgr = enemyManager?.GetComponentInChildren<EnemyAnimatorManager>();
-                    animMgr?.PlayTargetAnimation("Start Stun", true);
-                    animMgr?.animator.SetBool("IsBlocking", false);
-
-                    if (enemyManager != null)
-                    {
-                        enemyManager.isBlocking = false;
-                        enemyManager.isStunning = true;
-                        enemyManager.currentStunningTime = enemyManager.stunningTime;
-                    }
-
+                    CheckForParry(playerManager);
                     return;
                 }
 

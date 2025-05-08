@@ -121,6 +121,7 @@ namespace SG
             enemyManager.hasShield = false;
             enemyManager.isBlocking = false;
             enemyManager.isStunning = true;
+            enemyManager.canBeRiposted = true;
 
             characterSoundFXManager.PlayRandomShielBreakSoundFX();
 

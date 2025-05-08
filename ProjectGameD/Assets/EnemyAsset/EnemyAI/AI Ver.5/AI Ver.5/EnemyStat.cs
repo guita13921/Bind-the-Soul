@@ -54,8 +54,16 @@ namespace SG
 
         public void TakeDamageNoAnimation(int damage)
         {
+
             if (characterSoundFXManager != null) characterSoundFXManager.PlayRandomDamageSoundFX();
             currentHealth -= damage;
+
+            if (currentHealth <= 0)
+            {
+                isDead = true;
+                HandleDeathWithOutAniamtion();
+                currentHealth = 0;
+            }
 
             if (!isBoss)
             {
@@ -65,20 +73,10 @@ namespace SG
             {
                 enemyBossManager.UpdateBossHealthBar(currentHealth, maxHealth);
             }
-
             else if (isBoss && demonBossManager != null) //Only For Demon Boss
             {
                 demonBossManager.UpdateBossHealthBar(currentHealth, maxHealth);
             }
-
-
-            if (isBoss && enemyBossManager != null)
-
-                if (currentHealth <= 0)
-                {
-                    isDead = true;
-                    HandleDeath();
-                }
         }
 
         public void TakeDamage(int damage, string damageAinmation = "Damage01")
@@ -150,6 +148,27 @@ namespace SG
             isDead = true;
 
             StartCoroutine(DestroyAfterDelay());
+        }
+
+        private void HandleDeathWithOutAniamtion()
+        {
+            currentHealth = 0;
+            DropItem();
+
+            // Play death sound
+            if (characterSoundFXManager != null)
+            {
+                characterSoundFXManager.PlayRandomDamageSoundFX();
+                characterSoundFXManager.PlayDeathSound();
+            }
+
+            if (roomManager != null)
+                roomManager.OnEnemyDefeated(this);
+
+            isDead = true;
+
+            StartCoroutine(DestroyAfterDelay());
+
         }
 
         public int GetCurrentHealth()

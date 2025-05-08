@@ -25,7 +25,7 @@ namespace SG
         {
             base.Awake();
             cameraHandler = CameraHandler.singleton;
-            backStabCollider = GetComponentInChildren<BackStabCollider>();
+            //backStabCollider = GetComponentInChildren<CriticalDamageCollider>();
         }
 
         void Start()
@@ -45,6 +45,7 @@ namespace SG
             isInvulerable = anim.GetBool("IsInvulnerable");
             anim.SetBool("IsBlocking", isBlocking);
             isDrawWeapon = anim.GetBool("isDrawWeapon");
+            anim.SetBool("isDead", playerStats.isDead);
 
             inputHander.TickInput(delta);
             playerLocomotion.HandleMovement(delta);

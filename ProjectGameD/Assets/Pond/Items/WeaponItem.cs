@@ -25,7 +25,7 @@ namespace SG
 
                 [Header("Damage")]
                 public int damage;
-                public int criticalDamageMultiple;
+                public int criticalDamageMultiple = 4;
 
                 [Header("Modifiers")]
                 public float lightAttackDamageModifiers;

@@ -220,6 +220,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Critical Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""be06b32c-7f9d-4088-a5b6-a1b50d0510f1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""AttackL"",
                     ""type"": ""Button"",
                     ""id"": ""902f3bcb-36cd-43b4-9206-0e028cb6a248"",
@@ -277,15 +286,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": ""RB"",
                     ""type"": ""Button"",
                     ""id"": ""6bb54a97-b5aa-4e3d-af44-facef8055454"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Critical Attack"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""be06b32c-7f9d-4088-a5b6-a1b50d0510f1"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -383,17 +383,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""54580f8e-eb50-49f4-a785-ac83bdd43866"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": ""Hold"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Critical Attack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""4e23feb1-1061-4711-9c36-c454d82416dc"",
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": ""Tap"",
@@ -411,6 +400,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""LockOn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""54580f8e-eb50-49f4-a785-ac83bdd43866"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Critical Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -518,6 +518,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerAction_LockOn = m_PlayerAction.FindAction("LockOn", throwIfNotFound: true);
         m_PlayerAction_Roll = m_PlayerAction.FindAction("Roll", throwIfNotFound: true);
         m_PlayerAction_Sprint = m_PlayerAction.FindAction("Sprint", throwIfNotFound: true);
+        m_PlayerAction_CriticalAttack = m_PlayerAction.FindAction("Critical Attack", throwIfNotFound: true);
         m_PlayerAction_AttackL = m_PlayerAction.FindAction("AttackL", throwIfNotFound: true);
         m_PlayerAction_AttackH = m_PlayerAction.FindAction("AttackH", throwIfNotFound: true);
         m_PlayerAction_A = m_PlayerAction.FindAction("A", throwIfNotFound: true);
@@ -525,7 +526,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerAction_Blocking = m_PlayerAction.FindAction("Blocking", throwIfNotFound: true);
         m_PlayerAction_Y = m_PlayerAction.FindAction("Y", throwIfNotFound: true);
         m_PlayerAction_RB = m_PlayerAction.FindAction("RB", throwIfNotFound: true);
-        m_PlayerAction_CriticalAttack = m_PlayerAction.FindAction("Critical Attack", throwIfNotFound: true);
         // PlayerQuickSlots
         m_PlayerQuickSlots = asset.FindActionMap("PlayerQuickSlots", throwIfNotFound: true);
         m_PlayerQuickSlots_Up = m_PlayerQuickSlots.FindAction("Up", throwIfNotFound: true);
@@ -666,6 +666,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerAction_LockOn;
     private readonly InputAction m_PlayerAction_Roll;
     private readonly InputAction m_PlayerAction_Sprint;
+    private readonly InputAction m_PlayerAction_CriticalAttack;
     private readonly InputAction m_PlayerAction_AttackL;
     private readonly InputAction m_PlayerAction_AttackH;
     private readonly InputAction m_PlayerAction_A;
@@ -673,7 +674,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerAction_Blocking;
     private readonly InputAction m_PlayerAction_Y;
     private readonly InputAction m_PlayerAction_RB;
-    private readonly InputAction m_PlayerAction_CriticalAttack;
     public struct PlayerActionActions
     {
         private @PlayerControls m_Wrapper;
@@ -681,6 +681,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @LockOn => m_Wrapper.m_PlayerAction_LockOn;
         public InputAction @Roll => m_Wrapper.m_PlayerAction_Roll;
         public InputAction @Sprint => m_Wrapper.m_PlayerAction_Sprint;
+        public InputAction @CriticalAttack => m_Wrapper.m_PlayerAction_CriticalAttack;
         public InputAction @AttackL => m_Wrapper.m_PlayerAction_AttackL;
         public InputAction @AttackH => m_Wrapper.m_PlayerAction_AttackH;
         public InputAction @A => m_Wrapper.m_PlayerAction_A;
@@ -688,7 +689,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Blocking => m_Wrapper.m_PlayerAction_Blocking;
         public InputAction @Y => m_Wrapper.m_PlayerAction_Y;
         public InputAction @RB => m_Wrapper.m_PlayerAction_RB;
-        public InputAction @CriticalAttack => m_Wrapper.m_PlayerAction_CriticalAttack;
         public InputActionMap Get() { return m_Wrapper.m_PlayerAction; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -707,6 +707,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
+            @CriticalAttack.started += instance.OnCriticalAttack;
+            @CriticalAttack.performed += instance.OnCriticalAttack;
+            @CriticalAttack.canceled += instance.OnCriticalAttack;
             @AttackL.started += instance.OnAttackL;
             @AttackL.performed += instance.OnAttackL;
             @AttackL.canceled += instance.OnAttackL;
@@ -728,9 +731,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @RB.started += instance.OnRB;
             @RB.performed += instance.OnRB;
             @RB.canceled += instance.OnRB;
-            @CriticalAttack.started += instance.OnCriticalAttack;
-            @CriticalAttack.performed += instance.OnCriticalAttack;
-            @CriticalAttack.canceled += instance.OnCriticalAttack;
         }
 
         private void UnregisterCallbacks(IPlayerActionActions instance)
@@ -744,6 +744,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
+            @CriticalAttack.started -= instance.OnCriticalAttack;
+            @CriticalAttack.performed -= instance.OnCriticalAttack;
+            @CriticalAttack.canceled -= instance.OnCriticalAttack;
             @AttackL.started -= instance.OnAttackL;
             @AttackL.performed -= instance.OnAttackL;
             @AttackL.canceled -= instance.OnAttackL;
@@ -765,9 +768,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @RB.started -= instance.OnRB;
             @RB.performed -= instance.OnRB;
             @RB.canceled -= instance.OnRB;
-            @CriticalAttack.started -= instance.OnCriticalAttack;
-            @CriticalAttack.performed -= instance.OnCriticalAttack;
-            @CriticalAttack.canceled -= instance.OnCriticalAttack;
         }
 
         public void RemoveCallbacks(IPlayerActionActions instance)
@@ -867,6 +867,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnLockOn(InputAction.CallbackContext context);
         void OnRoll(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
+        void OnCriticalAttack(InputAction.CallbackContext context);
         void OnAttackL(InputAction.CallbackContext context);
         void OnAttackH(InputAction.CallbackContext context);
         void OnA(InputAction.CallbackContext context);
@@ -874,7 +875,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnBlocking(InputAction.CallbackContext context);
         void OnY(InputAction.CallbackContext context);
         void OnRB(InputAction.CallbackContext context);
-        void OnCriticalAttack(InputAction.CallbackContext context);
     }
     public interface IPlayerQuickSlotsActions
     {

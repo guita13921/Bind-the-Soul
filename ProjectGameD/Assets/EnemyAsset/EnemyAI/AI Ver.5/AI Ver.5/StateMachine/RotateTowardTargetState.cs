@@ -19,7 +19,7 @@ namespace SG
 
             if (!enemyManager.isStunning && enemyManager.canRotate) RotateTowardTargetWhileAttacking(enemyManager);
 
-            if (enemyManager.isInterActing)
+            if (enemyManager.isInterActing || enemyManager.isStunning)
             {
                 return this;
             }

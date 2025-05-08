@@ -13,17 +13,18 @@ namespace SG
 
         [Header("Lock On Transform")]
         public Transform lockOnTransform;
+        public Transform DefaultlockOnTransform;
 
         [Header("Combat Colliders")]
-        public BoxCollider backStabBoxCollider;
-        public BackStabCollider backStabCollider;
+        public CriticalDamageCollider backStabCollider;
+        public CriticalDamageCollider riposteCollider;
 
         //[Header("Combat Colliders")]
 
         [Header("Combat Flags")]
         public bool CanDoCombo;
         public bool canBeRiposted;
-        public bool canBeParried;
+        //public bool canBeParried;
         public bool isParrying;
         public bool isBlocking;
         public bool isInvulnerable;
