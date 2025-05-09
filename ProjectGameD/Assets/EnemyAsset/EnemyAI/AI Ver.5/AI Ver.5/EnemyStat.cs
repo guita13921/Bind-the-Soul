@@ -16,6 +16,7 @@ namespace SG
         EnemyBossManager enemyBossManager;
         [SerializeField] DemonBossManager demonBossManager; //Only old Demon Boss
         public UIEnemyHealthBar enemyHealthBar;
+        EnemyDebuff enemyDebuff;
 
         CharacterSoundFXManager characterSoundFXManager;
 
@@ -34,6 +35,7 @@ namespace SG
             currentHealth = maxHealth;
             enemyHealthBar = GetComponentInChildren<UIEnemyHealthBar>();
             characterSoundFXManager = GetComponent<CharacterSoundFXManager>();
+            enemyDebuff = GetComponent<EnemyDebuff>();
         }
 
         void Start()
@@ -147,6 +149,10 @@ namespace SG
 
             isDead = true;
 
+            if (enemyDebuff.stuckKnife != null && enemyDebuff.stuckKnife.ownerAttack != null)
+            {
+                enemyDebuff.stuckKnife.ownerAttack.RecoverKnifeCharge();
+            }
             StartCoroutine(DestroyAfterDelay());
         }
 
@@ -167,6 +173,10 @@ namespace SG
 
             isDead = true;
 
+            if (enemyDebuff.stuckKnife != null && enemyDebuff.stuckKnife.ownerAttack != null)
+            {
+                enemyDebuff.stuckKnife.ownerAttack.RecoverKnifeCharge();
+            }
             StartCoroutine(DestroyAfterDelay());
 
         }

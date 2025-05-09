@@ -134,11 +134,6 @@ namespace SG
                 }
 
             }
-            else
-            {
-
-            }
-
         }
     }
 }

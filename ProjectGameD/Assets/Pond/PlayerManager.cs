@@ -6,9 +6,9 @@ namespace SG
     public class PlayerManager : CharacterManager
     {
         InputHander inputHander;
-        CameraHandler cameraHandler;
         PlayerLocomotion playerLocomotion;
 
+        public CameraHandler cameraHandler;
         public Animator anim;
         public AnimatorHander animatorHander;
         public PlayerStats playerStats;
@@ -28,7 +28,7 @@ namespace SG
         {
             base.Awake();
             animatorHander = GetComponentInChildren<AnimatorHander>();
-            cameraHandler = CameraHandler.singleton;
+            cameraHandler = FindAnyObjectByType<CameraHandler>();
             //backStabCollider = GetComponentInChildren<CriticalDamageCollider>();
         }
 

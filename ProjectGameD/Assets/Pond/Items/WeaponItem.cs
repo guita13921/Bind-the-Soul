@@ -9,6 +9,7 @@ namespace SG
         public class WeaponItem : Item
         {
                 public GameObject modelPrefab;
+                public GameObject ThrowingModelPrefab;
 
                 [Header("Weapon Type")]
                 public WeaponType weaponType;
@@ -25,7 +26,10 @@ namespace SG
 
                 [Header("Damage")]
                 public int damage;
-                public int criticalDamageMultiple = 4;
+                public int criticalDamageMultiple;
+
+                [Header("Weapon Art")]
+                public int weaponArtCharge;
 
                 [Header("Modifiers")]
                 public float lightAttackDamageModifiers;

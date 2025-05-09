@@ -235,7 +235,7 @@ public class InputHander : MonoBehaviour
 
         if (Lt_Input)
         {
-            if (playerManager.isBlocking == false)
+            if (playerManager.isBlocking == false || playerManager.playerAttack.currentKnifeCharges <= 0)
             {
                 playerAttack.HandleArtAction();
             }

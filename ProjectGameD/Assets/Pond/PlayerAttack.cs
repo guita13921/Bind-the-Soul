@@ -18,6 +18,7 @@ namespace SG
         WeaponSlotManager weaponSlotManager;
         PlayerData playerData;
 
+
         [Header("Attack Animations")]
         string OH_Light_Attack_1 = "OH_Light_Attack_1";
         string OH_Light_Attack_2 = "OH_Light_Attack_2";
@@ -29,6 +30,10 @@ namespace SG
 
         string weapon_art = "Weapon_Art";
         string Weapon_Art_Upper = "Weapon_Art_Upper";
+
+        [Header("Throw knife")]
+        int maxKnifeCharges = 1;
+        public int currentKnifeCharges = 1;
 
         public string lastAttack;
         private string lastAttack_current;
@@ -79,13 +84,14 @@ namespace SG
             {
                 PerformLTWeaponArt(playerInventory.leftWeapon);
             }
-            else if (playerInventory.leftWeapon.weaponType == WeaponType.Dagger)
+            else if (playerInventory.leftWeapon.weaponType == WeaponType.Dagger
+                    && (playerManager.cameraHandler.currentLockOnTarget.lockOnTransform != null))
             {
                 PerformLTWeaponArt(playerInventory.leftWeapon);
             }
             else
             {
-
+                return;
             }
         }
         #endregion
@@ -394,6 +400,43 @@ namespace SG
             }
 
         }
+
+        public void PerformThrowingKnife()
+        {
+            if (currentKnifeCharges <= 0) return;
+
+            if (playerManager.cameraHandler.currentLockOnTarget.lockOnTransform == null) return;
+
+            GameObject knife = Instantiate(
+                playerInventory.leftWeapon.ThrowingModelPrefab,
+                playerManager.weaponSlotManager.leftHandSlot.transform.position,
+                Quaternion.identity);
+
+            Rigidbody rb = knife.GetComponent<Rigidbody>();
+
+            Vector3 direction = (playerManager.cameraHandler.currentLockOnTarget.lockOnTransform.position - playerManager.weaponSlotManager.leftHandSlot.transform.position).normalized;
+
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            Quaternion localXRotation = Quaternion.AngleAxis(90f, Vector3.right);
+            knife.transform.rotation = lookRotation * localXRotation;
+
+            rb.velocity = direction * 20f;
+
+            Knife knifeScript = knife.GetComponent<Knife>();
+            knifeScript.target = playerManager.lockOnTransform;
+            knifeScript.ownerAttack = this; // So we can give the charge back later
+
+            currentKnifeCharges--;
+        }
+
+        public void RecoverKnifeCharge()
+        {
+            if (currentKnifeCharges < maxKnifeCharges)
+            {
+                currentKnifeCharges++;
+            }
+        }
+
     }
 }
 
