@@ -153,11 +153,14 @@ namespace SG
         }
 
         #endregion
+
         #region Handle Weapon's Stamina Drainage
+
+
         public void DrainStaminaLightAttack()
         {
             if (attackingWeapon != null)
-                playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.lightAttackMultiplier));
+                playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.lightAttackStaminaMultiplier));
 
             animatorHander.anim.SetBool("IsUsingRightHand", true);
         }
@@ -165,15 +168,16 @@ namespace SG
         public void DrainStaminaHeavyAttack()
         {
             if (attackingWeapon != null)
-                playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));
+                playerStats.TakeStaminaDamage(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackStaminaMultiplier));
 
             animatorHander.anim.SetBool("IsUsingRightHand", true);
         }
 
-        public void DrainStaminaParrying()
+        public void DrainStaminaWeaponArt()
         {
-            int staminaCost = 5; // ตั้งค่าคงที่
-            playerStats.TakeStaminaDamage(staminaCost);
+            playerStats.TakeStaminaDamage(Mathf.RoundToInt(leftHandSlot.currentWeaponItem.baseStamina * leftHandSlot.currentWeaponItem.WeaponArtStaminaMultiplier));
+
+            animatorHander.anim.SetBool("IsUsingLeftHand", true);
         }
 
         #endregion

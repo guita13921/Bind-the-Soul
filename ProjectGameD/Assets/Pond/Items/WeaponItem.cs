@@ -34,8 +34,9 @@ namespace SG
 
                 [Header("stamina Costs")]
                 public int baseStamina;
-                public float lightAttackMultiplier;
-                public float heavyAttackMultiplier;
+                public float lightAttackStaminaMultiplier;
+                public float heavyAttackStaminaMultiplier;
+                public float WeaponArtStaminaMultiplier;
 
                 [Header("Absorption")]
                 public float physicalDamageAbsorption;

@@ -54,8 +54,6 @@ namespace SG
             //backStabCollider = GetComponentInChildren<CriticalDamageCollider>();
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
             enemyWeaponSlotManager = GetComponentInChildren<EnemyWeaponSlotManager>();
-
-            navMeshAgent.enabled = false; // 👈 Keep enemy inactive at first
         }
 
         private void Start()
@@ -63,7 +61,7 @@ namespace SG
             enemyRigidBody.isKinematic = false;
 
             // 👇 Start the delayed activation coroutin
-            StartCoroutine(DelayedActivateEnemy());
+            //StartCoroutine(DelayedActivateEnemy());
         }
 
         private void Update()

@@ -121,14 +121,14 @@ namespace SG
 
         public void RegenerateStamina()
         {
-            if (playerManager.isInteracting)
+            if (playerManager.isInteracting || playerManager.isSprinting)
             {
                 staminaRegenTimer = 0;
             }
             else
             {
                 staminaRegenTimer += Time.deltaTime;
-                if (currentStamina < maxStamina && staminaRegenTimer > 1f)
+                if (currentStamina < maxStamina && staminaRegenTimer > 2f)
                 {
                     currentStamina += (StaminaRegenerationAmount + StaminaRegenBonus) * Time.deltaTime;
                     currentStamina = Mathf.Min(currentStamina, maxStamina);

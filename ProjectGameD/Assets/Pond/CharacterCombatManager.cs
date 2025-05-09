@@ -9,5 +9,10 @@ namespace SG
     {
         [Header("AttackType")]
         public AttackType currentAttackType;
+
+        public virtual void DrainStaminaBasedAttack()
+        {
+            //IF Enemy have stamina place here
+        }
     }
 }

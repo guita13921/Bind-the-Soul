@@ -44,7 +44,7 @@ namespace SG
         private void OnEnable()
         {
             healthLevel = 20;
-            staminaLevel = 20;
+            staminaLevel = 5;
             maxHealth = SetMaxHealthFromHealthLevel();
             maxStamina = SetMaxStaminaFromStaminaLevel();
             currentHealth = maxHealth;

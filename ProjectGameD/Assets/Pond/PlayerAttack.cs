@@ -28,6 +28,7 @@ namespace SG
         string OH_Shield_Attack_1 = "OH_Shield_Attack_1";
 
         string weapon_art = "Weapon_Art";
+        string Weapon_Art_Upper = "Weapon_Art_Upper";
 
         public string lastAttack;
         private string lastAttack_current;
@@ -72,16 +73,15 @@ namespace SG
             PerformQBlockingAction();
         }
 
-        public void HandleLTAction() //Parry
+        public void HandleArtAction() //Parry
         {
             if (playerInventory.leftWeapon.weaponType == WeaponType.Shield)
             {
-                //Debug.Log(playerInventory.leftWeapon.weaponType);
                 PerformLTWeaponArt(playerInventory.leftWeapon);
             }
-            else if (playerInventory.leftWeapon.weaponType == WeaponType.StrightSword)
+            else if (playerInventory.leftWeapon.weaponType == WeaponType.Dagger)
             {
-
+                PerformLTWeaponArt(playerInventory.leftWeapon);
             }
             else
             {
@@ -246,10 +246,16 @@ namespace SG
             {
                 float damage = weapon.damage;
 
-                if (weaponSlotManager.leftHandDamgeCollider != null)
-                    weaponSlotManager.leftHandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
+                if (weaponSlotManager.leftHandDamgeCollider != null) weaponSlotManager.leftHandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
 
-                animatorHander.PlayTargetAnimation(weapon_art, true);
+                if (weaponSlotManager.leftHandSlot.currentWeaponItem.weaponType == WeaponType.Dagger)
+                {
+                    animatorHander.PlayTargetAnimation(Weapon_Art_Upper, false);
+                }
+                else
+                {
+                    animatorHander.PlayTargetAnimation(weapon_art, true);
+                }
             }
         }
 

@@ -6,13 +6,15 @@ namespace SG
     public class PlayerManager : CharacterManager
     {
         InputHander inputHander;
-        Animator anim;
         CameraHandler cameraHandler;
         PlayerLocomotion playerLocomotion;
-        PlayerStats playerStats;
 
+        public Animator anim;
+        public AnimatorHander animatorHander;
+        public PlayerStats playerStats;
         public PlayerAttack playerAttack;
         public PlayerData playerData;
+
         public bool isInteracting;
         public bool isInvulerable;
         public bool isDrawWeapon;
@@ -25,6 +27,7 @@ namespace SG
         protected override void Awake()
         {
             base.Awake();
+            animatorHander = GetComponentInChildren<AnimatorHander>();
             cameraHandler = CameraHandler.singleton;
             //backStabCollider = GetComponentInChildren<CriticalDamageCollider>();
         }

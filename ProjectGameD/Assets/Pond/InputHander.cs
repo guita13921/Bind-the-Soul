@@ -235,13 +235,9 @@ public class InputHander : MonoBehaviour
 
         if (Lt_Input)
         {
-            if (twohandflag)
+            if (playerManager.isBlocking == false)
             {
-
-            }
-            else
-            {
-                playerAttack.HandleLTAction();
+                playerAttack.HandleArtAction();
             }
         }
 

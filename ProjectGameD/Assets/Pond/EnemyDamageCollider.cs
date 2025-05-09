@@ -85,21 +85,7 @@ namespace SG
 
                 if (shield != null && playerManager.isBlocking)
                 {
-                    float blocked = currentDamageWeapon * shield.blockingColliderDamageAbsorption / 100f;
-                    float finalDamage = currentDamageWeapon - blocked;
-
-                    playerStats?.TakeDamage(Mathf.RoundToInt(finalDamage), "Block Guard");
-
-                    int staminaDamage = Mathf.RoundToInt(currentDamageWeapon * shield.staminaDamageModifier / 100);
-                    playerStats?.TakeStaminaDamage(staminaDamage);
-
-                    var animMgr = enemyManager?.GetComponentInChildren<EnemyAnimatorManager>();
-                    if (animMgr != null)
-                    {
-                        string recoilAnim = $"AttackRecoil_0{Random.Range(1, 6)}";
-                        animMgr.PlayRecoilAnimation(recoilAnim);
-                    }
-
+                    CheckForBlock(playerStats, playerManager, shield);
                     return;
                 }
 
@@ -136,5 +122,39 @@ namespace SG
                 }
             }
         }
+
+        public void CheckForBlock(PlayerStats playerStats, PlayerManager playerManager, BlockingColliderPlayer shield)
+        {
+            float blocked = currentDamageWeapon * shield.blockingColliderDamageAbsorption / 100f;
+            float finalDamage = currentDamageWeapon - blocked;
+            int staminaDamage = Mathf.RoundToInt(currentDamageWeapon * shield.staminaDamageModifier / 100);
+            playerStats?.TakeStaminaDamage(staminaDamage);
+
+            if (playerManager.playerStats != null && playerManager.playerStats.currentStamina <= 0)
+            {
+                GuardBreakPlayer(playerManager);
+                return;
+            }
+
+            playerStats?.TakeDamage(Mathf.RoundToInt(finalDamage), "Block Guard");
+
+            var animMgr = enemyManager?.GetComponentInChildren<EnemyAnimatorManager>();
+            if (animMgr != null)
+            {
+                string recoilAnim = $"AttackRecoil_0{Random.Range(1, 6)}";
+                animMgr.PlayRecoilAnimation(recoilAnim);
+            }
+
+            return;
+
+        }
+
+        private void GuardBreakPlayer(PlayerManager playerManager)
+        {
+            Debug.Log("GuardBreakPlayer");
+            characterSoundFXManager.PlayRandomShielBreakSoundFX();
+            playerManager.animatorHander.PlayTargetAnimation("Start Stun", true);
+        }
+
     }
 }

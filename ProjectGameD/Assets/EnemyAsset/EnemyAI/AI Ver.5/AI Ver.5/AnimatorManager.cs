@@ -16,8 +16,6 @@ namespace SG
             animator.applyRootMotion = isInteracting;
             animator.SetBool("canRotate", canRotate);
             animator.SetBool("isInteracting", isInteracting);
-
-            // Use CrossFadeInFixedTime for more reliable, frame-accurate transitions
             animator.CrossFadeInFixedTime(targetAnim, 0f);
         }
 
@@ -35,7 +33,7 @@ namespace SG
             animator.SetBool("isInteracting", true);
             animator.SetBool("isAttacking", false); // Stop attack state
             animator.SetBool("canDoCombo", false);  // Optional: if using combos
-            animator.CrossFade(name, 0.1f);   // Faster blend for snappy reaction
+            animator.CrossFade(name, 0f);   // Faster blend for snappy reaction
         }
 
 

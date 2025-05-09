@@ -47,7 +47,6 @@ namespace SG
 
             if (!hasPerformAttack)
             {
-                //Debug.Log("AttackTarget");
                 AttackTarget(enemyAnimator, enemyManager);
                 RollForComboChance(enemyManager, enemyAnimator);
             }

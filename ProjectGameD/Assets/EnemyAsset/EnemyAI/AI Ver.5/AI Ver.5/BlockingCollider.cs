@@ -9,6 +9,7 @@ namespace SG
         [SerializeField] EnemyManager enemyManager;
         [SerializeField] EnemyAnimatorManager enemyAnimatorManager;
         [SerializeField] EnemyWeaponSlotManager enemyWeaponSlotManager;
+        PlayerManager playerManager;
         BoxCollider blockingCollider;
         CharacterSoundFXManager characterSoundFXManager;
 
@@ -34,6 +35,7 @@ namespace SG
             //enemyAnimatorManager = GetComponentInParent<EnemyAnimatorManager>();
             characterSoundFXManager = GetComponentInParent<CharacterSoundFXManager>();
             enemyManager = GetComponentInParent<EnemyManager>();
+            playerManager = GetComponentInParent<PlayerManager>();
             blockingCollider = GetComponent<BoxCollider>();
         }
 
@@ -65,7 +67,7 @@ namespace SG
             blockingColliderShieldPoint -= damage;
             blockingColliderShieldPoint = Mathf.Max(0, blockingColliderShieldPoint); // Ensure shield doesn't go negative
 
-            if (blockingColliderShieldPoint <= 0 && isActive)
+            if (blockingColliderShieldPoint <= 0 && isActive) //Enemy
             {
                 GuardBreak();
             }
