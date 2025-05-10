@@ -15,7 +15,7 @@ namespace SG
         private void Awake()
         {
             slider = GetComponentInChildren<Slider>();
-            //mainCamera = Camera.main.transform; // Get the main camera
+            mainCamera = FindObjectOfType<CameraHandler>().transform;
         }
 
         public void SetHealth(int health)

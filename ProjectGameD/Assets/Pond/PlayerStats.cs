@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,8 @@ namespace SG
 
         public int flatDamageBonus;
         public float StaminaRegenBonus;
+
+        public Action OnParrySuccess;
 
         private void Awake()
         {
@@ -139,6 +142,12 @@ namespace SG
 
         }
 
+        public void RestoreHealth(int amount)
+        {
+            currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
+            Debug.Log($"Player healed for {amount}. Current Health: {currentHealth}");
+        }
+
         public void AddGold(int golds)
         {
             goldCount += golds;
@@ -166,6 +175,20 @@ namespace SG
                 Momentum.OnPlayerDamaged(playerData);
                 Debug.Log("OnRoomClear");
             }
+        }
+
+        // Call this when your parry system determines a successful parry
+        public void TriggerParrySuccess()
+        {
+            Debug.Log("Parry was successful!");
+            OnParrySuccess?.Invoke(); // This safely triggers all subscribed listeners
+        }
+
+        // Example method to simulate a parry (could be triggered via animation event, etc.)
+        public void SimulateParry()
+        {
+            // Logic to check if timing was correct...
+            TriggerParrySuccess(); // Notify all systems
         }
     }
 }

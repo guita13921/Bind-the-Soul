@@ -44,6 +44,8 @@ namespace SG
             animMgr?.PlayTargetAnimation("Start Stun", true);
             animMgr?.animator.SetBool("IsBlocking", false);
 
+            playerManager.playerStats.TriggerParrySuccess();
+
             if (enemyManager != null)
             {
                 enemyManager.canBeRiposted = true;
@@ -128,6 +130,9 @@ namespace SG
             float blocked = currentDamageWeapon * shield.blockingColliderDamageAbsorption / 100f;
             float finalDamage = currentDamageWeapon - blocked;
             int staminaDamage = Mathf.RoundToInt(currentDamageWeapon * shield.staminaDamageModifier / 100);
+
+            CheckPowerUp(playerManager, staminaDamage);
+
             playerStats?.TakeStaminaDamage(staminaDamage);
 
             if (playerManager.playerStats != null && playerManager.playerStats.currentStamina <= 0)
@@ -154,6 +159,21 @@ namespace SG
             Debug.Log("GuardBreakPlayer");
             characterSoundFXManager.PlayRandomShielBreakSoundFX();
             playerManager.animatorHander.PlayTargetAnimation("Start Stun", true);
+        }
+
+        private void CheckPowerUp(PlayerManager playerManager, float power)
+        {
+            int guardLevel = playerManager.playerData.echoSilverGuardLevel;
+
+            if (guardLevel > 0)
+            {
+                float reduction = 0.25f * guardLevel; // 25% per level
+                float reducedPower = power * (1f - Mathf.Clamp01(reduction));
+                Debug.Log($"Echo of the Silver Guard active (Level {guardLevel}): Reduced stamina cost from {power} to {reducedPower}");
+
+                // Apply reduced power (example usage, may vary)
+                power = reducedPower;
+            }
         }
 
     }

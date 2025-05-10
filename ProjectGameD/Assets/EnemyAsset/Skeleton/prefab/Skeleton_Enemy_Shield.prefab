@@ -617,7 +617,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.86372346, g: 0.8867924, b: 0.7144535, a: 1}
+  m_Color: {r: 0.335849, g: 0.335849, b: 0.335849, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1139,6 +1139,7 @@ GameObject:
   - component: {fileID: 6090153918178203671}
   - component: {fileID: 2266806643994371391}
   - component: {fileID: 2509262608123129513}
+  - component: {fileID: 185999206888688241}
   - component: {fileID: 1557236389319892493}
   m_Layer: 3
   m_Name: Skeleton_Enemy_Shield
@@ -1249,7 +1250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf66b328a42905d4b996a8cd7053fe9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthLevel: 100
+  healthLevel: 10
   maxHealth: 0
   currentHealth: 0
   goldCount: 0
@@ -1276,11 +1277,11 @@ MonoBehaviour:
   weaponSlotManager: {fileID: 0}
   characterCombatManager: {fileID: 0}
   lockOnTransform: {fileID: 2325889710550868277}
+  DefaultlockOnTransform: {fileID: 0}
   backStabCollider: {fileID: 4579423605869422991}
   riposteCollider: {fileID: 8157804500046680366}
   CanDoCombo: 1
   canBeRiposted: 0
-  canBeParried: 0
   isParrying: 0
   isBlocking: 0
   isInvulnerable: 0
@@ -1295,6 +1296,7 @@ MonoBehaviour:
   pendingCriticalDamage: 0
   enemyLocomotionManager: {fileID: 0}
   enemyAnimationManager: {fileID: 0}
+  enemyStat: {fileID: 0}
   currentState: {fileID: 8832988766232455984}
   curretTarget: {fileID: 0}
   navMeshAgent: {fileID: 0}
@@ -1307,9 +1309,9 @@ MonoBehaviour:
   maximumDetectionAngle: 90
   currentRecoveryTime: 0
   currentStunningTime: 0
-  stunningTime: 5
+  stunningTime: 10
   rotationSpeed: 15
-  maximumAttackRange: 20
+  maximumAttackRange: 2
   allowAiToPerformCombo: 1
   comboLikelyHood: 100
   isPhaseShifting: 0
@@ -1361,6 +1363,23 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0c432058523ba01459bb544adbeeaab1, type: 3}
   deadSound: {fileID: 8300000, guid: 9341308cb7cda8744864e33a5c9624c5, type: 3}
   pariedSounds: {fileID: 8300000, guid: 4f875591f0d30c74b97f1be11050fe07, type: 3}
+--- !u!114 &185999206888688241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3438835678189145682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d2275ec618270449a20d7b00670f694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSlowMultiplier: 0.5
+  enemyManager: {fileID: 0}
+  enemyStat: {fileID: 0}
+  damageMultiplier: 1.5
+  stuckKnife: {fileID: 0}
 --- !u!82 &1557236389319892493
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2397,7 +2416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73ce265846cbf124ca9331175dc82c17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 2039215783372636255}
 --- !u!114 &5771485432675624813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2427,9 +2446,9 @@ Animator:
   m_GameObject: {fileID: 4155128692445883786}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: a58154c350c4ccf47a6cdad03a8dca1a, type: 3}
-  m_Controller: {fileID: 9100000, guid: 9745b6f3a79e042498aa3f310a82f53f, type: 2}
+  m_Controller: {fileID: 9100000, guid: 68ebc8807c6a74449a42321d9be7a35d, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 1
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -3318,6 +3337,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1346467985803416601}
   - {fileID: 3123276141217984249}
   - {fileID: 1491486414192284020}
   m_Father: {fileID: 5127557837969639156}
@@ -3367,6 +3387,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   combatStanceState: {fileID: 4231877343589172019}
+--- !u!1 &5707840814503551103
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1346467985803416601}
+  m_Layer: 3
+  m_Name: Dagger Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1346467985803416601
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5707840814503551103}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.32, z: 0.015000058}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7939311203301044191}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6025515842678654663
 GameObject:
   m_ObjectHideFlags: 0
@@ -3772,7 +3823,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   combatStanceState: {fileID: 4231877343589172019}
   pursueTargetState: {fileID: 6095264716612817845}
-  currentAttack: {fileID: 0}
+  currentAttack: {fileID: 11400000, guid: 9961c9d66c1122742a5d32cbf4e4afaf, type: 2}
   rotateTowardTargetState: {fileID: 6266752306662861501}
   willDoComboOnNextAttack: 0
   hasPerformAttack: 0

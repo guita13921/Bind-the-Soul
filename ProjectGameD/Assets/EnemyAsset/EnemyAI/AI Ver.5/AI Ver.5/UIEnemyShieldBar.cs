@@ -13,6 +13,11 @@ namespace SG
         float timeUntillBarHidden = 0;
         public Transform mainCamera;
 
+        void Awake()
+        {
+            mainCamera = FindObjectOfType<CameraHandler>().transform;
+        }
+
 
         public void SetShield(int ShieldPoint)
         {

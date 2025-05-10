@@ -386,7 +386,7 @@ namespace SG
 
                     int criticalDamage = playerInventory.rightWeapon.criticalDamageMultiple * rightWeapon.currentDamageWeapon;
                     enemyCharacterManger.pendingCriticalDamage = criticalDamage;
-                    Debug.Log(criticalDamage);
+                    //Debug.Log(criticalDamage);
 
                     // 🎲 Randomized animation index
                     int riposteIndex = UnityEngine.Random.Range(0, 4); // Generates 0 to 3

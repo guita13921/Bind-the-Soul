@@ -30,4 +30,14 @@ namespace SG
         //"OH_Shield_Attack_1";
     }
 
+    public enum SetName
+    {
+        DuelistSet,
+        TitanSet,
+        PhantomSet,
+        PredatorSet
+    }
+
+
+
 }

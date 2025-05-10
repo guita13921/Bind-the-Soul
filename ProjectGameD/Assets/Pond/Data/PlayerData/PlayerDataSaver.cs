@@ -55,6 +55,9 @@ namespace SG
             playerData.hasMomentum = playerStats.playerData.hasMomentum;
             playerData.momentumActive = playerStats.playerData.momentumActive;
 
+            playerData.echoCrimsonEdge = playerStats.playerData.echoCrimsonEdge;
+            playerData.echoSilverGuard = playerStats.playerData.echoSilverGuard;
+
             playerData.flatDamageBonus = playerStats.flatDamageBonus;
             playerData.StaminaRegenBonus = playerStats.StaminaRegenBonus;
 

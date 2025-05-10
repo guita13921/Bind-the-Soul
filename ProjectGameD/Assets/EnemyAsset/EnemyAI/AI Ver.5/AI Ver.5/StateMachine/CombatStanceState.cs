@@ -15,9 +15,11 @@ namespace SG
         protected float vertcalMovementValue = 0;
         protected float HorizontalMovementValue = 0;
 
+        private float circlingResetTimer = 0f;
+        private float circlingResetDuration = 5f;
+
         public override State Tick(EnemyManager enemyManager, EnemyStat enemyStat, EnemyAnimatorManager enemyAnimatorManager)
         {
-
             float distanceFromTarget = Vector3.Distance(enemyManager.curretTarget.transform.position, enemyManager.transform.position);
             enemyAnimatorManager.animator.SetFloat("Vertical", vertcalMovementValue, 0.2f, Time.deltaTime);
             enemyAnimatorManager.animator.SetFloat("Horizontal", HorizontalMovementValue, 0.2f, Time.deltaTime);
@@ -41,11 +43,18 @@ namespace SG
                 return pursueTargetState;
             }
 
+            // 🔄 Reset circling decision every 5 seconds
+            circlingResetTimer += Time.deltaTime;
+            if (circlingResetTimer >= circlingResetDuration)
+            {
+                randomDestinationSet = false;
+                circlingResetTimer = 0f;
+            }
+
             if (!randomDestinationSet)
             {
                 randomDestinationSet = true;
                 DecideCirclingAction(enemyAnimatorManager);
-                //Debug.Log("DecideCirclingAction");
             }
 
             HandleRotationToTarget(enemyManager);
@@ -63,6 +72,7 @@ namespace SG
 
             return this;
         }
+
 
         protected void HandleRotationToTarget(EnemyManager enemyManager)
         {
@@ -104,10 +114,8 @@ namespace SG
             List<Vector2> strafingDirections = new List<Vector2>()
                 {
                     new Vector2(1f, 0f),       // Walk forward
-                    new Vector2(0.5f, -0.5f),  // Strafe right 45°
-                    new Vector2(0.5f, 0.5f),   // Strafe left 45°
-                    new Vector2(0.5f, 1f),   // Left 90°
-                    new Vector2(0.5f, -1f),  // Right 90°
+                    new Vector2(0.5f, 0.5f),  // Strafe left 45°
+                    new Vector2(1f, 1f),   // Strafe left 90°
                 };
 
             // Randomly select a direction

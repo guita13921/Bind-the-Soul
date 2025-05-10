@@ -10,55 +10,51 @@ namespace SG
         public PlayerAttack ownerAttack;
 
         public float knifeBaseDamage;
+        private bool hasHit = false; // ✅ Add this
 
         private void OnTriggerEnter(Collider collider)
         {
-            if (collider.CompareTag("Enemy") || collider.transform == target)
+            if (hasHit) return; // ✅ Prevent double hit
+            if (!(collider.CompareTag("Enemy") || collider.transform == target)) return;
+
+            hasHit = true; // ✅ Mark as hit to avoid further trigger
+
+            Transform daggerPos = collider.transform.Find("Combat Transform/Dagger Position");
+
+            if (daggerPos != null)
             {
-                EnemyDebuff debuff = collider.GetComponent<EnemyDebuff>();
+                StickToEnemy(daggerPos);
+            }
+            else
+            {
+                StickToEnemy(collider.transform);
+                Debug.Log("Fallback");
+            }
 
-                if (debuff != null)
-                {
-                    stuckEnemy = debuff; // Save it for later verification
-                    debuff.ApplyDebuff(this); // Pass reference to this knife
-                }
+            if (!collider.CompareTag("Enemy"))
+                return;
 
-                Transform daggerPos = collider.transform.Find("Skeleton_model/Dagger Position");
+            EnemyStat enemyStat = collider.GetComponent<EnemyStat>();
+            EnemyManager enemyManager = collider.GetComponent<EnemyManager>();
+            BlockingCollider shield = collider.transform.GetComponentInChildren<BlockingCollider>();
 
-                if (daggerPos != null)
-                {
-                    StickToEnemy(daggerPos);
-                    if (!collider.CompareTag("Enemy"))
-                        return;
+            float damage = knifeBaseDamage;
 
-                    EnemyStat enemyStat = collider.GetComponent<EnemyStat>();
-                    EnemyManager enemyManager = collider.GetComponent<EnemyManager>();
-                    BlockingCollider shield = collider.transform.GetComponentInChildren<BlockingCollider>();
+            int currentDamage = Mathf.RoundToInt(damage);
 
-                    float damage = knifeBaseDamage;
-
-                    /*
-                    Modify for power-up 
-                    */
-
-                    int currentDamage = Mathf.RoundToInt(damage);
-
-                    if (enemyStat != null)
-                    {
-                        if (enemyStat.isBoss || enemyManager.isStunning)
-                            enemyStat.TakeDamageNoAnimation(currentDamage);
-                        else
-                            enemyStat.TakeDamage(currentDamage);
-                    }
-
-                    //ApplyDebuff(other.transform);
-                }
+            if (enemyStat != null)
+            {
+                if (enemyStat.isBoss || (enemyManager != null && enemyManager.isStunning))
+                    enemyStat.TakeDamageNoAnimation(currentDamage);
                 else
-                {
-                    StickToEnemy(collider.transform); // Fallback
-                    Debug.Log("Fallback");
-                }
+                    enemyStat.TakeDamage(currentDamage);
+            }
 
+            EnemyDebuff debuff = collider.GetComponent<EnemyDebuff>();
+            if (debuff != null)
+            {
+                stuckEnemy = debuff;
+                debuff.ApplyDebuff(this);
             }
         }
 

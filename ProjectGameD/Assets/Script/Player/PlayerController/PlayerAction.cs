@@ -69,24 +69,12 @@ public partial class PlayerControl
 
         bool CheckForCollision = false;
         dashCheck.SetCollisionState(false);
-        //Debug.Log(dashCheck.willCollide);
 
-        //capsuleCollider.enabled = false;
-
-        /*
-        GameObject instantiatedObject = Instantiate(
-            prefabToInstantiate,
-            spawnPosition,
-            Quaternion.identity
-        );
-        */
-
-        yield return null; // Allows one frame to pass
-        //Debug.Log(dashCheck.willCollide);
+        yield return null;
 
         if (!dashCheck.willCollide)
         {
-            //  Debug.Log("not hit");
+
             Physics.IgnoreLayerCollision(7, 9, true);
         }
 
@@ -107,16 +95,11 @@ public partial class PlayerControl
             }
             yield return null;
         }
-
-        //capsuleCollider.enabled = true;
-
         Physics.IgnoreLayerCollision(7, 9, false);
 
-        // Ensure the dash animation ends
         animator.Play("Idle");
         isDashing = false;
 
-        // Wait for the cooldown to complete
         yield return new WaitForSeconds(dashWaitTime);
         canDash = true; // Reset the cooldown
     }
@@ -139,7 +122,7 @@ public partial class PlayerControl
             }
         }
 
-        return false; // No collision detected in the front
+        return false;
     }
 
     public bool GetisDash()

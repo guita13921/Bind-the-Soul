@@ -21,14 +21,22 @@ namespace SG
         public GameObject normalCameral;
 
         [Header("Movement Stats")]
-        [SerializeField]
-        float movementSpeed = 5;
-        [SerializeField]
-        float sprintSpeed = 7;
-        [SerializeField]
-        float rotationSpeed = 10;
+        [SerializeField] float movementSpeed = 5;
+        [SerializeField] float sprintSpeed = 7;
+        [SerializeField] float rotationSpeed = 10;
         private float sprintStaminaTimer = 0f;
         public float staminaDrainInterval = 0.25f; // Drain every half second
+
+        [Header("Dash")]
+        [Header("Dash Settings")]
+        public float dashSpeed = 20f;
+        public float dashDuration = 0.2f;
+        public float dashCooldown = 1f;
+
+        private bool isDashing = false;
+        private float dashTimer = 0f;
+        private float cooldownTimer = 0f;
+
 
         [Header("Stamina Costa")]
         [SerializeField]
@@ -157,6 +165,7 @@ namespace SG
         {
             if (animatorHander.anim.GetBool("isInteracting"))
                 return;
+
             if (playerStats.currentStamina <= 0)
                 return;
 
@@ -175,7 +184,7 @@ namespace SG
                 }
                 else if (playerManager.weaponSlotManager.rightHandSlot.currentWeaponItem.stantType == StantType.Light)
                 {
-                    Roll(1.00f);
+                    Roll(1.15f);
                 }
                 else
                 {
@@ -204,6 +213,7 @@ namespace SG
                 animatorHander.anim.SetBool("IsInvulnerable", true);
             }
         }
+
 
         #endregion
     }

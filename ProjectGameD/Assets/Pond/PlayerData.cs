@@ -3,9 +3,7 @@ using System.Collections.Generic;
 
 namespace SG
 {
-
     [CreateAssetMenu(fileName = "New PlayerData", menuName = "ScriptableObjects/PlayerData", order = 1)]
-
     public class PlayerData : ScriptableObject
     {
         [Header("Health Stats")]
@@ -28,18 +26,21 @@ namespace SG
         [Header("Gold")]
         public int goldCount;
 
-        [Header("BloodPactPowerUp")]
+        [Header("Power-Up Flags")]
         public bool bloodPactDamageModify;
-
-        [Header("MomentumPowerUp")]
         public bool momentumActive;
         public bool hasMomentum;
 
-        [Header("Damage Bonus")]
+        [Header("Passive Bonuses")]
         public int flatDamageBonus;
-
-        [Header("Stamina Bonus")]
         public float StaminaRegenBonus;
+
+        [Header("Duelist Set Bonuses & Effects")]
+        public bool echoCrimsonEdge;
+        public int echoCrimsonEdgeLevel;
+        public bool echoSilverGuard;
+        public int echoSilverGuardLevel;
+
 
         private void OnEnable()
         {
@@ -49,12 +50,18 @@ namespace SG
             maxStamina = SetMaxStaminaFromStaminaLevel();
             currentHealth = maxHealth;
             currentStamina = maxStamina;
-
             bloodPactDamageModify = false;
             hasMomentum = false;
             momentumActive = false;
+
+            echoCrimsonEdge = false;
+            echoCrimsonEdgeLevel = 0;
+            echoSilverGuard = false;
+            echoSilverGuardLevel = 0;
+
             flatDamageBonus = 0;
             StaminaRegenBonus = 0;
+
         }
 
         private int SetMaxHealthFromHealthLevel()
@@ -73,6 +80,10 @@ namespace SG
             maxStamina = SetMaxStaminaFromStaminaLevel();
             currentHealth = maxHealth;
             currentStamina = maxStamina;
+
+            flatDamageBonus = 0;
+            StaminaRegenBonus = 0;
         }
+
     }
 }

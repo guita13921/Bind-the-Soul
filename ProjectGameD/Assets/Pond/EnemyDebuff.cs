@@ -4,42 +4,43 @@ namespace SG
 
     public class EnemyDebuff : MonoBehaviour
     {
-        public float slowMultiplier = 0.5f;
-        public float rotationSlowMultiplier = 0.5f;
+        public float rotationSlowMultiplier;
+
+        [SerializeField] EnemyManager enemyManager;
+        [SerializeField] EnemyStat enemyStat;
+
         public float damageMultiplier = 1.5f;
-        public float debuffDuration = 5f;
-
         public Knife stuckKnife;
-
-        //private EnemyMovement movement;
-        // private EnemyCombat combat;
 
         void Awake()
         {
-            //movement = GetComponent<EnemyMovement>();
-            //combat = GetComponent<EnemyCombat>();
+            enemyManager = GetComponent<EnemyManager>();
+            enemyStat = GetComponent<EnemyStat>();
         }
 
 
         public void ApplyDebuff(Knife knife)
         {
             stuckKnife = knife;
-            //StartCoroutine(ApplyDebuffCoroutine());
+            ApplyDebuffCoroutine();
         }
 
-        /*
-                private System.Collections.IEnumerator ApplyDebuffCoroutine()
+
+        private void ApplyDebuffCoroutine()
+        {
+            if (enemyManager != null) enemyManager.rotationSpeed *= rotationSlowMultiplier;
+
+            if (enemyStat != null)
+            {
+                float healthPercent = (float)enemyStat.GetCurrentHealth() / enemyStat.GetMaxHealth();
+                Debug.Log(healthPercent);
+
+                if (healthPercent <= 0.25f)
                 {
-                    if (movement != null) movement.ModifySpeed(slowMultiplier);
-                    if (movement != null) movement.ModifyRotationSpeed(rotationSlowMultiplier);
-                    if (combat != null) combat.ModifyDamageTaken(damageMultiplier);
-
-                    yield return new WaitForSeconds(debuffDuration);
-
-                    if (movement != null) movement.ModifySpeed(1f); // Reset to normal
-                    if (movement != null) movement.ModifyRotationSpeed(1f);
-                    if (combat != null) combat.ModifyDamageTaken(1f);
+                    enemyManager.canBeRiposted = true;
                 }
-        */
+            }
+        }
+
     }
 }
