@@ -39,10 +39,15 @@ namespace SG
 
 
         [Header("Stamina Costa")]
-        [SerializeField]
         public int rollStaminaCost = 5;
         public int backstepStaminaCost = 1;
         public float sprintStaminaCost = 1f;
+
+
+        [Header("EchoReturningFlow")]
+        private Coroutine freeDodgeRoutine;
+        public bool isFreeDodgeActive = false;
+
 
         public CapsuleCollider CharacterCollider;
         public CapsuleCollider CharacterCollisiomBlockerCollider;
@@ -203,16 +208,50 @@ namespace SG
                 moveDirection.y = 0;
                 Quaternion rollRotaion = Quaternion.LookRotation(moveDirection);
                 myTransform.rotation = rollRotaion;
+                CheckEchoReturningFlow();
                 playerStats.TakeStaminaDamage(rollStaminaCost);
                 animatorHander.anim.SetBool("IsInvulnerable", true);
             }
             else
             {
                 animatorHander.PlayTargetAnimation("Back Step", true, false, speed);
+                CheckEchoReturningFlow();
                 playerStats.TakeStaminaDamage(backstepStaminaCost);
                 animatorHander.anim.SetBool("IsInvulnerable", true);
             }
         }
+
+        public void CheckEchoReturningFlow()
+        {
+            if (isFreeDodgeActive)
+            {
+                rollStaminaCost = 0;
+                backstepStaminaCost = 0;
+            }
+            else
+            {
+                rollStaminaCost = 5;
+                backstepStaminaCost = 1;
+            }
+        }
+
+
+        public void ActivateFreeDodge(float duration)
+        {
+            if (freeDodgeRoutine != null)
+                StopCoroutine(freeDodgeRoutine);
+
+            freeDodgeRoutine = StartCoroutine(FreeDodgeWindow(duration));
+        }
+
+        private IEnumerator FreeDodgeWindow(float duration)
+        {
+            isFreeDodgeActive = true;
+            yield return new WaitForSeconds(duration);
+            isFreeDodgeActive = false;
+            Debug.Log("Free dodge window expired.");
+        }
+
 
 
         #endregion

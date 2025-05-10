@@ -40,12 +40,21 @@ namespace SG
         public int echoCrimsonEdgeLevel;
         public bool echoSilverGuard;
         public int echoSilverGuardLevel;
+        public bool echoFocusedWill;
+        public int echoFocusedWillLevel;
+        public bool echoRazorTiming;      // Whether the effect is active
+        public int echoRazorTimingLevel;
+        public bool echoReturningFlow;
+        public int echoReturningFlowLevel;
+        public bool isFreeDodgeActive;
+        public bool echoResoluteMind;
+        public int echoResoluteMindLevel;
 
 
         private void OnEnable()
         {
             healthLevel = 20;
-            staminaLevel = 5;
+            staminaLevel = 10;
             maxHealth = SetMaxHealthFromHealthLevel();
             maxStamina = SetMaxStaminaFromStaminaLevel();
             currentHealth = maxHealth;
@@ -56,8 +65,22 @@ namespace SG
 
             echoCrimsonEdge = false;
             echoCrimsonEdgeLevel = 0;
+
             echoSilverGuard = false;
             echoSilverGuardLevel = 0;
+
+            echoFocusedWill = false;
+            echoFocusedWillLevel = 0;
+
+            echoRazorTiming = false;
+            echoRazorTimingLevel = 0;
+
+            echoReturningFlow = false;
+            echoReturningFlowLevel = 0;
+            isFreeDodgeActive = false;
+
+            echoResoluteMind = false;
+            echoResoluteMindLevel = 0;
 
             flatDamageBonus = 0;
             StaminaRegenBonus = 0;

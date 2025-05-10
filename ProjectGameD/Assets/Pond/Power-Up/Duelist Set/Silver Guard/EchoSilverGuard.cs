@@ -43,8 +43,6 @@ namespace SG
         public void Remove()
         {
             if (boundStats != null)
-                //boundStats.OnParrySuccess -= RestoreHealth;
-
                 boundStats = null;
         }
     }

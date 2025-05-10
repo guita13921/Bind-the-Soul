@@ -56,7 +56,22 @@ namespace SG
             playerData.momentumActive = playerStats.playerData.momentumActive;
 
             playerData.echoCrimsonEdge = playerStats.playerData.echoCrimsonEdge;
+            playerData.echoCrimsonEdgeLevel = playerStats.playerData.echoCrimsonEdgeLevel;
+
             playerData.echoSilverGuard = playerStats.playerData.echoSilverGuard;
+            playerData.echoSilverGuardLevel = playerStats.playerData.echoSilverGuardLevel;
+
+            playerData.echoFocusedWill = playerStats.playerData.echoFocusedWill;
+            playerData.echoFocusedWillLevel = playerStats.playerData.echoFocusedWillLevel;
+
+            playerData.echoRazorTiming = playerStats.playerData.echoRazorTiming;
+            playerData.echoRazorTimingLevel = playerStats.playerData.echoRazorTimingLevel;
+
+            playerData.echoReturningFlow = playerStats.playerData.echoReturningFlow;
+            playerData.echoReturningFlowLevel = playerStats.playerData.echoReturningFlowLevel;
+
+            playerData.echoResoluteMind = playerStats.playerData.echoResoluteMind;
+            playerData.echoResoluteMindLevel = playerStats.playerData.echoResoluteMindLevel;
 
             playerData.flatDamageBonus = playerStats.flatDamageBonus;
             playerData.StaminaRegenBonus = playerStats.StaminaRegenBonus;

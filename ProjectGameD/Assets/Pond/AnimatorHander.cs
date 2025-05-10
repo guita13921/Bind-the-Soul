@@ -18,9 +18,10 @@ namespace SG
         public bool canRotate;
 
         CharacterSoundFXManager playerSoundManager;
-
         PlayerStats playerStats;
 
+        private Coroutine attackSpeedBoostRoutine;
+        public float currentAttackSpeedMultiplier = 1f;
 
         void Awake()
         {
@@ -67,7 +68,9 @@ namespace SG
         public void PlayTargetAnimation(string targetAnim, bool isInteracting, bool canRotate = false, float speed = 1.0f)
         {
             if (anim == null) return;
-            anim.speed = speed; // Set the speed before playing
+
+            anim.speed = speed * currentAttackSpeedMultiplier; // Set the speed before playing4
+            //Debug.Log(speed * currentAttackSpeedMultiplier);
             anim.applyRootMotion = isInteracting;
             anim.SetBool("isInteracting", isInteracting);
             anim.CrossFade(targetAnim, 0.0f);
@@ -139,6 +142,22 @@ namespace SG
         public void SetDefaultCamera()
         {
             cameraHandler.SetDefaultTransform();
+        }
+
+        public void ApplyAttackSpeedBoost(float multiplierBonus, float duration)
+        {
+            if (attackSpeedBoostRoutine != null)
+                StopCoroutine(attackSpeedBoostRoutine);
+
+            attackSpeedBoostRoutine = StartCoroutine(AttackSpeedBoostRoutine(multiplierBonus, duration));
+        }
+
+        private IEnumerator AttackSpeedBoostRoutine(float bonus, float duration)
+        {
+            currentAttackSpeedMultiplier = 1f + bonus;
+            yield return new WaitForSeconds(duration);
+            currentAttackSpeedMultiplier = 1f;
+            //Debug.Log("EndSpeed");
         }
     }
 }

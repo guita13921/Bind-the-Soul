@@ -11,10 +11,12 @@ namespace SG
 
         [Header("Player Data")]
         public PlayerData playerData;
+        public AnimatorHander animatorHander;
+        public PlayerLocomotion playerLocomotion;
+        public PlayerInventory playerInventory;
 
-        AnimatorHander animatorHander;
         PowerUpManager powerUpManager;
-        PlayerManager playerManager;
+        public PlayerManager playerManager;
         CharacterSoundFXManager characterSoundFXManager;
         public HealthBar healthBar;
         public StaminaBar staminaBar;
@@ -24,6 +26,7 @@ namespace SG
         public float maxStamina;
         public float currentStamina;
         public float staminaRegenTimer = 0;
+        float extraRegenPerSecond;
 
         public int flatDamageBonus;
         public float StaminaRegenBonus;
@@ -38,6 +41,8 @@ namespace SG
             staminaBar = FindObjectOfType<StaminaBar>();
             animatorHander = GetComponentInChildren<AnimatorHander>();
             characterSoundFXManager = GetComponentInParent<CharacterSoundFXManager>();
+            playerLocomotion = GetComponent<PlayerLocomotion>();
+            playerInventory = GetComponent<PlayerInventory>();
         }
 
         void Start()
@@ -133,7 +138,13 @@ namespace SG
                 staminaRegenTimer += Time.deltaTime;
                 if (currentStamina < maxStamina && staminaRegenTimer > 2f)
                 {
-                    currentStamina += (StaminaRegenerationAmount + StaminaRegenBonus) * Time.deltaTime;
+
+                    if (playerData.echoResoluteMind && playerInventory.leftWeapon.weaponType == WeaponType.Shield)
+                    {
+                        extraRegenPerSecond = GetEchoResoluteMindBonus();
+                    }
+
+                    currentStamina += (StaminaRegenerationAmount + StaminaRegenBonus + extraRegenPerSecond) * Time.deltaTime;
                     currentStamina = Mathf.Min(currentStamina, maxStamina);
 
                     staminaBar.SetcurrentStamina(Mathf.RoundToInt(currentStamina));
@@ -142,10 +153,19 @@ namespace SG
 
         }
 
+
         public void RestoreHealth(int amount)
         {
             currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
             Debug.Log($"Player healed for {amount}. Current Health: {currentHealth}");
+            healthBar.SetCurrentHealth(currentHealth);
+        }
+
+        public void RestoreStamina(float amount)
+        {
+            currentStamina = Mathf.Min(currentStamina + amount, maxStamina);
+            Debug.Log($"Stamina restored by {amount}, now at {currentStamina}/{maxStamina}");
+            staminaBar.SetcurrentStamina((int)currentStamina);
         }
 
         public void AddGold(int golds)
@@ -189,6 +209,18 @@ namespace SG
         {
             // Logic to check if timing was correct...
             TriggerParrySuccess(); // Notify all systems
+        }
+
+        private float GetEchoResoluteMindBonus()
+        {
+            return playerData.echoResoluteMindLevel switch
+            {
+                1 => 2f,
+                2 => 3f,
+                3 => 4f,
+                4 => 5f,
+                _ => 0f
+            };
         }
     }
 }
