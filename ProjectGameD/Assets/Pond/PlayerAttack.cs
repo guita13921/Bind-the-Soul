@@ -139,15 +139,17 @@ namespace SG
                 {
                     animatorHander.anim.SetBool("CanDoCombo", false);
                     animatorHander.PlayTargetAnimation(OH_Light_Attack_4, true);
-                    lastAttack_current = OH_Light_Attack_3;
+                    lastAttack_current = OH_Light_Attack_4;
                     StartCoroutine(HandleLightLastAttack(lastAttack_current));
+                    OnComboFinisherExecuted();
+
                 }
 
                 if (lastAttack == OH_Light_Attack_4)
                 {
                     animatorHander.anim.SetBool("CanDoCombo", false);
                     animatorHander.PlayTargetAnimation(OH_Light_Attack_5, true);
-                    lastAttack_current = OH_Light_Attack_3;
+                    lastAttack_current = OH_Light_Attack_4;
                     StartCoroutine(HandleLightLastAttack(lastAttack_current));
                 }
             }
@@ -318,7 +320,10 @@ namespace SG
                     playerManager.lockOnTransform.rotation = targetRotation;
 
                     int criticalDamage = playerInventory.rightWeapon.criticalDamageMultiple * rightWeapon.currentDamageWeapon;
+                    criticalDamage = CheckApexDrive(playerManager, criticalDamage);
+                    CheckHungeringDrive(playerManager, criticalDamage);
                     enemyCharacterManger.pendingCriticalDamage = criticalDamage;
+
 
                     animatorHander.PlayTargetAnimation("Back Stab", true);
                     enemyCharacterManger.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Back Stabed", true);
@@ -333,6 +338,8 @@ namespace SG
 
                 if (enemyCharacterManger != null && enemyCharacterManger.canBeRiposted)
                 {
+
+                    enemyCharacterManger.canBeRiposted = false;
                     playerManager.isInvulerable = true;
                     playerManager.lockOnTransform.position = enemyCharacterManger.riposteCollider.CriticalDamageStandPosition.position;
 
@@ -346,6 +353,8 @@ namespace SG
                     playerManager.lockOnTransform.rotation = targetRotation;
 
                     int criticalDamage = playerInventory.rightWeapon.criticalDamageMultiple * rightWeapon.currentDamageWeapon;
+                    criticalDamage = CheckApexDrive(playerManager, criticalDamage);
+                    CheckHungeringDrive(playerManager, criticalDamage);
                     enemyCharacterManger.pendingCriticalDamage = criticalDamage;
                     Debug.Log(criticalDamage);
 
@@ -373,6 +382,7 @@ namespace SG
                 if (enemyCharacterManger != null && enemyCharacterManger.canBeRiposted)
                 {
                     playerManager.isInvulerable = true;
+                    enemyCharacterManger.canBeRiposted = false;
                     playerManager.lockOnTransform.position = enemyCharacterManger.riposteCollider.CriticalDamageStandPosition.position;
 
                     Vector3 rotationDirection = playerManager.lockOnTransform.root.eulerAngles;
@@ -385,6 +395,8 @@ namespace SG
                     playerManager.lockOnTransform.rotation = targetRotation;
 
                     int criticalDamage = playerInventory.rightWeapon.criticalDamageMultiple * rightWeapon.currentDamageWeapon;
+                    criticalDamage = CheckApexDrive(playerManager, criticalDamage);
+                    CheckHungeringDrive(playerManager, criticalDamage);
                     enemyCharacterManger.pendingCriticalDamage = criticalDamage;
                     //Debug.Log(criticalDamage);
 
@@ -437,7 +449,47 @@ namespace SG
             }
         }
 
+        private void OnComboFinisherExecuted()
+        {
+            if (playerManager.playerData.echoQuickstep)
+            {
+                float staminaToRestore = playerStats.maxStamina * (0.05f + (0.05f * playerStats.playerData.echoQuickstepLevel));
+                playerStats.RestoreStamina(staminaToRestore);
+                Debug.Log($"Echo of the Quickstep: Restored {staminaToRestore} stamina after combo finisher.");
+            }
+        }
+
+        public int CheckApexDrive(PlayerManager playerManager, int baseDamage)
+        {
+            if (playerManager.playerData.echoApexDrive)
+            {
+                float bonus = 1f + (playerManager.playerData.echoApexDriveLevel * 0.25f);
+                float tempDamage;
+                tempDamage = baseDamage * bonus;
+                Debug.Log($"Echo of the Apex Drive: {bonus * 100}% {tempDamage} damage applied to staggered target.");
+                return (int)tempDamage;
+            }
+            else
+            {
+                return baseDamage;
+            }
+        }
+
+        public void CheckHungeringDrive(PlayerManager playerManager, int baseDamage)
+        {
+            float finalDamage = baseDamage;
+
+            if (playerManager.playerData.echoHungeringDrive)
+            {
+                float lifestealPercent = 0.02f * playerManager.playerData.echoHungeringDriveLevel;
+                float healAmount = finalDamage * lifestealPercent;
+
+                playerManager.playerStats.RestoreHealth((int)healAmount);
+                Debug.Log($"Echo of Hungering Drive: Restored {healAmount} HP from special attack.");
+            }
+        }
     }
 }
+
 
 

@@ -156,8 +156,10 @@ namespace SG
 
         private void GuardBreakPlayer(PlayerManager playerManager)
         {
-            Debug.Log("GuardBreakPlayer");
             characterSoundFXManager.PlayRandomShielBreakSoundFX();
+
+            if (playerManager.playerData.echoUnbrokenWall == true) return;
+
             playerManager.animatorHander.PlayTargetAnimation("Start Stun", true);
         }
 
@@ -175,6 +177,8 @@ namespace SG
                 power = reducedPower;
             }
         }
+
+
 
     }
 }

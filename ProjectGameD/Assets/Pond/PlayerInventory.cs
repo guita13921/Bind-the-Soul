@@ -7,6 +7,7 @@ namespace SG
     public class PlayerInventory : MonoBehaviour
     {
         WeaponSlotManager weaponSlotManager;
+        PlayerManager playerManager;
 
         public SpellItem currentSpell;
         public WeaponItem rightWeapon;
@@ -27,6 +28,7 @@ namespace SG
 
         private void Awake()
         {
+            playerManager = GetComponentInParent<PlayerManager>();
             weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
         }
 
@@ -134,10 +136,17 @@ namespace SG
                 {
                     rightWeapon = weaponsInRightHandSlots[currentRightWeaponIndex];
                     weaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
+
+                    Debug.Log(weaponSlotManager.rightHandSlot.currentWeaponItem.weaponType);
+                    if (weaponSlotManager.rightHandSlot.currentWeaponItem.weaponType == WeaponType.Dagger && playerManager.playerData.echoBladeRush == true)
+                    {
+                        playerManager.playerStats.TriggerBladeRushBuff(playerManager.playerData.echoBladeRushLevel);
+                    }
                     return;
                 }
 
             } while (currentRightWeaponIndex != startingIndex);
+
         }
 
         public void ChangeLeftWeapon()

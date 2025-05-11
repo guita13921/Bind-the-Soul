@@ -10,6 +10,7 @@ namespace SG
     {
         private EnemyStat enemyStats;
         public EnemyRoomManager roomManager;
+        public PlayerManager playerManager;
 
         EnemyManager enemyManager;
         EnemyAnimatorManager enemyAnimatorManager;
@@ -25,6 +26,7 @@ namespace SG
 
         private void Awake()
         {
+            playerManager = FindAnyObjectByType<PlayerManager>();
             enemyStats = GetComponent<EnemyStat>();
             roomManager = GetComponentInParent<EnemyRoomManager>();
             enemyManager = GetComponent<EnemyManager>();
@@ -64,6 +66,7 @@ namespace SG
             {
                 isDead = true;
                 HandleDeathWithOutAniamtion();
+                playerManager.playerStats.OnEnemyKilled?.Invoke();
                 currentHealth = 0;
             }
 
@@ -111,6 +114,7 @@ namespace SG
                     if (isDead) return;
                     enemyHealthBar.SetHealth(0);
                     HandleDeath();
+                    playerManager.playerStats.OnEnemyKilled?.Invoke();
                 }
             }
 

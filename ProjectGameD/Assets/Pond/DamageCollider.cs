@@ -25,7 +25,7 @@ namespace SG
             damageCollider.enabled = false;
         }
 
-        void Update()
+        protected virtual void Update()
         {
             characterManager = GetComponentInParent<CharacterManager>();
             characterSoundFXManager = GetComponentInParent<CharacterSoundFXManager>();

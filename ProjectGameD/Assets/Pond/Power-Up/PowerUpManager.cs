@@ -81,22 +81,43 @@ namespace SG
 
         private void ApplySetBonus(SetName setName, int setCount)
         {
-            foreach (var powerUp in collectedPowerUps)
+            if (setName == SetName.DuelistSet)
             {
-                if (powerUp.setName == setName)
+                if (setCount == 2)
                 {
-                    if (setCount == 2)
-                        powerUp.Apply2SetBonus(playerData, playerStats);
-                    else if (setCount == 4)
+                    playerData.duelistSet2Bonus = true;
+                    playerStats.OnParrySuccess += ActivateDuelingGrace;
+                    Debug.Log("Dueling Grace (2-set) activated: Parry will grant 2 crit attacks.");
+                }
+
+                if (setCount == 4)
+                {
+                    // Apply 4-set bonus & curse as before
+                    foreach (var powerUp in collectedPowerUps)
                     {
-                        powerUp.Apply4SetBonus(playerData, playerStats);
-                        powerUp.ApplyCurse(playerData, playerStats);
+                        if (powerUp.setName == setName)
+                        {
+                            powerUp.Apply4SetBonus(playerData, playerStats);
+                            powerUp.ApplyCurse(playerData, playerStats);
+                            break;
+                        }
                     }
-                    break;
                 }
             }
+
             Debug.Log($"{setCount}-Set Bonus Applied for: {setName}");
         }
+
+        private void ActivateDuelingGrace()
+        {
+            if (playerData.duelistSet2Bonus)
+            {
+                playerData.critAttacksRemaining = 2;
+                Debug.Log("Dueling Grace triggered: Next 2 attacks are critical.");
+            }
+        }
+
+
     }
 
 }

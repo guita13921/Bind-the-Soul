@@ -38,17 +38,62 @@ namespace SG
         [Header("Duelist Set Bonuses & Effects")]
         public bool echoCrimsonEdge;
         public int echoCrimsonEdgeLevel;
+
         public bool echoSilverGuard;
         public int echoSilverGuardLevel;
+
         public bool echoFocusedWill;
         public int echoFocusedWillLevel;
-        public bool echoRazorTiming;      // Whether the effect is active
+
+        public bool echoRazorTiming;
         public int echoRazorTimingLevel;
+
         public bool echoReturningFlow;
         public int echoReturningFlowLevel;
         public bool isFreeDodgeActive;
+
         public bool echoResoluteMind;
         public int echoResoluteMindLevel;
+
+        public bool duelistSet2Bonus;
+        public int critAttacksRemaining;
+
+        [Header("Titan Set Bonuses & Effects")]
+        public bool echoStoneborn;
+        public int echoStonebornLevel;
+
+        public bool echoIronMaw;
+        public int echoIronMawLevel;
+
+        public bool echoUnbrokenWall = false;
+
+        public bool echoAnchorstep = false;
+
+        public bool echoAnvilborn = false;
+        public int echoAnvilbornLevel = 0;
+
+        [Header("Phantom Set Bonuses & Effects")]
+        public bool echoFlickerFang = false;
+        public int echoFlickerFangLevel = 0;
+
+        public bool echoQuickstep = false;
+        public int echoQuickstepLevel = 0;
+
+        public bool echoBladeRush = false;
+        public int echoBladeRushLevel = 0;
+
+        [Header("Predator Set Bonuses & Effects")]
+        public bool echoBloodhound = false;
+        public int echoBloodhoundLevel = 0;
+
+        public bool echoFirstFang = false;
+        public int echoFirstFangLevel = 0;
+
+        public bool echoApexDrive = false;
+        public int echoApexDriveLevel = 0;
+
+        public bool echoHungeringDrive = false;
+        public int echoHungeringDriveLevel = 0;
 
 
         private void OnEnable()
@@ -63,24 +108,52 @@ namespace SG
             hasMomentum = false;
             momentumActive = false;
 
+            //Duelist Set Bonuses & Effects
             echoCrimsonEdge = false;
             echoCrimsonEdgeLevel = 0;
-
             echoSilverGuard = false;
             echoSilverGuardLevel = 0;
-
             echoFocusedWill = false;
             echoFocusedWillLevel = 0;
-
             echoRazorTiming = false;
             echoRazorTimingLevel = 0;
-
             echoReturningFlow = false;
             echoReturningFlowLevel = 0;
             isFreeDodgeActive = false;
-
             echoResoluteMind = false;
             echoResoluteMindLevel = 0;
+            duelistSet2Bonus = false;
+            critAttacksRemaining = 0;
+
+            //Titan Set Bonuses & Effects
+            echoStoneborn = false;
+            echoStonebornLevel = 0;
+            echoIronMaw = false;
+            echoIronMawLevel = 0;
+            echoUnbrokenWall = false;
+            echoAnchorstep = false;
+            echoAnvilborn = false;
+            echoAnvilbornLevel = 0;
+
+            //Phantom Set Bonuses & Effects
+            echoFlickerFang = false;
+            echoFlickerFangLevel = 0;
+            echoQuickstep = false;
+            echoQuickstepLevel = 0;
+            echoBladeRush = false;
+            echoBladeRushLevel = 0;
+
+            //Predator Set Bonuses & Effects
+            echoBloodhound = false;
+            echoBloodhoundLevel = 0;
+            echoFirstFang = false;
+            echoFirstFangLevel = 0;
+            echoApexDrive = false;
+            echoApexDriveLevel = 0;
+            echoHungeringDrive = false;
+            echoHungeringDriveLevel = 0;
+
+
 
             flatDamageBonus = 0;
             StaminaRegenBonus = 0;

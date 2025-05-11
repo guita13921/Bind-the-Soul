@@ -22,6 +22,7 @@ namespace SG
         public StaminaBar staminaBar;
 
         public float StaminaRegenerationAmount;
+        private float staminaRegenMultiplier = 1f;
         public int staminaLevel;
         public float maxStamina;
         public float currentStamina;
@@ -32,6 +33,13 @@ namespace SG
         public float StaminaRegenBonus;
 
         public Action OnParrySuccess;
+
+        public float bladeRushDamageBonus = 0f;
+        private Coroutine bladeRushRoutine;
+
+        public Action OnEnemyKilled;
+        private Coroutine firstFangBuffRoutine;
+
 
         private void Awake()
         {
@@ -92,9 +100,10 @@ namespace SG
             if (isDead)
                 return;
 
+            damage = (int)CheckIronMaw(damage);
+
             currentHealth -= damage;
             healthBar.SetCurrentHealth(currentHealth);
-            animatorHander.PlayTargetAnimation(damageAnimation, true, false, 3.0f);
 
             if (currentHealth <= 0)
             {
@@ -108,21 +117,26 @@ namespace SG
             }
             else
             {
+
+
                 if (damageAnimation == "Block Guard")
                 {
+
                     animatorHander.PlayTargetAnimation(damageAnimation, false);
                     if (characterSoundFXManager != null) characterSoundFXManager.PlayRandomShielHitSoundFX();
                 }
                 else
                 {
-                    animatorHander.PlayTargetAnimation(damageAnimation, true);
                     if (characterSoundFXManager != null) characterSoundFXManager.PlayRandomDamageSoundFX();
+                    if (playerManager.playerData.echoAnchorstep == true && playerManager.playerAttack.currentAttackType == AttackType.Heavy) return;
+                    animatorHander.PlayTargetAnimation(damageAnimation, true);
                 }
             }
         }
 
         public void TakeStaminaDamage(int damage)
         {
+            damage = (int)CheckIronMaw(damage);
             currentStamina -= damage;
             staminaBar.SetcurrentStamina(Mathf.RoundToInt(currentStamina));
         }
@@ -144,15 +158,16 @@ namespace SG
                         extraRegenPerSecond = GetEchoResoluteMindBonus();
                     }
 
-                    currentStamina += (StaminaRegenerationAmount + StaminaRegenBonus + extraRegenPerSecond) * Time.deltaTime;
+                    currentStamina += ((StaminaRegenerationAmount + StaminaRegenBonus + extraRegenPerSecond) * staminaRegenMultiplier) * Time.deltaTime;
                     currentStamina = Mathf.Min(currentStamina, maxStamina);
+
+                    //Debug.Log(staminaRegenMultiplier);
 
                     staminaBar.SetcurrentStamina(Mathf.RoundToInt(currentStamina));
                 }
             }
 
         }
-
 
         public void RestoreHealth(int amount)
         {
@@ -222,5 +237,76 @@ namespace SG
                 _ => 0f
             };
         }
+
+        private float CheckIronMaw(int damage)
+        {
+            if (playerData.echoIronMaw && playerLocomotion.IsStandingStill())
+            {
+                float reduction = 0.25f * playerData.echoIronMawLevel;
+                float tempDamage = damage;
+                tempDamage *= 1f - Mathf.Clamp01(reduction);
+                Debug.Log($"Iron Maw active: Stamina cost reduced by {reduction * 100}%.");
+                return tempDamage;
+            }
+            else
+            {
+                return damage;
+            }
+
+        }
+
+        public void TriggerBladeRushBuff(int level)
+        {
+            if (bladeRushRoutine != null)
+                StopCoroutine(bladeRushRoutine);
+
+            bladeRushRoutine = StartCoroutine(BladeRushBuffRoutine(level));
+        }
+
+        private IEnumerator BladeRushBuffRoutine(int level)
+        {
+            bladeRushDamageBonus = 0.2f; // 20% bonus
+            float duration = 2f + level; // 3s, 4s, 5s...
+            Debug.Log($"Blade Rush activated: +20% damage for {duration} seconds.");
+            yield return new WaitForSeconds(duration);
+            bladeRushDamageBonus = 0f;
+            Debug.Log("Blade Rush expired.");
+        }
+
+        public void TriggerFirstFangRegenBuff()
+        {
+            if (playerData.echoFirstFang)
+            {
+                if (firstFangBuffRoutine != null)
+                    StopCoroutine(firstFangBuffRoutine);
+
+                firstFangBuffRoutine = StartCoroutine(FirstFangRegenBuffRoutine(playerData.echoFirstFangLevel));
+            }
+        }
+
+        private IEnumerator FirstFangRegenBuffRoutine(int level)
+        {
+            float bonus = GetFirstFangRegenBonus(level); // 20%, 35%, 40%, ...
+            staminaRegenMultiplier = 1f + bonus;
+
+            Debug.Log($"Echo of the First Fang activated: +{bonus * 100}% stamina regen for 5s");
+            yield return new WaitForSeconds(5f);
+
+            staminaRegenMultiplier = 1f;
+            Debug.Log("Echo of the First Fang expired.");
+        }
+
+        private float GetFirstFangRegenBonus(int level)
+        {
+            return level switch
+            {
+                1 => 0.20f,
+                2 => 0.35f,
+                3 => 0.40f,
+                4 => 0.50f,
+                _ => 0.50f
+            };
+        }
+
     }
 }

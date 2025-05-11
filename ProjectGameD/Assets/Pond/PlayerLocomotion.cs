@@ -32,7 +32,6 @@ namespace SG
         public float dashSpeed = 20f;
         public float dashDuration = 0.2f;
         public float dashCooldown = 1f;
-
         private bool isDashing = false;
         private float dashTimer = 0f;
         private float cooldownTimer = 0f;
@@ -73,6 +72,11 @@ namespace SG
         #region Movement
         Vector3 normalVector;
         Vector3 targetPosition;
+
+        public bool IsStandingStill()
+        {
+            return inputHander.vertical <= 0.00f && inputHander.horizontal <= 0.01f;
+        }
 
         private void HandleRotation(float delta)
         {
@@ -199,9 +203,13 @@ namespace SG
 
         }
 
-
         public void Roll(float speed)
         {
+            if (playerManager.playerData.echoFlickerFang == true)
+            {
+                speed += 0.05f + (playerManager.playerData.echoFlickerFangLevel * 0.05f); // 10%, 15%, ...
+            }
+
             if (inputHander.moveAmount > 0)
             {
                 animatorHander.PlayTargetAnimation("Roll", true, false, speed);
@@ -235,7 +243,6 @@ namespace SG
             }
         }
 
-
         public void ActivateFreeDodge(float duration)
         {
             if (freeDodgeRoutine != null)
@@ -251,8 +258,6 @@ namespace SG
             isFreeDodgeActive = false;
             Debug.Log("Free dodge window expired.");
         }
-
-
 
         #endregion
     }
