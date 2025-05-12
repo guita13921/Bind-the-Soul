@@ -19,7 +19,6 @@ namespace SG
 
         public virtual void Apply2SetBonus(PlayerData data, PlayerStats stats) { }
         public virtual void Apply4SetBonus(PlayerData data, PlayerStats stats) { }
-        public virtual void ApplyCurse(PlayerData data, PlayerStats stats) { }
 
         public virtual void OnStacked(PlayerData playerData) { } // Optional: trigger effects on level up
     }

@@ -101,6 +101,7 @@ namespace SG
                 return;
 
             damage = (int)CheckIronMaw(damage);
+            damage = (int)CheckduelistSet4Curse(damage, "Damage");
 
             currentHealth -= damage;
             healthBar.SetCurrentHealth(currentHealth);
@@ -137,6 +138,8 @@ namespace SG
         public void TakeStaminaDamage(int damage)
         {
             damage = (int)CheckIronMaw(damage);
+            damage = (int)CheckduelistSet4Curse(damage, "Stamina");
+
             currentStamina -= damage;
             staminaBar.SetcurrentStamina(Mathf.RoundToInt(currentStamina));
         }
@@ -308,5 +311,27 @@ namespace SG
             };
         }
 
+        private float CheckduelistSet4Curse(int damage, String type)
+        {
+            if (type == "Damage" && playerData.duelistSetCurse)
+            {
+                float tempDamage = damage;
+                tempDamage *= playerData.duelistSet4CurseDamageMultiplier;
+                Debug.Log($"CheckduelistSet4Curse :{tempDamage}");
+                return tempDamage;
+            }
+            else if (type == "Stamina" && playerData.duelistSetCurse)
+            {
+                float tempDamage = damage;
+                tempDamage *= playerData.duelistSet4CurseStaminaDamageMultiplie;
+                Debug.Log($"CheckduelistSet4Curse :{tempDamage}");
+                return tempDamage;
+            }
+            else
+            {
+                return damage;
+            }
+
+        }
     }
 }

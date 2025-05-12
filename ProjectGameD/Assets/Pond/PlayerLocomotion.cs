@@ -94,7 +94,7 @@ namespace SG
                     }
 
                     Quaternion tr = Quaternion.LookRotation(targetDirection);
-                    Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, rotationSpeed * Time.deltaTime);
+                    Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, rotationSpeed * delta);
                     transform.rotation = targetRotation;
                 }
                 else
@@ -106,7 +106,7 @@ namespace SG
                     rotationDirection.y = 0;
                     rotationDirection.Normalize();
                     Quaternion tr = Quaternion.LookRotation(rotationDirection);
-                    Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, rotationSpeed * Time.deltaTime);
+                    Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, rotationSpeed * delta);
                     transform.rotation = targetRotation;
                 }
             }
@@ -123,7 +123,7 @@ namespace SG
                     targetDir = myTransform.forward;
                 float rs = rotationSpeed;
                 Quaternion tr = Quaternion.LookRotation(targetDir);
-                Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr, rs * delta);
+                Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, rotationSpeed * delta);
 
                 myTransform.rotation = targetRotation;
             }

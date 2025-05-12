@@ -92,21 +92,28 @@ namespace SG
 
                 if (setCount == 4)
                 {
-                    // Apply 4-set bonus & curse as before
+                    playerData.duelistSet4Bonus = true;
+                    playerStats.OnParrySuccess += ActivatePerfectFormTimeSlow;
+
                     foreach (var powerUp in collectedPowerUps)
                     {
                         if (powerUp.setName == setName)
                         {
                             powerUp.Apply4SetBonus(playerData, playerStats);
-                            powerUp.ApplyCurse(playerData, playerStats);
+                            ApplyCurse(playerData, playerStats);
                             break;
                         }
                     }
+
+                    Debug.Log("Perfect Form (4-set) activated: Parry slows time for 5 seconds.");
+                    Debug.Log("Curse activated: +25% back damage taken, +10% stamina drain on guard.");
                 }
             }
 
             Debug.Log($"{setCount}-Set Bonus Applied for: {setName}");
         }
+
+
 
         private void ActivateDuelingGrace()
         {
@@ -116,6 +123,48 @@ namespace SG
                 Debug.Log("Dueling Grace triggered: Next 2 attacks are critical.");
             }
         }
+
+        private void ActivatePerfectFormTimeSlow()
+        {
+            if (!playerData.duelistSet4Bonus) return;
+
+            StartCoroutine(SlowTimeRoutine());
+        }
+
+        public void ApplyCurse(PlayerData playerData, PlayerStats stats)
+        {
+            playerData.duelistSetCurse = true;
+            playerData.duelistSet4CurseDamageMultiplier = 1.15f;
+        }
+
+
+        private IEnumerator SlowTimeRoutine()
+        {
+            Time.timeScale = 0.25f;
+            Time.fixedDeltaTime = 0.02f * Time.timeScale;
+            playerStats.animatorHander.anim.speed = 1f / Time.timeScale;
+
+            yield return new WaitForSecondsRealtime(6f); // unaffected by timeScale
+
+            float duration = 2f; // seconds to transition back to normal
+            float elapsed = 0f;
+            float startScale = Time.timeScale;
+            float endScale = 1f;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                Time.timeScale = Mathf.Lerp(startScale, endScale, elapsed / duration);
+                Time.fixedDeltaTime = 0.02f * Time.timeScale;
+                playerStats.animatorHander.anim.speed = 1f / Time.timeScale;
+                yield return null;
+            }
+
+            Time.timeScale = 1f;
+            Time.fixedDeltaTime = 0.02f;
+        }
+
+
 
 
     }

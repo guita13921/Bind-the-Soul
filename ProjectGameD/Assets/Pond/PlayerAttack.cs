@@ -19,6 +19,9 @@ namespace SG
         PlayerData playerData;
 
 
+        public EnemyManager enemyCharacterManger;
+        public PlayerDamageCollider rightWeapon;
+
         [Header("Attack Animations")]
         string OH_Light_Attack_1 = "OH_Light_Attack_1";
         string OH_Light_Attack_2 = "OH_Light_Attack_2";
@@ -303,8 +306,8 @@ namespace SG
             if (Physics.Raycast(inputHander.CriticalAttackRayCastStartPoint.position,
             transform.TransformDirection(Vector3.forward), out hit, 0.5f, backStabLayer))
             {
-                CharacterManager enemyCharacterManger = hit.transform.gameObject.GetComponentInParent<CharacterManager>();
-                PlayerDamageCollider rightWeapon = weaponSlotManager.righthandDamgeCollider;
+                enemyCharacterManger = hit.transform.gameObject.GetComponentInParent<EnemyManager>();
+                rightWeapon = weaponSlotManager.righthandDamgeCollider;
                 if (enemyCharacterManger != null)
                 {
                     //CHECK FOR TEAM I.D (So you cant back stab friend or yourself ?)
@@ -333,8 +336,8 @@ namespace SG
             }
             else if (Physics.Raycast(inputHander.CriticalAttackRayCastStartPoint.position, transform.TransformDirection(Vector3.forward), out hit, 0.7f, riposteLayer))
             {
-                CharacterManager enemyCharacterManger = hit.transform.gameObject.GetComponentInParent<CharacterManager>();
-                PlayerDamageCollider rightWeapon = weaponSlotManager.righthandDamgeCollider;
+                enemyCharacterManger = hit.transform.gameObject.GetComponentInParent<EnemyManager>();
+                rightWeapon = weaponSlotManager.righthandDamgeCollider;
 
                 if (enemyCharacterManger != null && enemyCharacterManger.canBeRiposted)
                 {
@@ -376,8 +379,8 @@ namespace SG
 
             if (Physics.Raycast(inputHander.CriticalAttackRayCastStartPoint.position, transform.TransformDirection(Vector3.forward), out hit, 0.7f, riposteLayer))
             {
-                CharacterManager enemyCharacterManger = hit.transform.gameObject.GetComponentInParent<CharacterManager>();
-                PlayerDamageCollider rightWeapon = weaponSlotManager.righthandDamgeCollider;
+                enemyCharacterManger = hit.transform.gameObject.GetComponentInParent<EnemyManager>();
+                rightWeapon = weaponSlotManager.righthandDamgeCollider;
 
                 if (enemyCharacterManger != null && enemyCharacterManger.canBeRiposted)
                 {

@@ -61,16 +61,29 @@ namespace SG
                 h = horizontalMovement;
             }
 
-            anim.SetFloat(vertical, v, 0.1f, Time.deltaTime);
-            anim.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
+            float delta = Time.timeScale < 1f && playerManager.playerData.duelistSet4Bonus
+                ? Time.unscaledDeltaTime
+                : Time.deltaTime;
+
+            anim.SetFloat(vertical, v, 0.1f, delta);
+            anim.SetFloat(horizontal, h, 0.1f, delta);
+
         }
+
 
         public void PlayTargetAnimation(string targetAnim, bool isInteracting, bool canRotate = false, float speed = 1.0f)
         {
             if (anim == null) return;
 
-            anim.speed = speed * currentAttackSpeedMultiplier; // Set the speed before playing4
-            //Debug.Log(speed * currentAttackSpeedMultiplier);
+            float finalSpeed = speed * currentAttackSpeedMultiplier;
+
+            // If time is slowed and player has immunity, override animator speed
+            if (Time.timeScale < 1f && playerManager.playerData.duelistSet4Bonus)
+            {
+                speed = finalSpeed / Time.timeScale; // cancel out slow-mo effect
+            }
+
+            anim.speed = speed;
             anim.applyRootMotion = isInteracting;
             anim.SetBool("isInteracting", isInteracting);
             anim.CrossFade(targetAnim, 0.0f);
@@ -109,10 +122,10 @@ namespace SG
             playerManager.isParrying = false;
         }
 
-        public void TakeCriticalDamageAnimationEvent()
+        public void SendCriticalDamageAnimationEvent()
         {
-            playerStats.TakeDamage(playerManager.pendingCriticalDamage);
-            playerManager.pendingCriticalDamage = 0;
+            playerManager.playerAttack.enemyCharacterManger.enemyStat.TakeDamageNoAnimation(playerManager.playerAttack.enemyCharacterManger.pendingCriticalDamage);
+            playerManager.playerAttack.enemyCharacterManger.pendingCriticalDamage = 0;
         }
 
         private void OnAnimatorMove()
@@ -127,6 +140,7 @@ namespace SG
             if (playerLocomotion.TryGetComponent(out Rigidbody rb))
             {
                 float delta = Time.deltaTime;
+
                 rb.drag = 0;
                 Vector3 deltaPosition = anim.deltaPosition;
                 deltaPosition.y = 0;

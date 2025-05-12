@@ -67,7 +67,9 @@ public class InputHander : MonoBehaviour
 
     void FixedUpdate()
     {
-        float delta = Time.fixedDeltaTime;
+        float delta = (playerManager.playerData.duelistSet4Bonus && Time.timeScale < 1f)
+            ? Time.unscaledDeltaTime
+            : Time.fixedDeltaTime;
 
         if (cameraHandler != null)
         {
@@ -125,6 +127,7 @@ public class InputHander : MonoBehaviour
         {
             return;
         }
+
         horizontal = movementInput.x;
         vertical = movementInput.y;
         moveAmount = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));

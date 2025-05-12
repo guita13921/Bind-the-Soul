@@ -24,8 +24,8 @@ namespace SG
 
         public void TakeCriticalDamageAnimationEvent()
         {
-            enemyStat.TakeDamageNoAnimation(enemyManager.pendingCriticalDamage);
-            enemyManager.pendingCriticalDamage = 0;
+            //enemyStat.TakeDamageNoAnimation(enemyManager.pendingCriticalDamage);
+            //enemyManager.pendingCriticalDamage = 0;
         }
 
         public void DisableCanBeRiposted()

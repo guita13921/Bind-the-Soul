@@ -58,6 +58,12 @@ namespace SG
         public bool duelistSet2Bonus;
         public int critAttacksRemaining;
 
+        public bool duelistSet4Bonus = false;
+        public bool duelistSetCurse = false;
+        public float duelistSet4CurseDamageMultiplier = 1.15f;
+        public float duelistSet4CurseStaminaDamageMultiplie = 1.15f;
+
+
         [Header("Titan Set Bonuses & Effects")]
         public bool echoStoneborn;
         public int echoStonebornLevel;
@@ -124,6 +130,10 @@ namespace SG
             echoResoluteMindLevel = 0;
             duelistSet2Bonus = false;
             critAttacksRemaining = 0;
+            duelistSet4Bonus = false;
+            duelistSetCurse = false;
+            duelistSet4CurseStaminaDamageMultiplie = 1f;
+
 
             //Titan Set Bonuses & Effects
             echoStoneborn = false;
@@ -152,6 +162,7 @@ namespace SG
             echoApexDriveLevel = 0;
             echoHungeringDrive = false;
             echoHungeringDriveLevel = 0;
+
 
 
 

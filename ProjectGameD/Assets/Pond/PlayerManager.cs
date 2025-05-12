@@ -43,7 +43,10 @@ namespace SG
         // Update is called once per frame
         void Update()
         {
-            float delta = Time.deltaTime;
+            float delta = (playerData.duelistSet4Bonus && Time.timeScale < 1f)
+                ? Time.unscaledDeltaTime
+                : Time.fixedDeltaTime;
+
             isInteracting = anim.GetBool("isInteracting");
             CanDoCombo = anim.GetBool("CanDoCombo");
             isInvulerable = anim.GetBool("IsInvulnerable");
@@ -64,7 +67,10 @@ namespace SG
         }
         private void FixedUpdate()
         {
-            float delta = Time.fixedDeltaTime;
+            float delta = (playerData.duelistSet4Bonus && Time.timeScale < 1f)
+                ? Time.unscaledDeltaTime
+                : Time.fixedDeltaTime;
+
             if (cameraHandler != null)
             {
                 cameraHandler.FollowTarget(delta);
