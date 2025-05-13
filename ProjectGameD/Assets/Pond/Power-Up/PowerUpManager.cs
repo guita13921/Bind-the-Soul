@@ -7,6 +7,8 @@ namespace SG
 
     public class PowerUpManager : MonoBehaviour
     {
+        PlayerManager playerManager;
+
         public PlayerData playerData;
         public PlayerStats playerStats;
         public List<PowerUp> collectedPowerUps = new();
@@ -17,6 +19,7 @@ namespace SG
 
         public void Awake()
         {
+            playerManager = GetComponent<PlayerManager>();
             playerStats = GetComponent<PlayerStats>();
         }
 
@@ -144,6 +147,9 @@ namespace SG
             Time.fixedDeltaTime = 0.02f * Time.timeScale;
             playerStats.animatorHander.anim.speed = 1f / Time.timeScale;
 
+            playerManager.playerLocomotion.movementSpeed *= 2;
+            playerManager.playerLocomotion.sprintSpeed *= 2;
+
             yield return new WaitForSecondsRealtime(6f); // unaffected by timeScale
 
             float duration = 2f; // seconds to transition back to normal
@@ -162,6 +168,9 @@ namespace SG
 
             Time.timeScale = 1f;
             Time.fixedDeltaTime = 0.02f;
+
+            playerManager.playerLocomotion.movementSpeed /= 2;
+            playerManager.playerLocomotion.sprintSpeed /= 2;
         }
 
 

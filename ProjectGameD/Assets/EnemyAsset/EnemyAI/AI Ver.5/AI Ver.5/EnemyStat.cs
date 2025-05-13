@@ -17,6 +17,7 @@ namespace SG
         EnemyBossManager enemyBossManager;
         [SerializeField] DemonBossManager demonBossManager; //Only old Demon Boss
         public UIEnemyHealthBar enemyHealthBar;
+        public UIEnemyShieldBar enemyShieldBar;
         EnemyDebuff enemyDebuff;
 
         CharacterSoundFXManager characterSoundFXManager;
@@ -36,6 +37,7 @@ namespace SG
             maxHealth = SetMaxHealthFromHealthLevel();
             currentHealth = maxHealth;
             enemyHealthBar = GetComponentInChildren<UIEnemyHealthBar>();
+            enemyShieldBar = GetComponentInChildren<UIEnemyShieldBar>();
             characterSoundFXManager = GetComponent<CharacterSoundFXManager>();
             enemyDebuff = GetComponent<EnemyDebuff>();
         }
@@ -64,7 +66,6 @@ namespace SG
 
             if (currentHealth <= 0)
             {
-                isDead = true;
                 HandleDeathWithOutAniamtion();
                 playerManager.playerStats.OnEnemyKilled?.Invoke();
                 currentHealth = 0;
@@ -111,7 +112,6 @@ namespace SG
                 }
                 else
                 {
-                    if (isDead) return;
                     enemyHealthBar.SetHealth(0);
                     HandleDeath();
                     playerManager.playerStats.OnEnemyKilled?.Invoke();
@@ -137,7 +137,12 @@ namespace SG
 
         private void HandleDeath()
         {
+            if (isDead) return;
+
             currentHealth = 0;
+            enemyHealthBar.SetHealth(0);
+            enemyShieldBar.SetShield(0);
+
             enemyAnimatorManager.PlayTargetAnimation("Dead01", true);
             DropItem();
 
@@ -157,12 +162,17 @@ namespace SG
             {
                 enemyDebuff.stuckKnife.ownerAttack.RecoverKnifeCharge();
             }
+
             StartCoroutine(DestroyAfterDelay());
         }
 
         private void HandleDeathWithOutAniamtion()
         {
+            if (isDead) return;
+
             currentHealth = 0;
+            enemyHealthBar.SetHealth(0);
+            enemyShieldBar.SetShield(0);
             DropItem();
 
             // Play death sound

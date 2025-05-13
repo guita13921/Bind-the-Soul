@@ -96,6 +96,7 @@ namespace SG
         private void LoadLeftWeaponDamageCollider()
         {
             leftHandDamgeCollider = leftHandSlot.currentWeaponModel.GetComponentInChildren<PlayerDamageCollider>();
+            if (leftHandDamgeCollider != null) leftHandDamgeCollider.currentDamageWeapon = playerInventory.leftWeapon.damage;
             // leftHandDamgeCollider.currentDamageWeapon = playerInventory.leftWeapon.damage;
             // leftHandDamgeCollider.currentDamageWeapon = playerInventory.leftWeapon.damage;
             //            leftHandDamgeCollider.currentDamageWeapon = attackingWeapon.damage;
@@ -149,6 +150,7 @@ namespace SG
         {
             if (leftHandDamgeCollider != null)
                 leftHandDamgeCollider.DisableDamageCollider();
+
             righthandDamgeCollider.DisableDamageCollider();
         }
 

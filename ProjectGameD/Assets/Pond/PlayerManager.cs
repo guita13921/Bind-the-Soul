@@ -6,8 +6,8 @@ namespace SG
     public class PlayerManager : CharacterManager
     {
         InputHander inputHander;
-        PlayerLocomotion playerLocomotion;
 
+        public PlayerLocomotion playerLocomotion;
         public CameraHandler cameraHandler;
         public Animator anim;
         public AnimatorHander animatorHander;

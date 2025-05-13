@@ -1250,14 +1250,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf66b328a42905d4b996a8cd7053fe9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthLevel: 10
+  healthLevel: 20
   maxHealth: 0
   currentHealth: 0
   goldCount: 0
   isDead: 0
   roomManager: {fileID: 0}
+  playerManager: {fileID: 0}
   demonBossManager: {fileID: 0}
   enemyHealthBar: {fileID: 0}
+  enemyShieldBar: {fileID: 0}
   goldAwardOnDeath: 10
   isBoss: 0
 --- !u!114 &6090153918178203671
@@ -1309,9 +1311,9 @@ MonoBehaviour:
   maximumDetectionAngle: 90
   currentRecoveryTime: 0
   currentStunningTime: 0
-  stunningTime: 10
-  rotationSpeed: 15
-  maximumAttackRange: 2
+  stunningTime: 7
+  rotationSpeed: 50
+  maximumAttackRange: 10
   allowAiToPerformCombo: 1
   comboLikelyHood: 100
   isPhaseShifting: 0

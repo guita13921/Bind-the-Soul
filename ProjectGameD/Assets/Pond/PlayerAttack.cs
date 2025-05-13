@@ -304,7 +304,7 @@ namespace SG
             RaycastHit hit;
 
             if (Physics.Raycast(inputHander.CriticalAttackRayCastStartPoint.position,
-            transform.TransformDirection(Vector3.forward), out hit, 0.5f, backStabLayer))
+            transform.TransformDirection(Vector3.forward), out hit, 0.7f, backStabLayer))
             {
                 enemyCharacterManger = hit.transform.gameObject.GetComponentInParent<EnemyManager>();
                 rightWeapon = weaponSlotManager.righthandDamgeCollider;
@@ -330,6 +330,7 @@ namespace SG
 
                     animatorHander.PlayTargetAnimation("Back Stab", true);
                     enemyCharacterManger.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Back Stabed", true);
+                    enemyCharacterManger.canBeRiposted = false;
 
                     //playerManager.lockOnTransform.position = playerManager.DefaultlockOnTransform.position;
                 }
@@ -342,7 +343,6 @@ namespace SG
                 if (enemyCharacterManger != null && enemyCharacterManger.canBeRiposted)
                 {
 
-                    enemyCharacterManger.canBeRiposted = false;
                     playerManager.isInvulerable = true;
                     playerManager.lockOnTransform.position = enemyCharacterManger.riposteCollider.CriticalDamageStandPosition.position;
 
@@ -369,6 +369,7 @@ namespace SG
 
                     animatorHander.PlayTargetAnimation(riposteAnim, true);
                     enemyCharacterManger.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation(ripostedAnim, true);
+                    enemyCharacterManger.canBeRiposted = false;
                 }
             }
         }
@@ -385,7 +386,6 @@ namespace SG
                 if (enemyCharacterManger != null && enemyCharacterManger.canBeRiposted)
                 {
                     playerManager.isInvulerable = true;
-                    enemyCharacterManger.canBeRiposted = false;
                     playerManager.lockOnTransform.position = enemyCharacterManger.riposteCollider.CriticalDamageStandPosition.position;
 
                     Vector3 rotationDirection = playerManager.lockOnTransform.root.eulerAngles;
@@ -411,6 +411,7 @@ namespace SG
 
                     animatorHander.PlayTargetAnimation(riposteAnim, true);
                     enemyCharacterManger.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation(ripostedAnim, true);
+                    enemyCharacterManger.canBeRiposted = false;
                 }
             }
 

@@ -21,8 +21,8 @@ namespace SG
         public GameObject normalCameral;
 
         [Header("Movement Stats")]
-        [SerializeField] float movementSpeed = 5;
-        [SerializeField] float sprintSpeed = 7;
+        [SerializeField] public float movementSpeed = 5;
+        [SerializeField] public float sprintSpeed = 7;
         [SerializeField] float rotationSpeed = 10;
         private float sprintStaminaTimer = 0f;
         public float staminaDrainInterval = 0.25f; // Drain every half second
