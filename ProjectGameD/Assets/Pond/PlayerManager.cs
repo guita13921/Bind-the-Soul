@@ -65,11 +65,10 @@ namespace SG
             //CheckForInteractableObjiect();
 
         }
+
         private void FixedUpdate()
         {
-            float delta = (playerData.duelistSet4Bonus && Time.timeScale < 1f)
-                ? Time.unscaledDeltaTime
-                : Time.fixedDeltaTime;
+            float delta = Time.deltaTime;
 
             if (cameraHandler != null)
             {

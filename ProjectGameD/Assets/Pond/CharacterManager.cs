@@ -24,6 +24,7 @@ namespace SG
         [Header("Combat Flags")]
         public bool CanDoCombo;
         public bool canBeRiposted;
+
         //public bool canBeParried;
         public bool isParrying;
         public bool isBlocking;

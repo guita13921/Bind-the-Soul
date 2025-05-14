@@ -23,7 +23,10 @@ namespace SG
         CharacterSoundFXManager characterSoundFXManager;
 
         public int goldAwardOnDeath = 10;
+
         public bool isBoss;
+        public int blockRippost;
+        public int currentBlockRippost;
 
         private void Awake()
         {
@@ -48,6 +51,10 @@ namespace SG
             {
                 maxHealth = SetMaxHealthFromHealthLevel();
             }
+            else
+            {
+                currentBlockRippost = blockRippost;
+            }
         }
 
         private int SetMaxHealthFromHealthLevel()
@@ -70,6 +77,7 @@ namespace SG
                 playerManager.playerStats.OnEnemyKilled?.Invoke();
                 currentHealth = 0;
             }
+
 
             if (!isBoss)
             {
@@ -175,6 +183,11 @@ namespace SG
             enemyShieldBar.SetShield(0);
             DropItem();
 
+            if (isBoss)
+            {
+                enemyAnimatorManager.PlayTargetAnimation("Dead01", true);
+            }
+
             // Play death sound
             if (characterSoundFXManager != null)
             {
@@ -191,6 +204,7 @@ namespace SG
             {
                 enemyDebuff.stuckKnife.ownerAttack.RecoverKnifeCharge();
             }
+
             StartCoroutine(DestroyAfterDelay());
 
         }

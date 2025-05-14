@@ -327,7 +327,7 @@ namespace SG
                     CheckHungeringDrive(playerManager, criticalDamage);
                     enemyCharacterManger.pendingCriticalDamage = criticalDamage;
 
-
+                    animatorHander.anim.SetBool("IsInvulnerable", true);
                     animatorHander.PlayTargetAnimation("Back Stab", true);
                     enemyCharacterManger.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Back Stabed", true);
                     enemyCharacterManger.canBeRiposted = false;
@@ -367,6 +367,7 @@ namespace SG
                     string riposteAnim = "Riposte0" + riposteIndex;
                     string ripostedAnim = "Riposted0" + riposteIndex;
 
+                    animatorHander.anim.SetBool("IsInvulnerable", true);
                     animatorHander.PlayTargetAnimation(riposteAnim, true);
                     enemyCharacterManger.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation(ripostedAnim, true);
                     enemyCharacterManger.canBeRiposted = false;
@@ -409,6 +410,7 @@ namespace SG
                     string riposteAnim = "StandRiposte0" + riposteIndex;
                     string ripostedAnim = "StandRiposted0" + riposteIndex;
 
+                    animatorHander.anim.SetBool("IsInvulnerable", true);
                     animatorHander.PlayTargetAnimation(riposteAnim, true);
                     enemyCharacterManger.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation(ripostedAnim, true);
                     enemyCharacterManger.canBeRiposted = false;

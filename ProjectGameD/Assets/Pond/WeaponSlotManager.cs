@@ -151,7 +151,8 @@ namespace SG
             if (leftHandDamgeCollider != null)
                 leftHandDamgeCollider.DisableDamageCollider();
 
-            righthandDamgeCollider.DisableDamageCollider();
+            if (righthandDamgeCollider != null)
+                righthandDamgeCollider.DisableDamageCollider();
         }
 
         #endregion

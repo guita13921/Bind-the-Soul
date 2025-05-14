@@ -38,24 +38,49 @@ namespace SG
 
         public void CheckForParry(PlayerManager playerManager)
         {
-            characterSoundFXManager?.PlayPariedSounds();
-            var animMgr = enemyManager?.GetComponentInChildren<EnemyAnimatorManager>();
-
-            animMgr?.PlayTargetAnimation("Start Stun", true);
-            animMgr?.animator.SetBool("IsBlocking", false);
-
-            playerManager.playerStats.TriggerParrySuccess();
-
-            if (enemyManager != null)
+            if (!enemyManager.enemyStat.isBoss)
             {
-                enemyManager.canBeRiposted = true;
-                enemyManager.isBlocking = false;
-                enemyManager.isStunning = true;
-                enemyManager.currentStunningTime = enemyManager.stunningTime;
+                characterSoundFXManager?.PlayPariedSounds();
+                var animMgr = enemyManager?.GetComponentInChildren<EnemyAnimatorManager>();
 
-                if (enemyManager.enemyStat.isBoss == false) playerManager.playerAttack.AttemptInstantRiposte(); //IstanceKillMinioun
+                animMgr?.PlayTargetAnimation("Start Stun", true);
+                animMgr?.animator.SetBool("IsBlocking", false);
+
+                playerManager.playerStats.TriggerParrySuccess();
+
+                if (enemyManager != null)
+                {
+                    enemyManager.canBeRiposted = true;
+                    enemyManager.isBlocking = false;
+                    enemyManager.isStunning = true;
+                    enemyManager.currentStunningTime = enemyManager.stunningTime;
+
+                    if (enemyManager.enemyStat.isBoss == false) playerManager.playerAttack.AttemptInstantRiposte(); //IstanceKillMinioun
+                }
+            }
+            else
+            {
+                characterSoundFXManager?.PlayPariedSounds();
+                var animMgr = enemyManager?.GetComponentInChildren<EnemyAnimatorManager>();
+
+                if (enemyManager.enemyStat.currentBlockRippost > 0)
+                {
+                    string recoilAnim = $"AttackRecoil_0{Random.Range(1, 6)}";
+                    animMgr.PlayRecoilAnimation(recoilAnim);
+                    enemyManager.enemyStat.currentBlockRippost--;
+                }
+                else
+                {
+                    animMgr?.PlayTargetAnimation("Start Stun", true);
+                    animMgr?.animator.SetBool("IsBlocking", false);
+                    enemyManager.enemyStat.currentBlockRippost = enemyManager.enemyStat.blockRippost;
+                    enemyManager.canBeRiposted = true;
+                    enemyManager.isStunning = true;
+                    enemyManager.currentStunningTime = enemyManager.stunningTime;
+                }
             }
 
+            playerManager.playerStats.TriggerParrySuccess();
         }
 
         private void OnTriggerEnter(Collider collider)
@@ -144,7 +169,9 @@ namespace SG
             playerStats?.TakeDamage(Mathf.RoundToInt(finalDamage), "Block Guard");
 
             var animMgr = enemyManager?.GetComponentInChildren<EnemyAnimatorManager>();
-            if (animMgr != null)
+            bool isBoss = enemyManager.enemyStat.isBoss;
+
+            if (animMgr != null && isBoss == false)
             {
                 string recoilAnim = $"AttackRecoil_0{Random.Range(1, 6)}";
                 animMgr.PlayRecoilAnimation(recoilAnim);

@@ -106,16 +106,13 @@ namespace SG
             if (characterManager.characterCombatManager.currentAttackType == AttackType.light)
             {
                 damage = currentDamageWeapon * characterManager.weaponSlotManager.attackingWeapon.lightAttackDamageModifiers;
+
+                //Modify for power-up 
                 damage = CheckCritNextAttack(damage, playerManager);
                 damage = CheckBladeRush(damage, playerManager);
                 damage = CheckBloodhound(damage, playerManager, enemyManager);
-
-                /*
-                Modify for power-up 
-                */
-
                 int currentDamage = Mathf.RoundToInt(damage);
-                Debug.Log(currentDamage);
+
 
                 if (enemyStat != null)
                 {
@@ -129,9 +126,7 @@ namespace SG
             {
                 damage = currentDamageWeapon * characterManager.weaponSlotManager.attackingWeapon.heavyAttackDamageModifiers;
 
-                /*
-                Modify for power-up 
-                */
+                //Modify for power-up 
                 damage = CheckCritNextAttack(damage, playerManager);
                 damage = CheckStoneborns(damage, playerManager);
                 damage = CheckBladeRush(damage, playerManager);

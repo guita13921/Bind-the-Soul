@@ -19,7 +19,9 @@ namespace SG
         public Transform cameraPivotTranform; //Rotate
         private Transform myTransform;
         private Vector3 cameraTransformPosition;
+
         public LayerMask ignoreLayers;
+        private Vector3 cameraFollowVelocity = Vector3.zero;
         public LayerMask envirometLayer;
 
         public static CameraHandler singleton;
@@ -29,11 +31,16 @@ namespace SG
         public float pivotSpeed = 0.03f;
         [SerializeField] private float rotationSpeed = 8f; // Adjust as needed
 
+        private float targetPosition;
         private float defaultPosition;
         private float lookAngle;
         private float pivotAngle;
         public float minimumPivot = -35;
         public float maximumPivot = 35;
+
+        public float cameraSphereRadius = 0.2f;
+        public float cameraCollisionOffSet = 0.2f;
+        public float minimumCollisionOffset = 0.2f;
 
         public float lockedPivotPosition = 1.65f;
         public float unlockedPivotPosition = 1.65f;
@@ -50,22 +57,45 @@ namespace SG
             singleton = this;
             myTransform = transform;
             defaultPosition = cameraTransform.localPosition.z;
-            ignoreLayers = ~(1 << 8 | 1 << 9 | 1 << 10);
             inputHander = FindObjectOfType<InputHander>();
             playerManager = FindObjectOfType<PlayerManager>();
         }
 
         private void Start()
         {
-            envirometLayer = LayerMask.NameToLayer("Environment");
+            //envirometLayer = LayerMask.NameToLayer("Environment");
         }
 
         public void FollowTarget(float delta)
         {
             Vector3 targetPosition = Vector3.Lerp(myTransform.position, targetTransform.position, delta / followSpeed);
             transform.position = Vector3.Lerp(transform.position, targetPosition, delta / 0.1f); // smooth camera movement
+
+            HandleCameraCollisions(delta);
         }
 
+        private void HandleCameraCollisions(float delta)
+        {
+            Vector3 desiredPosition = new Vector3(0, 0, defaultPosition); // Desired local Z offset
+            Vector3 direction = cameraTransform.position - cameraPivotTranform.position;
+            direction.Normalize();
+
+            RaycastHit hit;
+            float maxDistance = Mathf.Abs(defaultPosition);
+
+            // Do the SphereCast to detect potential collisions
+            if (Physics.SphereCast(cameraPivotTranform.position, cameraSphereRadius, direction, out hit, maxDistance, ignoreLayers))
+            {
+                float hitDistance = Vector3.Distance(cameraPivotTranform.position, hit.point);
+                float adjustedDistance = Mathf.Clamp(hitDistance - cameraCollisionOffSet, minimumCollisionOffset, maxDistance);
+                desiredPosition.z = -adjustedDistance;
+            }
+
+            // Smoothly interpolate the camera position
+            Vector3 currentLocalPos = cameraTransform.localPosition;
+            currentLocalPos.z = Mathf.Lerp(currentLocalPos.z, desiredPosition.z, delta / 0.2f);
+            cameraTransform.localPosition = currentLocalPos;
+        }
 
         public void HandleCameraRotation(float delta, float mouseXInput, float mouseYInput)
         {
@@ -104,6 +134,14 @@ namespace SG
                 CharacterManager character = colliders[i].GetComponent<CharacterManager>();
                 CharacterStats characterStats = colliders[i].GetComponent<CharacterStats>();
 
+                // Basic null and death checks
+                if (character == null || characterStats == null || characterStats.isDead)
+                    continue;
+
+                // Extra safety checks to avoid missing reference errors
+                if (character.transform == null || character.lockOnTransform == null)
+                    continue;
+
                 if (character != null && characterStats != null && !characterStats.isDead)
                 {
                     Vector3 lockTargetDirection = character.transform.position - targetTransform.position;
@@ -128,7 +166,7 @@ namespace SG
             for (int k = 0; k < avilableTargets.Count; k++)
             {
                 var target = avilableTargets[k];
-                if (target == null || target.transform == null)
+                if (target == null || target.transform == null || !target.gameObject.activeInHierarchy)
                     continue;
 
                 float distanceFromTarget = Vector3.Distance(targetTransform.position, target.transform.position);

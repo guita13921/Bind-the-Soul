@@ -137,7 +137,8 @@ namespace SG
                     rightWeapon = weaponsInRightHandSlots[currentRightWeaponIndex];
                     weaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
 
-                    Debug.Log(weaponSlotManager.rightHandSlot.currentWeaponItem.weaponType);
+                    //Debug.Log(weaponSlotManager.rightHandSlot.currentWeaponItem.weaponType);
+
                     if (weaponSlotManager.rightHandSlot.currentWeaponItem.weaponType == WeaponType.Dagger && playerManager.playerData.echoBladeRush == true)
                     {
                         playerManager.playerStats.TriggerBladeRushBuff(playerManager.playerData.echoBladeRushLevel);
