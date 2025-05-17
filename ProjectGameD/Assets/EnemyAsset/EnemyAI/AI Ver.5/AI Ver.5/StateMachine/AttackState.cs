@@ -12,7 +12,7 @@ namespace SG
         public EnemyAttackAction currentAttack;
         public RotateTowardTargetState rotateTowardTargetState;
 
-        [SerializeField] bool willDoComboOnNextAttack = false;
+        public bool willDoComboOnNextAttack = false;
         public bool hasPerformAttack = false;
 
         public override State Tick(EnemyManager enemyManager, EnemyStat enemyStat, EnemyAnimatorManager enemyAnimator)
@@ -116,7 +116,7 @@ namespace SG
             else
             {
                 willDoComboOnNextAttack = false;
-                //currentAttack = null;
+                currentAttack = null;
             }
         }
     }

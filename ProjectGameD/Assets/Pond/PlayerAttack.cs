@@ -308,7 +308,9 @@ namespace SG
             {
                 enemyCharacterManger = hit.transform.gameObject.GetComponentInParent<EnemyManager>();
                 rightWeapon = weaponSlotManager.righthandDamgeCollider;
-                if (enemyCharacterManger != null)
+                if (enemyCharacterManger != null
+                        && !enemyCharacterManger.enemyStat.isDead
+                        && !enemyCharacterManger.isBackstabImmune)
                 {
                     //CHECK FOR TEAM I.D (So you cant back stab friend or yourself ?)
 
@@ -332,7 +334,8 @@ namespace SG
                     enemyCharacterManger.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Back Stabed", true);
                     enemyCharacterManger.canBeRiposted = false;
 
-                    //playerManager.lockOnTransform.position = playerManager.DefaultlockOnTransform.position;
+                    enemyCharacterManger.isBackstabImmune = true;
+                    enemyCharacterManger.backstabImmunityTimer = enemyCharacterManger.backstabImmunityDuration;
                 }
             }
             else if (Physics.Raycast(inputHander.CriticalAttackRayCastStartPoint.position, transform.TransformDirection(Vector3.forward), out hit, 0.7f, riposteLayer))
@@ -340,7 +343,7 @@ namespace SG
                 enemyCharacterManger = hit.transform.gameObject.GetComponentInParent<EnemyManager>();
                 rightWeapon = weaponSlotManager.righthandDamgeCollider;
 
-                if (enemyCharacterManger != null && enemyCharacterManger.canBeRiposted)
+                if (enemyCharacterManger != null && enemyCharacterManger.canBeRiposted && !enemyCharacterManger.enemyStat.isDead)
                 {
 
                     playerManager.isInvulerable = true;
@@ -384,7 +387,7 @@ namespace SG
                 enemyCharacterManger = hit.transform.gameObject.GetComponentInParent<EnemyManager>();
                 rightWeapon = weaponSlotManager.righthandDamgeCollider;
 
-                if (enemyCharacterManger != null && enemyCharacterManger.canBeRiposted)
+                if (enemyCharacterManger != null && enemyCharacterManger.canBeRiposted && !enemyCharacterManger.enemyStat.isDead)
                 {
                     playerManager.isInvulerable = true;
                     playerManager.lockOnTransform.position = enemyCharacterManger.riposteCollider.CriticalDamageStandPosition.position;

@@ -95,6 +95,13 @@ namespace SG
         {
             CheckDamagePowerUp();
 
+            float durationMultiplier = 0.01f;
+            float magnitudeMultiplier = 0.025f;
+
+            float shakeDuration = Mathf.Clamp(damage * durationMultiplier, 0f, 0.125f);
+            float shakeMagnitude = Mathf.Clamp(damage * magnitudeMultiplier, 0f, 0.125f);
+            playerManager.cameraHandler.Shake(shakeDuration, shakeMagnitude);
+
             if (playerManager.isInvulnerable)
                 return;
             if (isDead)
@@ -118,8 +125,6 @@ namespace SG
             }
             else
             {
-
-
                 if (damageAnimation == "Block Guard")
                 {
 
@@ -153,7 +158,7 @@ namespace SG
             else
             {
                 staminaRegenTimer += Time.deltaTime;
-                if (currentStamina < maxStamina && staminaRegenTimer > 2f)
+                if (currentStamina < maxStamina && staminaRegenTimer > 1f)
                 {
 
                     if (playerData.echoResoluteMind && playerInventory.leftWeapon.weaponType == WeaponType.Shield)

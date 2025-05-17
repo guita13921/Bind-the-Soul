@@ -38,7 +38,7 @@ namespace SG
 
         public void CheckForParry(PlayerManager playerManager)
         {
-            if (!enemyManager.enemyStat.isBoss)
+            if (!enemyManager.enemyStat.hasBlockRippost)
             {
                 characterSoundFXManager?.PlayPariedSounds();
                 var animMgr = enemyManager?.GetComponentInChildren<EnemyAnimatorManager>();

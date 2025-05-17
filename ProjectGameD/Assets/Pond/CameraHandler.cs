@@ -52,6 +52,11 @@ namespace SG
         public CharacterManager rightLockTarget;
         public float maximumLockOnDistance = 30;
 
+        //Camera Shake
+        [SerializeField] public float hitStopDuration = 0.05f; // Duration of the freeze
+        [SerializeField] public float hitStopTimeScale = 0f;    // Freeze time (0 = full stop)
+        private bool isHitStopping = false;
+
         private void Awake()
         {
             singleton = this;
@@ -247,6 +252,50 @@ namespace SG
             playerManager.lockOnTransform.position = playerManager.DefaultlockOnTransform.position;
         }
 
+        public void Shake(float duration, float magnitude)
+        {
+            StartCoroutine(ShakeCoroutine(duration, magnitude));
+        }
+
+        public IEnumerator ShakeCoroutine(float duration, float magnitude)
+        {
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                float x = UnityEngine.Random.Range(-1f, 1f) * magnitude;
+                float y = UnityEngine.Random.Range(-1f, 1f) * magnitude;
+
+                transform.localPosition = this.transform.position + new Vector3(x, y, 0f);
+
+                elapsed += Time.unscaledDeltaTime;
+                yield return null;
+            }
+
+            transform.localPosition = this.transform.position;
+        }
+
+        public IEnumerator HitStopCoroutine(float duration)
+        {
+            if (isHitStopping) yield break; // Prevent overlapping hitstops
+
+            isHitStopping = true;
+
+            float originalTimeScale = Time.timeScale;
+            Time.timeScale = hitStopTimeScale;
+            float timer = 0f;
+
+            // Ensure Time.unscaledDeltaTime is used during hitstop
+            while (timer < duration)
+            {
+                timer += Time.unscaledDeltaTime;
+                yield return null;
+            }
+
+            Time.timeScale = originalTimeScale;
+            isHitStopping = false;
+        }
     }
+
 
 }

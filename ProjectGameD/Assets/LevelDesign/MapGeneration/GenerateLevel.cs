@@ -37,112 +37,83 @@ namespace SG
         void Start()
         {
             regenerating = true;
-            Room startRoom = new Room();
-            startRoom.location = new Vector2(0, 0);
-            startRoom.roomSprite = Level.currentRoomIcon;
-            startRoom.explored = true;
-            startRoom.revealed = true;
-            startRoom.roomNumber = 0;
+            Level.rooms.Clear();
 
-            PlayerManager.currentRoom = startRoom;
+            // Create Start Room (but don't assign or reveal yet)
+            Room startRoom = new Room
+            {
+                location = Vector2.zero,
+                roomSprite = Level.currentRoomIcon,
+                explored = true,
+                revealed = true,
+                roomNumber = 0
+            };
 
-            //Draw Start Room
+            Generate(startRoom);
             DrawRoomOnMap(startRoom);
 
-            //Left
-            if (UnityEngine.Random.value > Level.roomGenerationChance)
-            {
-                Room newRoom = new Room();
-                newRoom.location = new Vector2(-1, 0);
-                newRoom.roomSprite = Level.defaultRoomIcon;
-                newRoom.roomNumber = RandomRoomNumber();
+            // Calculate total rooms to generate
+            int targetRoomCount = UnityEngine.Random.Range(0, 2) + 5 + Mathf.RoundToInt(Level.currentLevel * 2.6f);
+            //Debug.Log(targetRoomCount);
 
-                if (!CheckIfRoomExists(newRoom.location))
-                {
-                    if (!CheckIfRoomAroundGeneratedRoom(newRoom.location, "Right"))
-                    {
-                        Generate(newRoom);
-                    }
-                }
-            }
-            //Right
-            if (UnityEngine.Random.value > Level.roomGenerationChance)
-            {
-                Room newRoom = new Room();
-                newRoom.location = new Vector2(1, 0);
-                newRoom.roomSprite = Level.defaultRoomIcon;
-                newRoom.roomNumber = RandomRoomNumber();
+            // BFS-style room expansion
+            Queue<Room> frontier = new Queue<Room>();
+            frontier.Enqueue(startRoom);
 
-                if (!CheckIfRoomExists(newRoom.location))
-                {
-                    if (!CheckIfRoomAroundGeneratedRoom(newRoom.location, "Left"))
-                    {
-                        Generate(newRoom);
-                    }
-                }
-            }
-            //Up
-            if (UnityEngine.Random.value > Level.roomGenerationChance)
+            Vector2[] directions = new Vector2[]
             {
-                Room newRoom = new Room();
-                newRoom.location = new Vector2(0, 1);
-                newRoom.roomSprite = Level.defaultRoomIcon;
-                newRoom.roomNumber = RandomRoomNumber();
+        Vector2.left, Vector2.right, Vector2.up, Vector2.down
+            };
 
-                if (!CheckIfRoomExists(newRoom.location))
-                {
-                    if (!CheckIfRoomAroundGeneratedRoom(newRoom.location, "Down"))
-                    {
-                        Generate(newRoom);
-                    }
-                }
-            }
-            //Down
-            if (UnityEngine.Random.value > Level.roomGenerationChance)
+            while (Level.rooms.Count < targetRoomCount && frontier.Count > 0)
             {
-                Room newRoom = new Room();
-                newRoom.location = new Vector2(0, -1);
-                newRoom.roomSprite = Level.defaultRoomIcon;
-                newRoom.roomNumber = RandomRoomNumber();
+                Room current = frontier.Dequeue();
 
-                if (!CheckIfRoomExists(newRoom.location))
+                foreach (Vector2 dir in directions)
                 {
-                    if (!CheckIfRoomAroundGeneratedRoom(newRoom.location, "Up"))
+                    Vector2 newLocation = current.location + dir;
+
+                    if (CheckIfRoomExists(newLocation)) continue;
+                    if (UnityEngine.Random.value < Level.roomGenerationChance) continue;
+                    if (CheckIfRoomAroundGeneratedRoom(newLocation, GetOppositeDirection(dir))) continue;
+
+                    Room newRoom = new Room
                     {
-                        Generate(newRoom);
-                    }
+                        location = newLocation,
+                        roomSprite = Level.defaultRoomIcon,
+                        roomNumber = RandomRoomNumber()
+                    };
+
+                    Generate(newRoom);
+                    frontier.Enqueue(newRoom);
+
+                    if (Level.rooms.Count >= targetRoomCount)
+                        break;
                 }
             }
 
+            // Shuffle rooms
             ShuffleList(Level.rooms);
 
+            // Special room generation
             bool boss = GenerateBossRoom();
             bool shop = GenerateSpecialRoom(Level.shopRoomIcon, 2);
             bool treasure = GenerateSpecialRoom(Level.treasureRoomIcon, 3);
             bool secret = GenerateSpecialRoom(Level.secretRoom, 4);
             bool challenge = GenerateSpecialRoom(Level.challengeRoom, 5);
 
-            if (!treasure && !shop || !secret || !challenge)
+            // If generation fails, cancel regeneration but do NOT assign PlayerManager.currentRoom
+            if (!boss || !shop || !treasure || !secret || !challenge)
             {
                 regenerating = false;
-            }
-            else
-            {
-                ChangeRoom.RevealRoom(startRoom);
-                ChangeRoom.ReDrawRevealRoom();
-                changeRoom.EnableDoor(startRoom);
+                return;
             }
 
-            if (boss == false)
-            {
-                regenerating = false;
-            }
-            else
-            {
-                ChangeRoom.RevealRoom(startRoom);
-                ChangeRoom.ReDrawRevealRoom();
-                changeRoom.EnableDoor(startRoom);
-            }
+            // ✅ Only now we finalize and assign the start room
+            PlayerManager.currentRoom = startRoom;
+            ChangeRoom.RevealRoom(startRoom);
+            ChangeRoom.ReDrawRevealRoom();
+            changeRoom.EnableDoor(startRoom);
         }
 
         void Update()
@@ -156,7 +127,6 @@ namespace SG
                     Transform child = transform.GetChild(i);
                     Destroy(child.gameObject);
                 }
-
                 Start();
             }
         }
@@ -229,81 +199,17 @@ namespace SG
 
         void Generate(Room room)
         {
+            // Limit boundary to avoid infinite maps
+            if (Mathf.Abs(room.location.x) >= Level.RoomLimit || Mathf.Abs(room.location.y) >= Level.RoomLimit)
+                return;
 
+            // Prevent overlapping rooms
+            if (CheckIfRoomExists(room.location))
+                return;
+
+            // Add to room list and draw
+            Level.rooms.Add(room);
             DrawRoomOnMap(room);
-
-            //Left
-            if (UnityEngine.Random.value > Level.roomGenerationChance)
-            {
-                Room newRoom = new Room();
-                newRoom.location = new Vector2(-1, 0) + room.location;
-                newRoom.roomSprite = Level.defaultRoomIcon;
-                newRoom.roomNumber = RandomRoomNumber();
-
-                if (!CheckIfRoomExists(newRoom.location))
-                {
-                    if (!CheckIfRoomAroundGeneratedRoom(newRoom.location, "Right"))
-                    {
-                        if (Math.Abs(newRoom.location.x) < Level.RoomLimit && Math.Abs(newRoom.location.y) < Level.RoomLimit)
-                            Generate(newRoom);
-                    }
-                }
-            }
-
-            //Right
-            if (UnityEngine.Random.value > Level.roomGenerationChance)
-            {
-                Room newRoom = new Room();
-                newRoom.location = new Vector2(1, 0) + room.location;
-                newRoom.roomSprite = Level.defaultRoomIcon;
-                newRoom.roomNumber = RandomRoomNumber();
-
-                if (!CheckIfRoomExists(newRoom.location))
-                {
-                    if (!CheckIfRoomAroundGeneratedRoom(newRoom.location, "Left"))
-                    {
-                        if (Math.Abs(newRoom.location.x) < Level.RoomLimit && Math.Abs(newRoom.location.y) < Level.RoomLimit)
-                            Generate(newRoom);
-                    }
-                }
-            }
-
-
-            //Up
-            if (UnityEngine.Random.value > Level.roomGenerationChance)
-            {
-                Room newRoom = new Room();
-                newRoom.location = new Vector2(0, 1) + room.location;
-                newRoom.roomSprite = Level.defaultRoomIcon;
-                newRoom.roomNumber = RandomRoomNumber();
-
-                if (!CheckIfRoomExists(newRoom.location))
-                {
-                    if (!CheckIfRoomAroundGeneratedRoom(newRoom.location, "Down"))
-                    {
-                        if (Math.Abs(newRoom.location.x) < Level.RoomLimit && Math.Abs(newRoom.location.y) < Level.RoomLimit)
-                            Generate(newRoom);
-                    }
-                }
-            }
-
-            //Down
-            if (UnityEngine.Random.value > Level.roomGenerationChance)
-            {
-                Room newRoom = new Room();
-                newRoom.location = new Vector2(0, -1) + room.location;
-                newRoom.roomSprite = Level.defaultRoomIcon;
-                newRoom.roomNumber = RandomRoomNumber();
-
-                if (!CheckIfRoomExists(newRoom.location))
-                {
-                    if (!CheckIfRoomAroundGeneratedRoom(newRoom.location, "Up"))
-                    {
-                        if (Math.Abs(newRoom.location.x) < Level.RoomLimit && Math.Abs(newRoom.location.y) < Level.RoomLimit)
-                            Generate(newRoom);
-                    }
-                }
-            }
         }
 
         bool GenerateBossRoom()
@@ -471,6 +377,15 @@ namespace SG
                 list[n] = value;
             }
 
+        }
+
+        string GetOppositeDirection(Vector2 dir)
+        {
+            if (dir == Vector2.left) return "Right";
+            if (dir == Vector2.right) return "Left";
+            if (dir == Vector2.up) return "Down";
+            if (dir == Vector2.down) return "Up";
+            return "";
         }
 
     }

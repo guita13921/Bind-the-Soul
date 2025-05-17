@@ -48,6 +48,7 @@ namespace SG
             }
 
             GameObject model = Instantiate(weaponItem.modelPrefab);
+
             if (model != null)
             {
                 // Choose correct override parent based on weapon type

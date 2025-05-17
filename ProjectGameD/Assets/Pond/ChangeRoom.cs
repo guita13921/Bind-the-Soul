@@ -18,7 +18,7 @@ namespace SG
         void Start()
         {
             previousImage = Level.defaultRoomIcon;
-            EnableDoor(PlayerManager.currentRoom);
+            //EnableDoor(PlayerManager.currentRoom);
         }
 
         void ChangeRoomIcon(Room currentRoom, Room newRoom)

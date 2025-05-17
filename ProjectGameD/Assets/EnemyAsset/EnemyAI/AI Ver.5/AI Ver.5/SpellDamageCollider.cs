@@ -19,10 +19,9 @@ namespace SG
         new Rigidbody rigidbody;
 
         Vector3 impactNormal;
-
         PlayerStats spellTarget;
 
-        void Awake()
+        protected override void Awake()
         {
             rigidbody = GetComponent<Rigidbody>();
 
@@ -48,7 +47,7 @@ namespace SG
             }
         }
 
-        void Update()
+        protected override void Update()
         {
             if (rigidbody.velocity != Vector3.zero)
             {
@@ -68,9 +67,6 @@ namespace SG
 
             if (collision.gameObject.tag == "Player")
             {
-
-
-
                 PlayerStats playerStats = collision.gameObject.GetComponent<PlayerStats>();
                 PlayerManager playerManager = collision.gameObject.GetComponent<PlayerManager>();
                 BlockingColliderPlayer shield = collision.gameObject.GetComponentInChildren<BlockingColliderPlayer>();
@@ -104,7 +100,7 @@ namespace SG
                     Destroy(gameObject);
                 }
             }
-            else if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "CantDash")
+            else if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "CantDash")
             {
                 impactParticle = Instantiate(impactParticle, transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal));
 

@@ -11,6 +11,11 @@ namespace SG
         public ParticleSystem normalVFX;
         public TrailEffect trailEffect;
 
+        void Awake()
+        {
+            trailEffect = GetComponent<TrailEffect>();
+        }
+
         public void PlayWeaponNormalFX()
         {
             normalVFX.Stop();

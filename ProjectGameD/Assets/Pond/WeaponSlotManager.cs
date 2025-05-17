@@ -120,7 +120,7 @@ namespace SG
         public void OpenLeftDamageCollider()
         {
             if (leftHandDamgeCollider != null) leftHandDamgeCollider.EnableDamageCollider();
-            //PlaySoundbyTypeWeapon(attackingWeapon);
+            characterSoundFXManager.PlayRandomWeaponWhooshesSoundFX();
         }
 
         public void CloseRightHandDamgeCollider()

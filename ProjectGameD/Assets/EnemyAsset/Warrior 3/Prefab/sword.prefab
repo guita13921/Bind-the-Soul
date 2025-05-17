@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 1658932238155622533}
   - component: {fileID: 1092494161271137704}
   - component: {fileID: 3342594379376993248}
-  - component: {fileID: 3886900725174437875}
+  - component: {fileID: 2790244029860859051}
   m_Layer: 0
-  m_Name: Sword
+  m_Name: sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -107,7 +107,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.054282263, y: 0.42896578, z: 1.0257167}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3886900725174437875
+--- !u!114 &2790244029860859051
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -116,11 +116,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 4315124597829387746}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 225087e85fe46594fa8035c92a4fac85, type: 3}
+  m_Script: {fileID: 11500000, guid: cc4c4992ba1172d48ac9b0f2ad3fa0cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentDamageWeapon: 25
+  damageCollider: {fileID: 0}
   enableOnStartUp: 0
+  characterManager: {fileID: 0}
+  characterSoundFXManager: {fileID: 0}
+  damageableLayers:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &8833798761955387830
 GameObject:
   m_ObjectHideFlags: 0

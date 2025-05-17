@@ -13,9 +13,10 @@ public static class Level
     public static float iconScale = .07f;
     public static float padding = .01f;
 
-    public static float roomGenerationChance = .5f;
+    public static float roomGenerationChance = 0.5f;
 
-    public static int RoomLimit = 5;
+    public static int RoomLimit = 10;
+    public static int currentLevel = 2;
 
     public static Sprite treasureRoomIcon;
     public static Sprite bossRoomIcon;

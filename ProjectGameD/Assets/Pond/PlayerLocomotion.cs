@@ -151,11 +151,19 @@ namespace SG
                     playerStats.TakeStaminaDamage((int)sprintStaminaCost);
                 }
             }
+            else
+            {
+                playerManager.isSprinting = false;
+            }
 
             Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection * speed, normalVector);
+
+            // ✅ Preserve gravity-affected Y velocity
+            projectedVelocity.y = rigidbody.velocity.y;
+
             rigidbody.velocity = projectedVelocity;
 
-            if (inputHander.lockOnFlag && inputHander.sprintFlag == false)
+            if (inputHander.lockOnFlag && !inputHander.sprintFlag)
             {
                 animatorHander.UpdateAnimatorValues(inputHander.vertical, inputHander.horizontal, playerManager.isSprinting);
             }
@@ -169,6 +177,7 @@ namespace SG
                 HandleRotation(delta);
             }
         }
+
 
         public void HandleRollingAndSprinting(float delta)
         {

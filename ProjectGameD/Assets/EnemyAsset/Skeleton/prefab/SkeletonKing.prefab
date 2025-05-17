@@ -411,7 +411,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2203926625551423865}
   serializedVersion: 4
-  m_Mass: 5
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -482,7 +482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf66b328a42905d4b996a8cd7053fe9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthLevel: 10
+  healthLevel: 100
   maxHealth: 0
   currentHealth: 0
   goldCount: 0
@@ -494,6 +494,7 @@ MonoBehaviour:
   enemyShieldBar: {fileID: 0}
   goldAwardOnDeath: 10
   isBoss: 1
+  hasBlockRippost: 1
   blockRippost: 2
   currentBlockRippost: 0
 --- !u!114 &7191215381545369982
@@ -518,6 +519,9 @@ MonoBehaviour:
   riposteCollider: {fileID: 3248370807810038447}
   CanDoCombo: 1
   canBeRiposted: 0
+  isBackstabImmune: 0
+  backstabImmunityDuration: 6
+  backstabImmunityTimer: 0
   isParrying: 0
   isBlocking: 0
   isInvulnerable: 0
@@ -537,6 +541,7 @@ MonoBehaviour:
   curretTarget: {fileID: 0}
   navMeshAgent: {fileID: 0}
   enemyRigidBody: {fileID: 0}
+  enemyDebuff: {fileID: 0}
   isPerformingAction: 0
   isInterActing: 0
   hasShield: 0

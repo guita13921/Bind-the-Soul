@@ -24,6 +24,9 @@ namespace SG
         [Header("Combat Flags")]
         public bool CanDoCombo;
         public bool canBeRiposted;
+        public bool isBackstabImmune = false;
+        public float backstabImmunityDuration = 6f; // Adjust as needed
+        public float backstabImmunityTimer = 0f;
 
         //public bool canBeParried;
         public bool isParrying;

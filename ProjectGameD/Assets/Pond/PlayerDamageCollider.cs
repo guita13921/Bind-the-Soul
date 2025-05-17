@@ -8,6 +8,7 @@ namespace SG
         private HashSet<Collider> enemiesHitThisAttack = new HashSet<Collider>();
         private PlayerManager playerManager;
 
+
         protected override void Awake()
         {
             base.Awake();
@@ -111,16 +112,25 @@ namespace SG
                 damage = CheckCritNextAttack(damage, playerManager);
                 damage = CheckBladeRush(damage, playerManager);
                 damage = CheckBloodhound(damage, playerManager, enemyManager);
-                int currentDamage = Mathf.RoundToInt(damage);
+                damage = CheckStruckKnife(damage, playerManager, enemyManager);
 
+                int currentDamage = Mathf.RoundToInt(damage);
+                Debug.Log(currentDamage);
 
                 if (enemyStat != null)
                 {
+                    StartCoroutine(playerManager.cameraHandler.HitStopCoroutine(playerManager.cameraHandler.hitStopDuration)); // already added
+
+                    float shakeDuration = (characterManager.characterCombatManager.currentAttackType == AttackType.Heavy) ? 0.12f : 0.08f;
+                    float shakeMagnitude = (characterManager.characterCombatManager.currentAttackType == AttackType.Heavy) ? 0.12f : 0.07f;
+                    playerManager.cameraHandler.Shake(shakeDuration, shakeMagnitude);
+
                     if (enemyStat.isBoss || enemyManager.isStunning)
                         enemyStat.TakeDamageNoAnimation(currentDamage);
                     else
                         enemyStat.TakeDamage(currentDamage);
                 }
+
             }
             else if (characterManager.characterCombatManager.currentAttackType == AttackType.Heavy)
             {
@@ -131,6 +141,7 @@ namespace SG
                 damage = CheckStoneborns(damage, playerManager);
                 damage = CheckBladeRush(damage, playerManager);
                 damage = CheckBloodhound(damage, playerManager, enemyManager);
+                damage = CheckStruckKnife(damage, playerManager, enemyManager);
 
 
                 int currentDamage = Mathf.RoundToInt(damage);
@@ -138,6 +149,12 @@ namespace SG
 
                 if (enemyStat != null)
                 {
+                    StartCoroutine(playerManager.cameraHandler.HitStopCoroutine(playerManager.cameraHandler.hitStopDuration)); // already added
+
+                    float shakeDuration = (characterManager.characterCombatManager.currentAttackType == AttackType.Heavy) ? 0.12f : 0.08f;
+                    float shakeMagnitude = (characterManager.characterCombatManager.currentAttackType == AttackType.Heavy) ? 0.12f : 0.07f;
+                    playerManager.cameraHandler.Shake(shakeDuration, shakeMagnitude);
+
                     if (enemyStat.isBoss || enemyManager.isStunning)
                         enemyStat.TakeDamageNoAnimation(currentDamage);
                     else
@@ -195,6 +212,19 @@ namespace SG
                 float bonus = 0.05f * playerManager.playerData.echoBloodhoundLevel + 0.05f; // 10%, 15%, ...
                 Debug.Log($"Echo of the Bloodhound: Bonus damage applied ({bonus * 100}% vs <50% HP target)");
                 return damage *= 1f + bonus;
+            }
+            else
+            {
+                return damage;
+            }
+        }
+
+        protected virtual float CheckStruckKnife(float damage, PlayerManager playerManager, EnemyManager enemyManager)
+        {
+            if (enemyManager.enemyDebuff.stuckKnife != null)
+            {
+                damage *= 1.25f;
+                return damage;
             }
             else
             {

@@ -19,7 +19,7 @@ namespace SG
         public bool isInvulerable;
         public bool isDrawWeapon;
 
-        public static Room currentRoom;
+        [SerializeField] public static Room currentRoom;
         public static new Transform transform;
         public static List<Drop> availableDrops = new List<Drop>();
         public static List<ShopItem> availableShopItem = new List<ShopItem>();

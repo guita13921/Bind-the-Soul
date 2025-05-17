@@ -769,6 +769,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4bb9e15263b82b64c8b6c37832733d06, type: 2}
   - {fileID: 11400000, guid: f6e783a8cbb34e84b8a5215abd25f7e2, type: 2}
   - {fileID: 11400000, guid: da31789a34ff47d43b331c753d2f6024, type: 2}
+  - {fileID: 11400000, guid: c0df44508a46fbc4d92d914abab26fa0, type: 2}
+  - {fileID: 11400000, guid: 0333e313d1328934d90677664d18281d, type: 2}
+  - {fileID: 11400000, guid: aebd2723c5949694c8bfc99988ce84b6, type: 2}
+  - {fileID: 11400000, guid: 7ff7b628ac552a94da0f92a2325410ba, type: 2}
+  - {fileID: 11400000, guid: 605a66d9a3c3e74458599d6fc025c3fa, type: 2}
   pursueTargetState: {fileID: 6095264716612817845}
 --- !u!1 &2654909737647499194
 GameObject:
@@ -1179,7 +1184,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3438835678189145682}
   serializedVersion: 4
-  m_Mass: 5
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1262,6 +1267,9 @@ MonoBehaviour:
   enemyShieldBar: {fileID: 0}
   goldAwardOnDeath: 10
   isBoss: 0
+  hasBlockRippost: 0
+  blockRippost: 0
+  currentBlockRippost: 0
 --- !u!114 &6090153918178203671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1284,6 +1292,9 @@ MonoBehaviour:
   riposteCollider: {fileID: 8157804500046680366}
   CanDoCombo: 1
   canBeRiposted: 0
+  isBackstabImmune: 0
+  backstabImmunityDuration: 6
+  backstabImmunityTimer: 0
   isParrying: 0
   isBlocking: 0
   isInvulnerable: 0
@@ -1303,6 +1314,7 @@ MonoBehaviour:
   curretTarget: {fileID: 0}
   navMeshAgent: {fileID: 0}
   enemyRigidBody: {fileID: 0}
+  enemyDebuff: {fileID: 0}
   isPerformingAction: 0
   isInterActing: 0
   hasShield: 0

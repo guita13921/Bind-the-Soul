@@ -114,8 +114,8 @@ namespace SG
             List<Vector2> strafingDirections = new List<Vector2>()
                 {
                     new Vector2(1f, 0f),       // Walk forward
-                    new Vector2(0.5f, 0.5f),  // Strafe left 45°
-                    new Vector2(1f, 1f),   // Strafe left 90°
+                    new Vector2(1f, -1f),  // Strafe left 45°
+                    new Vector2(1f, 1f),  // Strafe left 45°
                 };
 
             // Randomly select a direction

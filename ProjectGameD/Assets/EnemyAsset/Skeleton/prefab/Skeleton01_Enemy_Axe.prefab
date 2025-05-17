@@ -1335,7 +1335,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4141898778932693005}
   serializedVersion: 4
-  m_Mass: 5
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1418,6 +1418,7 @@ MonoBehaviour:
   enemyShieldBar: {fileID: 0}
   goldAwardOnDeath: 10
   isBoss: 0
+  hasBlockRippost: 0
   blockRippost: 0
   currentBlockRippost: 0
 --- !u!114 &2305885110749515780
@@ -1442,6 +1443,9 @@ MonoBehaviour:
   riposteCollider: {fileID: 2206656449703670817}
   CanDoCombo: 1
   canBeRiposted: 0
+  isBackstabImmune: 0
+  backstabImmunityDuration: 6
+  backstabImmunityTimer: 0
   isParrying: 0
   isBlocking: 0
   isInvulnerable: 0
@@ -1461,6 +1465,7 @@ MonoBehaviour:
   curretTarget: {fileID: 0}
   navMeshAgent: {fileID: 0}
   enemyRigidBody: {fileID: 0}
+  enemyDebuff: {fileID: 0}
   isPerformingAction: 0
   isInterActing: 0
   hasShield: 0

@@ -8,8 +8,8 @@ namespace SG
 {
     public class EnemyWeaponSlotManager : MonoBehaviour
     {
-        public WeaponItem rightHandWeapon;
-        public WeaponItem leftHandWeapon;
+        [SerializeField] public WeaponItem rightHandWeapon;
+        [SerializeField] public WeaponItem leftHandWeapon;
         public ProjectileSpell projectileSpell;
 
         [SerializeField] public WeaponHolderSlot rightHandSlot;
@@ -22,7 +22,7 @@ namespace SG
         EnemyEffectManager enemyEffectManager;
         EnemyManager enemyManager;
         PlayerStats playerStats;
-        CharacterSoundFXManager characterSoundFXManager;
+        [SerializeField] CharacterSoundFXManager characterSoundFXManager;
 
         [Header("Shield Config")]
         public BlockingCollider Shield;
@@ -114,7 +114,7 @@ namespace SG
                 rightHandDamageCollider = rightHandSlot.currentWeaponModel?.GetComponentInChildren<EnemyDamageCollider>();
                 enemyEffectManager.rightWeaponFX = rightHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
                 //rightHandDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
-                rightHandDamageCollider.currentDamageWeapon = rightHandWeapon.damage;
+                if (rightHandDamageCollider != null) rightHandDamageCollider.currentDamageWeapon = rightHandWeapon.damage;
             }
         }
 
@@ -123,13 +123,13 @@ namespace SG
             if (rightHandDamageCollider != null)
             {
                 rightHandDamageCollider.EnableDamageCollider();
+                characterSoundFXManager.PlayRandomWeaponWhooshesSoundFX();
             }
 
             if (leftHandDamageCollider != null)
             {
                 leftHandDamageCollider.EnableDamageCollider();
             }
-
         }
 
         public void CloseDamageCollider()
@@ -144,6 +144,18 @@ namespace SG
             {
                 leftHandDamageCollider.DisableDamageCollider();
             }
+        }
+
+        public void OpenRightDamageCollider()
+        {
+            if (rightHandDamageCollider != null) rightHandDamageCollider.EnableDamageCollider();
+            characterSoundFXManager.PlayRandomWeaponWhooshesSoundFX();
+        }
+
+        public void OpenLeftDamageCollider()
+        {
+            if (leftHandDamageCollider != null) leftHandDamageCollider.EnableDamageCollider();
+            characterSoundFXManager.PlayRandomWeaponWhooshesSoundFX();
         }
 
         public bool LoadShield()

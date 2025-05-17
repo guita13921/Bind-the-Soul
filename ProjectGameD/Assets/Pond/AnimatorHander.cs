@@ -70,7 +70,6 @@ namespace SG
 
         }
 
-
         public void PlayTargetAnimation(string targetAnim, bool isInteracting, bool canRotate = false, float speed = 1.0f)
         {
             if (anim == null) return;
@@ -139,7 +138,9 @@ namespace SG
 
             if (playerLocomotion.TryGetComponent(out Rigidbody rb))
             {
-                float delta = Time.deltaTime;
+                float delta = (playerManager.playerData.duelistSet4Bonus && Time.timeScale < 1f)
+                    ? Time.unscaledDeltaTime
+                    : Time.fixedDeltaTime;
 
                 rb.drag = 0;
                 Vector3 deltaPosition = anim.deltaPosition;

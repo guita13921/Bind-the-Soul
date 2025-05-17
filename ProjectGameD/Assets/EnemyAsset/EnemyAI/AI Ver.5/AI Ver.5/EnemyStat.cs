@@ -25,6 +25,7 @@ namespace SG
         public int goldAwardOnDeath = 10;
 
         public bool isBoss;
+        public bool hasBlockRippost;
         public int blockRippost;
         public int currentBlockRippost;
 
@@ -55,6 +56,8 @@ namespace SG
             {
                 currentBlockRippost = blockRippost;
             }
+
+            if (hasBlockRippost) currentBlockRippost = blockRippost;
         }
 
         private int SetMaxHealthFromHealthLevel()
@@ -70,6 +73,7 @@ namespace SG
 
             if (characterSoundFXManager != null) characterSoundFXManager.PlayRandomDamageSoundFX();
             currentHealth -= damage;
+            enemyManager.enemyEffectManager.PlayHitEffect();
 
             if (currentHealth <= 0)
             {
@@ -100,6 +104,7 @@ namespace SG
             {
                 if (characterSoundFXManager != null) characterSoundFXManager.PlayRandomDamageSoundFX();
                 TakeDamageNoAnimation(damage);
+                enemyManager.enemyEffectManager.PlayHitEffect();
             }
             else
             {
@@ -116,10 +121,12 @@ namespace SG
                     {
                         enemyAnimatorManager.PlayTargetAnimation(damageAinmation, true);
                         if (characterSoundFXManager != null) characterSoundFXManager.PlayRandomDamageSoundFX();
+                        enemyManager.enemyEffectManager.PlayHitEffect();
                     }
                 }
                 else
                 {
+                    enemyManager.enemyEffectManager.PlayHitEffect();
                     enemyHealthBar.SetHealth(0);
                     HandleDeath();
                     playerManager.playerStats.OnEnemyKilled?.Invoke();
@@ -149,7 +156,8 @@ namespace SG
 
             currentHealth = 0;
             enemyHealthBar.SetHealth(0);
-            enemyShieldBar.SetShield(0);
+
+            if (enemyShieldBar != null) enemyShieldBar.SetShield(0);
 
             enemyAnimatorManager.PlayTargetAnimation("Dead01", true);
             DropItem();

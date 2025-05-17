@@ -16,6 +16,8 @@ namespace SG
         public CharacterStats curretTarget;
         public NavMeshAgent navMeshAgent;
         public Rigidbody enemyRigidBody;
+        public EnemyDebuff enemyDebuff;
+        public EnemyEffectManager enemyEffectManager;
 
         [Header("Enemy Flags")]
         public bool isPerformingAction;
@@ -54,6 +56,8 @@ namespace SG
             //backStabCollider = GetComponentInChildren<CriticalDamageCollider>();
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
             enemyWeaponSlotManager = GetComponentInChildren<EnemyWeaponSlotManager>();
+            enemyDebuff = GetComponent<EnemyDebuff>();
+            enemyEffectManager = GetComponent<EnemyEffectManager>();
         }
 
         private void Start()
@@ -66,6 +70,7 @@ namespace SG
 
         private void Update()
         {
+            HandleBackstabImmunityTimer();
             HandleRecoveryTimer();
             HandleStateMachine();
             HandleStunningTimer();
@@ -82,6 +87,18 @@ namespace SG
             enemyAnimationManager.animator.SetBool("isDead", enemyStat.isDead);
             enemyAnimationManager.animator.SetBool("IsBlocking", isBlocking);
             enemyAnimationManager.animator.SetBool("isStunning", isStunning);
+        }
+
+        private void HandleBackstabImmunityTimer()
+        {
+            if (isBackstabImmune)
+            {
+                backstabImmunityTimer -= Time.deltaTime;
+                if (backstabImmunityTimer <= 0f)
+                {
+                    isBackstabImmune = false;
+                }
+            }
         }
 
         private void LateUpdate()

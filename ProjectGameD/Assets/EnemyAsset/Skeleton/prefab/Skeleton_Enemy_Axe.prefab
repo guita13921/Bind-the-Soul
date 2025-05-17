@@ -1321,7 +1321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73ce265846cbf124ca9331175dc82c17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 2785664226088791305}
 --- !u!1 &3115516858983490869
 GameObject:
   m_ObjectHideFlags: 0
@@ -2415,7 +2415,7 @@ Transform:
   m_GameObject: {fileID: 5442504042918681576}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.052000083, y: -0.27900004, z: -0.071}
+  m_LocalPosition: {x: 0.052000083, y: -0.27900004, z: -0.323}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2614,10 +2614,9 @@ MonoBehaviour:
   enemyAttacks:
   - {fileID: 11400000, guid: 9961c9d66c1122742a5d32cbf4e4afaf, type: 2}
   - {fileID: 11400000, guid: 4b2b8edc2fcd67345a097df7bd2bb283, type: 2}
-  - {fileID: 11400000, guid: 7d1d497de762f4f408e7aa8cae60db71, type: 2}
-  - {fileID: 11400000, guid: 4bb9e15263b82b64c8b6c37832733d06, type: 2}
-  - {fileID: 11400000, guid: f6e783a8cbb34e84b8a5215abd25f7e2, type: 2}
-  - {fileID: 11400000, guid: da31789a34ff47d43b331c753d2f6024, type: 2}
+  - {fileID: 11400000, guid: c0df44508a46fbc4d92d914abab26fa0, type: 2}
+  - {fileID: 11400000, guid: 0333e313d1328934d90677664d18281d, type: 2}
+  - {fileID: 11400000, guid: aebd2723c5949694c8bfc99988ce84b6, type: 2}
   pursueTargetState: {fileID: 2062246689262818065}
 --- !u!1 &5800221373373285095
 GameObject:
@@ -2916,7 +2915,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7149743190321270206}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.6209092, y: -1.6061918, z: -1.1782379}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2938,7 +2937,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7149743190321270206}
   serializedVersion: 4
-  m_Mass: 5
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -2955,7 +2954,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 116
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &4838032441611297335
 CapsuleCollider:
@@ -3021,6 +3020,9 @@ MonoBehaviour:
   enemyShieldBar: {fileID: 0}
   goldAwardOnDeath: 10
   isBoss: 0
+  hasBlockRippost: 0
+  blockRippost: 0
+  currentBlockRippost: 0
 --- !u!114 &6807128765589244153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3043,6 +3045,9 @@ MonoBehaviour:
   riposteCollider: {fileID: 9000144536128704217}
   CanDoCombo: 1
   canBeRiposted: 0
+  isBackstabImmune: 0
+  backstabImmunityDuration: 6
+  backstabImmunityTimer: 0
   isParrying: 0
   isBlocking: 0
   isInvulnerable: 0
@@ -3062,6 +3067,7 @@ MonoBehaviour:
   curretTarget: {fileID: 0}
   navMeshAgent: {fileID: 0}
   enemyRigidBody: {fileID: 0}
+  enemyDebuff: {fileID: 0}
   isPerformingAction: 0
   isInterActing: 0
   hasShield: 0

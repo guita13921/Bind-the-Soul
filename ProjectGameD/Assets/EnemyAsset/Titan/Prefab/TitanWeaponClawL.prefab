@@ -137,7 +137,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4567346061433984128}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47f233e4c5d6f4aa6a1618016c2233f3, type: 3}
   m_Name: 
@@ -306,8 +306,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1812582157090043769}
   - component: {fileID: 6984067571892475987}
-  - component: {fileID: 3518778433267102923}
   - component: {fileID: 9078395646198449169}
+  - component: {fileID: 2702059872397874478}
   m_Layer: 0
   m_Name: TitanWeaponClawL
   m_TagString: Untagged
@@ -349,24 +349,10 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1.763613, y: 1.029328, z: 1}
   m_Center: {x: 0.47063506, y: 0.1795373, z: -0.00000011920929}
---- !u!114 &3518778433267102923
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5376376522618142954}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 225087e85fe46594fa8035c92a4fac85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentDamageWeapon: 0
-  enableOnStartUp: 0
 --- !u!114 &9078395646198449169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,3 +367,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalVFX: {fileID: 0}
   trailEffect: {fileID: 3728815709363529988}
+--- !u!114 &2702059872397874478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5376376522618142954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc4c4992ba1172d48ac9b0f2ad3fa0cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentDamageWeapon: 25
+  damageCollider: {fileID: 6984067571892475987}
+  enableOnStartUp: 0
+  characterManager: {fileID: 0}
+  characterSoundFXManager: {fileID: 0}
+  damageableLayers:
+    serializedVersion: 2
+    m_Bits: 64
