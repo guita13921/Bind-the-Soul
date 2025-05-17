@@ -107,6 +107,7 @@ namespace SG
             if (inputHander.lockOnFlag && currentLockOnTarget != null)
             {
                 Vector3 direction = currentLockOnTarget.transform.position - transform.position;
+                Vector3 direction = currentLockOnTarget.transform.position - transform.position;
                 direction.y = 0;
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * delta);
@@ -128,6 +129,7 @@ namespace SG
         public void HandleLockOn()
         {
             float shortestDistance = Mathf.Infinity;
+            float shortestDistanceOfLeftTarget = -Mathf.Infinity;
             float shortestDistanceOfLeftTarget = -Mathf.Infinity;
             float shortestDistanceOfRightTarget = Mathf.Infinity;
             avilableTargets.Clear();
@@ -180,10 +182,14 @@ namespace SG
                 {
                     shortestDistance = distanceFromTarget;
                     nearestLockOnTarget = target;
+                    nearestLockOnTarget = target;
                 }
 
                 if (inputHander.lockOnFlag && currentLockOnTarget != null)
                 {
+                    //Vector3 relativeEnemyPosition = currentLockOnTarget.InverseTransformPoint(target.transform.position);
+                    //float distanceFromLeftTarget = currentLockOnTarget.transform.position.x - target.transform.position.x;
+                    //float distanceFromRightTarget = currentLockOnTarget.transform.position.x + target.transform.position.x;
                     //Vector3 relativeEnemyPosition = currentLockOnTarget.InverseTransformPoint(target.transform.position);
                     //float distanceFromLeftTarget = currentLockOnTarget.transform.position.x - target.transform.position.x;
                     //float distanceFromRightTarget = currentLockOnTarget.transform.position.x + target.transform.position.x;
@@ -194,20 +200,32 @@ namespace SG
 
                     if (relativeEnemyPosition.x <= 0.00 && distanceFromLeftTarget > shortestDistanceOfLeftTarget
                         && avilableTargets[k] != currentLockOnTarget)
+                        Vector3 relativeEnemyPosition = inputHander.transform.InverseTransformPoint(avilableTargets[k].transform.position);
+                    float distanceFromLeftTarget = relativeEnemyPosition.x;
+                    float distanceFromRightTarget = relativeEnemyPosition.y;
+
+                    if (relativeEnemyPosition.x <= 0.00 && distanceFromLeftTarget > shortestDistanceOfLeftTarget
+                        && avilableTargets[k] != currentLockOnTarget)
                     {
                         shortestDistanceOfLeftTarget = distanceFromLeftTarget;
+                        leftLockTarget = avilableTargets[k];
                         leftLockTarget = avilableTargets[k];
                     }
 
                     else if (relativeEnemyPosition.x >= 0.00 && distanceFromRightTarget < shortestDistanceOfRightTarget
                         && avilableTargets[k] != currentLockOnTarget)
-                    {
-                        shortestDistanceOfRightTarget = distanceFromRightTarget;
-                        rightLockTarget = avilableTargets[k];
-                    }
+                    else if (relativeEnemyPosition.x >= 0.00 && distanceFromRightTarget < shortestDistanceOfRightTarget
+                        && avilableTargets[k] != currentLockOnTarget)
+                            {
+                                shortestDistanceOfRightTarget = distanceFromRightTarget;
+                                rightLockTarget = avilableTargets[k];
+                                rightLockTarget = avilableTargets[k];
+                            }
                 }
             }
 
+
+            // 🔁 Handle auto-switch if current target is dead or missin
 
             // 🔁 Handle auto-switch if current target is dead or missin
             if (inputHander.lockOnFlag)
@@ -221,8 +239,18 @@ namespace SG
                         inputHander.lockOnFlag = false;
                     }
                 }
+                {
+                    if (currentLockOnTarget == null)
+                    {
+                        currentLockOnTarget = nearestLockOnTarget;
+
+                        if (nearestLockOnTarget == null)
+                        {
+                            inputHander.lockOnFlag = false;
+                        }
+                    }
+                }
             }
-        }
 
         public void ClearLockOnTargets()
         {

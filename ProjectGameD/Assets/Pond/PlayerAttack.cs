@@ -175,6 +175,15 @@ namespace SG
 
             }
 
+            if (inputHander.twohandflag)
+            {
+
+            }
+            else
+            {
+
+            }
+
             if (weaponSlotManager.attackingWeapon != null)
             {
 
@@ -202,6 +211,16 @@ namespace SG
                 return;
 
             weaponSlotManager.attackingWeapon = weapon;
+
+            if (inputHander.twohandflag)
+            {
+
+            }
+            else
+            {
+
+            }
+
 
             if (inputHander.twohandflag)
             {

@@ -34,6 +34,7 @@ namespace SG
             quickSlotUI = FindObjectOfType<QuickSlotUI>();
             playerManager = GetComponentInParent<PlayerManager>();
             playerInventory = GetComponentInParent<PlayerInventory>();
+            playerInventory = GetComponentInParent<PlayerInventory>();
             playerStats = GetComponentInParent<PlayerStats>();
             inputHander = GetComponentInParent<InputHander>();
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();

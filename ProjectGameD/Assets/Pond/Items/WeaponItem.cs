@@ -26,7 +26,7 @@ namespace SG
 
                 [Header("Damage")]
                 public int damage;
-                public int criticalDamageMultiple;
+                public int criticalDamageMultiple = 4;
 
                 [Header("Weapon Art")]
                 public int weaponArtCharge;

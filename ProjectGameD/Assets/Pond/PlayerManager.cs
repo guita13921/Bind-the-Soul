@@ -53,6 +53,7 @@ namespace SG
             anim.SetBool("IsBlocking", isBlocking);
             isDrawWeapon = anim.GetBool("isDrawWeapon");
             anim.SetBool("isDead", playerStats.isDead);
+            anim.SetBool("isDead", playerStats.isDead);
 
             inputHander.TickInput(delta);
             playerLocomotion.HandleMovement(delta);
