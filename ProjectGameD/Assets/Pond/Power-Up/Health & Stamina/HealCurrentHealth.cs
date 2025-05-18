@@ -21,7 +21,7 @@ namespace SG
             if (playerStats.healthBar != null)
             {
                 playerStats.healthBar.SetMaxHealth(playerStats.maxHealth);
-                playerStats.healthBar.SetCurrentHealth(playerStats.currentHealth);
+                playerStats.healthBar.SetHealth(playerStats.currentHealth);
             }
         }
     }

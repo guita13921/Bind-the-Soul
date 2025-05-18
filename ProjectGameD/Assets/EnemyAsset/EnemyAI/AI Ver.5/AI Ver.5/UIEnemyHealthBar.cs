@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,18 +9,42 @@ namespace SG
 {
     public class UIEnemyHealthBar : MonoBehaviour
     {
-        [SerializeField] private Slider slider;
-        float timeUntillBarHidden = 0;
+        public Slider slider;
+        private float timeUntillBarHidden = 0;
         public Transform mainCamera;
+        [SerializeField] EnemyUIYellowBar yellowBar;
+        [SerializeField] float yellowBarTimer = 3;
+
+        [SerializeField] TextMeshProUGUI damageText;
+        [SerializeField] int currentDamageTaken;
 
         private void Awake()
         {
             slider = GetComponentInChildren<Slider>();
             //mainCamera = Camera.main.transform; // Get the main camera
         }
+        private void OnDisable()
+        {
+            currentDamageTaken = 0;
+        }
 
         public void SetHealth(int health)
         {
+            if (yellowBar != null)
+            {
+                yellowBar.gameObject.SetActive(true);
+
+                yellowBar.timer = yellowBarTimer;
+
+                if (health > slider.value)
+                {
+                    yellowBar.slider.value = health;
+                }
+            }
+
+            currentDamageTaken = currentDamageTaken + Mathf.RoundToInt(slider.value - health);
+            damageText.text = currentDamageTaken.ToString();
+
             slider.value = health;
             timeUntillBarHidden = 5;
         }
@@ -31,6 +56,12 @@ namespace SG
                 Debug.LogError("Slider is null in SetMaxHealth!");
                 return;
             }
+            if (yellowBar != null)
+            {
+                yellowBar.SetMaxStat(maxHealth);
+                yellowBar.SetParentHealthBar(this);
+            }
+
 
             slider.maxValue = maxHealth;
             slider.value = maxHealth;
@@ -38,21 +69,14 @@ namespace SG
 
         private void Update()
         {
-            // Ensure the health bar always faces the camera
-            if (mainCamera != null)
-            {
-                transform.LookAt(transform.position + mainCamera.forward);
-            }
-
-            // Manage health bar visibility
-            timeUntillBarHidden -= Time.deltaTime;
-
+            transform.LookAt(transform.position + Camera.main.transform.forward);
+            timeUntillBarHidden = timeUntillBarHidden - Time.deltaTime;
             if (slider != null)
             {
                 if (timeUntillBarHidden <= 0)
                 {
                     timeUntillBarHidden = 0;
-                    //slider.gameObject.SetActive(false);
+                    slider.gameObject.SetActive(false);
                 }
                 else
                 {
@@ -61,7 +85,6 @@ namespace SG
                         slider.gameObject.SetActive(true);
                     }
                 }
-
                 if (slider.value <= 0)
                 {
                     Destroy(slider.gameObject);

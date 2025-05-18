@@ -27,7 +27,7 @@ namespace SG
             playerStats.healthLevel += healthLevelIncreaseAmount;
 
             playerStats.healthBar.SetMaxHealth(playerStats.maxHealth);
-            playerStats.healthBar.SetCurrentHealth(playerStats.currentHealth);
+            playerStats.healthBar.SetHealth(playerStats.currentHealth);
         }
     }
 }

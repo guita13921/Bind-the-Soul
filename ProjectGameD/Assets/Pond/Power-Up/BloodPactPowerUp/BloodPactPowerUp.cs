@@ -27,7 +27,7 @@ namespace SG
                 playerStats.currentHealth -= 1;
             }
 
-            playerStats.healthBar.SetCurrentHealth(playerStats.currentHealth);
+            playerStats.healthBar.SetHealth(playerStats.currentHealth);
 
             Debug.Log("Blood Pact applied: -1 HP after room. Current HP: " + playerStats.currentHealth);
 
