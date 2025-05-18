@@ -29,6 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 3487404135466866171}
   - {fileID: 2124261713044507329}
   - {fileID: 1794212637261495868}
   - {fileID: 6942568756369259177}
@@ -504,7 +505,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4b2b8edc2fcd67345a097df7bd2bb283, type: 2}
   - {fileID: 11400000, guid: c0df44508a46fbc4d92d914abab26fa0, type: 2}
   - {fileID: 11400000, guid: 0333e313d1328934d90677664d18281d, type: 2}
-  - {fileID: 11400000, guid: aebd2723c5949694c8bfc99988ce84b6, type: 2}
   pursueTargetState: {fileID: 1198251446297049105}
 --- !u!1 &2225492803084081001
 GameObject:
@@ -809,7 +809,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sliderFill: {fileID: 7015190039011539382}
   sliderRegen: {fileID: 4051214766566384559}
-  mainCamera: {fileID: 0}
+  sliderBlackGround: {fileID: 0}
+--- !u!1 &4070609968802926210
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3487404135466866171}
+  m_Layer: 3
+  m_Name: HitEffect Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3487404135466866171
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4070609968802926210}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.0951555, z: -0, w: 0.9954625}
+  m_LocalPosition: {x: 0, y: 1.5200001, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6034122643144324661}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4631873778348743448
 GameObject:
   m_ObjectHideFlags: 0
@@ -1075,6 +1106,8 @@ MonoBehaviour:
   leftWeaponFX: {fileID: 0}
   currentParticalFX: {fileID: 0}
   instantiatedFXModel: {fileID: 0}
+  hitFXPrefab: {fileID: 1625297098178738, guid: 47d9062a8b960364799d41f394f07e97, type: 3}
+  hitEffectSpawnPoint: {fileID: 3487404135466866171}
   amountToBeHealed: 0
 --- !u!114 &1746302436007395566
 MonoBehaviour:
@@ -1121,8 +1154,8 @@ MonoBehaviour:
   characterCombatManager: {fileID: 0}
   lockOnTransform: {fileID: 6546007061359281603}
   DefaultlockOnTransform: {fileID: 0}
-  backStabCollider: {fileID: 0}
-  riposteCollider: {fileID: 0}
+  backStabCollider: {fileID: 7326380292458613019}
+  riposteCollider: {fileID: 7682968566342290505}
   CanDoCombo: 1
   canBeRiposted: 0
   isBackstabImmune: 0
@@ -1148,12 +1181,13 @@ MonoBehaviour:
   navMeshAgent: {fileID: 0}
   enemyRigidBody: {fileID: 0}
   enemyDebuff: {fileID: 0}
+  enemyEffectManager: {fileID: 0}
   isPerformingAction: 0
   isInterActing: 0
   hasShield: 0
   detectionRadius: 10
-  minimumDetectionAngle: -90
-  maximumDetectionAngle: 90
+  minimumDetectionAngle: -180
+  maximumDetectionAngle: 180
   currentRecoveryTime: 0
   currentStunningTime: 0
   stunningTime: 7
@@ -1473,7 +1507,7 @@ Transform:
   m_GameObject: {fileID: 6560896922851317458}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.052, y: -0.279, z: 0.4300002}
+  m_LocalPosition: {x: 0.052, y: -0.279, z: 0.5700006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1797,7 +1831,7 @@ Transform:
   m_GameObject: {fileID: 7574687027691872355}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.052000083, y: -0.27900004, z: -0.376}
+  m_LocalPosition: {x: 0.052000083, y: -0.27900004, z: -0.558}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2351,6 +2385,7 @@ MonoBehaviour:
   projectileSpell: {fileID: 0}
   rightHandSlot: {fileID: 0}
   leftHandSlot: {fileID: 0}
+  characterSoundFXManager: {fileID: 0}
   Shield: {fileID: 0}
   uIEnemyShieldBar: {fileID: 0}
 --- !u!95 &7423237036211764178

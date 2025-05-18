@@ -60,7 +60,7 @@ namespace SG
             enemyAnimatorManager.animator.SetBool("isPhaseShifting", true);
             enemyAnimatorManager.PlayTargetAnimation("PhaseShift", true);
             bossCombatStanceState.hasPhaseShifted = true;
-
+            particleFX.SetActive(true);
         }
 
         private void HandleBossDefeat()

@@ -27,10 +27,6 @@ namespace SG
 
             if (!enemyManager.isStunning) RotateTowardTargetWhileAttacking(enemyManager);
 
-            if (willDoComboOnNextAttack)
-            {
-                AttackTargetWithCombo(enemyAnimator, enemyManager);
-            }
 
             if (enemyManager.isInterActing || enemyManager.isStunning || enemyManager.currentRecoveryTime > 0) return this;
 
@@ -58,6 +54,8 @@ namespace SG
 
             if (willDoComboOnNextAttack)
             {
+                AttackTargetWithCombo(enemyAnimator, enemyManager);
+                Debug.Log("return this");
                 return this;
             }
 
@@ -70,7 +68,6 @@ namespace SG
             enemyAnimatorManager.animator.SetBool("isAttacking", true);
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
             hasPerformAttack = true;
-            currentAttack = null;
         }
 
         private void AttackTargetWithCombo(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager)
@@ -112,6 +109,7 @@ namespace SG
             {
                 willDoComboOnNextAttack = true;
                 currentAttack = currentAttack.comboAction;
+                Debug.Log(currentAttack);
             }
             else
             {

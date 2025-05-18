@@ -31,13 +31,6 @@ namespace SG
 
         public void SpawnEnemiesInRoom(Room currentRoom)
         {
-            var Momentum = powerUpManager.collectedPowerUps.OfType<MomentumPowerUp>().FirstOrDefault();
-            if (Momentum != null)
-            {
-                Momentum.OnRoomEnter(playerData);
-                Debug.Log("Momentum");
-            }
-
             enemiesInRoom.Clear();
 
             Transform spawnerParent = GameObject.Find(currentRoom.roomNumber.ToString()).transform.Find("Spawners");
@@ -93,7 +86,6 @@ namespace SG
 
         private void RoomCleared(Room currentRoom)
         {
-            CheckClearRoomPowerUp();
 
             Transform doors = GameObject.Find(currentRoom.roomNumber.ToString()).transform.Find("Doors");
 
@@ -130,23 +122,6 @@ namespace SG
                 }
             }
         }
-
-        private void CheckClearRoomPowerUp()
-        {
-            var bloodPact = powerUpManager.collectedPowerUps.OfType<BloodPactPowerUp>().FirstOrDefault();
-            if (bloodPact != null)
-            {
-                bloodPact.OnRoomComplete(playerStats);
-            }
-
-            var Momentum = powerUpManager.collectedPowerUps.OfType<MomentumPowerUp>().FirstOrDefault();
-            if (Momentum != null)
-            {
-                Momentum.OnRoomClear(playerData);
-                Debug.Log("Momentum");
-            }
-        }
-
 
     }
 }

@@ -52,7 +52,7 @@ namespace SG
                 if (timeUntillBarHidden <= 0)
                 {
                     timeUntillBarHidden = 0;
-                    //slider.gameObject.SetActive(false);
+                    slider.gameObject.SetActive(false);
                 }
                 else
                 {

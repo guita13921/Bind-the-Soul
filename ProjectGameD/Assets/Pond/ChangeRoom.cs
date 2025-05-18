@@ -32,9 +32,10 @@ namespace SG
         {
             Transform t = rooms.Find(r.roomNumber.ToString());
             Transform doors = t.Find("Doors");
+
             if (r.roomNumber == 1)
             {
-                Transform trapdoor = t.Find("TrapDoor");
+                Transform trapdoor = doors.Find("TrapDoor");
                 trapdoor.gameObject.SetActive(true);
             }
             // First disable all doors and walls
@@ -105,6 +106,8 @@ namespace SG
 
         private void OnTriggerEnter(Collider hit)
         {
+            if (PlayerManager.currentRoom == null) return;
+
             if (changeRoomCooldown || PlayerManager.currentRoom.cleared != true)
             {
                 return;

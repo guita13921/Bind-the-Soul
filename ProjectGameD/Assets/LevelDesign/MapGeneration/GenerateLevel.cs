@@ -32,6 +32,7 @@ namespace SG
             Level.unexploreRoom = unexploreRoom;
             Level.secretRoom = secretRoom;
             Level.challengeRoom = challengeRoom;
+            changeRoom = FindObjectOfType<ChangeRoom>();
         }
 
         void Start()

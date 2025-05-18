@@ -4761,8 +4761,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4209731392266258}
-  - component: {fileID: 8010469710497945481}
   - component: {fileID: 4764164911948608860}
+  - component: {fileID: -1294604752433081268}
   - component: {fileID: 6994588573202198414}
   - component: {fileID: 8649827580441937723}
   m_Layer: 0
@@ -4788,27 +4788,6 @@ Transform:
   - {fileID: 4577187839491108}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!135 &8010469710497945481
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1947871717301538}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 8
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &4764164911948608860
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4836,6 +4815,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 4
   m_CollisionDetection: 0
+--- !u!135 &-1294604752433081268
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1947871717301538}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6994588573202198414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4849,7 +4849,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentDamageWeapon: 25
-  damageCollider: {fileID: 0}
+  damageCollider: {fileID: -1294604752433081268}
   enableOnStartUp: 1
   characterManager: {fileID: 0}
   characterSoundFXManager: {fileID: 0}

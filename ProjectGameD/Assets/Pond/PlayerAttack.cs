@@ -323,7 +323,7 @@ namespace SG
             RaycastHit hit;
 
             if (Physics.Raycast(inputHander.CriticalAttackRayCastStartPoint.position,
-            transform.TransformDirection(Vector3.forward), out hit, 0.7f, backStabLayer))
+            transform.TransformDirection(Vector3.forward), out hit, 0.5f, backStabLayer))
             {
                 enemyCharacterManger = hit.transform.gameObject.GetComponentInParent<EnemyManager>();
                 rightWeapon = weaponSlotManager.righthandDamgeCollider;
@@ -357,7 +357,8 @@ namespace SG
                     enemyCharacterManger.backstabImmunityTimer = enemyCharacterManger.backstabImmunityDuration;
                 }
             }
-            else if (Physics.Raycast(inputHander.CriticalAttackRayCastStartPoint.position, transform.TransformDirection(Vector3.forward), out hit, 0.7f, riposteLayer))
+            else if (Physics.Raycast(inputHander.CriticalAttackRayCastStartPoint.position,
+            transform.TransformDirection(Vector3.forward), out hit, 1f, riposteLayer))
             {
                 enemyCharacterManger = hit.transform.gameObject.GetComponentInParent<EnemyManager>();
                 rightWeapon = weaponSlotManager.righthandDamgeCollider;
@@ -401,10 +402,15 @@ namespace SG
         {
             RaycastHit hit;
 
-            if (Physics.Raycast(inputHander.CriticalAttackRayCastStartPoint.position, transform.TransformDirection(Vector3.forward), out hit, 0.7f, riposteLayer))
+            if (Physics.Raycast(inputHander.CriticalAttackRayCastStartPoint.position, transform.TransformDirection(Vector3.forward), out hit, 2f, riposteLayer))
             {
+                Debug.Log(hit.transform.gameObject);
                 enemyCharacterManger = hit.transform.gameObject.GetComponentInParent<EnemyManager>();
                 rightWeapon = weaponSlotManager.righthandDamgeCollider;
+
+                Debug.Log(enemyCharacterManger);
+                Debug.Log(enemyCharacterManger.canBeRiposted);
+                Debug.Log(enemyCharacterManger.enemyStat.isDead);
 
                 if (enemyCharacterManger != null && enemyCharacterManger.canBeRiposted && !enemyCharacterManger.enemyStat.isDead)
                 {

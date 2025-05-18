@@ -10,13 +10,6 @@ namespace SG
         public WeaponFX rightWeaponFX;
         public WeaponFX leftWeaponFX;
 
-        EnemyAnimatorManager enemyAnimatorManager;
-
-        void Awake()
-        {
-            enemyAnimatorManager = GetComponentInChildren<EnemyAnimatorManager>();
-        }
-
         public virtual void PlayWeaponFX(bool isLeft)
         {
             if (isLeft == false)
@@ -51,6 +44,46 @@ namespace SG
                 if (leftWeaponFX != null)
                 {
                     leftWeaponFX.StopTrailVFX();
+                }
+
+            }
+        }
+
+        public virtual void ActivateWeaponFX(bool isLeft)
+        {
+            if (isLeft == false)
+            {
+                if (rightWeaponFX != null)
+                {
+                    rightWeaponFX.trailEffect.active = true;
+
+                }
+            }
+            else
+            {
+                if (leftWeaponFX != null)
+                {
+                    leftWeaponFX.trailEffect.active = true;
+                }
+
+            }
+        }
+
+        public virtual void DeactivateWeaponFX(bool isLeft)
+        {
+            if (isLeft == false)
+            {
+                if (rightWeaponFX != null)
+                {
+                    rightWeaponFX.trailEffect.active = false;
+
+                }
+            }
+            else
+            {
+                if (leftWeaponFX != null)
+                {
+                    leftWeaponFX.trailEffect.active = false;
                 }
 
             }

@@ -39,7 +39,7 @@ public static class Level
 
 public class Room
 {
-    public int roomNumber = 6;
+    public int roomNumber;
     public Vector2 location;
     public Image roomImage;
     public Sprite roomSprite;

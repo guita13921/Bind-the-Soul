@@ -587,7 +587,7 @@ Transform:
   m_GameObject: {fileID: 1169406284521106180}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.052000083, y: -0.27900004, z: -0.376}
+  m_LocalPosition: {x: 0.052000083, y: -0.27900004, z: -0.558}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -869,7 +869,7 @@ Transform:
   m_GameObject: {fileID: 2407539470442572412}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.052, y: -0.279, z: 0.515}
+  m_LocalPosition: {x: 0.052, y: -0.279, z: 0.655}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1067,6 +1067,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 874675466137328067}
   - {fileID: 5723016761312888735}
   - {fileID: 7054809269288669627}
   - {fileID: 3249730416297085129}
@@ -1237,6 +1238,8 @@ MonoBehaviour:
   leftWeaponFX: {fileID: 0}
   currentParticalFX: {fileID: 0}
   instantiatedFXModel: {fileID: 0}
+  hitFXPrefab: {fileID: 1625297098178738, guid: 47d9062a8b960364799d41f394f07e97, type: 3}
+  hitEffectSpawnPoint: {fileID: 874675466137328067}
   amountToBeHealed: 0
 --- !u!114 &9072916337615343495
 MonoBehaviour:
@@ -1283,8 +1286,8 @@ MonoBehaviour:
   characterCombatManager: {fileID: 0}
   lockOnTransform: {fileID: 2576644369661027191}
   DefaultlockOnTransform: {fileID: 0}
-  backStabCollider: {fileID: 0}
-  riposteCollider: {fileID: 0}
+  backStabCollider: {fileID: 8338964754558559733}
+  riposteCollider: {fileID: 8135445951469084405}
   CanDoCombo: 1
   canBeRiposted: 0
   isBackstabImmune: 0
@@ -1310,12 +1313,13 @@ MonoBehaviour:
   navMeshAgent: {fileID: 0}
   enemyRigidBody: {fileID: 0}
   enemyDebuff: {fileID: 0}
+  enemyEffectManager: {fileID: 0}
   isPerformingAction: 0
   isInterActing: 0
   hasShield: 0
   detectionRadius: 10
-  minimumDetectionAngle: -90
-  maximumDetectionAngle: 90
+  minimumDetectionAngle: -180
+  maximumDetectionAngle: 180
   currentRecoveryTime: 0
   currentStunningTime: 0
   stunningTime: 7
@@ -1931,7 +1935,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sliderFill: {fileID: 6728021657305995020}
   sliderRegen: {fileID: 270070589699389243}
-  mainCamera: {fileID: 0}
+  sliderBlackGround: {fileID: 0}
 --- !u!1 &7621849894448275279
 GameObject:
   m_ObjectHideFlags: 0
@@ -1968,6 +1972,37 @@ Transform:
   - {fileID: 7415842558014015767}
   - {fileID: 3916575718843694960}
   m_Father: {fileID: 1660130409589062614}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7823929394587299403
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 874675466137328067}
+  m_Layer: 3
+  m_Name: HitEffect Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &874675466137328067
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7823929394587299403}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.0951555, z: -0, w: 0.9954625}
+  m_LocalPosition: {x: 0, y: 1.5200001, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8138305950928180314}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8013382913777943026
 GameObject:
@@ -2191,7 +2226,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4b2b8edc2fcd67345a097df7bd2bb283, type: 2}
   - {fileID: 11400000, guid: c0df44508a46fbc4d92d914abab26fa0, type: 2}
   - {fileID: 11400000, guid: 0333e313d1328934d90677664d18281d, type: 2}
-  - {fileID: 11400000, guid: aebd2723c5949694c8bfc99988ce84b6, type: 2}
   pursueTargetState: {fileID: 1060676885384498072}
 --- !u!1001 &7458135321513836644
 PrefabInstance:
@@ -2328,6 +2362,7 @@ MonoBehaviour:
   projectileSpell: {fileID: 0}
   rightHandSlot: {fileID: 0}
   leftHandSlot: {fileID: 0}
+  characterSoundFXManager: {fileID: 0}
   Shield: {fileID: 0}
   uIEnemyShieldBar: {fileID: 0}
 --- !u!95 &7415730268188237922

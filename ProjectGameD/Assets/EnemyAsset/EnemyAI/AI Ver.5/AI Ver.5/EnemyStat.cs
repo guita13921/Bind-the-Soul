@@ -160,6 +160,7 @@ namespace SG
             if (enemyShieldBar != null) enemyShieldBar.SetShield(0);
 
             enemyAnimatorManager.PlayTargetAnimation("Dead01", true);
+            enemyManager.enabled = false;
             DropItem();
 
             // Play death sound
@@ -195,6 +196,7 @@ namespace SG
             {
                 enemyAnimatorManager.PlayTargetAnimation("Dead01", true);
             }
+            enemyManager.enabled = false;
 
             // Play death sound
             if (characterSoundFXManager != null)

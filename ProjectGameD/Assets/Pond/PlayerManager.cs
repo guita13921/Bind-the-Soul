@@ -14,6 +14,7 @@ namespace SG
         public PlayerStats playerStats;
         public PlayerAttack playerAttack;
         public PlayerData playerData;
+        public ChangeRoom changeRoom;
 
         public bool isInteracting;
         public bool isInvulerable;
@@ -38,6 +39,7 @@ namespace SG
             anim = GetComponentInChildren<Animator>();
             playerLocomotion = GetComponent<PlayerLocomotion>();
             playerStats = GetComponent<PlayerStats>();
+            changeRoom = GetComponent<ChangeRoom>();
         }
 
         // Update is called once per frame
@@ -52,7 +54,6 @@ namespace SG
             isInvulerable = anim.GetBool("IsInvulnerable");
             anim.SetBool("IsBlocking", isBlocking);
             isDrawWeapon = anim.GetBool("isDrawWeapon");
-            anim.SetBool("isDead", playerStats.isDead);
             anim.SetBool("isDead", playerStats.isDead);
 
             inputHander.TickInput(delta);

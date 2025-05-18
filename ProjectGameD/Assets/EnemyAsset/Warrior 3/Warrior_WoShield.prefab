@@ -5088,13 +5088,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6029349427937230109}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7706189, y: 0.09690883, z: 0.15568748, w: 0.6103413}
-  m_LocalPosition: {x: 0.557, y: -0.046, z: 0.071}
+  m_LocalRotation: {x: 0.5729551, y: 0.3914307, z: 0.5348028, w: 0.48217282}
+  m_LocalPosition: {x: 0.469, y: 0.274, z: 0.14}
   m_LocalScale: {x: 0.4999999, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3430940167539081975}
-  m_LocalEulerAnglesHint: {x: 114.425, y: -60.041016, z: -55.166992}
+  m_LocalEulerAnglesHint: {x: 172.308, y: -92.140015, z: -76.664}
 --- !u!114 &3569346575461257525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6757,6 +6757,7 @@ MonoBehaviour:
   projectileSpell: {fileID: 0}
   rightHandSlot: {fileID: 0}
   leftHandSlot: {fileID: 0}
+  characterSoundFXManager: {fileID: 0}
   Shield: {fileID: 0}
   uIEnemyShieldBar: {fileID: 0}
 --- !u!1 &8084597974716803150
@@ -6845,7 +6846,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8136204919397456998}
   serializedVersion: 4
-  m_Mass: 5
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -6862,7 +6863,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!136 &9220412507443341278
 CapsuleCollider:
@@ -6903,6 +6904,8 @@ MonoBehaviour:
   leftWeaponFX: {fileID: 0}
   currentParticalFX: {fileID: 0}
   instantiatedFXModel: {fileID: 0}
+  hitFXPrefab: {fileID: 0}
+  hitEffectSpawnPoint: {fileID: 0}
   amountToBeHealed: 0
 --- !u!114 &4443194845269631511
 MonoBehaviour:
@@ -6976,6 +6979,7 @@ MonoBehaviour:
   navMeshAgent: {fileID: 0}
   enemyRigidBody: {fileID: 0}
   enemyDebuff: {fileID: 0}
+  enemyEffectManager: {fileID: 0}
   isPerformingAction: 0
   isInterActing: 0
   hasShield: 0

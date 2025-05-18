@@ -63,7 +63,7 @@ namespace SG
 
         void Start()
         {
-            cameraObject = normalCameral.transform;
+            cameraObject = cameraHandler.transform;
             myTransform = transform;
             animatorHander.Initialize();
             Physics.IgnoreCollision(CharacterCollider, CharacterCollisiomBlockerCollider, true);
@@ -148,7 +148,7 @@ namespace SG
                 if (sprintStaminaTimer >= staminaDrainInterval)
                 {
                     sprintStaminaTimer = 0f;
-                    playerStats.TakeStaminaDamage((int)sprintStaminaCost);
+                    playerStats.TakeStaminaDamage(sprintStaminaCost);
                 }
             }
             else
@@ -177,7 +177,6 @@ namespace SG
                 HandleRotation(delta);
             }
         }
-
 
         public void HandleRollingAndSprinting(float delta)
         {

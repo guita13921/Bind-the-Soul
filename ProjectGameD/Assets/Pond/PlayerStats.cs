@@ -93,7 +93,6 @@ namespace SG
 
         public void TakeDamage(int damage, string damageAnimation = "Damage_01") // ✅ แก้ชื่อให้ตรง
         {
-            CheckDamagePowerUp();
 
             float durationMultiplier = 0.01f;
             float magnitudeMultiplier = 0.025f;
@@ -140,10 +139,10 @@ namespace SG
             }
         }
 
-        public void TakeStaminaDamage(int damage)
+        public void TakeStaminaDamage(float damage)
         {
-            damage = (int)CheckIronMaw(damage);
-            damage = (int)CheckduelistSet4Curse(damage, "Stamina");
+            damage = CheckIronMaw(damage);
+            damage = CheckduelistSet4Curse(damage, "Stamina");
 
             currentStamina -= damage;
             staminaBar.SetcurrentStamina(Mathf.RoundToInt(currentStamina));
@@ -210,16 +209,6 @@ namespace SG
             animatorHander.anim.SetFloat("Vertical", 0);
         }
 
-        private void CheckDamagePowerUp()
-        {
-            var Momentum = powerUpManager.collectedPowerUps.OfType<MomentumPowerUp>().FirstOrDefault();
-            if (Momentum != null)
-            {
-                Momentum.OnPlayerDamaged(playerData);
-                Debug.Log("OnRoomClear");
-            }
-        }
-
         // Call this when your parry system determines a successful parry
         public void TriggerParrySuccess()
         {
@@ -246,7 +235,7 @@ namespace SG
             };
         }
 
-        private float CheckIronMaw(int damage)
+        private float CheckIronMaw(float damage)
         {
             if (playerData.echoIronMaw && playerLocomotion.IsStandingStill())
             {
@@ -316,7 +305,7 @@ namespace SG
             };
         }
 
-        private float CheckduelistSet4Curse(int damage, String type)
+        private float CheckduelistSet4Curse(float damage, String type)
         {
             if (type == "Damage" && playerData.duelistSetCurse)
             {

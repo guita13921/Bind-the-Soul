@@ -12,8 +12,14 @@ namespace SG
         private TextMeshPro nameText;
         private TextMeshPro costText;
         private Transform cameraTransform;
+        private GameObject camObj;
 
         private PlayerStats playerStats; // ✅ Added reference
+
+        void Awake()
+        {
+            camObj = FindAnyObjectByType<CameraHandler>().gameObject;
+        }
 
         public void SetText()
         {
@@ -29,8 +35,7 @@ namespace SG
                 costText.text = item.cost.ToString();
             }
 
-            // Grab camera02 transform
-            GameObject camObj = GameObject.Find("Camera02");
+
             if (camObj != null)
             {
                 cameraTransform = camObj.transform;

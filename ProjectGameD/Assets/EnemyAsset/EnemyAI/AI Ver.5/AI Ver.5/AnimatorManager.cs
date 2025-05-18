@@ -16,7 +16,7 @@ namespace SG
             animator.applyRootMotion = isInteracting;
             animator.SetBool("canRotate", canRotate);
             animator.SetBool("isInteracting", isInteracting);
-            animator.CrossFadeInFixedTime(targetAnim, 0f);
+            animator.CrossFadeInFixedTime(targetAnim, 0.1f);
         }
 
         public void PlayTargetAnimationWithRootRotation(string targetAnim, bool isInteracting)
@@ -24,7 +24,7 @@ namespace SG
             animator.applyRootMotion = isInteracting;
             animator.SetBool("isRotatingWithRootMotion", isInteracting);
             animator.SetBool("isInteracting", isInteracting);
-            animator.CrossFade(targetAnim, 0f);
+            animator.CrossFade(targetAnim, 0.1f);
         }
 
         public void PlayRecoilAnimation(string name)
@@ -33,7 +33,7 @@ namespace SG
             animator.SetBool("isInteracting", true);
             animator.SetBool("isAttacking", false); // Stop attack state
             animator.SetBool("canDoCombo", false);  // Optional: if using combos
-            animator.CrossFade(name, 0f);   // Faster blend for snappy reaction
+            animator.CrossFade(name, 0.1f);   // Faster blend for snappy reaction
         }
 
 

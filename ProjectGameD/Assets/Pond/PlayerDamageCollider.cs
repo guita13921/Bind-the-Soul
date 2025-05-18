@@ -103,10 +103,9 @@ namespace SG
 
         protected virtual void DealDamage(EnemyStat enemyStat, EnemyManager enemyManager, float damage, PlayerManager playerManager)
         {
-
             if (characterManager.characterCombatManager.currentAttackType == AttackType.light)
             {
-                damage = currentDamageWeapon * characterManager.weaponSlotManager.attackingWeapon.lightAttackDamageModifiers;
+                damage = currentDamageWeapon * characterManager.weaponSlotManager.rightHandSlot.currentWeapon.lightAttackDamageModifiers;
 
                 //Modify for power-up 
                 damage = CheckCritNextAttack(damage, playerManager);

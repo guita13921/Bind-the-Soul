@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SceneManager : MonoBehaviour
 {
+	internal static Action<Scene, LoadSceneMode> sceneLoaded;
 	public TextMesh text_fx_name;
 	public GameObject[] fx_prefabs;
 	public int index_fx = 0;

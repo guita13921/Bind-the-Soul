@@ -36,6 +36,7 @@ public class InputHander : MonoBehaviour
     public float rollInputTimer;
 
     public Transform CriticalAttackRayCastStartPoint;
+    public float rayLength = 1f;
 
     PlayerControls inputAction;
     PlayerAttack playerAttack;
@@ -346,4 +347,21 @@ public class InputHander : MonoBehaviour
 
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        if (CriticalAttackRayCastStartPoint == null)
+            return;
+
+        // Set gizmo color
+        Gizmos.color = Color.red;
+
+        // Draw ray direction from the raycast start point forward
+        Vector3 rayDirection = transform.TransformDirection(Vector3.forward);
+
+        // Draw the ray in scene view
+        Gizmos.DrawRay(CriticalAttackRayCastStartPoint.position, rayDirection * rayLength);
+
+        // Optionally, draw a small sphere at the origin for visibility
+        Gizmos.DrawWireSphere(CriticalAttackRayCastStartPoint.position, 0.05f);
+    }
 }

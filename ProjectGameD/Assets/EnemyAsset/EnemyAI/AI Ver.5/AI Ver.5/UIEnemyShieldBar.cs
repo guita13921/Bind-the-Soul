@@ -10,13 +10,8 @@ namespace SG
     {
         [SerializeField] private Slider sliderFill;
         [SerializeField] private Slider sliderRegen;
+        [SerializeField] private GameObject sliderBlackGround;
         float timeUntillBarHidden = 0;
-        public Transform mainCamera;
-
-        void Awake()
-        {
-            mainCamera = FindObjectOfType<CameraHandler>().transform;
-        }
 
 
         public void SetShield(int ShieldPoint)
@@ -30,6 +25,7 @@ namespace SG
         public void SetCurrentShield(int currentShieldPoint)
         {
             sliderFill.value = currentShieldPoint;
+            timeUntillBarHidden = 5;
         }
 
         public void SetMaxShield(int maxShieldPoint)
@@ -63,12 +59,6 @@ namespace SG
 
         private void Update()
         {
-            if (mainCamera != null)
-            {
-                transform.LookAt(transform.position + mainCamera.forward);
-            }
-
-
             timeUntillBarHidden -= Time.deltaTime;
 
             if (sliderFill != null)
@@ -77,12 +67,16 @@ namespace SG
                 {
                     timeUntillBarHidden = 0;
                     //sliderFill.gameObject.SetActive(false);
+                    //sliderRegen.gameObject.SetActive(false);
+                    //sliderBlackGround.gameObject.SetActive(false);
                 }
                 else
                 {
                     if (!sliderFill.gameObject.activeInHierarchy)
                     {
                         sliderFill.gameObject.SetActive(true);
+                        sliderRegen.gameObject.SetActive(true);
+                        sliderBlackGround.gameObject.SetActive(true);
                     }
                 }
 

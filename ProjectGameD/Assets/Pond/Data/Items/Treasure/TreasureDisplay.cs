@@ -10,6 +10,12 @@ namespace SG
         private TextMeshPro nameText;
         private TextMeshPro descriptionText;
         private Transform cameraTransform;
+        private GameObject camObj;
+
+        void Awake()
+        {
+            camObj = FindAnyObjectByType<CameraHandler>().gameObject;
+        }
 
         public void SetText()
         {
@@ -24,7 +30,6 @@ namespace SG
             }
 
             // Find camera for billboard effect
-            GameObject camObj = GameObject.Find("Camera02");
             if (camObj != null)
             {
                 cameraTransform = camObj.transform;

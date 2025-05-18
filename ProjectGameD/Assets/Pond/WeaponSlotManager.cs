@@ -21,6 +21,7 @@ namespace SG
         [SerializeField] public WeaponItem attackingWeapon;
         [SerializeField] public WeaponHolderSlot leftHandSlot;
         [SerializeField] public WeaponHolderSlot rightHandSlot;
+        [SerializeField] public CharacterEffectManager characterEffectManager;
         WeaponHolderSlot backSlot;
 
         [SerializeField] public PlayerDamageCollider leftHandDamgeCollider;
@@ -29,6 +30,7 @@ namespace SG
 
         private void Awake()
         {
+            characterEffectManager = GetComponentInParent<CharacterEffectManager>();
             animator = GetComponent<Animator>();
             animatorHander = GetComponent<AnimatorHander>();
             quickSlotUI = FindObjectOfType<QuickSlotUI>();
@@ -64,6 +66,7 @@ namespace SG
                 {
                     leftHandSlot.currentWeapon = weaponItem;
                     leftHandSlot.LoadWeaponModel(weaponItem);
+                    characterEffectManager.leftWeaponFX = leftHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
                     LoadLeftWeaponDamageCollider();
                     quickSlotUI.UpdateWeaponQuickSlotsUI(true, weaponItem);
                     animatorHander.PlayTargetAnimation(weaponItem.offHandIdleAniamtion, false, true);
@@ -85,6 +88,7 @@ namespace SG
 
                     rightHandSlot.currentWeapon = weaponItem;
                     rightHandSlot.LoadWeaponModel(weaponItem);
+                    characterEffectManager.rightWeaponFX = rightHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
                     LoadRightWeaponDamageCollider();
                     quickSlotUI.UpdateWeaponQuickSlotsUI(false, weaponItem);
                     animatorHander.anim.runtimeAnimatorController = weaponItem.weaponController;
@@ -116,12 +120,14 @@ namespace SG
         {
             if (righthandDamgeCollider != null) righthandDamgeCollider.EnableDamageCollider();
             characterSoundFXManager.PlayRandomWeaponWhooshesSoundFX();
+            animatorHander.anim.SetBool("isUsingRightHand", true);
         }
 
         public void OpenLeftDamageCollider()
         {
             if (leftHandDamgeCollider != null) leftHandDamgeCollider.EnableDamageCollider();
             characterSoundFXManager.PlayRandomWeaponWhooshesSoundFX();
+            animatorHander.anim.SetBool("isUsingLefthand", true);
         }
 
         public void CloseRightHandDamgeCollider()
