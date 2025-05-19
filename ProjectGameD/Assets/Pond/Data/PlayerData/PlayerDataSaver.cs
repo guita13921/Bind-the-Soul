@@ -13,6 +13,7 @@ namespace SG
         private void Awake()
         {
             playerInventory = GetComponent<PlayerInventory>();
+            playerStats = GetComponent<PlayerStats>();
 
             // Optional: auto-load ScriptableObject from Resources
             // playerData = Resources.Load<PlayerData>("YourPlayerDataAssetName");
@@ -50,11 +51,11 @@ namespace SG
             // Save gold
             playerData.goldCount = playerStats.goldCount;
 
-            // Save power-up flags
-            playerData.bloodPactDamageModify = playerStats.playerData.bloodPactDamageModify;
-            playerData.hasMomentum = playerStats.playerData.hasMomentum;
-            playerData.momentumActive = playerStats.playerData.momentumActive;
+            // Save core passive bonuses
+            playerData.flatDamageBonus = playerStats.flatDamageBonus;
+            playerData.StaminaRegenBonus = playerStats.StaminaRegenBonus;
 
+            // Save Duelist set bonuses
             playerData.echoCrimsonEdge = playerStats.playerData.echoCrimsonEdge;
             playerData.echoCrimsonEdgeLevel = playerStats.playerData.echoCrimsonEdgeLevel;
 
@@ -73,10 +74,51 @@ namespace SG
             playerData.echoResoluteMind = playerStats.playerData.echoResoluteMind;
             playerData.echoResoluteMindLevel = playerStats.playerData.echoResoluteMindLevel;
 
-            playerData.flatDamageBonus = playerStats.flatDamageBonus;
-            playerData.StaminaRegenBonus = playerStats.StaminaRegenBonus;
+            playerData.isFreeDodgeActive = playerStats.playerData.isFreeDodgeActive;
+            playerData.duelistSet2Bonus = playerStats.playerData.duelistSet2Bonus;
+            playerData.critAttacksRemaining = playerStats.playerData.critAttacksRemaining;
+            playerData.duelistSet4Bonus = playerStats.playerData.duelistSet4Bonus;
+            playerData.duelistSetCurse = playerStats.playerData.duelistSetCurse;
+            playerData.duelistSet4CurseDamageMultiplier = playerStats.playerData.duelistSet4CurseDamageMultiplier;
+            playerData.duelistSet4CurseStaminaDamageMultiplie = playerStats.playerData.duelistSet4CurseStaminaDamageMultiplie;
+
+            // Save Titan set bonuses
+            playerData.echoStoneborn = playerStats.playerData.echoStoneborn;
+            playerData.echoStonebornLevel = playerStats.playerData.echoStonebornLevel;
+
+            playerData.echoIronMaw = playerStats.playerData.echoIronMaw;
+            playerData.echoIronMawLevel = playerStats.playerData.echoIronMawLevel;
+
+            playerData.echoUnbrokenWall = playerStats.playerData.echoUnbrokenWall;
+            playerData.echoAnchorstep = playerStats.playerData.echoAnchorstep;
+            playerData.echoAnvilborn = playerStats.playerData.echoAnvilborn;
+            playerData.echoAnvilbornLevel = playerStats.playerData.echoAnvilbornLevel;
+
+            // Save Phantom set bonuses
+            playerData.echoFlickerFang = playerStats.playerData.echoFlickerFang;
+            playerData.echoFlickerFangLevel = playerStats.playerData.echoFlickerFangLevel;
+
+            playerData.echoQuickstep = playerStats.playerData.echoQuickstep;
+            playerData.echoQuickstepLevel = playerStats.playerData.echoQuickstepLevel;
+
+            playerData.echoBladeRush = playerStats.playerData.echoBladeRush;
+            playerData.echoBladeRushLevel = playerStats.playerData.echoBladeRushLevel;
+
+            // Save Predator set bonuses
+            playerData.echoBloodhound = playerStats.playerData.echoBloodhound;
+            playerData.echoBloodhoundLevel = playerStats.playerData.echoBloodhoundLevel;
+
+            playerData.echoFirstFang = playerStats.playerData.echoFirstFang;
+            playerData.echoFirstFangLevel = playerStats.playerData.echoFirstFangLevel;
+
+            playerData.echoApexDrive = playerStats.playerData.echoApexDrive;
+            playerData.echoApexDriveLevel = playerStats.playerData.echoApexDriveLevel;
+
+            playerData.echoHungeringDrive = playerStats.playerData.echoHungeringDrive;
+            playerData.echoHungeringDriveLevel = playerStats.playerData.echoHungeringDriveLevel;
 
             Debug.Log("PlayerData has been updated from PlayerInventory and PlayerStats.");
         }
+
     }
 }

@@ -28,6 +28,11 @@ public class InputHander : MonoBehaviour
     public bool right_Stick_Right_Input;
     public bool right_Stick_Left_Input;
 
+    [SerializeField] private InputAction mouseDeltaAction;
+    private float mouseFlickThreshold = 30f; // Adjust this for sensitivity
+    private float flickCooldown = 0.3f;
+    private float lastFlickTime = -1f;
+
     public bool rollFlag;
     public bool twohandflag;
     public bool sprintFlag;
@@ -136,6 +141,7 @@ public class InputHander : MonoBehaviour
 
     private void HandleRollinput(float delta)
     {
+
         if (b_Input)
         {
             if (rollInputTimer > 0 && playerStats.currentStamina > 0)
@@ -320,11 +326,29 @@ public class InputHander : MonoBehaviour
             cameraHandler.ClearLockOnTargets();
         }
 
-        // Continuously update lock-on target while active
         if (lockOnFlag)
         {
             cameraHandler.HandleLockOn();
 
+            // === MOUSE FLICK DETECTION ===
+            Vector2 mouseDelta = mouseDeltaAction.ReadValue<Vector2>();
+            float timeNow = Time.time;
+
+            if (timeNow - lastFlickTime > flickCooldown)
+            {
+                if (mouseDelta.x > mouseFlickThreshold)
+                {
+                    right_Stick_Right_Input = true;
+                    lastFlickTime = timeNow;
+                }
+                else if (mouseDelta.x < -mouseFlickThreshold)
+                {
+                    right_Stick_Left_Input = true;
+                    lastFlickTime = timeNow;
+                }
+            }
+
+            // === STICK OR MOUSE SWITCHING ===
             if (right_Stick_Left_Input)
             {
                 right_Stick_Left_Input = false;
@@ -342,9 +366,9 @@ public class InputHander : MonoBehaviour
                     cameraHandler.currentLockOnTarget = cameraHandler.rightLockTarget;
                 }
             }
+
             cameraHandler.SetCameraHeight();
         }
-
     }
 
     private void OnDrawGizmosSelected()

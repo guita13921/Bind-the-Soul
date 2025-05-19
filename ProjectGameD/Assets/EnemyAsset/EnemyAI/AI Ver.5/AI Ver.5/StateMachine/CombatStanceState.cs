@@ -164,7 +164,7 @@ namespace SG
                     if (viewableAngle <= enemyAttackAction.maximumAttackAngle
                     && viewableAngle >= enemyAttackAction.minimumAttackAngle)
                     {
-                        if (attackState.currentAttack != null) return;
+                        //if (attackState.currentAttack != null) return;
                         //Debug.Log("GetNewAttack");
 
                         temporaryScore += enemyAttackAction.attackScore;

@@ -188,8 +188,8 @@ namespace SG
             if (isDead) return;
 
             currentHealth = 0;
-            enemyHealthBar.SetHealth(0);
-            enemyShieldBar.SetShield(0);
+            if (enemyHealthBar != null) enemyHealthBar.SetHealth(0);
+            if (enemyShieldBar != null) enemyShieldBar.SetShield(0);
             DropItem();
 
             if (isBoss)

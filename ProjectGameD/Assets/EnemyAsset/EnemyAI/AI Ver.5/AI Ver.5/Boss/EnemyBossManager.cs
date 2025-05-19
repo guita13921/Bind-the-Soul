@@ -17,7 +17,7 @@ namespace SG
         public GameObject particleFX;
 
         [Header("Boss Defeat Actions")]
-        [SerializeField] private GameObject trapdoor;
+        [SerializeField] private GameObject door;
         [SerializeField] private GameObject pointLight;
         [SerializeField] private GameObject nextStage;
 
@@ -60,7 +60,7 @@ namespace SG
             enemyAnimatorManager.animator.SetBool("isPhaseShifting", true);
             enemyAnimatorManager.PlayTargetAnimation("PhaseShift", true);
             bossCombatStanceState.hasPhaseShifted = true;
-            particleFX.SetActive(true);
+            if (particleFX != null) particleFX.SetActive(true);
         }
 
         private void HandleBossDefeat()
@@ -68,8 +68,8 @@ namespace SG
             Debug.Log("Boss defeated! Triggering post-battle events.");
 
             // Open trapdoor (if using animation, trigger here instead)
-            if (trapdoor != null)
-                trapdoor.SetActive(false); // or SetActive(true) depending on your logic
+            if (door != null)
+                door.SetActive(false); // or SetActive(true) depending on your logic
 
             // Activate point light
             if (pointLight != null)

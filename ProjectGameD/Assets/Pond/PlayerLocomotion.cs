@@ -193,7 +193,7 @@ namespace SG
 
                 if (playerManager.weaponSlotManager.rightHandSlot.currentWeaponItem.stantType == StantType.Medium)
                 {
-                    Roll(0.50f);
+                    Roll(1.00f);
                 }
                 else if (playerManager.weaponSlotManager.rightHandSlot.currentWeaponItem.stantType == StantType.Heavy)
                 {

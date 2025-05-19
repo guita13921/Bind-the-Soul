@@ -26,11 +26,6 @@ namespace SG
         [Header("Gold")]
         public int goldCount;
 
-        [Header("Power-Up Flags")]
-        public bool bloodPactDamageModify;
-        public bool momentumActive;
-        public bool hasMomentum;
-
         [Header("Passive Bonuses")]
         public int flatDamageBonus;
         public float StaminaRegenBonus;
@@ -104,15 +99,12 @@ namespace SG
 
         private void OnEnable()
         {
-            healthLevel = 20;
-            staminaLevel = 10;
+            healthLevel = 25;
+            staminaLevel = 15;
             maxHealth = SetMaxHealthFromHealthLevel();
             maxStamina = SetMaxStaminaFromStaminaLevel();
             currentHealth = maxHealth;
             currentStamina = maxStamina;
-            bloodPactDamageModify = false;
-            hasMomentum = false;
-            momentumActive = false;
 
             //Duelist Set Bonuses & Effects
             echoCrimsonEdge = false;

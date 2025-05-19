@@ -134,7 +134,6 @@ namespace SG
 
         public void CloseDamageCollider()
         {
-            enemyAnimatorManager.animator.SetBool("isAttacking", false);
             if (rightHandDamageCollider != null)
             {
                 rightHandDamageCollider.DisableDamageCollider();
@@ -148,6 +147,7 @@ namespace SG
 
         public void OpenRightDamageCollider()
         {
+
             if (rightHandDamageCollider != null) rightHandDamageCollider.EnableDamageCollider();
             characterSoundFXManager.PlayRandomWeaponWhooshesSoundFX();
         }

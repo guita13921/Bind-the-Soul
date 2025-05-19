@@ -100,7 +100,7 @@ namespace SG
                     Destroy(gameObject);
                 }
             }
-            else if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "CantDash")
+            else
             {
                 impactParticle = Instantiate(impactParticle, transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal));
 
