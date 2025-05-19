@@ -43,6 +43,10 @@ namespace SG
         [Header("Spawn Settings")]
         [SerializeField] private GameObject spawnVFXPrefab; // 👈 Assign your spawn VFX prefab here
 
+        [Header("Riposte Settings")]
+        public bool canBeRiposted;
+
+
 
         private void Awake()
         {
