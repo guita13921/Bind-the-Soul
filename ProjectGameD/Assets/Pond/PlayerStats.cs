@@ -60,7 +60,7 @@ namespace SG
 
             //currentHealth = maxHealth;
             healthBar.SetMaxHealth(maxHealth);
-            healthBar.SetCurrentHealth(currentHealth);
+            healthBar.SetHealth(currentHealth);
 
 
             maxStamina = SetMaxStaminaFromStaminaLevel();
@@ -110,7 +110,8 @@ namespace SG
             damage = (int)CheckduelistSet4Curse(damage, "Damage");
 
             currentHealth -= damage;
-            healthBar.SetCurrentHealth(currentHealth);
+            healthBar.SetHealth(currentHealth);
+            animatorHander.PlayTargetAnimation(damageAnimation, true);
 
             if (currentHealth <= 0)
             {
