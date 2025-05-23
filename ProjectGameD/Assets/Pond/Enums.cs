@@ -35,7 +35,8 @@ namespace SG
         DuelistSet,
         TitanSet,
         PhantomSet,
-        PredatorSet
+        PredatorSet,
+        Null
     }
 
 

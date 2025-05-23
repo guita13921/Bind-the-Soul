@@ -101,6 +101,7 @@ namespace SG
         {
             healthLevel = 25;
             staminaLevel = 15;
+            goldCount = 0;
             maxHealth = SetMaxHealthFromHealthLevel();
             maxStamina = SetMaxStaminaFromStaminaLevel();
             currentHealth = maxHealth;
@@ -154,9 +155,6 @@ namespace SG
             echoApexDriveLevel = 0;
             echoHungeringDrive = false;
             echoHungeringDriveLevel = 0;
-
-
-
 
             flatDamageBonus = 0;
             StaminaRegenBonus = 0;

@@ -55,7 +55,8 @@ namespace SG
 
         public void InstanctiateBossParticleFX()
         {
-            GameObject phaseFX = Instantiate(enemyBossManager.particleFX, enemyManager.transform);
+            GameObject phaseFX;
+            if (enemyBossManager.particleFX != null) phaseFX = Instantiate(enemyBossManager.particleFX, enemyManager.transform);
         }
 
         public void AwardGoldOnDeath()

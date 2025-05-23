@@ -382,7 +382,6 @@ namespace SG
                     criticalDamage = CheckApexDrive(playerManager, criticalDamage);
                     CheckHungeringDrive(playerManager, criticalDamage);
                     enemyCharacterManger.pendingCriticalDamage = criticalDamage;
-                    Debug.Log(criticalDamage);
 
                     // 🎲 Randomized animation index
                     int riposteIndex = UnityEngine.Random.Range(0, 4); // Generates 0 to 3
@@ -408,9 +407,6 @@ namespace SG
                 enemyCharacterManger = hit.transform.gameObject.GetComponentInParent<EnemyManager>();
                 rightWeapon = weaponSlotManager.righthandDamgeCollider;
 
-                Debug.Log(enemyCharacterManger);
-                Debug.Log(enemyCharacterManger.canBeRiposted);
-                Debug.Log(enemyCharacterManger.enemyStat.isDead);
 
                 if (enemyCharacterManger != null && enemyCharacterManger.canBeRiposted && !enemyCharacterManger.enemyStat.isDead)
                 {

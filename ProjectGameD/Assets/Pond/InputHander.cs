@@ -122,7 +122,7 @@ public class InputHander : MonoBehaviour
         HandleInteractingButtonInput();
         HandleTwoHandInput();
         HandleCriticalAttackInput();
-        HandleLockOnInput();
+        HandleMouseAim();
     }
 
     private void HandleMoveInput(float delta)
@@ -306,68 +306,91 @@ public class InputHander : MonoBehaviour
 
     }
 
-    private void HandleLockOnInput()
+    /*
+        private void HandleLockOnInput()
+        {
+            if (lockOnInput && lockOnFlag == false)
+            {
+                lockOnInput = false;
+                cameraHandler.HandleLockOn();
+
+                if (cameraHandler.nearestLockOnTarget != null)
+                {
+                    cameraHandler.currentLockOnTarget = cameraHandler.nearestLockOnTarget;
+                    lockOnFlag = true;
+                }
+            }
+            else if (lockOnInput && lockOnFlag)
+            {
+                lockOnInput = false;
+                lockOnFlag = false;
+                cameraHandler.ClearLockOnTargets();
+            }
+
+            if (lockOnFlag)
+            {
+                cameraHandler.HandleLockOn();
+
+                // === MOUSE FLICK DETECTION ===
+                Vector2 mouseDelta = mouseDeltaAction.ReadValue<Vector2>();
+                float timeNow = Time.time;
+
+                if (timeNow - lastFlickTime > flickCooldown)
+                {
+                    if (mouseDelta.x > mouseFlickThreshold)
+                    {
+                        right_Stick_Right_Input = true;
+                        lastFlickTime = timeNow;
+                    }
+                    else if (mouseDelta.x < -mouseFlickThreshold)
+                    {
+                        right_Stick_Left_Input = true;
+                        lastFlickTime = timeNow;
+                    }
+                }
+
+                // === STICK OR MOUSE SWITCHING ===
+                if (right_Stick_Left_Input)
+                {
+                    right_Stick_Left_Input = false;
+                    if (cameraHandler.leftLockTarget != null)
+                    {
+                        cameraHandler.currentLockOnTarget = cameraHandler.leftLockTarget;
+                    }
+                }
+
+                if (right_Stick_Right_Input)
+                {
+                    right_Stick_Right_Input = false;
+                    if (cameraHandler.rightLockTarget != null)
+                    {
+                        cameraHandler.currentLockOnTarget = cameraHandler.rightLockTarget;
+                    }
+                }
+
+                cameraHandler.SetCameraHeight();
+            }
+        }
+    */
+
+    public void HandleMouseAim()
     {
-        if (lockOnInput && lockOnFlag == false)
+        if (playerManager.isInteracting) return;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Plane groundPlane = new Plane(Vector3.up, transform.position);
+        lockOnFlag = true;
+
+        if (groundPlane.Raycast(ray, out float enter))
         {
-            lockOnInput = false;
-            cameraHandler.HandleLockOn();
+            Vector3 hitPoint = ray.GetPoint(enter);
+            Vector3 direction = hitPoint - transform.position;
+            direction.y = 0f;
 
-            if (cameraHandler.nearestLockOnTarget != null)
+            if (direction.sqrMagnitude > 0.001f)
             {
-                cameraHandler.currentLockOnTarget = cameraHandler.nearestLockOnTarget;
-                lockOnFlag = true;
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * cameraHandler.rotationSpeed);
             }
-        }
-        else if (lockOnInput && lockOnFlag)
-        {
-            lockOnInput = false;
-            lockOnFlag = false;
-            cameraHandler.ClearLockOnTargets();
-        }
-
-        if (lockOnFlag)
-        {
-            cameraHandler.HandleLockOn();
-
-            // === MOUSE FLICK DETECTION ===
-            Vector2 mouseDelta = mouseDeltaAction.ReadValue<Vector2>();
-            float timeNow = Time.time;
-
-            if (timeNow - lastFlickTime > flickCooldown)
-            {
-                if (mouseDelta.x > mouseFlickThreshold)
-                {
-                    right_Stick_Right_Input = true;
-                    lastFlickTime = timeNow;
-                }
-                else if (mouseDelta.x < -mouseFlickThreshold)
-                {
-                    right_Stick_Left_Input = true;
-                    lastFlickTime = timeNow;
-                }
-            }
-
-            // === STICK OR MOUSE SWITCHING ===
-            if (right_Stick_Left_Input)
-            {
-                right_Stick_Left_Input = false;
-                if (cameraHandler.leftLockTarget != null)
-                {
-                    cameraHandler.currentLockOnTarget = cameraHandler.leftLockTarget;
-                }
-            }
-
-            if (right_Stick_Right_Input)
-            {
-                right_Stick_Right_Input = false;
-                if (cameraHandler.rightLockTarget != null)
-                {
-                    cameraHandler.currentLockOnTarget = cameraHandler.rightLockTarget;
-                }
-            }
-
-            cameraHandler.SetCameraHeight();
         }
     }
 

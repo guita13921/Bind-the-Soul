@@ -181,7 +181,7 @@ namespace SG
         {
             currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
             Debug.Log($"Player healed for {amount}. Current Health: {currentHealth}");
-            healthBar.SetCurrentHealth(currentHealth);
+            healthBar.SetHealth(currentHealth);
         }
 
         public void RestoreStamina(float amount)

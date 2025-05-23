@@ -343,7 +343,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5c06f0a60c8ed844b9f5fc18d435b5b6, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -10245,6 +10245,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 638342393523815637, guid: 7052fed3de3aa8440a5670e1ad2e44ce, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 638342393523815637, guid: 7052fed3de3aa8440a5670e1ad2e44ce, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1362817876323130728, guid: 7052fed3de3aa8440a5670e1ad2e44ce, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -10903,29 +10911,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2282169289553850475, guid: 0157b2f7dbb9b7a469bc2f12464cbeb9, type: 3}
-      propertyPath: rooms
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 2313286112550411398, guid: 0157b2f7dbb9b7a469bc2f12464cbeb9, type: 3}
       propertyPath: m_Name
       value: Player02
       objectReference: {fileID: 0}
-    - target: {fileID: 4811555106975653263, guid: 0157b2f7dbb9b7a469bc2f12464cbeb9, type: 3}
-      propertyPath: m_Mass
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 4811555106975653263, guid: 0157b2f7dbb9b7a469bc2f12464cbeb9, type: 3}
-      propertyPath: m_Constraints
-      value: 112
-      objectReference: {fileID: 0}
-    - target: {fileID: 4811555106975653263, guid: 0157b2f7dbb9b7a469bc2f12464cbeb9, type: 3}
-      propertyPath: m_Interpolate
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4811555106975653263, guid: 0157b2f7dbb9b7a469bc2f12464cbeb9, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
+    - target: {fileID: 2549380746615675653, guid: 0157b2f7dbb9b7a469bc2f12464cbeb9, type: 3}
+      propertyPath: mouseDeltaAction.m_Name
+      value: Mouse Delta
       objectReference: {fileID: 0}
     - target: {fileID: 6166576954103301705, guid: 0157b2f7dbb9b7a469bc2f12464cbeb9, type: 3}
       propertyPath: normalCameral
@@ -10974,35 +10966,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2313286112550411398, guid: 0157b2f7dbb9b7a469bc2f12464cbeb9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1451658678}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0157b2f7dbb9b7a469bc2f12464cbeb9, type: 3}
---- !u!1 &1451658676 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2313286112550411398, guid: 0157b2f7dbb9b7a469bc2f12464cbeb9, type: 3}
-  m_PrefabInstance: {fileID: 1451658675}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1451658677 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9147629537547858506, guid: 0157b2f7dbb9b7a469bc2f12464cbeb9, type: 3}
   m_PrefabInstance: {fileID: 1451658675}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1451658678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1451658676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78dd5086cd5fcaa458e0dfd66b587bb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rightWeaponFX: {fileID: 0}
-  leftWeaponFX: {fileID: 0}
 --- !u!1 &1553789606
 GameObject:
   m_ObjectHideFlags: 0
@@ -11092,7 +11062,7 @@ MonoBehaviour:
   lookSpeed: 0.1
   followSpeed: 0.1
   pivotSpeed: 0.03
-  rotationSpeed: 3
+  rotationSpeed: 25
   minimumPivot: -35
   maximumPivot: 35
   cameraSphereRadius: 0.2

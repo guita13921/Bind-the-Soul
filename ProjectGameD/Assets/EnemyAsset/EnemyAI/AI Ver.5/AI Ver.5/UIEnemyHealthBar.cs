@@ -21,7 +21,10 @@ namespace SG
         private void Awake()
         {
             slider = GetComponentInChildren<Slider>();
-            mainCamera = FindObjectOfType<CameraHandler>().transform;
+            mainCamera = FindObjectOfType<CameraHandler>().cameraTransform;
+            damageText = GetComponentInChildren<TextMeshProUGUI>();
+            yellowBar = GetComponentInChildren<EnemyUIYellowBar>();
+
         }
         private void OnDisable()
         {
@@ -43,7 +46,7 @@ namespace SG
             }
 
             currentDamageTaken = currentDamageTaken + Mathf.RoundToInt(slider.value - health);
-            damageText.text = currentDamageTaken.ToString();
+            if (damageText != null) damageText.text = currentDamageTaken.ToString();
 
             slider.value = health;
             timeUntillBarHidden = 5;
@@ -69,7 +72,7 @@ namespace SG
 
         private void Update()
         {
-            transform.LookAt(transform.position + Camera.main.transform.forward);
+            transform.LookAt(transform.position + mainCamera.transform.forward);
             timeUntillBarHidden = timeUntillBarHidden - Time.deltaTime;
             if (slider != null)
             {

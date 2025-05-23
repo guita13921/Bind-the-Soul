@@ -59,7 +59,7 @@ namespace SG
 
         private void Update()
         {
-            transform.LookAt(transform.position + Camera.main.transform.forward);
+            //transform.LookAt(transform.position + Camera.main.transform.forward);
             timeUntillBarHidden = timeUntillBarHidden - Time.deltaTime;
 
             if (sliderFill != null)
@@ -67,7 +67,7 @@ namespace SG
                 if (timeUntillBarHidden <= 0)
                 {
                     timeUntillBarHidden = 0;
-                    slider.gameObject.SetActive(false);
+                    //slider.gameObject.SetActive(false);
                 }
                 else
                 {
@@ -78,7 +78,7 @@ namespace SG
                         sliderBlackGround.gameObject.SetActive(true);
                     }
                 }
-                if (slider.value <= 0)
+                if (sliderFill.value <= 0)
                 {
                     Destroy(this.gameObject);
                 }

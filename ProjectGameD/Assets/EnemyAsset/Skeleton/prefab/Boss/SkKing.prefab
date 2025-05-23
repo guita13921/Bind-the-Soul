@@ -302,7 +302,7 @@ MonoBehaviour:
   currentParticalFX: {fileID: 0}
   instantiatedFXModel: {fileID: 0}
   hitFXPrefab: {fileID: 1625297098178738, guid: 47d9062a8b960364799d41f394f07e97, type: 3}
-  hitEffectSpawnPoint: {fileID: 6960628533048339335}
+  hitEffectSpawnPoint: {fileID: 3443368002938488086}
   amountToBeHealed: 0
 --- !u!114 &852409502902660232
 MonoBehaviour:
@@ -763,6 +763,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 5765062710823616690}
   mainCamera: {fileID: 0}
+  yellowBar: {fileID: 0}
+  yellowBarTimer: 3
+  damageText: {fileID: 0}
+  currentDamageTaken: 0
 --- !u!1 &3999129522267594900
 GameObject:
   m_ObjectHideFlags: 0
@@ -838,6 +842,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &5267958675035160110
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3443368002938488086}
+  m_Layer: 3
+  m_Name: HitEffect Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3443368002938488086
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5267958675035160110}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.0951555, z: -0, w: 0.9954625}
+  m_LocalPosition: {x: 0.221, y: 1.5200001, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7234913603960928015}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5381298606760592933
 GameObject:
   m_ObjectHideFlags: 0
@@ -969,6 +1004,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 3443368002938488086}
   - {fileID: 6960628533048339335}
   - {fileID: 7870697380156425270}
   - {fileID: 1594865468228050103}

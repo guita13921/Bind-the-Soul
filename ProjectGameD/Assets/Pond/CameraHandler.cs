@@ -28,7 +28,7 @@ namespace SG
         public float lookSpeed = 0.1f;
         public float followSpeed = 0.1f;
         public float pivotSpeed = 0.03f;
-        [SerializeField] private float rotationSpeed = 8f; // Adjust as needed
+        public float rotationSpeed = 720f;
 
         private float targetPosition;
         private float defaultPosition;
@@ -45,11 +45,14 @@ namespace SG
         public float unlockedPivotPosition = 1.65f;
 
         public CharacterManager currentLockOnTarget;
+        [SerializeField] private float cursorLockThreshold = 3.0f; // Max distance from cursor to enemy in world spaces
+
         List<CharacterManager> avilableTargets = new List<CharacterManager>();
         public CharacterManager nearestLockOnTarget;
         public CharacterManager leftLockTarget;
         public CharacterManager rightLockTarget;
         public float maximumLockOnDistance = 30;
+
 
         //Camera Shake
         [SerializeField] public float hitStopDuration = 0.05f; // Duration of the freeze
@@ -63,31 +66,38 @@ namespace SG
             defaultPosition = cameraTransform.localPosition.z;
             inputHander = FindObjectOfType<InputHander>();
             playerManager = FindObjectOfType<PlayerManager>();
-        }
 
+            // Hide and lock the cursor
+            //UnityEngine.Cursor.visible = false;
+            //UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        }
         private void Start()
         {
             //envirometLayer = LayerMask.NameToLayer("Environment");
         }
 
+        void Update()
+        {
+            HandleLockOn();
+        }
+
         public void FollowTarget(float delta)
         {
-            Vector3 targetPosition = Vector3.Lerp(myTransform.position, targetTransform.position, delta / followSpeed);
-            transform.position = Vector3.Lerp(transform.position, targetPosition, delta / 0.1f); // smooth camera movement
+            // Instantly follow the target (no smoothing)
+            transform.position = targetTransform.position;
 
             HandleCameraCollisions(delta);
         }
 
         private void HandleCameraCollisions(float delta)
         {
-            Vector3 desiredPosition = new Vector3(0, 0, defaultPosition); // Desired local Z offset
+            Vector3 desiredPosition = new Vector3(0, 0, defaultPosition);
             Vector3 direction = cameraTransform.position - cameraPivotTranform.position;
             direction.Normalize();
 
             RaycastHit hit;
             float maxDistance = Mathf.Abs(defaultPosition);
 
-            // Do the SphereCast to detect potential collisions
             if (Physics.SphereCast(cameraPivotTranform.position, cameraSphereRadius, direction, out hit, maxDistance, ignoreLayers))
             {
                 float hitDistance = Vector3.Distance(cameraPivotTranform.position, hit.point);
@@ -95,35 +105,130 @@ namespace SG
                 desiredPosition.z = -adjustedDistance;
             }
 
-            // Smoothly interpolate the camera position
+            // Apply the position directly without smoothing
             Vector3 currentLocalPos = cameraTransform.localPosition;
-            currentLocalPos.z = Mathf.Lerp(currentLocalPos.z, desiredPosition.z, delta / 0.2f);
+            currentLocalPos.z = desiredPosition.z;
             cameraTransform.localPosition = currentLocalPos;
         }
 
+        /*
         public void HandleCameraRotation(float delta, float mouseXInput, float mouseYInput)
         {
             if (inputHander.lockOnFlag && currentLockOnTarget != null)
             {
                 Vector3 direction = currentLockOnTarget.transform.position - transform.position;
                 direction.y = 0;
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * delta);
+                transform.rotation = Quaternion.LookRotation(direction); // No smoothing
             }
             else
             {
-                // Free rotation (non-lock-on)
-                lookAngle += (mouseXInput * lookSpeed) / delta;
-                pivotAngle -= (mouseYInput * pivotSpeed) / delta;
+                // Adjust speed scaling without dividing by delta
+                lookAngle += mouseXInput * lookSpeed * rotationSpeed;
+                pivotAngle -= mouseYInput * pivotSpeed * rotationSpeed;
                 pivotAngle = Mathf.Clamp(pivotAngle, minimumPivot, maximumPivot);
 
                 Vector3 rotation = Vector3.zero;
                 rotation.y = lookAngle;
-                Quaternion targetRotation = Quaternion.Euler(rotation);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * delta);
+                transform.rotation = Quaternion.Euler(rotation); // No Slerp
+            }
+        }
+        */
+
+        public void HandleCameraRotation(float delta, float mouseXInput, float mouseYInput)
+        {
+            if (inputHander.lockOnFlag && currentLockOnTarget != null)
+            {
+                Vector3 direction = currentLockOnTarget.transform.position - transform.position;
+                direction.y = 0f;
+                if (direction.sqrMagnitude > 0.001f)
+                {
+                    transform.rotation = Quaternion.LookRotation(direction);
+                }
+            }
+            else
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                Plane groundPlane = new Plane(Vector3.up, transform.position);
+
+                if (groundPlane.Raycast(ray, out float enter))
+                {
+                    Vector3 hitPoint = ray.GetPoint(enter);
+                    Vector3 direction = hitPoint - transform.position;
+                    direction.y = 0f;
+
+                    if (direction.sqrMagnitude > 0.001f)
+                    {
+                        Quaternion targetRotation = Quaternion.LookRotation(direction);
+                        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, delta * rotationSpeed);
+                    }
+                }
             }
         }
 
+        public void HandleLockOn()
+        {
+
+
+            nearestLockOnTarget = null;
+            leftLockTarget = null;
+            rightLockTarget = null;
+            avilableTargets.Clear();
+
+            // Project cursor to world
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+
+            Vector3 mouseWorldPoint = Vector3.zero;
+            if (!groundPlane.Raycast(ray, out float enter))
+                return;
+
+            mouseWorldPoint = ray.GetPoint(enter);
+
+            Collider[] colliders = Physics.OverlapSphere(targetTransform.position, maximumLockOnDistance);
+            float shortestDistanceToMouse = Mathf.Infinity;
+
+            foreach (Collider collider in colliders)
+            {
+                CharacterManager character = collider.GetComponent<CharacterManager>();
+                CharacterStats characterStats = collider.GetComponent<CharacterStats>();
+
+                if (character == null || characterStats == null || characterStats.isDead || character.lockOnTransform == null)
+                    continue;
+
+                if (Physics.Linecast(playerManager.lockOnTransform.position, character.lockOnTransform.position, out RaycastHit hit))
+                {
+                    if (hit.transform.gameObject.layer == envirometLayer)
+                        continue; // Blocked by environment
+                }
+
+                float distanceToMouse = Vector3.Distance(mouseWorldPoint, character.lockOnTransform.position);
+
+                if (distanceToMouse > cursorLockThreshold)
+                    continue; // Too far from cursor, skip
+
+                avilableTargets.Add(character);
+
+                if (distanceToMouse < shortestDistanceToMouse)
+                {
+                    shortestDistanceToMouse = distanceToMouse;
+                    nearestLockOnTarget = character;
+                }
+            }
+
+            // ✅ Final decision: lock only if something was valid and within threshold
+            if (nearestLockOnTarget != null)
+            {
+                currentLockOnTarget = nearestLockOnTarget;
+                inputHander.lockOnFlag = true;
+            }
+            else
+            {
+                currentLockOnTarget = null;
+                inputHander.lockOnFlag = false;
+            }
+        }
+
+        /*
         public void HandleLockOn()
         {
             float shortestDistance = Mathf.Infinity;
@@ -222,7 +327,7 @@ namespace SG
                 }
             }
         }
-
+        */
         public void ClearLockOnTargets()
         {
             avilableTargets.Clear();

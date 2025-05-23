@@ -82,7 +82,8 @@ namespace SG
         {
             if (inputHander.lockOnFlag)
             {
-                if (inputHander.sprintFlag || inputHander.rollFlag)
+                //if (inputHander.sprintFlag || inputHander.rollFlag)
+                if (inputHander.rollFlag)
                 {
                     Vector3 targetDirection = cameraHandler.cameraTransform.forward * inputHander.vertical;
                     targetDirection += cameraHandler.cameraTransform.right * inputHander.horizontal;
@@ -129,10 +130,123 @@ namespace SG
             }
         }
 
+        /*
+        private void HandleRotation(float delta)
+        {
+            if (inputHander.lockOnFlag)
+            {
+                //if (inputHander.sprintFlag || inputHander.rollFlag)
+                if (inputHander.rollFlag)
+                {
+                    Vector3 targetDirection = cameraHandler.cameraTransform.forward * inputHander.vertical;
+                    targetDirection += cameraHandler.cameraTransform.right * inputHander.horizontal;
+                    targetDirection.y = 0;
+
+                    if (targetDirection.sqrMagnitude == 0)
+                    {
+                        targetDirection = transform.forward;
+                    }
+
+                    Quaternion tr = Quaternion.LookRotation(targetDirection);
+                    Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, rotationSpeed * delta);
+                    transform.rotation = targetRotation;
+                }
+                else
+                {
+                    if (cameraHandler.currentLockOnTarget == null || !cameraHandler.currentLockOnTarget.gameObject.activeInHierarchy
+                        || playerManager.isInteracting == true)
+                        return;
+
+                    Vector3 rotationDirection = cameraHandler.currentLockOnTarget.transform.position - transform.position;
+                    rotationDirection.y = 0;
+                    rotationDirection.Normalize();
+                    Quaternion tr = Quaternion.LookRotation(rotationDirection);
+                    Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, rotationSpeed * delta);
+                    transform.rotation = targetRotation;
+                }
+            }
+            else
+            {
+                Vector3 targetDir = Vector3.zero;
+                float moveOverride = inputHander.moveAmount;
+
+                targetDir = cameraObject.forward * inputHander.vertical;
+                targetDir += cameraObject.right * inputHander.horizontal;
+                targetDir.Normalize();
+                targetDir.y = 0;
+                if (targetDir == Vector3.zero)
+                    targetDir = myTransform.forward;
+                float rs = rotationSpeed;
+                Quaternion tr = Quaternion.LookRotation(targetDir);
+                Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, rotationSpeed * delta);
+
+                myTransform.rotation = targetRotation;
+            }
+        }
+        */
+
+        /*
+                public void HandleMovement(float delta)
+                {
+                    moveDirection = cameraObject.forward * inputHander.vertical;
+                    moveDirection += cameraObject.right * inputHander.horizontal;
+                    moveDirection.Normalize();
+                    moveDirection.y = 0;
+
+                    float speed = movementSpeed;
+
+                    if (inputHander.sprintFlag && inputHander.moveAmount > 0.5f && playerStats.currentStamina > 0)
+                    {
+                        speed = sprintSpeed;
+                        playerManager.isSprinting = true;
+
+                        sprintStaminaTimer += delta;
+
+                        if (sprintStaminaTimer >= staminaDrainInterval)
+                        {
+                            sprintStaminaTimer = 0f;
+                            playerStats.TakeStaminaDamage(sprintStaminaCost);
+                        }
+                    }
+                    else
+                    {
+                        playerManager.isSprinting = false;
+                    }
+
+                    Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection * speed, normalVector);
+
+                    // ✅ Preserve gravity-affected Y velocity
+                    projectedVelocity.y = rigidbody.velocity.y;
+
+                    rigidbody.velocity = projectedVelocity;
+
+                    if (inputHander.lockOnFlag && !inputHander.sprintFlag)
+                    {
+                        animatorHander.UpdateAnimatorValues(inputHander.vertical, inputHander.horizontal, playerManager.isSprinting);
+                    }
+                    else
+                    {
+                        animatorHander.UpdateAnimatorValues(inputHander.moveAmount, 0, playerManager.isSprinting);
+                    }
+
+                    if (animatorHander.canRotate)
+                    {
+                        HandleRotation(delta);
+                    }
+                }
+        */
+
         public void HandleMovement(float delta)
         {
-            moveDirection = cameraObject.forward * inputHander.vertical;
-            moveDirection += cameraObject.right * inputHander.horizontal;
+
+            if (playerManager.isInteracting) return;
+
+            // Define a fixed isometric movement basis relative to world space
+            Vector3 isoForward = new Vector3(1, 0, 1).normalized;
+            Vector3 isoRight = new Vector3(1, 0, -1).normalized;
+
+            // Use input to calculate movement direction
+            moveDirection = isoForward * inputHander.vertical + isoRight * inputHander.horizontal;
             moveDirection.Normalize();
             moveDirection.y = 0;
 
@@ -157,9 +271,7 @@ namespace SG
             }
 
             Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection * speed, normalVector);
-
-            // ✅ Preserve gravity-affected Y velocity
-            projectedVelocity.y = rigidbody.velocity.y;
+            projectedVelocity.y = rigidbody.velocity.y; // Preserve gravity
 
             rigidbody.velocity = projectedVelocity;
 
@@ -180,6 +292,7 @@ namespace SG
 
         public void HandleRollingAndSprinting(float delta)
         {
+
             if (animatorHander.anim.GetBool("isInteracting"))
                 return;
 
@@ -188,28 +301,49 @@ namespace SG
 
             if (inputHander.rollFlag)
             {
-                moveDirection = cameraObject.forward * inputHander.vertical;
-                moveDirection += cameraObject.right * inputHander.horizontal;
+                // Define a fixed isometric movement basis relative to world space
+                Vector3 isoForward = new Vector3(1, 0, 1).normalized;
+                Vector3 isoRight = new Vector3(1, 0, -1).normalized;
 
-                if (playerManager.weaponSlotManager.rightHandSlot.currentWeaponItem.stantType == StantType.Medium)
+                // Use input to calculate movement direction (screen-relative)
+                moveDirection = isoForward * inputHander.vertical + isoRight * inputHander.horizontal;
+                moveDirection.y = 0f;
+
+                if (moveDirection.sqrMagnitude > 0.01f)
                 {
-                    Roll(1.00f);
+                    moveDirection.Normalize();
+
+                    // Rotate the character toward the roll direction
+                    transform.rotation = Quaternion.LookRotation(moveDirection);
+
+                    // Pass direction to animator for blend tree (if using)
+                    Vector3 localMove = transform.InverseTransformDirection(moveDirection);
+                    animatorHander.anim.SetFloat("Horizontal", localMove.x);
+                    animatorHander.anim.SetFloat("Vertical", localMove.z);
                 }
-                else if (playerManager.weaponSlotManager.rightHandSlot.currentWeaponItem.stantType == StantType.Heavy)
+
+                // Choose roll strength by stance
+                float rollStrength = 1.0f;
+                var stance = playerManager.weaponSlotManager.rightHandSlot.currentWeaponItem.stantType;
+
+                switch (stance)
                 {
-                    Roll(0.80f);
+                    case StantType.Medium:
+                        rollStrength = 1.00f;
+                        break;
+                    case StantType.Heavy:
+                        rollStrength = 0.80f;
+                        break;
+                    case StantType.Light:
+                        rollStrength = 1.15f;
+                        break;
                 }
-                else if (playerManager.weaponSlotManager.rightHandSlot.currentWeaponItem.stantType == StantType.Light)
-                {
-                    Roll(1.15f);
-                }
-                else
-                {
-                    Roll(1.00f);
-                }
+
+                Roll(rollStrength);
             }
-
         }
+
+
 
         public void Roll(float speed)
         {
