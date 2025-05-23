@@ -29,7 +29,7 @@ namespace SG
         //The Higher, and lower
         public float minimumDetectionAngle;
         public float maximumDetectionAngle;
-        public float currentRecoveryTime = 0;
+        [SerializeField] public float currentRecoveryTime = 0;
         public float currentStunningTime;
         public float stunningTime = 5f;
         public float rotationSpeed = 15f;

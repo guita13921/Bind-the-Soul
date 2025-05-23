@@ -21,5 +21,6 @@ namespace SG
 
         public float minimumDistanceNeededToAttack = 0;
         public float maximumDistanceNeededToAttack = 3;
+
     }
 }

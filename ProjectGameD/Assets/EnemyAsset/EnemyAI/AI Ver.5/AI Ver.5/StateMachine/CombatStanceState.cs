@@ -172,6 +172,7 @@ namespace SG
                         if (temporaryScore > rendomValue)
                         {
                             attackState.currentAttack = enemyAttackAction;
+                            break; // Stop the loop once the attack is chosen
                         }
 
                     }

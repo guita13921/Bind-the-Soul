@@ -52,10 +52,9 @@ namespace SG
                 return pursueTargetState;
             }
 
-            if (willDoComboOnNextAttack)
+            if (willDoComboOnNextAttack && enemyManager.currentRecoveryTime <= 0)
             {
                 AttackTargetWithCombo(enemyAnimator, enemyManager);
-                Debug.Log("return this");
                 return this;
             }
 
@@ -64,18 +63,20 @@ namespace SG
 
         private void AttackTarget(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager)
         {
-            enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true, currentAttack.canRotate);
-            enemyAnimatorManager.animator.SetBool("isAttacking", true);
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
+            enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true, currentAttack.canRotate);
+            Debug.Log(currentAttack.actionAnimation);
+            enemyAnimatorManager.animator.SetBool("isAttacking", true);
             hasPerformAttack = true;
         }
 
         private void AttackTargetWithCombo(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager)
         {
             willDoComboOnNextAttack = false;
-            enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true, currentAttack.canRotate);
-            enemyAnimatorManager.animator.SetBool("isAttacking", true);
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
+            enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true, currentAttack.canRotate);
+            Debug.Log(currentAttack.actionAnimation);
+            enemyAnimatorManager.animator.SetBool("isAttacking", true);
             currentAttack = null;
         }
 
@@ -109,7 +110,6 @@ namespace SG
             {
                 willDoComboOnNextAttack = true;
                 currentAttack = currentAttack.comboAction;
-                Debug.Log(currentAttack);
             }
             else
             {

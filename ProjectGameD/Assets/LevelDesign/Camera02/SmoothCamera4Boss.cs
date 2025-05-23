@@ -12,6 +12,7 @@ public class SmoothCamera4Boss : MonoBehaviour
     [SerializeField] private float smoothTime = 0.3f; // Smoothing factor for camera movement
     [SerializeField] private new Camera camera;          // Reference to the Camera component
 
+
     [Header("Zoom Settings")]
     [SerializeField] private float minSize = 5f;     // Minimum orthographic size (for orthographic camera) or FOV (for perspective camera)
     [SerializeField] private float maxSize = 15f;    // Maximum orthographic size or FOV
@@ -37,7 +38,7 @@ public class SmoothCamera4Boss : MonoBehaviour
             targetPosition = (player.position + boss.position) / 2f;
 
             // Add local axis Z offset
-            targetPosition += pivot.forward * -30f;
+            targetPosition += pivot.forward * -40f;
 
             // Calculate the distance between the player and the boss
             float playerBossDistance = Vector3.Distance(player.position, boss.position);
@@ -54,7 +55,7 @@ public class SmoothCamera4Boss : MonoBehaviour
             targetPosition = player.position;
 
             // Add a default offset to ensure the camera doesn't stick directly to the player
-            targetPosition += pivot.forward * -30f;
+            targetPosition += pivot.forward * -40f;
 
             // Set the camera size to the minimum size when no boss is present
             AdjustCameraSize(minSize);
