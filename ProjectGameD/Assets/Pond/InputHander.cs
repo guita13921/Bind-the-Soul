@@ -60,6 +60,13 @@ public class InputHander : MonoBehaviour
     Vector2 movementInput;
     Vector2 cameraInput;
 
+    private float attackHoldTimer = 0f;
+    private bool isAttackHeld = false;
+    private bool hasHeavyAttacked = false;
+    private float repeatAttackCooldown = 0f; // Time between swings
+    private float repeatAttackTimer = 0f;
+
+
     private void Awake()
     {
         playerAttack = GetComponentInChildren<PlayerAttack>();
@@ -195,39 +202,35 @@ public class InputHander : MonoBehaviour
 
     private void HandleAttackInput(float delta)
     {
-        inputAction.PlayerAction.AttackL.performed += i => Al_Input = true;
-        inputAction.PlayerAction.AttackH.performed += i => Ah_Input = true;
+        bool isLeftHeld = Mouse.current.leftButton.isPressed;
 
-        if (playerManager.isDrawWeapon)
+        // Holding left click: repeat light swings between left/right
+        if (isLeftHeld)
         {
-            return;
-        }
+            isAttackHeld = true;
+            repeatAttackTimer += delta;
 
-        if (Al_Input)
-        {
-            if (playerManager.CanDoCombo)
+            if (repeatAttackTimer >= repeatAttackCooldown)
             {
-                comboflang = true;
-                playerAttack.HandleWeaponCombo(playerInventory.rightWeapon);
-                comboflang = false;
-            }
-            else
-            {
-                if (playerManager.isInteracting)
-                    return;
-                if (playerManager.CanDoCombo)
-                    return;
+                repeatAttackTimer = 0f;
 
-                playerAttack.HandleLightAttack(playerInventory.rightWeapon);
+                if (!playerManager.isInteracting && playerManager.isBlocking == true) // Prevent overlapping animations
+                {
+                    playerAttack.HandleSwingAttack(playerInventory.rightWeapon);
+                }
+                else
+                {
+                    playerAttack.HandleALAction();
+                }
             }
-
         }
-
-        if (Ah_Input)
+        else
         {
-            playerAttack.HandleHeavyAttack(playerInventory.rightWeapon);
+            isAttackHeld = false;
+            repeatAttackTimer = 0f;
         }
 
+        // Other inputs...
         if (Q_Input)
         {
             playerAttack.HandleQAction();
@@ -243,13 +246,11 @@ public class InputHander : MonoBehaviour
 
         if (Lt_Input)
         {
-            if (playerManager.isBlocking == false || playerManager.playerAttack.currentKnifeCharges <= 0)
+            if (!playerManager.isBlocking || playerManager.playerAttack.currentKnifeCharges <= 0)
             {
                 playerAttack.HandleArtAction();
             }
         }
-
-
     }
 
     private void HandleTwoHandInput()
@@ -305,73 +306,6 @@ public class InputHander : MonoBehaviour
         }
 
     }
-
-    /*
-        private void HandleLockOnInput()
-        {
-            if (lockOnInput && lockOnFlag == false)
-            {
-                lockOnInput = false;
-                cameraHandler.HandleLockOn();
-
-                if (cameraHandler.nearestLockOnTarget != null)
-                {
-                    cameraHandler.currentLockOnTarget = cameraHandler.nearestLockOnTarget;
-                    lockOnFlag = true;
-                }
-            }
-            else if (lockOnInput && lockOnFlag)
-            {
-                lockOnInput = false;
-                lockOnFlag = false;
-                cameraHandler.ClearLockOnTargets();
-            }
-
-            if (lockOnFlag)
-            {
-                cameraHandler.HandleLockOn();
-
-                // === MOUSE FLICK DETECTION ===
-                Vector2 mouseDelta = mouseDeltaAction.ReadValue<Vector2>();
-                float timeNow = Time.time;
-
-                if (timeNow - lastFlickTime > flickCooldown)
-                {
-                    if (mouseDelta.x > mouseFlickThreshold)
-                    {
-                        right_Stick_Right_Input = true;
-                        lastFlickTime = timeNow;
-                    }
-                    else if (mouseDelta.x < -mouseFlickThreshold)
-                    {
-                        right_Stick_Left_Input = true;
-                        lastFlickTime = timeNow;
-                    }
-                }
-
-                // === STICK OR MOUSE SWITCHING ===
-                if (right_Stick_Left_Input)
-                {
-                    right_Stick_Left_Input = false;
-                    if (cameraHandler.leftLockTarget != null)
-                    {
-                        cameraHandler.currentLockOnTarget = cameraHandler.leftLockTarget;
-                    }
-                }
-
-                if (right_Stick_Right_Input)
-                {
-                    right_Stick_Right_Input = false;
-                    if (cameraHandler.rightLockTarget != null)
-                    {
-                        cameraHandler.currentLockOnTarget = cameraHandler.rightLockTarget;
-                    }
-                }
-
-                cameraHandler.SetCameraHeight();
-            }
-        }
-    */
 
     public void HandleMouseAim()
     {

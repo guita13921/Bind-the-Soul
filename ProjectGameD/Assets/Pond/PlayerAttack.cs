@@ -29,7 +29,6 @@ namespace SG
         string OH_Light_Attack_4 = "OH_Light_Attack_4";
         string OH_Light_Attack_5 = "OH_Light_Attack_5";
         string OH_Heavy_Attack_1 = "OH_Heavy_Attack_1";
-        string OH_Shield_Attack_1 = "OH_Shield_Attack_1";
 
         string weapon_art = "Weapon_Art";
         string Weapon_Art_Upper = "Weapon_Art_Upper";
@@ -73,6 +72,10 @@ namespace SG
                 || playerInventory.rightWeapon.weaponType == WeaponType.FaithCaster)
             {
                 PerformALMagicAction(playerInventory.rightWeapon);
+            }
+            else
+            {
+                return;
             }
         }
 
@@ -166,43 +169,36 @@ namespace SG
 
             weaponSlotManager.attackingWeapon = weapon;
 
-            if (inputHander.twohandflag)
-            {
-
-            }
-            else
-            {
-
-            }
-
-            if (inputHander.twohandflag)
-            {
-
-            }
-            else
-            {
-
-            }
-
             if (weaponSlotManager.attackingWeapon != null)
             {
-
                 float damage = weapon.damage;
                 weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
 
-                if (playerManager.isBlocking)
-                {
-                    animatorHander.PlayTargetAnimation(OH_Shield_Attack_1, true);
-                    lastAttack = OH_Shield_Attack_1;
-                }
-                else
-                {
-                    animatorHander.PlayTargetAnimation(OH_Light_Attack_1, true);
-                    lastAttack = OH_Light_Attack_1;
-                }
-
+                // Play normal light attack
+                animatorHander.PlayTargetAnimation(OH_Light_Attack_1, true);
+                lastAttack = OH_Light_Attack_1;
                 currentAttackType = AttackType.light;
             }
+        }
+
+        private int swingIndex = 0;
+        public void HandleSwingAttack(WeaponItem weapon)
+        {
+            if (playerStats.currentStamina <= 0 || weaponSlotManager.righthandDamgeCollider == null)
+                return;
+
+            weaponSlotManager.attackingWeapon = weapon;
+
+            float damage = weapon.damage;
+            weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
+
+            // Alternate between two swing animations
+            string swingAnim = swingIndex == 0 ? "OH_Swing_Left" : "OH_Swing_Right";
+            animatorHander.PlayTargetAnimation(swingAnim, true, true);
+            lastAttack = swingAnim;
+            currentAttackType = AttackType.light;
+
+            swingIndex = 1 - swingIndex; // toggle between 0 and 1
         }
 
         public void HandleHeavyAttack(WeaponItem weapon)
@@ -211,26 +207,6 @@ namespace SG
                 return;
 
             weaponSlotManager.attackingWeapon = weapon;
-
-            if (inputHander.twohandflag)
-            {
-
-            }
-            else
-            {
-
-            }
-
-
-            if (inputHander.twohandflag)
-            {
-
-            }
-            else
-            {
-
-            }
-
 
             if (weaponSlotManager.attackingWeapon != null)
             {
@@ -247,7 +223,6 @@ namespace SG
         #region Attack Actions
         private void PerformALMeleeAction()
         {
-
             if (playerManager.CanDoCombo)
             {
                 inputHander.comboflang = true;
@@ -260,6 +235,7 @@ namespace SG
                     return;
                 if (playerManager.CanDoCombo)
                     return;
+
                 animatorHander.anim.SetBool("isInteracting", true);
                 HandleLightAttack(playerInventory.rightWeapon);
             }
@@ -310,6 +286,8 @@ namespace SG
                 return;
             if (playerManager.isBlocking)
                 return;
+
+            if (weaponSlotManager.rightHandSlot.currentWeaponItem.stantType == StantType.Light) return;
 
             animatorHander.PlayTargetAnimation("Block Start", false, true);
             playerEquipmentManager.OpenBlockingCollider();

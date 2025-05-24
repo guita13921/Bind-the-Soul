@@ -152,7 +152,6 @@ namespace SG
             }
         }
 
-
         public void CloseDamageCollider()
         {
             if (leftHandDamgeCollider != null)
@@ -190,6 +189,14 @@ namespace SG
             animatorHander.anim.SetBool("IsUsingLeftHand", true);
         }
 
+        #endregion
+
+
+        #region Cancel Aniamtion
+        public void ResetInteracting()
+        {
+            animator.SetBool("isInteracting", false);
+        }
         #endregion
     }
 }

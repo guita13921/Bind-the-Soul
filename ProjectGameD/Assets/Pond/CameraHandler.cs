@@ -111,29 +111,6 @@ namespace SG
             cameraTransform.localPosition = currentLocalPos;
         }
 
-        /*
-        public void HandleCameraRotation(float delta, float mouseXInput, float mouseYInput)
-        {
-            if (inputHander.lockOnFlag && currentLockOnTarget != null)
-            {
-                Vector3 direction = currentLockOnTarget.transform.position - transform.position;
-                direction.y = 0;
-                transform.rotation = Quaternion.LookRotation(direction); // No smoothing
-            }
-            else
-            {
-                // Adjust speed scaling without dividing by delta
-                lookAngle += mouseXInput * lookSpeed * rotationSpeed;
-                pivotAngle -= mouseYInput * pivotSpeed * rotationSpeed;
-                pivotAngle = Mathf.Clamp(pivotAngle, minimumPivot, maximumPivot);
-
-                Vector3 rotation = Vector3.zero;
-                rotation.y = lookAngle;
-                transform.rotation = Quaternion.Euler(rotation); // No Slerp
-            }
-        }
-        */
-
         public void HandleCameraRotation(float delta, float mouseXInput, float mouseYInput)
         {
             if (inputHander.lockOnFlag && currentLockOnTarget != null)
@@ -147,19 +124,25 @@ namespace SG
             }
             else
             {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                Plane groundPlane = new Plane(Vector3.up, transform.position);
+                Vector3 mousePos = Input.mousePosition;
 
-                if (groundPlane.Raycast(ray, out float enter))
+                if (mousePos.x >= 0 && mousePos.x <= Screen.width &&
+                    mousePos.y >= 0 && mousePos.y <= Screen.height)
                 {
-                    Vector3 hitPoint = ray.GetPoint(enter);
-                    Vector3 direction = hitPoint - transform.position;
-                    direction.y = 0f;
+                    Ray ray = Camera.main.ScreenPointToRay(mousePos);
+                    Plane groundPlane = new Plane(Vector3.up, transform.position);
 
-                    if (direction.sqrMagnitude > 0.001f)
+                    if (groundPlane.Raycast(ray, out float enter))
                     {
-                        Quaternion targetRotation = Quaternion.LookRotation(direction);
-                        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, delta * rotationSpeed);
+                        Vector3 hitPoint = ray.GetPoint(enter);
+                        Vector3 direction = hitPoint - transform.position;
+                        direction.y = 0f;
+
+                        if (direction.sqrMagnitude > 0.001f)
+                        {
+                            Quaternion targetRotation = Quaternion.LookRotation(direction);
+                            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, delta * rotationSpeed);
+                        }
                     }
                 }
             }

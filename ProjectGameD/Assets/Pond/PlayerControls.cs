@@ -229,18 +229,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""AttackL"",
+                    ""name"": ""AttackH"",
                     ""type"": ""Button"",
-                    ""id"": ""902f3bcb-36cd-43b4-9206-0e028cb6a248"",
+                    ""id"": ""3272179e-5be0-4b92-8cd9-84233e2123e4"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""AttackH"",
+                    ""name"": ""AttackL"",
                     ""type"": ""Button"",
-                    ""id"": ""3272179e-5be0-4b92-8cd9-84233e2123e4"",
+                    ""id"": ""902f3bcb-36cd-43b4-9206-0e028cb6a248"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -328,17 +328,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""ff706b9a-4a19-497a-9e71-cbb20bf22487"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": ""Hold(duration=1)"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""AttackH"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""cde8ec42-0b1b-4024-9437-049716c969f6"",
                     ""path"": """",
                     ""interactions"": """",
@@ -411,6 +400,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Critical Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ff706b9a-4a19-497a-9e71-cbb20bf22487"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Hold(duration=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AttackH"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -519,8 +519,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerAction_Roll = m_PlayerAction.FindAction("Roll", throwIfNotFound: true);
         m_PlayerAction_Sprint = m_PlayerAction.FindAction("Sprint", throwIfNotFound: true);
         m_PlayerAction_CriticalAttack = m_PlayerAction.FindAction("Critical Attack", throwIfNotFound: true);
-        m_PlayerAction_AttackL = m_PlayerAction.FindAction("AttackL", throwIfNotFound: true);
         m_PlayerAction_AttackH = m_PlayerAction.FindAction("AttackH", throwIfNotFound: true);
+        m_PlayerAction_AttackL = m_PlayerAction.FindAction("AttackL", throwIfNotFound: true);
         m_PlayerAction_A = m_PlayerAction.FindAction("A", throwIfNotFound: true);
         m_PlayerAction_LT = m_PlayerAction.FindAction("LT", throwIfNotFound: true);
         m_PlayerAction_Blocking = m_PlayerAction.FindAction("Blocking", throwIfNotFound: true);
@@ -667,8 +667,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerAction_Roll;
     private readonly InputAction m_PlayerAction_Sprint;
     private readonly InputAction m_PlayerAction_CriticalAttack;
-    private readonly InputAction m_PlayerAction_AttackL;
     private readonly InputAction m_PlayerAction_AttackH;
+    private readonly InputAction m_PlayerAction_AttackL;
     private readonly InputAction m_PlayerAction_A;
     private readonly InputAction m_PlayerAction_LT;
     private readonly InputAction m_PlayerAction_Blocking;
@@ -682,8 +682,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Roll => m_Wrapper.m_PlayerAction_Roll;
         public InputAction @Sprint => m_Wrapper.m_PlayerAction_Sprint;
         public InputAction @CriticalAttack => m_Wrapper.m_PlayerAction_CriticalAttack;
-        public InputAction @AttackL => m_Wrapper.m_PlayerAction_AttackL;
         public InputAction @AttackH => m_Wrapper.m_PlayerAction_AttackH;
+        public InputAction @AttackL => m_Wrapper.m_PlayerAction_AttackL;
         public InputAction @A => m_Wrapper.m_PlayerAction_A;
         public InputAction @LT => m_Wrapper.m_PlayerAction_LT;
         public InputAction @Blocking => m_Wrapper.m_PlayerAction_Blocking;
@@ -710,12 +710,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @CriticalAttack.started += instance.OnCriticalAttack;
             @CriticalAttack.performed += instance.OnCriticalAttack;
             @CriticalAttack.canceled += instance.OnCriticalAttack;
-            @AttackL.started += instance.OnAttackL;
-            @AttackL.performed += instance.OnAttackL;
-            @AttackL.canceled += instance.OnAttackL;
             @AttackH.started += instance.OnAttackH;
             @AttackH.performed += instance.OnAttackH;
             @AttackH.canceled += instance.OnAttackH;
+            @AttackL.started += instance.OnAttackL;
+            @AttackL.performed += instance.OnAttackL;
+            @AttackL.canceled += instance.OnAttackL;
             @A.started += instance.OnA;
             @A.performed += instance.OnA;
             @A.canceled += instance.OnA;
@@ -747,12 +747,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @CriticalAttack.started -= instance.OnCriticalAttack;
             @CriticalAttack.performed -= instance.OnCriticalAttack;
             @CriticalAttack.canceled -= instance.OnCriticalAttack;
-            @AttackL.started -= instance.OnAttackL;
-            @AttackL.performed -= instance.OnAttackL;
-            @AttackL.canceled -= instance.OnAttackL;
             @AttackH.started -= instance.OnAttackH;
             @AttackH.performed -= instance.OnAttackH;
             @AttackH.canceled -= instance.OnAttackH;
+            @AttackL.started -= instance.OnAttackL;
+            @AttackL.performed -= instance.OnAttackL;
+            @AttackL.canceled -= instance.OnAttackL;
             @A.started -= instance.OnA;
             @A.performed -= instance.OnA;
             @A.canceled -= instance.OnA;
@@ -868,8 +868,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnRoll(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnCriticalAttack(InputAction.CallbackContext context);
-        void OnAttackL(InputAction.CallbackContext context);
         void OnAttackH(InputAction.CallbackContext context);
+        void OnAttackL(InputAction.CallbackContext context);
         void OnA(InputAction.CallbackContext context);
         void OnLT(InputAction.CallbackContext context);
         void OnBlocking(InputAction.CallbackContext context);

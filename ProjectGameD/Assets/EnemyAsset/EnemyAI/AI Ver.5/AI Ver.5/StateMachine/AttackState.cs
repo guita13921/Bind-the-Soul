@@ -15,6 +15,7 @@ namespace SG
         public bool willDoComboOnNextAttack = false;
         public bool hasPerformAttack = false;
 
+
         public override State Tick(EnemyManager enemyManager, EnemyStat enemyStat, EnemyAnimatorManager enemyAnimator)
         {
             //Select one of our many attacks based on attack scores
@@ -65,6 +66,7 @@ namespace SG
         {
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true, currentAttack.canRotate);
+            enemyManager.StartCoroutine(MoveForwardDuringAttack(enemyManager, currentAttack.forwardMovementDistance, currentAttack.forwardMovementDuration));
             Debug.Log(currentAttack.actionAnimation);
             enemyAnimatorManager.animator.SetBool("isAttacking", true);
             hasPerformAttack = true;
@@ -75,6 +77,7 @@ namespace SG
             willDoComboOnNextAttack = false;
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true, currentAttack.canRotate);
+            enemyManager.StartCoroutine(MoveForwardDuringAttack(enemyManager, currentAttack.forwardMovementDistance, currentAttack.forwardMovementDuration));
             Debug.Log(currentAttack.actionAnimation);
             enemyAnimatorManager.animator.SetBool("isAttacking", true);
             currentAttack = null;
@@ -116,6 +119,22 @@ namespace SG
                 willDoComboOnNextAttack = false;
                 currentAttack = null;
             }
+        }
+
+        IEnumerator MoveForwardDuringAttack(EnemyManager enemyManager, float distance, float duration)
+        {
+            Vector3 start = enemyManager.transform.position;
+            Vector3 end = start + enemyManager.transform.forward * distance;
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                enemyManager.transform.position = Vector3.Lerp(start, end, elapsed / duration);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            enemyManager.transform.position = end;
         }
     }
 }
