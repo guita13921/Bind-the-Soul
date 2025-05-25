@@ -74,10 +74,7 @@ namespace SG
             {
                 PerformALMagicAction(playerInventory.rightWeapon);
             }
-            else
-            {
-                return;
-            }
+
         }
 
         public void HandleQAction() //Shields
@@ -249,7 +246,6 @@ namespace SG
                 if (playerManager.CanDoCombo)
                     return;
 
-                animatorHander.anim.SetBool("isInteracting", true);
                 HandleLightAttack(playerInventory.rightWeapon);
             }
         }

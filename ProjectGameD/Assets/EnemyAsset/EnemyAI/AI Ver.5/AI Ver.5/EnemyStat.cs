@@ -71,9 +71,9 @@ namespace SG
         public void TakeDamageNoAnimation(int damage)
         {
 
-            if (characterSoundFXManager != null) characterSoundFXManager.PlayRandomDamageSoundFX();
+            HitVFX();
+
             currentHealth -= damage;
-            enemyManager.enemyEffectManager.PlayHitEffect();
 
             if (currentHealth <= 0)
             {
@@ -102,9 +102,8 @@ namespace SG
 
             if (enemyManager.isPhaseShifting)
             {
-                if (characterSoundFXManager != null) characterSoundFXManager.PlayRandomDamageSoundFX();
                 TakeDamageNoAnimation(damage);
-                enemyManager.enemyEffectManager.PlayHitEffect();
+                HitVFX();
             }
             else
             {
@@ -120,13 +119,12 @@ namespace SG
                     else
                     {
                         enemyAnimatorManager.PlayTargetAnimation(damageAinmation, true);
-                        if (characterSoundFXManager != null) characterSoundFXManager.PlayRandomDamageSoundFX();
-                        enemyManager.enemyEffectManager.PlayHitEffect();
+                        HitVFX();
                     }
                 }
                 else
                 {
-                    enemyManager.enemyEffectManager.PlayHitEffect();
+                    HitVFX();
                     enemyHealthBar.SetHealth(0);
                     HandleDeath();
                     playerManager.playerStats.OnEnemyKilled?.Invoke();
@@ -251,6 +249,13 @@ namespace SG
                     //Random.Range(-1, 1)), ForceMode.Impulse);
                 }
             }
+        }
+
+        public void HitVFX()
+        {
+            if (characterSoundFXManager != null) characterSoundFXManager.PlayRandomDamageSoundFX();
+            enemyManager.enemyEffectManager.PlayHitEffect();
+            HitstopManager.Instance.TriggerHitstop(0.1f); // 100ms stop
         }
     }
 

@@ -117,7 +117,7 @@ namespace SG
             playerData.echoHungeringDrive = playerStats.playerData.echoHungeringDrive;
             playerData.echoHungeringDriveLevel = playerStats.playerData.echoHungeringDriveLevel;
 
-            Debug.Log("PlayerData has been updated from PlayerInventory and PlayerStats.");
+            //Debug.Log("PlayerData has been updated from PlayerInventory and PlayerStats.");
         }
 
     }

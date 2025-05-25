@@ -110,21 +110,22 @@ namespace SG
 
         protected void WalkAroundTarget(EnemyAnimatorManager enemyAnimatorManager)
         {
-
             List<Vector2> strafingDirections = new List<Vector2>()
-                {
-                    new Vector2(1f, 0f),       // Walk forward
-                    new Vector2(1f, -1f),  // Strafe left 45°
-                    new Vector2(1f, 1f),  // Strafe left 45°
-                };
+            {
+                new Vector2(1f, 0f),        // Forward
+                new Vector2(1f, -1f),       // Strafe Left 45°
+                new Vector2(1f, 1f),        // Strafe Right 45°
+                new Vector2(0.5f, -1f),     // Strafe Left ~75°
+                new Vector2(0.5f, 1f),      // Strafe Right ~75°
+            };
 
             // Randomly select a direction
             Vector2 chosenDirection = strafingDirections[Random.Range(0, strafingDirections.Count)];
 
             vertcalMovementValue = chosenDirection.x;
             HorizontalMovementValue = chosenDirection.y;
-
         }
+
 
 
         protected virtual void GetNewAttack(EnemyManager enemyManager)

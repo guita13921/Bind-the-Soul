@@ -101,6 +101,8 @@ namespace SG
             float shakeMagnitude = Mathf.Clamp(damage * magnitudeMultiplier, 0f, 0.125f);
             playerManager.cameraHandler.Shake(shakeDuration, shakeMagnitude);
 
+            HitstopManager.Instance.TriggerHitstop(0.1f); // Adjust duration as needed
+
             if (playerManager.isInvulnerable)
                 return;
             if (isDead)
@@ -224,6 +226,8 @@ namespace SG
             TriggerParrySuccess(); // Notify all systems
         }
 
+        #region Power-Up
+
         private float GetEchoResoluteMindBonus()
         {
             return playerData.echoResoluteMindLevel switch
@@ -328,5 +332,9 @@ namespace SG
             }
 
         }
+
+        #endregion
+
+
     }
 }

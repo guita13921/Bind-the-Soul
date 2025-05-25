@@ -12,6 +12,7 @@ public class ResetisInteracting : StateMachineBehaviour
     animator.SetBool("IsInvulnerable", false);
     animator.SetBool("isUsingRightHand", false);
     animator.SetBool("isUsingLefthand", false);
+    animator.SetBool("canRotate", false);
   }
 
 }

@@ -644,7 +644,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyManager: {fileID: 0}
   enemyAnimatorManager: {fileID: 0}
-  enemyWeaponSlotManager: {fileID: 0}
+  enemyWeaponSlotManager: {fileID: 7405707714307581304}
   blockingColliderDamageAbsorption: 90
   staminaDamageModifier: 0
   isActive: 1
@@ -897,37 +897,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &4941982358484651505
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8418683736171907843}
-  m_Layer: 3
-  m_Name: FrontRayPos
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8418683736171907843
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4941982358484651505}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1044389899065489952}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5074455632083583077
 GameObject:
   m_ObjectHideFlags: 0
@@ -1944,7 +1913,6 @@ Transform:
   - {fileID: 4899212324430258447}
   - {fileID: 7699665851836480693}
   - {fileID: 1821136739871484836}
-  - {fileID: 8418683736171907843}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &2733887167949992963
@@ -1955,7 +1923,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8257205232710760222}
   serializedVersion: 4
-  m_Mass: 10
+  m_Mass: 20
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1993,10 +1961,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
-  m_Height: 1.8639363
+  m_Radius: 1
+  m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0.9189715, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &2523063229122730156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2093,13 +2061,13 @@ MonoBehaviour:
   isInterActing: 0
   hasShield: 0
   detectionRadius: 20
-  minimumDetectionAngle: -180
-  maximumDetectionAngle: 180
+  minimumDetectionAngle: -60
+  maximumDetectionAngle: 60
   currentRecoveryTime: 0
   currentStunningTime: 0
   stunningTime: 7
   rotationSpeed: 50
-  maximumAttackRange: 10
+  maximumAttackRange: 5
   allowAiToPerformCombo: 1
   comboLikelyHood: 100
   isPhaseShifting: 0

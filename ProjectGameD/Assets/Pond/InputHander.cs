@@ -224,7 +224,7 @@ public class InputHander : MonoBehaviour
         }
 
         // Handle swing stop
-        if (isLeftReleased)
+        if (isLeftReleased || playerStats.currentStamina <= 0)
         {
             isAttackHeld = false;
             playerAttack.HandleStopSwing();

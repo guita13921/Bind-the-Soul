@@ -67,7 +67,7 @@ namespace SG
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true, currentAttack.canRotate);
             enemyManager.StartCoroutine(MoveForwardDuringAttack(enemyManager, this.transform, currentAttack.forwardMovementDistance, currentAttack.forwardMovementDuration));
-            Debug.Log(currentAttack.actionAnimation);
+            //Debug.Log(currentAttack.actionAnimation);
             enemyAnimatorManager.animator.SetBool("isAttacking", true);
             hasPerformAttack = true;
         }
@@ -78,7 +78,7 @@ namespace SG
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true, currentAttack.canRotate);
             enemyManager.StartCoroutine(MoveForwardDuringAttack(enemyManager, this.transform, currentAttack.forwardMovementDistance, currentAttack.forwardMovementDuration));
-            Debug.Log(currentAttack.actionAnimation);
+            //Debug.Log(currentAttack.actionAnimation);
             enemyAnimatorManager.animator.SetBool("isAttacking", true);
             currentAttack = null;
         }
