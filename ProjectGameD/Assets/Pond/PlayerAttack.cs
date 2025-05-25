@@ -32,6 +32,7 @@ namespace SG
 
         string weapon_art = "Weapon_Art";
         string Weapon_Art_Upper = "Weapon_Art_Upper";
+        private bool isSwinging = false;
 
         [Header("Throw knife")]
         int maxKnifeCharges = 1;
@@ -181,44 +182,48 @@ namespace SG
             }
         }
 
-        private int swingIndex = 0;
-        public void HandleSwingAttack(WeaponItem weapon)
+        public void HandleStartSwing(WeaponItem weapon)
         {
             if (playerStats.currentStamina <= 0 || weaponSlotManager.righthandDamgeCollider == null)
                 return;
 
             weaponSlotManager.attackingWeapon = weapon;
+            weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(weapon.damage);
 
-            float damage = weapon.damage;
-            weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
+            animatorHander.PlayTargetAnimation("OH_Swing_Start", true, true);
+            animatorHander.anim.SetBool("isSwinging", true);
+            isSwinging = true;
 
-            // Alternate between two swing animations
-            string swingAnim = swingIndex == 0 ? "OH_Swing_Left" : "OH_Swing_Right";
-            animatorHander.PlayTargetAnimation(swingAnim, true, true);
-            lastAttack = swingAnim;
+            lastAttack = "Swing_Loop";
             currentAttackType = AttackType.light;
-
-            swingIndex = 1 - swingIndex; // toggle between 0 and 1
         }
 
-        public void HandleHeavyAttack(WeaponItem weapon)
+        public void HandleStopSwing()
         {
-            if (playerStats.currentStamina <= 0 || weaponSlotManager.righthandDamgeCollider == null)
-                return;
-
-            weaponSlotManager.attackingWeapon = weapon;
-
-            if (weaponSlotManager.attackingWeapon != null)
-            {
-                float damage = weapon.damage;
-                weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
-
-                animatorHander.PlayTargetAnimation(OH_Heavy_Attack_1, true);
-                lastAttack = OH_Heavy_Attack_1;
-                currentAttackType = AttackType.Heavy;
-
-            }
+            animatorHander.anim.SetBool("isSwinging", false);
+            isSwinging = false;
         }
+
+        /*
+            public void HandleHeavyAttack(WeaponItem weapon)
+            {
+                if (playerStats.currentStamina <= 0 || weaponSlotManager.righthandDamgeCollider == null)
+                    return;
+
+                weaponSlotManager.attackingWeapon = weapon;
+
+                if (weaponSlotManager.attackingWeapon != null)
+                {
+                    float damage = weapon.damage;
+                    weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
+
+                    animatorHander.PlayTargetAnimation(OH_Heavy_Attack_1, true);
+                    lastAttack = OH_Heavy_Attack_1;
+                    currentAttackType = AttackType.Heavy;
+
+                }
+            }
+        */
 
         #region Attack Actions
         private void PerformALMeleeAction()

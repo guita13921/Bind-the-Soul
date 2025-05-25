@@ -85,6 +85,7 @@ namespace SG
             anim.speed = speed;
             anim.applyRootMotion = isInteracting;
             anim.SetBool("isInteracting", isInteracting);
+            anim.SetBool("canRotate", canRotate);
             anim.CrossFade(targetAnim, 0.0f);
         }
 

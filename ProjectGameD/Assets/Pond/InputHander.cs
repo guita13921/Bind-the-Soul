@@ -202,35 +202,31 @@ public class InputHander : MonoBehaviour
 
     private void HandleAttackInput(float delta)
     {
-        bool isLeftHeld = Mouse.current.leftButton.isPressed;
+        bool isLeftPressed = Mouse.current.leftButton.wasPressedThisFrame;
+        bool isLeftReleased = Mouse.current.leftButton.wasReleasedThisFrame;
 
-        // Holding left click: repeat light swings between left/right
-        if (isLeftHeld)
+        // Handle swing start
+        if (isLeftPressed)
         {
-            isAttackHeld = true;
-            repeatAttackTimer += delta;
-
-            if (repeatAttackTimer >= repeatAttackCooldown)
+            if (!playerManager.isInteracting && playerManager.isBlocking)
             {
-                repeatAttackTimer = 0f;
-
-                if (!playerManager.isInteracting && playerManager.isBlocking == true) // Prevent overlapping animations
-                {
-                    playerAttack.HandleSwingAttack(playerInventory.rightWeapon);
-                }
-                else
-                {
-                    playerAttack.HandleALAction();
-                }
+                isAttackHeld = true;
+                playerAttack.HandleStartSwing(playerInventory.rightWeapon);
+            }
+            else
+            {
+                playerAttack.HandleALAction();
             }
         }
-        else
+
+        // Handle swing stop
+        if (isLeftReleased)
         {
             isAttackHeld = false;
-            repeatAttackTimer = 0f;
+            playerAttack.HandleStopSwing();
         }
 
-        // Other inputs...
+        // Handle Q Input (Block)
         if (Q_Input)
         {
             playerAttack.HandleQAction();
@@ -244,6 +240,7 @@ public class InputHander : MonoBehaviour
             }
         }
 
+        // Handle LT input (Special)
         if (Lt_Input)
         {
             if (!playerManager.isBlocking || playerManager.playerAttack.currentKnifeCharges <= 0)
@@ -309,21 +306,44 @@ public class InputHander : MonoBehaviour
 
     public void HandleMouseAim()
     {
-        if (playerManager.isInteracting) return;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, transform.position);
-        lockOnFlag = true;
 
-        if (groundPlane.Raycast(ray, out float enter))
+        if (playerManager.isInteracting)
         {
-            Vector3 hitPoint = ray.GetPoint(enter);
-            Vector3 direction = hitPoint - transform.position;
-            direction.y = 0f;
-
-            if (direction.sqrMagnitude > 0.001f)
+            if (playerManager.canRotate)
             {
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * cameraHandler.rotationSpeed);
+                lockOnFlag = true;
+
+                if (groundPlane.Raycast(ray, out float enter))
+                {
+                    Vector3 hitPoint = ray.GetPoint(enter);
+                    Vector3 direction = hitPoint - transform.position;
+                    direction.y = 0f;
+
+                    if (direction.sqrMagnitude > 0.001f)
+                    {
+                        Quaternion targetRotation = Quaternion.LookRotation(direction);
+                        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * cameraHandler.rotationSpeed);
+                    }
+                }
+            }
+        }
+        else
+        {
+            lockOnFlag = true;
+
+            if (groundPlane.Raycast(ray, out float enter))
+            {
+                Vector3 hitPoint = ray.GetPoint(enter);
+                Vector3 direction = hitPoint - transform.position;
+                direction.y = 0f;
+
+                if (direction.sqrMagnitude > 0.001f)
+                {
+                    Quaternion targetRotation = Quaternion.LookRotation(direction);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * cameraHandler.rotationSpeed);
+                }
             }
         }
     }

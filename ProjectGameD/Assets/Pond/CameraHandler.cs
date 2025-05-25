@@ -71,6 +71,7 @@ namespace SG
             //UnityEngine.Cursor.visible = false;
             //UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         }
+
         private void Start()
         {
             //envirometLayer = LayerMask.NameToLayer("Environment");
@@ -150,8 +151,6 @@ namespace SG
 
         public void HandleLockOn()
         {
-
-
             nearestLockOnTarget = null;
             leftLockTarget = null;
             rightLockTarget = null;
@@ -211,106 +210,6 @@ namespace SG
             }
         }
 
-        /*
-        public void HandleLockOn()
-        {
-            float shortestDistance = Mathf.Infinity;
-            float shortestDistanceOfLeftTarget = -Mathf.Infinity;
-            float shortestDistanceOfRightTarget = Mathf.Infinity;
-            avilableTargets.Clear();
-
-            Collider[] colliders = Physics.OverlapSphere(targetTransform.position, 26);
-
-            for (int i = 0; i < colliders.Length; i++)
-            {
-                CharacterManager character = colliders[i].GetComponent<CharacterManager>();
-                CharacterStats characterStats = colliders[i].GetComponent<CharacterStats>();
-
-                // Basic null and death checks
-                if (character == null || characterStats == null || characterStats.isDead)
-                    continue;
-
-                // Extra safety checks to avoid missing reference errors
-                if (character.transform == null || character.lockOnTransform == null)
-                    continue;
-
-                if (character != null && characterStats != null && !characterStats.isDead)
-                {
-                    Vector3 lockTargetDirection = character.transform.position - targetTransform.position;
-                    float distanceFromTarget = Vector3.Distance(targetTransform.position, character.transform.position);
-                    float viewableAngle = Vector3.Angle(lockTargetDirection, cameraTransform.forward);
-
-                    if (character.transform.root != targetTransform.transform.root
-                        && viewableAngle > -50 && viewableAngle < 50
-                        && distanceFromTarget <= maximumLockOnDistance)
-                    {
-                        if (Physics.Linecast(playerManager.lockOnTransform.position, character.lockOnTransform.position, out RaycastHit hit))
-                        {
-                            if (hit.transform.gameObject.layer != envirometLayer)
-                            {
-                                avilableTargets.Add(character);
-                            }
-                        }
-                    }
-                }
-            }
-
-            for (int k = 0; k < avilableTargets.Count; k++)
-            {
-                var target = avilableTargets[k];
-                if (target == null || target.transform == null || !target.gameObject.activeInHierarchy)
-                    continue;
-
-                float distanceFromTarget = Vector3.Distance(targetTransform.position, target.transform.position);
-
-                if (distanceFromTarget < shortestDistance)
-                {
-                    shortestDistance = distanceFromTarget;
-                    nearestLockOnTarget = target;
-                }
-
-                if (inputHander.lockOnFlag && currentLockOnTarget != null)
-                {
-                    //Vector3 relativeEnemyPosition = currentLockOnTarget.InverseTransformPoint(target.transform.position);
-                    //float distanceFromLeftTarget = currentLockOnTarget.transform.position.x - target.transform.position.x;
-                    //float distanceFromRightTarget = currentLockOnTarget.transform.position.x + target.transform.position.x;
-
-                    Vector3 relativeEnemyPosition = inputHander.transform.InverseTransformPoint(avilableTargets[k].transform.position);
-                    float distanceFromLeftTarget = relativeEnemyPosition.x;
-                    float distanceFromRightTarget = relativeEnemyPosition.y;
-
-                    if (relativeEnemyPosition.x <= 0.00 && distanceFromLeftTarget > shortestDistanceOfLeftTarget
-                        && avilableTargets[k] != currentLockOnTarget)
-                    {
-                        shortestDistanceOfLeftTarget = distanceFromLeftTarget;
-                        leftLockTarget = avilableTargets[k];
-                    }
-
-                    else if (relativeEnemyPosition.x >= 0.00 && distanceFromRightTarget < shortestDistanceOfRightTarget
-                        && avilableTargets[k] != currentLockOnTarget)
-                    {
-                        shortestDistanceOfRightTarget = distanceFromRightTarget;
-                        rightLockTarget = avilableTargets[k];
-                    }
-                }
-            }
-
-
-            // 🔁 Handle auto-switch if current target is dead or missin
-            if (inputHander.lockOnFlag)
-            {
-                if (currentLockOnTarget == null)
-                {
-                    currentLockOnTarget = nearestLockOnTarget;
-
-                    if (nearestLockOnTarget == null)
-                    {
-                        inputHander.lockOnFlag = false;
-                    }
-                }
-            }
-        }
-        */
         public void ClearLockOnTargets()
         {
             avilableTargets.Clear();

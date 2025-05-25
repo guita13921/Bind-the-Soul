@@ -62,6 +62,7 @@ namespace SG
             isUsingLefthand = anim.GetBool("isUsingLefthand");
             isUsingRightHand = anim.GetBool("isUsingRightHand");
             playerStats.RegenerateStamina();
+            canRotate = anim.GetBool("canRotate");
 
 
             //CheckForInteractableObjiect();
