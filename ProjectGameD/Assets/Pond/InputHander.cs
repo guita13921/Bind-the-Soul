@@ -148,32 +148,36 @@ public class InputHander : MonoBehaviour
 
     private void HandleRollinput(float delta)
     {
-
-        if (b_Input)
+        // If the player presses the roll button this frame
+        if (b_Input && playerStats.currentStamina > 0)
         {
-            if (rollInputTimer > 0 && playerStats.currentStamina > 0)
-            {
-                rollFlag = true;
-            }
-            else
-            {
-                rollFlag = false;
-            }
+            // Trigger the roll
+            rollFlag = true;
 
-            rollInputTimer = 0;
+            // Reset timer and input
+            rollInputTimer = 0f;
             b_Input = false;
             return;
         }
 
-        rollInputTimer += delta;
-
+        // If player has no stamina, cancel roll input
         if (playerStats.currentStamina <= 0)
         {
             rollFlag = false;
             b_Input = false;
             return;
         }
+
+        // If input wasn't pressed this frame, increase the timer
+        rollInputTimer += delta;
+
+        // If timer goes beyond some max (e.g., roll timeout window), reset roll flag
+        if (rollInputTimer > 0.5f)
+        {
+            rollFlag = false;
+        }
     }
+
 
     private void HandleSprintinput()
     {

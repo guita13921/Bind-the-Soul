@@ -1,7 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using EasyTransition;
 using System.Linq;
 using UnityEngine;
+using System.Collections;
 
 namespace SG
 {
@@ -11,7 +12,9 @@ namespace SG
         public Transform rooms;
         public float roomSpawnOffSet = 5;
         public EnemyRoomManager enemyRoomManager;
-        //public TransitionSettings transition;
+
+        public TransitionSettings transition;
+        public float loaddelay;
 
         private Sprite previousImage;
 
@@ -184,45 +187,53 @@ namespace SG
             }
         }
 
-        void CheckDoor(Vector2 newLocation, string direction, Vector3 roomSpawnOffSet)
+        public void CheckDoor(Vector2 newLocation, string direction, Vector3 roomSpawnOffset)
         {
-            //Where are we?
+            StartCoroutine(CheckDoorCoroutine(newLocation, direction, roomSpawnOffset));
+        }
+
+        private IEnumerator CheckDoorCoroutine(Vector2 newLocation, string direction, Vector3 roomSpawnOffset)
+        {
+            // Play Transition Effect
+            TransitionManager.Instance().Transition(transition, loaddelay);
+
+            // Wait for the transition duration
+            yield return new WaitForSeconds(0.5f); // Make sure loaddelay matches transition duration
+
+            // Where are we?
             Vector2 location = PlayerManager.currentRoom.location;
 
-            //Where are we going?
-            location = location + newLocation;
+            // Where are we going?
+            location += newLocation;
 
             if (Level.rooms.Exists(x => x.location == location))
             {
                 Room r = Level.rooms.First(x => x.location == location);
 
-                //disable the room that you are in
+                // Disable current room
                 rooms.Find(PlayerManager.currentRoom.roomNumber.ToString()).gameObject.SetActive(false);
 
-                //Find the new Room and Active it
+                // Activate new room
                 GameObject newRoom = rooms.Find(r.roomNumber.ToString()).gameObject;
                 newRoom.SetActive(true);
 
-                //Move the player to the door area where he would be coming to
-                PlayerManager.transform.position = newRoom.transform.Find("Doors").transform.Find(direction).position + roomSpawnOffSet;
-                ChangeRoomIcon(PlayerManager.currentRoom, r);
+                // Move player to door in new room
+                PlayerManager.transform.position = newRoom.transform.Find("Doors").Find(direction).position + roomSpawnOffset;
 
+                ChangeRoomIcon(PlayerManager.currentRoom, r);
                 PlayerManager.currentRoom = r;
 
                 EnableDoor(r);
-
                 RevealRoom(r);
                 ReDrawRevealRoom();
 
                 Transform enemy = newRoom.transform.Find("Enemies");
-
                 if (enemy != null)
                 {
                     PlayerManager.currentRoom.cleared = false;
                     Level.enemyCount = enemy.childCount;
-                    enemyRoomManager = GameObject.Find(PlayerManager.currentRoom.roomNumber.ToString())
-                              .transform.Find("Spawners")
-                              .GetComponent<EnemyRoomManager>();
+
+                    enemyRoomManager = newRoom.transform.Find("Spawners").GetComponent<EnemyRoomManager>();
 
                     if (enemyRoomManager != null && !PlayerManager.currentRoom.explored)
                     {
@@ -248,37 +259,35 @@ namespace SG
                     Debug.LogWarning("Doors object not found in the new room.");
                 }
 
+                // Mark room as explored
+                PlayerManager.currentRoom.explored = true;
+            }
 
-                // Helper method to open a door if it exists
-                void OpenDoorIfExists(Transform doors, string doorName)
+            // Local method for managing doors
+            void OpenDoorIfExists(Transform doors, string doorName)
+            {
+                Transform door = doors.Find(doorName);
+                if (door != null)
                 {
-                    Transform door = doors.Find(doorName);
-                    if (door != null)
+                    DoorManager doorManager = door.GetComponent<DoorManager>();
+                    if (doorManager != null)
                     {
-                        DoorManager doorManager = door.GetComponent<DoorManager>();
-                        if (doorManager != null)
-                        {
-                            if (PlayerManager.currentRoom.cleared)
-                                doorManager.OpenDoor();
-                            else
-                            {
-                                doorManager.CloseDoor();
-                            }
-                        }
+                        if (PlayerManager.currentRoom.cleared)
+                            doorManager.OpenDoor();
                         else
-                        {
-                            Debug.LogWarning($"DoorManager not found on {doorName}.");
-                        }
+                            doorManager.CloseDoor();
                     }
                     else
                     {
-                        Debug.LogWarning($"{doorName} not found in Doors.");
+                        Debug.LogWarning($"DoorManager not found on {doorName}.");
                     }
                 }
-
+                else
+                {
+                    Debug.LogWarning($"{doorName} not found in Doors.");
+                }
             }
-
-            PlayerManager.currentRoom.explored = true;
         }
+
     }
 }

@@ -197,6 +197,13 @@ namespace SG
         {
             animator.SetBool("isInteracting", false);
         }
+
+        public void SetInteracting()
+        {
+            animator.SetBool("isInteracting", true);
+        }
+
+
         #endregion
     }
 }

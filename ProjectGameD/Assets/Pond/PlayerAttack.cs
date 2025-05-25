@@ -176,7 +176,15 @@ namespace SG
                 weaponSlotManager.righthandDamgeCollider.currentDamageWeapon = Mathf.RoundToInt(damage);
 
                 // Play normal light attack
-                animatorHander.PlayTargetAnimation(OH_Light_Attack_1, true);
+                if (weaponSlotManager.rightHandSlot.currentWeaponItem.stantType == StantType.Light)
+                {
+                    animatorHander.PlayTargetAnimation(OH_Light_Attack_1, true, true);
+                }
+                else
+                {
+                    animatorHander.PlayTargetAnimation(OH_Light_Attack_1, true);
+                }
+
                 lastAttack = OH_Light_Attack_1;
                 currentAttackType = AttackType.light;
             }

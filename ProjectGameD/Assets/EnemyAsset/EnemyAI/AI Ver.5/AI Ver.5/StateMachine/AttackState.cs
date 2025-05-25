@@ -66,7 +66,7 @@ namespace SG
         {
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true, currentAttack.canRotate);
-            enemyManager.StartCoroutine(MoveForwardDuringAttack(enemyManager, currentAttack.forwardMovementDistance, currentAttack.forwardMovementDuration));
+            enemyManager.StartCoroutine(MoveForwardDuringAttack(enemyManager, this.transform, currentAttack.forwardMovementDistance, currentAttack.forwardMovementDuration));
             Debug.Log(currentAttack.actionAnimation);
             enemyAnimatorManager.animator.SetBool("isAttacking", true);
             hasPerformAttack = true;
@@ -77,7 +77,7 @@ namespace SG
             willDoComboOnNextAttack = false;
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
             enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true, currentAttack.canRotate);
-            enemyManager.StartCoroutine(MoveForwardDuringAttack(enemyManager, currentAttack.forwardMovementDistance, currentAttack.forwardMovementDuration));
+            enemyManager.StartCoroutine(MoveForwardDuringAttack(enemyManager, this.transform, currentAttack.forwardMovementDistance, currentAttack.forwardMovementDuration));
             Debug.Log(currentAttack.actionAnimation);
             enemyAnimatorManager.animator.SetBool("isAttacking", true);
             currentAttack = null;
@@ -121,20 +121,37 @@ namespace SG
             }
         }
 
-        IEnumerator MoveForwardDuringAttack(EnemyManager enemyManager, float distance, float duration)
+        IEnumerator MoveForwardDuringAttack(EnemyManager enemyManager, Transform playerTransform, float distance, float duration)
         {
             Vector3 start = enemyManager.transform.position;
             Vector3 end = start + enemyManager.transform.forward * distance;
             float elapsed = 0f;
 
+            // Wait until the enemy is interacting before starting movement
+            while (!enemyManager.isInterActing)
+            {
+                yield return null;
+            }
+
+            // Perform the movement
             while (elapsed < duration)
             {
+                // Stop if we're close enough to the player
+                float distanceToPlayer = Vector3.Distance(enemyManager.transform.position, playerTransform.position);
+                if (distanceToPlayer <= 0.5f)
+                {
+                    break;
+                }
+
                 enemyManager.transform.position = Vector3.Lerp(start, end, elapsed / duration);
                 elapsed += Time.deltaTime;
                 yield return null;
             }
 
-            enemyManager.transform.position = end;
+            // Optionally snap to current position or stop exactly at 'end' if desired
+            // Here we'll stop at current position (no snap to end)
         }
+
+
     }
 }

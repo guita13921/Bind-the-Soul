@@ -28,14 +28,8 @@ namespace SG
         public float staminaDrainInterval = 0.25f; // Drain every half second
 
         [Header("Dash")]
-        [Header("Dash Settings")]
-        public float dashSpeed = 20f;
-        public float dashDuration = 0.2f;
-        public float dashCooldown = 1f;
-        private bool isDashing = false;
-        private float dashTimer = 0f;
-        private float cooldownTimer = 0f;
-
+        private Vector3 dashDirection;
+        [SerializeField] private float dashSpeed;
 
         [Header("Stamina Costa")]
         public int rollStaminaCost = 5;
@@ -129,112 +123,6 @@ namespace SG
                 myTransform.rotation = targetRotation;
             }
         }
-
-        /*
-        private void HandleRotation(float delta)
-        {
-            if (inputHander.lockOnFlag)
-            {
-                //if (inputHander.sprintFlag || inputHander.rollFlag)
-                if (inputHander.rollFlag)
-                {
-                    Vector3 targetDirection = cameraHandler.cameraTransform.forward * inputHander.vertical;
-                    targetDirection += cameraHandler.cameraTransform.right * inputHander.horizontal;
-                    targetDirection.y = 0;
-
-                    if (targetDirection.sqrMagnitude == 0)
-                    {
-                        targetDirection = transform.forward;
-                    }
-
-                    Quaternion tr = Quaternion.LookRotation(targetDirection);
-                    Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, rotationSpeed * delta);
-                    transform.rotation = targetRotation;
-                }
-                else
-                {
-                    if (cameraHandler.currentLockOnTarget == null || !cameraHandler.currentLockOnTarget.gameObject.activeInHierarchy
-                        || playerManager.isInteracting == true)
-                        return;
-
-                    Vector3 rotationDirection = cameraHandler.currentLockOnTarget.transform.position - transform.position;
-                    rotationDirection.y = 0;
-                    rotationDirection.Normalize();
-                    Quaternion tr = Quaternion.LookRotation(rotationDirection);
-                    Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, rotationSpeed * delta);
-                    transform.rotation = targetRotation;
-                }
-            }
-            else
-            {
-                Vector3 targetDir = Vector3.zero;
-                float moveOverride = inputHander.moveAmount;
-
-                targetDir = cameraObject.forward * inputHander.vertical;
-                targetDir += cameraObject.right * inputHander.horizontal;
-                targetDir.Normalize();
-                targetDir.y = 0;
-                if (targetDir == Vector3.zero)
-                    targetDir = myTransform.forward;
-                float rs = rotationSpeed;
-                Quaternion tr = Quaternion.LookRotation(targetDir);
-                Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, rotationSpeed * delta);
-
-                myTransform.rotation = targetRotation;
-            }
-        }
-        */
-
-        /*
-                public void HandleMovement(float delta)
-                {
-                    moveDirection = cameraObject.forward * inputHander.vertical;
-                    moveDirection += cameraObject.right * inputHander.horizontal;
-                    moveDirection.Normalize();
-                    moveDirection.y = 0;
-
-                    float speed = movementSpeed;
-
-                    if (inputHander.sprintFlag && inputHander.moveAmount > 0.5f && playerStats.currentStamina > 0)
-                    {
-                        speed = sprintSpeed;
-                        playerManager.isSprinting = true;
-
-                        sprintStaminaTimer += delta;
-
-                        if (sprintStaminaTimer >= staminaDrainInterval)
-                        {
-                            sprintStaminaTimer = 0f;
-                            playerStats.TakeStaminaDamage(sprintStaminaCost);
-                        }
-                    }
-                    else
-                    {
-                        playerManager.isSprinting = false;
-                    }
-
-                    Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection * speed, normalVector);
-
-                    // ✅ Preserve gravity-affected Y velocity
-                    projectedVelocity.y = rigidbody.velocity.y;
-
-                    rigidbody.velocity = projectedVelocity;
-
-                    if (inputHander.lockOnFlag && !inputHander.sprintFlag)
-                    {
-                        animatorHander.UpdateAnimatorValues(inputHander.vertical, inputHander.horizontal, playerManager.isSprinting);
-                    }
-                    else
-                    {
-                        animatorHander.UpdateAnimatorValues(inputHander.moveAmount, 0, playerManager.isSprinting);
-                    }
-
-                    if (animatorHander.canRotate)
-                    {
-                        HandleRotation(delta);
-                    }
-                }
-        */
 
         public void HandleMovement(float delta)
         {
@@ -330,20 +218,20 @@ namespace SG
                 {
                     case StantType.Medium:
                         rollStrength = 1.00f;
+                        Roll(rollStrength);
                         break;
                     case StantType.Heavy:
                         rollStrength = 0.80f;
+                        Roll(rollStrength);
                         break;
                     case StantType.Light:
-                        rollStrength = 1.15f;
+                        rollStrength = 0.75f;
+                        Dash(rollStrength);
                         break;
                 }
 
-                Roll(rollStrength);
             }
         }
-
-
 
         public void Roll(float speed)
         {
@@ -358,6 +246,40 @@ namespace SG
                 moveDirection.y = 0;
                 Quaternion rollRotaion = Quaternion.LookRotation(moveDirection);
                 myTransform.rotation = rollRotaion;
+                CheckEchoReturningFlow();
+                playerStats.TakeStaminaDamage(rollStaminaCost);
+                animatorHander.anim.SetBool("IsInvulnerable", true);
+            }
+            else
+            {
+                animatorHander.PlayTargetAnimation("Back Step", true, false, speed);
+                CheckEchoReturningFlow();
+                playerStats.TakeStaminaDamage(backstepStaminaCost);
+                animatorHander.anim.SetBool("IsInvulnerable", true);
+            }
+        }
+
+        public void Dash(float speed)
+        {
+            if (playerStats.currentStamina < rollStaminaCost)
+                return;
+
+            if (playerManager.playerData.echoFlickerFang)
+            {
+                speed += 0.1f + (playerManager.playerData.echoFlickerFangLevel * 0.05f);
+            }
+
+            if (inputHander.moveAmount > 0)
+            {
+                moveDirection.y = 0;
+                dashDirection = moveDirection.normalized;
+
+                if (dashDirection == Vector3.zero)
+                    dashDirection = myTransform.forward;
+
+                myTransform.rotation = Quaternion.LookRotation(dashDirection); // Face dash direction
+
+                animatorHander.PlayTargetAnimation("Dash", true, false); // Don't speed up animation unless needed
                 CheckEchoReturningFlow();
                 playerStats.TakeStaminaDamage(rollStaminaCost);
                 animatorHander.anim.SetBool("IsInvulnerable", true);
