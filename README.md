@@ -3,7 +3,7 @@
 ทำตามขั้นตอนเหล่านี้เพื่อติดตั้งและเล่น **Bind the Soul**:
 
 1. **ดาวน์โหลดเกม**  
-   - ดาวน์โหลด **Bind the Soul** ได้ที่ [ลิงก์นี้](https://drive.google.com/file/d/1giniev5S3nnTj6yaRNFYoHihSHv1Pmoq/view)
+   - ดาวน์โหลด **Bind the Soul** ได้ที่ [ลิงก์นี้]([https://drive.google.com/file/d/1giniev5S3nnTj6yaRNFYoHihSHv1Pmoq/view](https://pond-unifs.itch.io/bind-the-soul))
 
 2. **แตกไฟล์ ZIP**  
    - หลังจากดาวน์โหลดเสร็จ ให้ทำการแตกไฟล์ **ZIP**
